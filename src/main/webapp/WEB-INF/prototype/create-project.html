@@ -1,0 +1,423 @@
+<!doctype html>
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Expense Tracker</title>
+    <link rel="stylesheet" href="css/foundation.css">
+    <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="font-awesome-4.6.3/css/font-awesome.min.css">
+  </head>
+  <body>
+    <!-- Header: Start-->
+    <section id="header">
+      <div class="row">
+        <div class="small-6 columns text-left">
+          <a class="button" href="home.html">Programs</a>        
+          <a class="button">Expense</a>
+          <a class="button">Reports</a>
+        </div>
+        <div class="small-6 columns text-right">
+          <a class="button"><i class="fa fa-cog"></i></a>
+          <a class="button"><i class="fa fa-exclamation"></i></a>
+          <a class="button"><i class="fa fa-user"></i></a>
+        </div>
+      </div>
+      <div class="success progress">
+          <div class="progress-meter"></div>
+        </div>
+    </section>
+    <!-- Header: End-->
+
+    <section id="site-content">
+      <div id="create-program-form-container">  
+        <form data-abide>
+          <!-- Program Details: Start-->
+          <div id="program-details">
+            <div class="row">
+              <div class="small-12 columns end">
+                <h5 class="text-left"><strong>Program Details</strong></h5>
+              </div>
+            </div>
+            <div class="row">
+              <div class="small-3 columns">
+                <label for="middle-label" class="text-right middle">Program Name</label>
+              </div>
+              <div class="small-7 columns end">
+                <input type="text" id="middle-label" placeholder="Program Name">
+              </div>
+            </div>
+            <div class="row">
+              <div class="small-3 columns">
+                <label for="middle-label" class="text-right middle">Total Budget</label>
+              </div>
+              <div class="small-7 columns end">
+                <input type="number" id="middle-label" placeholder="Total Budget" required pattern="number">
+              </div>
+              <span class="form-error">
+                Yo, you had better fill this out, it's required.
+              </span>
+            </div>
+            <div class="row">
+              <div class="small-3 columns">
+                <label for="middle-label" class="text-right middle">Critical Level %</label>
+              </div>
+              <div class="small-1 columns">
+                <input type="number" id="middle-label" placeholder="%">
+              </div>
+              <div class="small-6 columns end">
+                <input type="number" id="middle-label" placeholder="" disabled>
+              </div>
+            </div>
+            <div class="row">
+              <div class="small-3 columns">
+                <label for="middle-label" class="text-right middle">Duration</label>
+              </div>          
+              <div class="small-1 columns">
+                <label for="middle-label" class="text-right middle">From</label>
+              </div>
+              <div class="small-2 columns">
+                <input type="date" id="middle-label" placeholder="">
+              </div>
+              <div class="small-1 columns">
+                <label for="middle-label" class="text-right middle">To</label>
+              </div>
+              <div class="small-2 columns end">
+                <input type="date" id="middle-label" placeholder="">
+              </div>
+            </div>
+            
+            <div class="row">
+              <div class="small-3 columns">
+                <a class="button alert float-right program-detail-nav-prev">Back</a>        
+              </div>
+              <div class="small-7 columns end">
+                <a class="button success float-right program-detail-nav-next">Next</a>
+              </div>
+            </div>
+          </div>            
+          <!-- Program Details: End-->
+
+          <!-- Manage Team: Start -->
+          <div id="program-team">
+            <div class="row">
+              <div class="small-12 columns end">
+                <h5 class="text-left"><strong>Manage Team</strong></h5>
+              </div>
+            </div>
+            <div class="row">
+              <div class="small-5 columns">
+                  <label for="middle-label" class="middle"></label>
+              </div>
+              <div class="small-1 columns">
+                <h6><strong>Read</strong></h6>
+              </div>
+              <div class="small-1 columns">
+                <h6><strong>Write</strong></h6>
+              </div>
+              <div class="small-1 columns">
+                <h6><strong>Update</strong></h6>
+              </div>
+              <div class="small-1 columns end">
+                <h6><strong>Delete</strong></h6>
+              </div>
+            </div>
+            <div class="row">
+              <div class="small-2 columns">
+                  <label for="middle-label" class="text-left middle"></label>
+              </div>
+              <div class="small-3 columns">
+                  <label for="middle-label">superadmin</label>
+              </div>
+              <div class="small-1 columns text-center">
+                 <input id="checkbox1" type="checkbox" ><label for="checkbox1"></label>
+              </div>
+              <div class="small-1 columns text-center">
+                 <input id="checkbox1" type="checkbox"><label for="checkbox1"></label>
+              </div>
+              <div class="small-1 columns text-center">
+                 <input id="checkbox1" type="checkbox"><label for="checkbox1"></label>
+              </div>
+              <div class="small-1 columns text-center">
+                 <input id="checkbox1" type="checkbox"><label for="checkbox1"></label>
+              </div>
+              <div class="small-1 columns end">
+                <a class="button alert float-right"><i class="fa fa-minus"></i></a>
+              </div>
+            </div>
+            <div class="row">
+              <div class="small-2 columns">
+                <label for="middle-label" class="text-left middle"></label>                
+              </div>
+              <div class="small-3 columns">
+                <label for="middle-label">auditor</label>  
+              </div>
+              <div class="small-1 columns text-center">
+                 <input id="checkbox1" type="checkbox"><label for="checkbox1"></label>
+              </div>
+              <div class="small-1 columns text-center">
+                 <input id="checkbox1" type="checkbox"><label for="checkbox1"></label>
+              </div>
+              <div class="small-1 columns text-center">
+                 <input id="checkbox1" type="checkbox"><label for="checkbox1"></label>
+              </div>
+              <div class="small-1 columns text-center">
+                 <input id="checkbox1" type="checkbox"><label for="checkbox1"></label>
+              </div>
+              <div class="small-1 columns end">
+                <a class="button alert float-right"><i class="fa fa-minus"></i></a>
+              </div>
+            </div>
+            <div class="row">
+              <div class="small-2 columns">
+                <label for="middle-label" class="text-left middle"></label>                
+              </div>
+              <div class="small-3 columns">
+                <input type="text" id="middle-label" placeholder="username">
+              </div>
+              <div class="small-1 columns text-center">
+                 <input id="checkbox1" type="checkbox"><label for="checkbox1"></label>
+              </div>
+              <div class="small-1 columns text-center">
+                 <input id="checkbox1" type="checkbox"><label for="checkbox1"></label>
+              </div>
+              <div class="small-1 columns text-center">
+                 <input id="checkbox1" type="checkbox"><label for="checkbox1"></label>
+              </div>
+              <div class="small-1 columns text-center">
+                 <input id="checkbox1" type="checkbox"><label for="checkbox1"></label>
+              </div>
+              <div class="small-1 columns end">
+                <a class="button success float-right"><i class="fa fa-plus"></i></a>
+              </div>
+            </div>
+            
+            <div class="row">
+              <div class="small-3 columns">
+                <a class="button alert float-right program-team-nav-prev">Back</a>        
+              </div>
+              <div class="small-7 columns end">
+                <a class="button success float-right program-team-nav-next">Next</a>
+              </div>
+            </div> 
+          </div>            
+          <!-- Manage Team: End -->      
+
+          <!-- Activity Details: Start-->
+          <div id="program-activity">
+            <div class="row">
+              <div class="small-12 columns end">
+                <h5 class="text-left"><strong>Manage Activities</strong></h5>
+              </div>
+            </div>
+            <div class="row">
+              <div class="small-3 columns">
+                <label for="middle-label" class="text-right middle">Activity Name</label>
+              </div>
+              <div class="small-7 columns end">
+                <input type="text" id="middle-label" placeholder="Activity Name">
+              </div>
+            </div>
+            <div class="row">
+              <div class="small-3 columns text-right">
+                <label for="middle-label" class="middle">Budget</label>
+              </div>
+              <div class="small-3 columns">
+                <input type="number" id="middle-label" placeholder="Budget">
+              </div>
+              <div class="small-2 columns">
+                <label for="middle-label" class="text-right middle">Activity Type</label>
+              </div>
+              <div class="small-2 columns end text-right">
+                <button class="dropdown button">Activity Type</button>
+              </div>
+            </div>
+            <div class="row">
+              <div class="small-6 columns text-right">
+                <label for="middle-label" class="middle"></label>
+              </div>
+              <div class="small-2 columns text-right">
+                <label for="middle-label" class="middle">Total Budget</label>
+              </div>
+              <div class="small-2 columns text-right end">
+                <input type="number" id="middle-label" placeholder="Total Budget" disabled>
+              </div>
+            </div>
+            <div class="row">
+              <div class="small-6 small-centered columns">
+                <a class="button success expanded ">Add Activity <i class="fa fa-plus"></i></a>        
+              </div>
+            </div>
+
+            <!-- Activty Table List: Start -->
+            <div class="row">
+              <div class="small-12 columns">
+                <table id="activity-result">
+                  <thead>
+                    <tr>
+                      <th>Activity Name</th>
+                      <th>Type</th>
+                      <th>Budget</th>
+                      <th>Budget</th>
+                    </tr>
+                  </thead>  
+                  <tbody>
+                    <tr>
+                      <td>Land and Transportation</td>
+                      <td>Type 1</td>
+                      <td>80,000</td>
+                      <td>
+                        <a class="button alert"><i class="fa fa-minus"></i></a> 
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Training</td>
+                      <td>Type 1</td>
+                      <td>80,000</td>
+                      <td>
+                        <a class="button alert"><i class="fa fa-minus"></i></a> 
+                      </td>
+                    </tr>
+                  </tbody>  
+                </table>      
+              </div>
+            </div>
+            <ul class="pagination text-center" role="navigation" aria-label="Pagination">
+              <li class="pagination-previous disabled">Previous</li>
+              <li class="current"><span class="show-for-sr">You're on page</span> 1</li>
+              <li><a href="#" aria-label="Page 2">2</a></li>
+              <li><a href="#" aria-label="Page 3">3</a></li>
+              <li><a href="#" aria-label="Page 4">4</a></li>
+              <li class="ellipsis"></li>
+              <li><a href="#" aria-label="Page 12">12</a></li>
+              <li><a href="#" aria-label="Page 13">13</a></li>
+              <li class="pagination-next"><a href="#" aria-label="Next page">Next</a></li>
+            </ul>
+            <!-- Activty Table List: End -->
+
+            <div class="row">
+              <div class="small-3 columns">
+                <a class="button alert float-right program-activity-nav-prev">Back</a>        
+              </div>
+              <div class="small-7 columns end">
+                <a class="button success float-right program-activity-nav-next">Next</a>
+              </div>
+            </div>
+          </div>
+          <!-- Activity Details: End-->
+
+          <!-- Summary Details: Start-->
+          <div id="program-summary">
+            <div class="row">
+              <div class="small-12 columns end">
+                <h5 class="text-left"><strong>Program Summary</strong></h5>
+              </div>
+            </div>
+
+            <div class="row">
+              <strong>Program Details</strong>
+              <table>
+                <tr>
+                    <div class="row">
+                    <div class="small-6 columns">Program Name</div>
+                    <div class="small-6 columns end">Out of School Youth Assistance</div>
+                    </div>
+                    <div class="row">
+                    <div class="small-6 columns">Total Budget</div>
+                    <div class="small-6 columns end">100,000,000.00 PHP</div>
+                    </div>
+                    <div class="row">
+                    <div class="small-6 columns">Critical Level</div>
+                    <div class="small-6 columns end">1,000.00 PHP</div>
+                    </div>
+                    <div class="row">
+                    <div class="small-6 columns">Duration</div>
+                    <div class="small-6 columns end">Jan 1, 2016 to Dec 31, 2016</div>
+                    </div>
+                  </td>  
+                </tr> 
+              </table>      
+            </div>
+            <div class="row">
+              <strong>Team Details</strong>
+              <table>
+                <tr>
+                  <td>
+                     <div class="row">
+                      <div class="small-6 columns">super admin</div>
+                      <div class="small-6 columns end">read, write, update, delete</div>
+                     </div>
+                     <div class="row">
+                      <div class="small-6 columns">auditor</div>
+                      <div class="small-6 columns end">read, write, update,</div>
+                     </div>
+                     <div class="row">
+                      <div class="small-6 columns">reviewer</div>
+                      <div class="small-6 columns end">read</div>
+                     </div>
+                  </td>   
+                </tr> 
+              </table>    
+            </div>
+            <div class="row">
+              <strong>Activity Details</strong>
+              <table>
+                <tr>
+                  <td>
+                     <div class="row">
+                      <div class="small-6 columns">Activity Name</div>
+                      <div class="small-6 columns end">Laguna Teaching Program</div>
+                     </div>
+                     <div class="row">
+                      <div class="small-6 columns">Total Budget</div>
+                      <div class="small-6 columns end">50,000.00 PHP</div>
+                     </div>
+                     <div class="row">
+                      <div class="small-6 columns">Type</div>
+                      <div class="small-6 columns end">Activity Type</div>
+                     </div>
+                   </td>  
+                </tr>
+                <tr>
+                  <td>
+                     <div class="row">
+                      <div class="small-6 columns">Activity Name</div>
+                      <div class="small-6 columns end">Fairview Teaching Program</div>
+                     </div>
+                     <div class="row">
+                      <div class="small-6 columns">Total Budget</div>
+                      <div class="small-6 columns end">85,000.00 PHP</div>
+                     </div>
+                     <div class="row">
+                      <div class="small-6 columns">Type</div>
+                      <div class="small-6 columns end">Activity Type</div>
+                     </div>
+                   </td>
+                </tr>
+              </table>  
+            </div>
+
+            <div class="row">
+              <div class="small-3 columns">
+                <a class="button alert float-right program-summary-nav-prev">Back</a>        
+              </div>
+              <div class="small-7 columns end">
+                <a class="button success float-right program-summary-nav-next">Finish</a>
+              </div>
+            </div>
+          </div>
+          <!-- Summary Details: End-->
+
+        </form>
+      </div>
+    </section>
+   
+    <script src="js/vendor/jquery.js"></script>
+    <script src="js/vendor/what-input.js"></script>
+    <script src="js/vendor/foundation.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/ohf-budgetfy-js.js"></script>
+  </body>
+</html>

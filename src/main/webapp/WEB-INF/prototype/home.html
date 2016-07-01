@@ -1,0 +1,102 @@
+<!doctype html>
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Expense Tracker</title>
+    <link rel="stylesheet" href="css/foundation.css">
+    <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="font-awesome-4.6.3/css/font-awesome.min.css">
+  </head>
+  <body>
+    <section id="header">
+      <div class="row">
+        <div class="small-6 columns text-left">
+          <a class="button" href="home.html">Programs</a>         
+          <a class="button">Expense</a>
+          <a class="button">Reports</a>
+        </div>
+        <div class="small-6 columns text-right">
+          <a class="button"><i class="fa fa-cog"></i></a>
+          <a class="button"><i class="fa fa-exclamation"></i></a>
+          <a class="button"><i class="fa fa-user"></i></a>
+        </div>
+      </div>
+    </section>
+
+    <section id="site-content">
+      <div class="row">
+        <div class="small-5 columns text-left">
+          <a class="button success" href="create-project.html">Create Program <i class="fa fa-plus"></i></a>        
+        </div>
+        <div class="small-5 columns text-right">
+          <div class="input-group">
+            <input class="input-group-field" type="text">
+            <div class="input-group-button">
+              <input type="submit" class="button" value="Search">
+            </div>
+          </div>
+        </div>
+        <div class="small-2 columns text-right">
+          <button class="dropdown button">2016</button>        
+        </div>
+      </div>      
+      
+      <!-- Program Table List: Start -->
+      <div class="row">
+        <div class="small-12 columns">
+          <table id="programs-result">
+            <thead>
+              <tr>
+                <th>Program Name</th>
+                <th>Total Budget</th>
+                <th>Duration</th>
+              </tr>
+            </thead>  
+            <tbody>
+              <tr>
+                <td>CYP 1</td>
+                <td>1000000</td>
+                <td>Jan 2016 - Dec 2016</td>
+              </tr>
+
+              <tr>
+                <td>Program 1</td>
+                <td>2000000</td>
+                <td>Jan 2016 - Dec 2016</td>
+              </tr>
+
+              <tr>
+                <td>Program 2</td>
+                <td>3000000</td>
+                <td>Jan 2016 - Dec 2016</td>
+              </tr>
+            </tbody>  
+          </table>      
+        </div>
+      </div>
+      <ul class="pagination text-center" role="navigation" aria-label="Pagination">
+        <li class="pagination-previous disabled">Previous</li>
+        <li class="current"><span class="show-for-sr">You're on page</span> 1</li>
+        <li><a href="#" aria-label="Page 2">2</a></li>
+        <li><a href="#" aria-label="Page 3">3</a></li>
+        <li><a href="#" aria-label="Page 4">4</a></li>
+        <li class="ellipsis"></li>
+        <li><a href="#" aria-label="Page 12">12</a></li>
+        <li><a href="#" aria-label="Page 13">13</a></li>
+        <li class="pagination-next"><a href="#" aria-label="Next page">Next</a></li>
+      </ul>
+      <!-- Program Table List: End -->
+
+        
+    </section>
+
+    <script src="js/vendor/jquery.js"></script>
+    <script src="js/vendor/what-input.js"></script>
+    <script src="js/vendor/foundation.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/ohf-budgetfy-js.js"></script>
+  </body>
+</html>
