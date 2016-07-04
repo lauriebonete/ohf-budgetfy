@@ -28,7 +28,7 @@ public class Particular extends BaseEntity {
     @Column(name = "VOUCHER_ID", insertable = false, updatable = false)
     private Long voucherId;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "ACTIVITY_ID", referencedColumnName = "ID")
     @JsonBackReference
     private Activity activity;
@@ -36,7 +36,7 @@ public class Particular extends BaseEntity {
     @Column(name = "ACTIVITY_ID", insertable = false, updatable = false)
     private Long activityId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "RECEIPT_ID", referencedColumnName = "ID")
     private FileDetail receipt;
 

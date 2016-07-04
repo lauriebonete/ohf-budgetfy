@@ -34,7 +34,7 @@ public class Activity extends BaseEntity {
 
     @OneToMany(mappedBy = "activity")
     @JsonManagedReference
-    private List<Particular> particulars;
+    private transient List<Particular> particulars;
 
     public String getActivityName() {
         return activityName;

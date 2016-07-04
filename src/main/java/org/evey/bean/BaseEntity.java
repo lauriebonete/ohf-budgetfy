@@ -123,7 +123,10 @@ public class BaseEntity implements Serializable{
 
 	public String getAuditUsername() {
 		SessionUser user = SecurityUtil.getSessionUser();
-		return user.getUsername();
+		if(user!=null){
+			return user.getUsername();
+		}
+		return "";
 	}
 
 	public void setAuditUsername(String auditUsername) {

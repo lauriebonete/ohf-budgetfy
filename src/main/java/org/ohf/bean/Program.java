@@ -24,6 +24,9 @@ public class Program extends BaseEntity {
     @Column(name = "THRESHOLD")
     private BigDecimal threshold;
 
+    @Column(name="PERCENTAGE")
+    private Double percentage;
+
     @Temporal(TemporalType.DATE)
     @Column(name = "PROGRAM_START")
     private Date programStart;
@@ -34,11 +37,11 @@ public class Program extends BaseEntity {
 
     @OneToMany(mappedBy = "program")
     @JsonManagedReference
-    private List<Activity> activities;
+    private List<UserAccess> userAccessList;
 
     @OneToMany(mappedBy = "program")
     @JsonManagedReference
-    private List<UserAccess> userAccessList;
+    private List<Activity> activities;
 
     public String getProgramName() {
         return programName;
@@ -94,5 +97,13 @@ public class Program extends BaseEntity {
 
     public void setUserAccessList(List<UserAccess> userAccessList) {
         this.userAccessList = userAccessList;
+    }
+
+    public Double getPercentage() {
+        return percentage;
+    }
+
+    public void setPercentage(Double percentage) {
+        this.percentage = percentage;
     }
 }

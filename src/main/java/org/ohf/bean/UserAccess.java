@@ -22,9 +22,9 @@ public class UserAccess extends BaseEntity {
     @Column(name = "USER_ID", insertable = false, updatable = false)
     private Long userId;
 
-    @OneToMany(mappedBy = "userAccess", fetch = FetchType.EAGER)
-    @JsonManagedReference
-    private Set<ProgramAccess> programAccessSet;
+    /*@OneToMany(mappedBy = "userAccess", fetch = FetchType.EAGER)
+    @JsonManagedReference*/
+    private transient Set<ProgramAccess> programAccessSet;
 
     @ManyToOne
     @JoinColumn(name = "PROGRAM_ID", referencedColumnName = "ID")
