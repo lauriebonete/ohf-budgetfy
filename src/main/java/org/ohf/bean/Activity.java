@@ -3,6 +3,7 @@ package org.ohf.bean;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.evey.bean.BaseEntity;
+import org.evey.bean.ReferenceLookUp;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -34,7 +35,14 @@ public class Activity extends BaseEntity {
 
     @OneToMany(mappedBy = "activity")
     @JsonManagedReference
-    private transient List<Particular> particulars;
+    private List<Particular> particulars;
+
+    @ManyToOne
+    @JoinColumn(name = "ACTIVITY_TYPE_ID", referencedColumnName = "ID")
+    private ReferenceLookUp activityType;
+
+    @Column(name = "ACTIVITY_TYPE_ID", insertable = false, updatable = false)
+    private Long activityTypeId;
 
     public String getActivityName() {
         return activityName;
@@ -82,5 +90,21 @@ public class Activity extends BaseEntity {
 
     public void setProgramId(Long programId) {
         this.programId = programId;
+    }
+
+    public ReferenceLookUp getActivityType() {
+        return activityType;
+    }
+
+    public void setActivityType(ReferenceLookUp activityType) {
+        this.activityType = activityType;
+    }
+
+    public Long getActivityTypeId() {
+        return activityTypeId;
+    }
+
+    public void setActivityTypeId(Long activityTypeId) {
+        this.activityTypeId = activityTypeId;
     }
 }

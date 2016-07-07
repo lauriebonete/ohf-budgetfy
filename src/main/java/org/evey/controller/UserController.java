@@ -32,12 +32,12 @@ public class UserController extends BaseCrudController<User> {
         Map<String, Object> returnMap = new HashMap<>();
 
         User saveToThis = userService.load(user.getId());
-        FileDetail personImage = fileDetailService.load(user.getPerson().getPersonImage().getId());
-        saveToThis.getPerson().setPersonImage(personImage);
+        FileDetail personImage = fileDetailService.load(user.getPersonImageId());
+        saveToThis.setPersonImage(personImage);
         userService.save(saveToThis);
 
         returnMap.put("status", true);
-        returnMap.put("message", "User image was successfully saved. "+saveToThis.getPerson().getFirstName()+" looks awesome in this photo!");
+        returnMap.put("message", "User image was successfully saved. "+saveToThis.getFirstName()+" looks awesome in this photo!");
         returnMap.put("result", saveToThis);
 
         return returnMap;
@@ -48,11 +48,11 @@ public class UserController extends BaseCrudController<User> {
         Map<String, Object> returnMap = new HashMap<>();
 
         User saveToThis = userService.load(user.getId());
-        saveToThis.getPerson().setPersonImage(null);
+        saveToThis.setPersonImage(null);
         userService.save(saveToThis);
 
         returnMap.put("status", true);
-        returnMap.put("message", "That awesome photo of "+saveToThis.getPerson().getFirstName()+" is now removed.");
+        returnMap.put("message", "That awesome photo of "+saveToThis.getFirstName()+" is now removed.");
         returnMap.put("result", saveToThis);
 
         return  returnMap;

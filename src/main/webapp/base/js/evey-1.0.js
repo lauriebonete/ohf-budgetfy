@@ -2,7 +2,6 @@
  * Created by Laurie on 11/5/2015.
  */
 
-
 var evey = (function(){
 
     return {
@@ -71,6 +70,27 @@ var evey = (function(){
             toastr.options.closeDuration = 200;
             toastr.options.closeEasing = 'swing';
             toastr.error(message);
+        },
+
+        validateEvey : function(form){
+            var isError = false;
+            $.each($(form).find("input"),function(i,input){
+                if($(input).prop("required")){
+                    var value = $(input).val();
+                    if(value==null ||
+                        value==undefined ||
+                        value==""){
+                        $(input).addClass("is-invalid-input");
+                        $(input).parent().find("span.form-error").addClass("is-visible");
+                        isError = true;
+                    } else {
+                        $(input).removeClass("is-invalid-input");
+                        $(input).parent().find("span.form-error").removeClass("is-visible");
+                    }
+
+                }
+            });
+            return isError;
         },
 
         JSONnify : function(form) {

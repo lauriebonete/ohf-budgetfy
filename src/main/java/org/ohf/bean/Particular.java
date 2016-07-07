@@ -22,7 +22,7 @@ public class Particular extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "VOUCHER_ID", referencedColumnName = "ID")
-    @JsonBackReference
+    @JsonBackReference(value = "VOUCHER")
     private Voucher voucher;
 
     @Column(name = "VOUCHER_ID", insertable = false, updatable = false)

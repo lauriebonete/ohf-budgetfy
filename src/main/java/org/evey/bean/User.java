@@ -13,12 +13,25 @@ import java.util.Set;
 @Table(name = "USER")
 public class User extends BaseEntity{
 
-	@OneToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="PERSON_ID")
-	private Person person;
+	@Column(name="FIRST_NAME")
+	private String firstName;
 
-	@Column(name = "PERSON_ID", insertable = false, updatable = false)
-	private Long personId;
+	@Column(name="LAST_NAME")
+	private String lastName;
+
+	@Column(name="MIDDLE_NAME")
+	private String middleName;
+
+	@Column(name="BIRTH_DATE")
+	@Temporal(TemporalType.DATE)
+	private Date birthDate;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "IMAGE", referencedColumnName = "ID")
+	private FileDetail personImage;
+
+	@Column(name = "IMAGE", insertable = false, updatable = false)
+	private Long personImageId;
 
 	@Column(name="USERNAME", unique=true, nullable=false)
 	private String username;
@@ -38,7 +51,7 @@ public class User extends BaseEntity{
 	@Temporal(TemporalType.DATE)
 	private Date accountExpirationDate;
 
-	@Column(name="PIN_DIGIT", unique=true, nullable=false)
+	@Column(name="PIN_DIGIT", unique=true)
 	@UniqueField
 	private String pinDigit;
 
@@ -51,7 +64,9 @@ public class User extends BaseEntity{
 
 	private transient List<Long> userRoleList;
 	private transient String userRoleDisplay;
-
+	private transient String userDisplay;
+	private transient String completeName;
+	private transient String fullName;
 //	private Role role;
 //	private Schedule schedule;
 
@@ -102,20 +117,71 @@ public class User extends BaseEntity{
 		this.userRole = userRole;
 	}
 
-	public Person getPerson() {
-		return person;
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setPerson(Person person) {
-		this.person = person;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
-	public Long getPersonId() {
-		return personId;
+	public String getLastName() {
+		return lastName;
 	}
 
-	public void setPersonId(Long personId) {
-		this.personId = personId;
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getMiddleName() {
+		return middleName;
+	}
+
+	public void setMiddleName(String middleName) {
+		this.middleName = middleName;
+	}
+
+	public Date getBirthDate() {
+		return birthDate;
+	}
+
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
+	}
+
+	public FileDetail getPersonImage() {
+		return personImage;
+	}
+
+	public void setPersonImage(FileDetail personImage) {
+		this.personImage = personImage;
+	}
+
+	public Long getPersonImageId() {
+		return personImageId;
+	}
+
+	public void setPersonImageId(Long personImageId) {
+		this.personImageId = personImageId;
+	}
+
+	public void setUserRoleList(List<Long> userRoleList) {
+		this.userRoleList = userRoleList;
+	}
+
+	public void setUserRoleDisplay(String userRoleDisplay) {
+		this.userRoleDisplay = userRoleDisplay;
+	}
+
+	public void setUserDisplay(String userDisplay) {
+		this.userDisplay = userDisplay;
+	}
+
+	public String getFullName() {
+		return this.lastName+", "+this.firstName;
+	}
+	public String getCompleteName(){
+		return this.firstName+" "+this.lastName;
 	}
 
 	public List<Long> getUserRoleList() {
@@ -141,5 +207,9 @@ public class User extends BaseEntity{
 			return roleDisplayBuilder.toString();
 		}
 		return userRoleDisplay;
+	}
+
+	public String getUserDisplay() {
+		return username+" - "+firstName+" "+lastName;
 	}
 }

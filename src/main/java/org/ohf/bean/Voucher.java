@@ -35,7 +35,7 @@ public class Voucher extends BaseEntity {
     private BigDecimal descrepancy;
 
     @OneToMany(mappedBy = "voucher")
-    @JsonManagedReference
+    @JsonManagedReference(value = "VOUCHER")
     private List<Particular> particulars;
 
     public String getVcNumber() {

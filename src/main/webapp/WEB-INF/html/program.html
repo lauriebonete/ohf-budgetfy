@@ -53,7 +53,8 @@
                 <label for="program-name" class="text-right middle">Program Name</label>
               </div>
               <div class="small-7 columns end">
-                <input type="text" id="program-name" placeholder="Program Name" name="programName">
+                  <input type="text" id="program-name" placeholder="Program Name" name="programName" required>
+                  <span class="form-error">Please provide a valid Program Name.</span>
               </div>
             </div>
             <div class="row">
@@ -61,11 +62,9 @@
                 <label for="total-budget" class="text-right middle">Total Budget</label>
               </div>
               <div class="small-7 columns end">
-                <input type="text" id="total-budget" placeholder="Total Budget" name="totalBudget" required>
+                  <input type="text" id="total-budget" placeholder="Total Budget" name="totalBudget" required>
+                  <span class="form-error">Please provide a valid Total Budget.</span>
               </div>
-              <span class="form-error">
-                Yo, you had better fill this out, it's required.
-              </span>
             </div>
             <div class="row">
               <div class="small-3 columns">
@@ -80,19 +79,21 @@
             </div>
             <div class="row">
               <div class="small-3 columns">
-                <label for="middle-label" class="text-right middle">Duration</label>
+                <label class="text-right middle">Duration</label>
               </div>          
               <div class="small-1 columns">
-                <label for="program-start" class="text-right middle">From</label>
+                  <label for="program-start" class="text-right middle">From</label>
               </div>
               <div class="small-2 columns">
-                <input type="date" id="program-start" placeholder="" name="programStart">
+                  <input type="date" id="program-start" placeholder="" name="programStart" required>
+                  <span class="form-error">Please provide a Start Date.</span>
               </div>
               <div class="small-1 columns">
                 <label for="program-end" class="text-right middle">To</label>
               </div>
               <div class="small-2 columns end">
-                <input type="date" id="program-end" placeholder="" name="programEnd">
+                  <input type="date" id="program-end" placeholder="" name="programEnd" required>
+                  <span class="form-error">Please provide a End Date.</span>
               </div>
             </div>
             
@@ -116,7 +117,7 @@
             </div>
             <div class="row">
               <div class="small-5 columns">
-                  <label for="middle-label" class="middle"></label>
+                  <label class="middle"></label>
               </div>
               <div class="small-1 columns">
                 <h6><strong>Read</strong></h6>
@@ -131,73 +132,30 @@
                 <h6><strong>Delete</strong></h6>
               </div>
             </div>
-            <div class="row">
-              <div class="small-2 columns">
-                  <label for="middle-label" class="text-left middle"></label>
-              </div>
-              <div class="small-3 columns">
-                  <label for="middle-label">superadmin</label>
-              </div>
-              <div class="small-1 columns text-center">
-                 <input id="checkbox1" type="checkbox" ><label for="checkbox1"></label>
-              </div>
-              <div class="small-1 columns text-center">
-                 <input id="checkbox1" type="checkbox"><label for="checkbox1"></label>
-              </div>
-              <div class="small-1 columns text-center">
-                 <input id="checkbox1" type="checkbox"><label for="checkbox1"></label>
-              </div>
-              <div class="small-1 columns text-center">
-                 <input id="checkbox1" type="checkbox"><label for="checkbox1"></label>
-              </div>
-              <div class="small-1 columns end">
-                <a class="button alert float-right"><i class="fa fa-minus"></i></a>
-              </div>
+            <div id="added-user-access">
+
             </div>
             <div class="row">
               <div class="small-2 columns">
-                <label for="middle-label" class="text-left middle"></label>                
-              </div>
-              <div class="small-3 columns">
-                <label for="middle-label">auditor</label>  
-              </div>
-              <div class="small-1 columns text-center">
-                 <input id="checkbox1" type="checkbox"><label for="checkbox1"></label>
-              </div>
-              <div class="small-1 columns text-center">
-                 <input id="checkbox1" type="checkbox"><label for="checkbox1"></label>
-              </div>
-              <div class="small-1 columns text-center">
-                 <input id="checkbox1" type="checkbox"><label for="checkbox1"></label>
-              </div>
-              <div class="small-1 columns text-center">
-                 <input id="checkbox1" type="checkbox"><label for="checkbox1"></label>
-              </div>
-              <div class="small-1 columns end">
-                <a class="button alert float-right"><i class="fa fa-minus"></i></a>
-              </div>
-            </div>
-            <div class="row">
-              <div class="small-2 columns">
-                <label for="middle-label" class="text-left middle"></label>                
+                <label class="text-left middle"></label>
               </div>
               <div class="small-3 columns">
                 <selectize data-list="false" data-attr="id" config='userSelectConfig' options='allUsersList' ng-model="userSelectizeModel"></selectize>
               </div>
               <div class="small-1 columns text-center">
-                 <input id="checkbox1" type="checkbox"><label for="checkbox1"></label>
+                 <input id="read-access" type="checkbox"><label for="read-access"></label>
               </div>
               <div class="small-1 columns text-center">
-                 <input id="checkbox1" type="checkbox"><label for="checkbox1"></label>
+                 <input id="write-access" type="checkbox"><label for="write-access"></label>
               </div>
               <div class="small-1 columns text-center">
-                 <input id="checkbox1" type="checkbox"><label for="checkbox1"></label>
+                 <input id="update-access" type="checkbox"><label for="update-access"></label>
               </div>
               <div class="small-1 columns text-center">
-                 <input id="checkbox1" type="checkbox"><label for="checkbox1"></label>
+                 <input id="delete-access" type="checkbox"><label for="delete-access"></label>
               </div>
               <div class="small-1 columns end">
-                <a class="button success float-right"><i class="fa fa-plus"></i></a>
+                <a class="button success float-right" id="add-user-template"><i class="fa fa-plus"></i></a>
               </div>
             </div>
             
@@ -221,40 +179,40 @@
             </div>
             <div class="row">
               <div class="small-3 columns">
-                <label for="middle-label" class="text-right middle">Activity Name</label>
+                <label class="text-right middle">Activity Name</label>
               </div>
               <div class="small-7 columns end">
-                <input type="text" id="middle-label" placeholder="Activity Name">
+                  <selectize data-list="false" data-attr="id" config='activityTypeSelectConfig' options='activityTypeList' ng-model="activityTypeSelectizeModel"></selectize>
               </div>
             </div>
             <div class="row">
               <div class="small-3 columns text-right">
-                <label for="middle-label" class="middle">Budget</label>
+                <label for="activity-budget" class="middle">Budget</label>
               </div>
               <div class="small-3 columns">
-                <input type="number" id="middle-label" placeholder="Budget">
+                <input type="number" id="activity-budget" placeholder="Budget">
               </div>
               <div class="small-2 columns">
-                <label for="middle-label" class="text-right middle">Activity Type</label>
+                <label class="text-right middle">Activity Type</label>
               </div>
               <div class="small-2 columns end text-right">
-                <button class="dropdown button">Activity Type</button>
+                <button class="dropdown button" data-dropdown="activity-type" >Activity Type</button>
               </div>
             </div>
             <div class="row">
               <div class="small-6 columns text-right">
-                <label for="middle-label" class="middle"></label>
+                <label class="middle"></label>
               </div>
               <div class="small-2 columns text-right">
-                <label for="middle-label" class="middle">Total Budget</label>
+                <label for="remaining-budget" class="middle">Remaining Budget</label>
               </div>
               <div class="small-2 columns text-right end">
-                <input type="number" id="middle-label" placeholder="Total Budget" disabled>
+                <input type="number" id="remaining-budget" disabled>
               </div>
             </div>
             <div class="row">
               <div class="small-6 small-centered columns">
-                <a class="button success expanded ">Add Activity <i class="fa fa-plus"></i></a>        
+                  <a class="button success expanded" id="add-activity-btn">Add Activity <i class="fa fa-plus"></i></a>
               </div>
             </div>
 
@@ -271,22 +229,7 @@
                     </tr>
                   </thead>  
                   <tbody>
-                    <tr>
-                      <td>Land and Transportation</td>
-                      <td>Type 1</td>
-                      <td>80,000</td>
-                      <td>
-                        <a class="button alert"><i class="fa fa-minus"></i></a> 
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Training</td>
-                      <td>Type 1</td>
-                      <td>80,000</td>
-                      <td>
-                        <a class="button alert"><i class="fa fa-minus"></i></a> 
-                      </td>
-                    </tr>
+
                   </tbody>  
                 </table>      
               </div>
@@ -350,59 +293,17 @@
             <div class="row">
               <strong>Team Details</strong>
               <table>
-                <tr>
-                  <td>
-                     <div class="row">
-                      <div class="small-6 columns">super admin</div>
-                      <div class="small-6 columns end">read, write, update, delete</div>
-                     </div>
-                     <div class="row">
-                      <div class="small-6 columns">auditor</div>
-                      <div class="small-6 columns end">read, write, update,</div>
-                     </div>
-                     <div class="row">
-                      <div class="small-6 columns">reviewer</div>
-                      <div class="small-6 columns end">read</div>
-                     </div>
-                  </td>   
-                </tr> 
-              </table>    
+                  <tbody id="team-details-summary">
+
+                  </tbody>
+              </table>
             </div>
             <div class="row">
               <strong>Activity Details</strong>
               <table>
-                <tr>
-                  <td>
-                     <div class="row">
-                      <div class="small-6 columns">Activity Name</div>
-                      <div class="small-6 columns end">Laguna Teaching Program</div>
-                     </div>
-                     <div class="row">
-                      <div class="small-6 columns">Total Budget</div>
-                      <div class="small-6 columns end">50,000.00 PHP</div>
-                     </div>
-                     <div class="row">
-                      <div class="small-6 columns">Type</div>
-                      <div class="small-6 columns end">Activity Type</div>
-                     </div>
-                   </td>  
-                </tr>
-                <tr>
-                  <td>
-                     <div class="row">
-                      <div class="small-6 columns">Activity Name</div>
-                      <div class="small-6 columns end">Fairview Teaching Program</div>
-                     </div>
-                     <div class="row">
-                      <div class="small-6 columns">Total Budget</div>
-                      <div class="small-6 columns end">85,000.00 PHP</div>
-                     </div>
-                     <div class="row">
-                      <div class="small-6 columns">Type</div>
-                      <div class="small-6 columns end">Activity Type</div>
-                     </div>
-                   </td>
-                </tr>
+                  <tbody id="activity-table-summary">
+
+                  </tbody>
               </table>  
             </div>
 
@@ -411,7 +312,7 @@
                 <a class="button alert float-right program-summary-nav-prev">Back</a>        
               </div>
               <div class="small-7 columns end">
-                <a class="button success float-right program-summary-nav-next" id="create-program">Finish</a>
+                <a class="button success float-right program-summary-nav-next" id="create-program" ng-click="createProgram()">Finish</a>
               </div>
             </div>
           </div>
@@ -422,24 +323,82 @@
     </section>
   </body>
   <footer>
-    <script src="js/vendor/what-input.js"></script>
-    <script src="js/vendor/foundation.min.js"></script>
-    <script src="js/ohf-budgetfy-js.js"></script>
+      <script src="js/vendor/what-input.js"></script>
+      <script src="js/vendor/foundation.min.js"></script>
+      <script src="js/ohf-budgetfy-js.js"></script>
+      <script src="js/evey-1.0.js"></script>
 
     <script type="text/javascript">
-      $(document).ready(function(){
+        var addedActivityList = null;
+        $(document).ready(function(){
+            addedActivityList = [];
+        }).on("click","#next-to-summary",function(){
+            $("#team-details-summary tr").remove();
+            $("#activity-table-summary tr").remove();
 
-      }).on("click","#next-to-summary",function(){
-        var programName = $("#program-name").val();
-        var totalBudget = $("#total-budget").val();
-        var threshold = $("#threshold").val();
-        var programStart = $("#program-start").val();
-        var programEnd = $("#program-end").val();
+            var programName = $("#program-name").val();
+            var totalBudget = $("#total-budget").val();
+            var threshold = $("#threshold").val();
+            var programStart = $("#program-start").val();
+            var programEnd = $("#program-end").val();
 
-        $("#program-name-summary").text(programName);
-        $("#total-budget-summary").text(totalBudget +" PHP");
-        $("#threshold-summary").text(threshold + " PHP");
-        $("#duration-summary").text(programStart + " to " + programEnd);
+            $("#program-name-summary").text(programName);
+            $("#total-budget-summary").text(totalBudget +" PHP");
+            $("#threshold-summary").text(threshold + " PHP");
+            $("#duration-summary").text(programStart + " to " + programEnd);
+
+            $.each(addedActivityList, function (i,actObj) {
+                var actSummaryTbody = $("#activity-table-summary");
+                var template = $("#activity-row-template").html();
+
+                $(actSummaryTbody).append($(template));
+
+                var lastRow = $(actSummaryTbody).find("tr").last();
+
+                $(lastRow).attr("data-activityId",actObj.activityTypeId);
+                $(lastRow).find("span.activity-name-summary").text(actObj.activityName);
+                $(lastRow).find("span.activity-budget-summary").text(actObj.amount);
+                $(lastRow).find("span.activity-type-summary").text(actObj.activityType);
+
+            });
+
+
+          $.each($("#added-user-access .row"),function(i, row){
+              $("#team-details-summary").append($("#team-row-template").html());
+              var tr = $("#team-details-summary tr").last();
+
+              $(tr).find("span.team-summary-username").attr("data-userid",$(row).find(".added-user-username").attr("data-userid"));
+              $(tr).find("span.team-summary-username").text($(row).find(".added-user-username").text());
+
+              var access = "";
+              if($(row).find(".read-program-access").is(":checked")){
+                  if(access.length>0){
+                      access+=", ";
+                  }
+                  access += "Read";
+              }
+              if($(row).find(".write-program-access").is(":checked")){
+                  if(access.length>0){
+                      access+=", ";
+                  }
+                  access += "Write";
+              }
+              if($(row).find(".update-program-access").is(":checked")){
+                  if(access.length>0){
+                      access+=", ";
+                  }
+                  access += "Update";
+              }
+              if($(row).find(".delete-program-access").is(":checked")){
+                  if(access.length>0){
+                      access+=", ";
+                  }
+                  access += "Delete";
+              }
+
+              $(tr).find("span.team-summary-access").text(access);
+          });
+
       }).on("change", "#percentage, #total-budget", function(){
         var percentage = $("#percentage").val();
         var totalBudget = $("#total-budget").val().replace(/,/g, '');
@@ -452,7 +411,58 @@
       }).on("keyup", "#total-budget", function(){
         $(this).val(addThousandsSeparator($(this).val()));
         $(this).trigger("change");
-      });
+      }).on("click","#add-user-template",function(){
+          $("#added-user-access").append($("#user-access-template").html());
+          var userTemplate = $("#added-user-access .row").last();
+
+          var row = $(this).parents("div.row");
+
+          var userId = $(row).find("selectize").val();
+          var userName = $(row).find(".selectize-input .item").text();
+          var readAccess = $(row).find("#read-access").is(":checked");
+          var writeAccess = $(row).find("#write-access").is(":checked");
+          var updateAccess = $(row).find("#update-access").is(":checked");
+          var deleteAccess = $(row).find("#delete-access").is(":checked");
+
+            $(userTemplate).attr("data-userId",userId);
+          $(userTemplate).find(".added-user-username").text(userName);
+          $(userTemplate).find(".read-program-access").prop("checked",readAccess);
+          $(userTemplate).find(".write-program-access").prop("checked",writeAccess);
+          $(userTemplate).find(".update-program-access").prop("checked",updateAccess);
+          $(userTemplate).find(".delete-program-access").prop("checked",deleteAccess);
+      }).on("click",".program-detail-nav-next",function(){
+
+            var isError = evey.validateEvey($("#program-details"));
+            if(!isError){
+                $("#program-details").css("left","-100%");
+                $("#program-team").css("left", "0");
+                $(".progress-meter").css("width", "50%");
+            }
+      }).on("click","#add-activity-btn", function() {
+            var activityType = $("#program-activity .selectize-input div.item").text();
+            var activityId = $("#program-activity .selectize-input div.item").attr("data-value");
+            var activityBudget = $("#activity-budget").val();
+
+            var activityTableBody = $("#activity-result tbody");
+            var activityTemplate = $("#added-activity-template").html();
+            $(activityTableBody).prepend($(activityTemplate));
+            var lastRow = $(activityTableBody).find("tr").first();
+
+            var activityObject = {
+                activityTypeId:activityId,
+                activityName:activityType,
+                activityType:null,
+                amount: activityBudget
+            };
+
+            addedActivityList.push(activityObject);
+
+            $(lastRow).attr("data-activityId",activityId);
+            $(lastRow).find("td.activity-name-table").text(activityType);
+            $(lastRow).find("td.activity-type-table").text();
+            $(lastRow).find("td.activity-budget-table").text(activityBudget);
+
+        });
 
       function addThousandsSeparator(input) {
         var output = input.toString().replace(/,/g, '');
@@ -469,5 +479,56 @@
         );
       }
     </script>
+
+      <script type="text/html" id="team-row-template">
+          <tr>
+              <td>
+                  <div class="row">
+                      <span class="small-6 columns team-summary-username"></span>
+                      <span class="small-6 columns end team-summary-access"></span>
+                  </div>
+              </td>
+          </tr>
+      </script>
+
+      <script type="text/html" id="activity-row-template">
+        <tr>
+            <td>
+                <div class="row">
+                    <div class="small-6 columns">Activity Name</div>
+                    <div class="small-6 columns end"><span class="activity-name-summary"></span></div>
+                </div>
+                <div class="row">
+                    <div class="small-6 columns">Total Budget</div>
+                    <div class="small-6 columns end"><span class="activity-budget-summary"></span></div>
+                </div>
+                <div class="row">
+                    <div class="small-6 columns">Type</div>
+                    <div class="small-6 columns end"><span class="activity-type-summary"></span></div>
+                </div>
+            </td>
+        </tr>
+      </script>
+
+      <script type="text/html" id="user-access-template">
+          <div class="row">
+              <div class="small-2 columns"><label class="text-left middle"></label></div>
+              <div class="small-3 columns"><label class="added-user-username"></label></div>
+              <div class="small-1 columns text-center"><input class="read-program-access" type="checkbox"><label></label></div>
+              <div class="small-1 columns text-center"><input class="write-program-access" type="checkbox"><label></label></div>
+              <div class="small-1 columns text-center"><input class="update-program-access" type="checkbox"><label></label></div>
+              <div class="small-1 columns text-center"><input class="delete-program-access" type="checkbox"><label></label></div>
+              <div class="small-1 columns end"><a class="button alert float-right"><i class="fa fa-minus"></i></a></div>
+          </div>
+      </script>
+
+      <script type="text/html" id="added-activity-template">
+          <tr>
+              <td class="activity-name-table"></td>
+              <td class="activity-type-table"></td>
+              <td class="activity-budget-table"></td>
+              <td><a class="button alert"><i class="fa fa-minus"></i></a></td>
+          </tr>
+      </script>
   </footer>
 </html>

@@ -2,11 +2,11 @@
 $(document).ready(function() {
 
 	/*Create program page navigation: Start*/
-	$(".program-detail-nav-next").on("click",function() {
+	/*$(".program-detail-nav-next").on("click",function() {
 		$("#program-details").css("left","-100%");
 		$("#program-team").css("left", "0");
 		$(".progress-meter").css("width", "50%");
-	});
+	});*/
 
 	$(".program-team-nav-prev").on("click",function() {
 		$("#program-details").css("left","0");
