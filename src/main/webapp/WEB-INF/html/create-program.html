@@ -1,0 +1,534 @@
+<!doctype html>
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Expense Tracker</title>
+    <link rel="stylesheet" href="/css/foundation.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/selectize.default.css">
+
+    <script src="/js/jquery3.min.js"></script>
+    <script src="/js/angular.js"></script>
+    <script src="/js/selectize.min.js"></script>
+    <script src="/js/angular-selectize.js"></script>
+    <script src="/angular/budgetfy-angular.js"></script>
+
+  </head>
+  <body ng-app="budgetfyApp" ng-controller="programController">
+    <!-- Header: Start-->
+    <section id="header">
+      <div class="row">
+        <div class="small-6 columns text-left">
+          <a class="button" href="home.html">Programs</a>        
+          <a class="button">Expense</a>
+          <a class="button">Reports</a>
+        </div>
+        <div class="small-6 columns text-right">
+          <a class="button"><i class="fa fa-cog"></i></a>
+          <a class="button"><i class="fa fa-exclamation"></i></a>
+          <a class="button"><i class="fa fa-user"></i></a>
+        </div>
+      </div>
+      <div class="success progress">
+          <div class="progress-meter"></div>
+        </div>
+    </section>
+    <!-- Header: End-->
+
+    <section id="site-content">
+      <div id="create-program-form-container">  
+        <form data-abide>
+          <!-- Program Details: Start-->
+          <div id="program-details">
+            <div class="row">
+              <div class="small-12 columns end">
+                <h5 class="text-left"><strong>Program Details</strong></h5>
+              </div>
+            </div>
+            <div class="row">
+              <div class="small-3 columns">
+                <label for="program-name" class="text-right middle">Program Name</label>
+              </div>
+              <div class="small-7 columns end">
+                  <input type="text" id="program-name" placeholder="Program Name" name="programName" required>
+                  <span class="form-error">Please provide a valid Program Name.</span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="small-3 columns">
+                <label for="total-budget" class="text-right middle">Total Budget</label>
+              </div>
+              <div class="small-7 columns end">
+                  <input type="text" id="total-budget" placeholder="Total Budget" name="totalBudget" required>
+                  <span class="form-error">Please provide a valid Total Budget.</span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="small-3 columns">
+                <label for="percentage" class="text-right middle">Critical Level %</label>
+              </div>
+              <div class="small-1 columns">
+                <input type="number" id="percentage" name="percentage" placeholder="%">
+              </div>
+              <div class="small-6 columns end">
+                <input type="text" id="threshold" name="threshold" disabled>
+              </div>
+            </div>
+            <div class="row">
+              <div class="small-3 columns">
+                <label class="text-right middle">Duration</label>
+              </div>          
+              <div class="small-1 columns">
+                  <label for="program-start" class="text-right middle">From</label>
+              </div>
+              <div class="small-2 columns">
+                  <input type="date" id="program-start" placeholder="" name="programStart" required>
+                  <span class="form-error">Please provide a Start Date.</span>
+              </div>
+              <div class="small-1 columns">
+                <label for="program-end" class="text-right middle">To</label>
+              </div>
+              <div class="small-2 columns end">
+                  <input type="date" id="program-end" placeholder="" name="programEnd" required>
+                  <span class="form-error">Please provide a End Date.</span>
+              </div>
+            </div>
+            
+            <div class="row">
+              <div class="small-3 columns">
+                <a class="button alert float-right program-detail-nav-prev">Back</a>        
+              </div>
+              <div class="small-7 columns end">
+                <a class="button success float-right program-detail-nav-next">Next</a>
+              </div>
+            </div>
+          </div>            
+          <!-- Program Details: End-->
+
+          <!-- Manage Team: Start -->
+          <div id="program-team">
+            <div class="row">
+              <div class="small-12 columns end">
+                <h5 class="text-left"><strong>Manage Team</strong></h5>
+              </div>
+            </div>
+            <div class="row">
+              <div class="small-5 columns">
+                  <label class="middle"></label>
+              </div>
+              <div class="small-1 columns">
+                <h6><strong>Read</strong></h6>
+              </div>
+              <div class="small-1 columns">
+                <h6><strong>Write</strong></h6>
+              </div>
+              <div class="small-1 columns">
+                <h6><strong>Update</strong></h6>
+              </div>
+              <div class="small-1 columns end">
+                <h6><strong>Delete</strong></h6>
+              </div>
+            </div>
+            <div id="added-user-access">
+
+            </div>
+            <div class="row">
+              <div class="small-2 columns">
+                <label class="text-left middle"></label>
+              </div>
+              <div class="small-3 columns">
+                <selectize data-list="false" data-attr="id" config='userSelectConfig' options='allUsersList' ng-model="userSelectizeModel"></selectize>
+              </div>
+              <div class="small-1 columns text-center">
+                 <input id="read-access" type="checkbox"><label for="read-access"></label>
+              </div>
+              <div class="small-1 columns text-center">
+                 <input id="write-access" type="checkbox"><label for="write-access"></label>
+              </div>
+              <div class="small-1 columns text-center">
+                 <input id="update-access" type="checkbox"><label for="update-access"></label>
+              </div>
+              <div class="small-1 columns text-center">
+                 <input id="delete-access" type="checkbox"><label for="delete-access"></label>
+              </div>
+              <div class="small-1 columns end">
+                <a class="button success float-right" id="add-user-template"><i class="fa fa-plus"></i></a>
+              </div>
+            </div>
+            
+            <div class="row">
+              <div class="small-3 columns">
+                <a class="button alert float-right program-team-nav-prev">Back</a>        
+              </div>
+              <div class="small-7 columns end">
+                <a class="button success float-right program-team-nav-next">Next</a>
+              </div>
+            </div> 
+          </div>            
+          <!-- Manage Team: End -->      
+
+          <!-- Activity Details: Start-->
+          <div id="program-activity">
+            <div class="row">
+              <div class="small-12 columns end">
+                <h5 class="text-left"><strong>Manage Activities</strong></h5>
+              </div>
+            </div>
+            <div class="row">
+              <div class="small-3 columns">
+                <label class="text-right middle">Activity Name</label>
+              </div>
+              <div class="small-7 columns end">
+                  <selectize data-list="false" data-attr="id" config='activityTypeSelectConfig' options='activityTypeList' ng-model="activityTypeSelectizeModel"></selectize>
+              </div>
+            </div>
+            <div class="row">
+              <div class="small-3 columns text-right">
+                <label for="activity-budget" class="middle">Budget</label>
+              </div>
+              <div class="small-3 columns">
+                <input type="number" id="activity-budget" placeholder="Budget">
+              </div>
+              <div class="small-2 columns">
+                <label class="text-right middle">Activity Type</label>
+              </div>
+              <div class="small-2 columns end text-right">
+                <button class="dropdown button" data-dropdown="activity-type" >Activity Type</button>
+              </div>
+            </div>
+            <div class="row">
+              <div class="small-6 columns text-right">
+                <label class="middle"></label>
+              </div>
+              <div class="small-2 columns text-right">
+                <label for="remaining-budget" class="middle">Remaining Budget</label>
+              </div>
+              <div class="small-2 columns text-right end">
+                <input type="number" id="remaining-budget" disabled>
+              </div>
+            </div>
+            <div class="row">
+              <div class="small-6 small-centered columns">
+                  <a class="button success expanded" id="add-activity-btn">Add Activity <i class="fa fa-plus"></i></a>
+              </div>
+            </div>
+
+            <!-- Activty Table List: Start -->
+            <div class="row">
+              <div class="small-12 columns">
+                <table id="activity-result">
+                  <thead>
+                    <tr>
+                      <th>Activity Name</th>
+                      <th>Type</th>
+                      <th>Budget</th>
+                      <th>Budget</th>
+                    </tr>
+                  </thead>  
+                  <tbody>
+
+                  </tbody>  
+                </table>      
+              </div>
+            </div>
+            <ul class="pagination text-center" role="navigation" aria-label="Pagination">
+              <li class="pagination-previous disabled">Previous</li>
+              <li class="current"><span class="show-for-sr">You're on page</span> 1</li>
+              <li><a href="#" aria-label="Page 2">2</a></li>
+              <li><a href="#" aria-label="Page 3">3</a></li>
+              <li><a href="#" aria-label="Page 4">4</a></li>
+              <li class="ellipsis"></li>
+              <li><a href="#" aria-label="Page 12">12</a></li>
+              <li><a href="#" aria-label="Page 13">13</a></li>
+              <li class="pagination-next"><a href="#" aria-label="Next page">Next</a></li>
+            </ul>
+            <!-- Activty Table List: End -->
+
+            <div class="row">
+              <div class="small-3 columns">
+                <a class="button alert float-right program-activity-nav-prev">Back</a>        
+              </div>
+              <div class="small-7 columns end">
+                <a class="button success float-right program-activity-nav-next" id="next-to-summary">Next</a>
+              </div>
+            </div>
+          </div>
+          <!-- Activity Details: End-->
+
+          <!-- Summary Details: Start-->
+          <div id="program-summary">
+            <div class="row">
+              <div class="small-12 columns end">
+                <h5 class="text-left"><strong>Program Summary</strong></h5>
+              </div>
+            </div>
+
+            <div class="row">
+              <strong>Program Details</strong>
+              <table>
+                <tr>
+                    <div class="row">
+                    <div class="small-6 columns">Program Name</div>
+                    <div class="small-6 columns end"><span id="program-name-summary"></span></div>
+                    </div>
+                    <div class="row">
+                    <div class="small-6 columns">Total Budget</div>
+                    <div class="small-6 columns end"><span id="total-budget-summary"></span></div>
+                    </div>
+                    <div class="row">
+                    <div class="small-6 columns">Critical Level</div>
+                    <div class="small-6 columns end"><span id="threshold-summary"></span></div>
+                    </div>
+                    <div class="row">
+                    <div class="small-6 columns">Duration</div>
+                    <div class="small-6 columns end"><span id="duration-summary"></span></div>
+                    </div>
+                  </td>  
+                </tr> 
+              </table>      
+            </div>
+            <div class="row">
+              <strong>Team Details</strong>
+              <table>
+                  <tbody id="team-details-summary">
+
+                  </tbody>
+              </table>
+            </div>
+            <div class="row">
+              <strong>Activity Details</strong>
+              <table>
+                  <tbody id="activity-table-summary">
+
+                  </tbody>
+              </table>  
+            </div>
+
+            <div class="row">
+              <div class="small-3 columns">
+                <a class="button alert float-right program-summary-nav-prev">Back</a>        
+              </div>
+              <div class="small-7 columns end">
+                <a class="button success float-right program-summary-nav-next" id="create-program" ng-click="createProgram()">Finish</a>
+              </div>
+            </div>
+          </div>
+          <!-- Summary Details: End-->
+
+        </form>
+      </div>
+    </section>
+  </body>
+  <footer>
+      <script src="/js/vendor/what-input.js"></script>
+      <script src="/js/vendor/foundation.min.js"></script>
+      <script src="/js/ohf-budgetfy-js.js"></script>
+      <script src="/js/evey-1.0.js"></script>
+
+    <script type="text/javascript">
+        var addedActivityList = null;
+        $(document).ready(function(){
+            addedActivityList = [];
+        }).on("click","#next-to-summary",function(){
+            $("#team-details-summary tr").remove();
+            $("#activity-table-summary tr").remove();
+
+            var programName = $("#program-name").val();
+            var totalBudget = $("#total-budget").val();
+            var threshold = $("#threshold").val();
+            var programStart = $("#program-start").val();
+            var programEnd = $("#program-end").val();
+
+            $("#program-name-summary").text(programName);
+            $("#total-budget-summary").text(totalBudget +" PHP");
+            $("#threshold-summary").text(threshold + " PHP");
+            $("#duration-summary").text(programStart + " to " + programEnd);
+
+            $.each(addedActivityList, function (i,actObj) {
+                var actSummaryTbody = $("#activity-table-summary");
+                var template = $("#activity-row-template").html();
+
+                $(actSummaryTbody).append($(template));
+
+                var lastRow = $(actSummaryTbody).find("tr").last();
+
+                $(lastRow).attr("data-activityId",actObj.activityTypeId);
+                $(lastRow).find("span.activity-name-summary").text(actObj.activityName);
+                $(lastRow).find("span.activity-budget-summary").text(actObj.amount);
+                $(lastRow).find("span.activity-type-summary").text(actObj.activityType);
+
+            });
+
+
+          $.each($("#added-user-access .row"),function(i, row){
+              $("#team-details-summary").append($("#team-row-template").html());
+              var tr = $("#team-details-summary tr").last();
+
+              $(tr).find("span.team-summary-username").attr("data-userid",$(row).find(".added-user-username").attr("data-userid"));
+              $(tr).find("span.team-summary-username").text($(row).find(".added-user-username").text());
+
+              var access = "";
+              if($(row).find(".read-program-access").is(":checked")){
+                  if(access.length>0){
+                      access+=", ";
+                  }
+                  access += "Read";
+              }
+              if($(row).find(".write-program-access").is(":checked")){
+                  if(access.length>0){
+                      access+=", ";
+                  }
+                  access += "Write";
+              }
+              if($(row).find(".update-program-access").is(":checked")){
+                  if(access.length>0){
+                      access+=", ";
+                  }
+                  access += "Update";
+              }
+              if($(row).find(".delete-program-access").is(":checked")){
+                  if(access.length>0){
+                      access+=", ";
+                  }
+                  access += "Delete";
+              }
+
+              $(tr).find("span.team-summary-access").text(access);
+          });
+
+      }).on("change", "#percentage, #total-budget", function(){
+        var percentage = $("#percentage").val();
+        var totalBudget = $("#total-budget").val().replace(/,/g, '');
+        if(percentage!=null && percentage!=undefined && percentage!="" &&
+                totalBudget!=null && totalBudget!=undefined && totalBudget!=""){
+          $("#threshold").val(addThousandsSeparator(totalBudget*(percentage/100)));
+        } else {
+          $("#threshold").val("");
+        }
+      }).on("keyup", "#total-budget", function(){
+        $(this).val(addThousandsSeparator($(this).val()));
+        $(this).trigger("change");
+      }).on("click","#add-user-template",function(){
+          $("#added-user-access").append($("#user-access-template").html());
+          var userTemplate = $("#added-user-access .row").last();
+
+          var row = $(this).parents("div.row");
+
+          var userId = $(row).find("selectize").val();
+          var userName = $(row).find(".selectize-input .item").text();
+          var readAccess = $(row).find("#read-access").is(":checked");
+          var writeAccess = $(row).find("#write-access").is(":checked");
+          var updateAccess = $(row).find("#update-access").is(":checked");
+          var deleteAccess = $(row).find("#delete-access").is(":checked");
+
+            $(userTemplate).attr("data-userId",userId);
+          $(userTemplate).find(".added-user-username").text(userName);
+          $(userTemplate).find(".read-program-access").prop("checked",readAccess);
+          $(userTemplate).find(".write-program-access").prop("checked",writeAccess);
+          $(userTemplate).find(".update-program-access").prop("checked",updateAccess);
+          $(userTemplate).find(".delete-program-access").prop("checked",deleteAccess);
+      }).on("click",".program-detail-nav-next",function(){
+
+            var isError = evey.validateEvey($("#program-details"));
+            if(!isError){
+                $("#program-details").css("left","-100%");
+                $("#program-team").css("left", "0");
+                $(".progress-meter").css("width", "50%");
+            }
+      }).on("click","#add-activity-btn", function() {
+            var activityType = $("#program-activity .selectize-input div.item").text();
+            var activityId = $("#program-activity .selectize-input div.item").attr("data-value");
+            var activityBudget = $("#activity-budget").val();
+
+            var activityTableBody = $("#activity-result tbody");
+            var activityTemplate = $("#added-activity-template").html();
+            $(activityTableBody).prepend($(activityTemplate));
+            var lastRow = $(activityTableBody).find("tr").first();
+
+            var activityObject = {
+                activityTypeId:activityId,
+                activityName:activityType,
+                activityType:null,
+                amount: activityBudget
+            };
+
+            addedActivityList.push(activityObject);
+
+            $(lastRow).attr("data-activityId",activityId);
+            $(lastRow).find("td.activity-name-table").text(activityType);
+            $(lastRow).find("td.activity-type-table").text();
+            $(lastRow).find("td.activity-budget-table").text(activityBudget);
+
+        });
+
+      function addThousandsSeparator(input) {
+        var output = input.toString().replace(/,/g, '');
+        return (output.toString()).replace(
+                /^([-+]?)(0?)(\d+)(.?)(\d+)$/g, function(match, sign, zeros, before, decimal, after) {
+                  var reverseString = function(string) { return string.split('').reverse().join(''); };
+                  var insertCommas  = function(string) {
+                    var reversed = reverseString(string);
+                    var reversedWithCommas = reversed.match(/.{1,3}/g).join(',');
+                    return reverseString(reversedWithCommas);
+                  };
+                  return sign + (decimal ? insertCommas(before) + decimal + after : insertCommas(before + after));
+                }
+        );
+      }
+    </script>
+
+      <script type="text/html" id="team-row-template">
+          <tr>
+              <td>
+                  <div class="row">
+                      <span class="small-6 columns team-summary-username"></span>
+                      <span class="small-6 columns end team-summary-access"></span>
+                  </div>
+              </td>
+          </tr>
+      </script>
+
+      <script type="text/html" id="activity-row-template">
+        <tr>
+            <td>
+                <div class="row">
+                    <div class="small-6 columns">Activity Name</div>
+                    <div class="small-6 columns end"><span class="activity-name-summary"></span></div>
+                </div>
+                <div class="row">
+                    <div class="small-6 columns">Total Budget</div>
+                    <div class="small-6 columns end"><span class="activity-budget-summary"></span></div>
+                </div>
+                <div class="row">
+                    <div class="small-6 columns">Type</div>
+                    <div class="small-6 columns end"><span class="activity-type-summary"></span></div>
+                </div>
+            </td>
+        </tr>
+      </script>
+
+      <script type="text/html" id="user-access-template">
+          <div class="row">
+              <div class="small-2 columns"><label class="text-left middle"></label></div>
+              <div class="small-3 columns"><label class="added-user-username"></label></div>
+              <div class="small-1 columns text-center"><input class="read-program-access" type="checkbox"><label></label></div>
+              <div class="small-1 columns text-center"><input class="write-program-access" type="checkbox"><label></label></div>
+              <div class="small-1 columns text-center"><input class="update-program-access" type="checkbox"><label></label></div>
+              <div class="small-1 columns text-center"><input class="delete-program-access" type="checkbox"><label></label></div>
+              <div class="small-1 columns end"><a class="button alert float-right"><i class="fa fa-minus"></i></a></div>
+          </div>
+      </script>
+
+      <script type="text/html" id="added-activity-template">
+          <tr>
+              <td class="activity-name-table"></td>
+              <td class="activity-type-table"></td>
+              <td class="activity-budget-table"></td>
+              <td><a class="button alert"><i class="fa fa-minus"></i></a></td>
+          </tr>
+      </script>
+  </footer>
+</html>

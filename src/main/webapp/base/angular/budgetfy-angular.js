@@ -48,6 +48,16 @@ angular.module("budgetfyApp", ["selectize"])
             console.log(error);
         });
 
+        $scope.loadPrograms = function(){
+            programService.getAllPrograms().then(function(results){
+                $scope.programList = results.results;
+                console.log($scope.programList);
+            },function(error){
+
+            });
+
+        };
+
         $scope.createProgram = function(){
             var programName = $("#program-name").val();
             var totalBudget = $("#total-budget").val();
@@ -95,6 +105,10 @@ angular.module("budgetfyApp", ["selectize"])
 
             console.log(programObject);
             programService.createNewProgram(programObject);
+        };
+
+        $scope.viewProgram = function(programId){
+            console.log(programId);
         }
 
     }])
@@ -118,7 +132,20 @@ angular.module("budgetfyApp", ["selectize"])
     })
     .service("programService",function($http){
         this.createNewProgram = function(program){
-            $http.post("/program/create-program",program);
-        }
+            $http.post("/program/create-program/create",program)
+                .then(function(response){
+                    window.location = evey.getHome()+"/program"
+                }, function(error) {
+                    console.log(error);
+                });
+        };
+
+        this.getAllPrograms = function(){
+            return $http.get("/program/findAll").then(function successCallback(response){
+                return response.data;
+            }, function errorCallback(response){
+
+            });
+        };
     });
 
