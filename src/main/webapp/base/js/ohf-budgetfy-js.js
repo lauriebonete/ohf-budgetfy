@@ -37,4 +37,9 @@ $(document).ready(function() {
 	});
 	/*Create program page navigation: End*/
 
+	$(".row-onclick").click(function(){
+		$("#home-page").hide();
+		$("#view-program").removeClass("hide");
+	});
+
 });

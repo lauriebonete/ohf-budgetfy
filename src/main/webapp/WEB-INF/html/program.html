@@ -32,56 +32,326 @@
     </section>
 
     <section id="site-content">
-      <div class="row">
-        <div class="small-5 columns text-left">
-          <a class="button success" href="/program/create-program">Create Program <i class="fa fa-plus"></i></a>
-        </div>
-        <div class="small-5 columns text-right">
-          <div class="input-group">
-            <input class="input-group-field" type="text">
-            <div class="input-group-button">
-              <input type="submit" class="button" value="Search">
+        <div id="home-page">
+          <div class="row">
+            <div class="small-5 columns text-left">
+              <a class="button success" href="/program/create-program">Create Program <i class="fa fa-plus"></i></a>
+            </div>
+            <div class="small-5 columns text-right">
+              <div class="input-group">
+                <input class="input-group-field" type="text">
+                <div class="input-group-button">
+                  <input type="submit" class="button" value="Search">
+                </div>
+              </div>
+            </div>
+            <div class="small-2 columns text-right">
+              <button class="dropdown button">2016</button>
             </div>
           </div>
-        </div>
-        <div class="small-2 columns text-right">
-          <button class="dropdown button">2016</button>        
-        </div>
-      </div>      
-      
-      <!-- Program Table List: Start -->
-      <div class="row">
-          <div class="small-12 columns">
-              <table id="programs-result">
-                  <thead>
-                    <tr>
-                        <th>Program Name</th>
-                        <th>Total Budget</th>
-                        <th>Duration</th>
-                    </tr>
-                  </thead>
-                  <tbody ng-init="loadPrograms()">
-                    <tr ng-repeat="program in programList" data-program="{{program.id}}" ng-click="viewProgram(program.id)">
-                        <td>{{program.programName}}</td>
-                        <td>{{program.totalBudget}}</td>
-                        <td>{{program.programStart}}</td>
-                    </tr>
-                  </tbody>
-              </table>
+
+          <!-- Program Table List: Start -->
+          <div class="row">
+              <div class="small-12 columns">
+                  <table id="programs-result">
+                      <thead>
+                        <tr>
+                            <th>Program Name</th>
+                            <th>Total Budget</th>
+                            <th>Duration</th>
+                        </tr>
+                      </thead>
+                      <tbody ng-init="loadPrograms()">
+                        <tr class="row-onclick" ng-repeat="program in programList" data-program="{{program.id}}" ng-click="viewProgram(program.id)">
+                            <td>{{program.programName}}</td>
+                            <td>{{program.totalBudget}}</td>
+                            <td>{{program.programStart}}</td>
+                        </tr>
+                      </tbody>
+                  </table>
+              </div>
           </div>
-      </div>
-      <ul class="pagination text-center" role="navigation" aria-label="Pagination">
-        <li class="pagination-previous disabled">Previous</li>
-        <li class="current"><span class="show-for-sr">You're on page</span> 1</li>
-        <li><a href="#" aria-label="Page 2">2</a></li>
-        <li><a href="#" aria-label="Page 3">3</a></li>
-        <li><a href="#" aria-label="Page 4">4</a></li>
-        <li class="ellipsis"></li>
-        <li><a href="#" aria-label="Page 12">12</a></li>
-        <li><a href="#" aria-label="Page 13">13</a></li>
-        <li class="pagination-next"><a href="#" aria-label="Next page">Next</a></li>
-      </ul>
-      <!-- Program Table List: End -->
+          <ul class="pagination text-center" role="navigation" aria-label="Pagination">
+            <li class="pagination-previous disabled">Previous</li>
+            <li class="current"><span class="show-for-sr">You're on page</span> 1</li>
+            <li><a href="#" aria-label="Page 2">2</a></li>
+            <li><a href="#" aria-label="Page 3">3</a></li>
+            <li><a href="#" aria-label="Page 4">4</a></li>
+            <li class="ellipsis"></li>
+            <li><a href="#" aria-label="Page 12">12</a></li>
+            <li><a href="#" aria-label="Page 13">13</a></li>
+            <li class="pagination-next"><a href="#" aria-label="Next page">Next</a></li>
+          </ul>
+        </div>
+          <!-- Program Table List: End -->
+
+        <div id="view-program" class="hide">
+            <div class="row collapse">
+                <div class="medium-2 columns">
+                    <ul class="tabs vertical" id="program-tabs" data-tabs>
+                        <li class="tabs-title is-active"><a class="button" href="#dashboard" aria-selected="true"><strong><i class="fa fa-bar-chart" aria-hidden="true"></i> Dashboard</strong></a></li>
+                        <li class="tabs-title"><a class="button" href="#budget"><strong><i class="fa fa-calendar" aria-hidden="true"></i> Budget</strong></a></li>
+                        <li class="tabs-title"><a class="button" href="#expense"><strong><i class="fa fa-money" aria-hidden="true"></i> Expense</strong></a></li>
+                    </ul>
+                </div>
+
+
+                <!-- Tab Contents -->
+                <div class="medium-10 columns">
+                    <div class="tabs-content vertical" data-tabs-content="program-tabs">
+                        <!-- Dashboard -->
+                        <div class="tabs-panel is-active" id="dashboard">
+                            <form data-abide>
+                                <div class="row">
+                                    <div class="small-5 columns">
+                                        <label for="allocate-budget" class="text-left middle"><strong>880,000,000.00PHP (not allocated)</strong></label>
+                                    </div>
+                                    <div class="small-7 columns end">
+                                        <a class="button success" href="#" id="allocate-budget">Allocate Budget <i class="fa fa-calculator" aria-hidden="true"></i></a>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="medium-5 columns">
+                                        <label for="review" class="text-left middle"><strong>Laguna Teaching Program is over expending!</strong></label>
+                                    </div>
+                                    <div class="medium-7 columns end">
+                                        <a class="button success" href="#" id="review">Review <i class="fa fa-book" aria-hidden="true"></i></a>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="small-6 columns">
+                                        <label class="text-right middle"></label>
+                                    </div>
+                                    <div class="small-1 columns">
+                                        <label for="from-date" class="text-right middle">From</label>
+                                    </div>
+                                    <div class="small-2 columns">
+                                        <input type="date" id="from-date" placeholder="mm/dd/yyyy">
+                                    </div>
+                                    <div class="small-1 columns">
+                                        <label for="to-date" class="text-right middle">To</label>
+                                    </div>
+                                    <div class="small-2 columns end">
+                                        <input type="date" id="to-date" placeholder="mm/dd/yyyy">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label class="text-right middle"></label>
+                                </div>
+                                <div class="row">
+                                    <canvas id="pie-chart"></canvas>
+                                    <script src="Chart.js-2.1.6/dist/Chart.js"></script>
+                                    <script>
+                                        var pieChartData = {
+                                            labels: ["Expense", "Remaining Budget"],
+                                            datasets: [{
+                                                backgroundColor: ["#F7464A","#00e600"],
+                                                data: [1000000,100000000]
+                                            }]
+
+                                        };
+                                        var barChartData = {
+                                            labels: ["Laguna Teaching Program", "Fairview Teaching Program"],
+                                            datasets: [{
+                                                label: 'forecast',
+                                                backgroundColor: "rgba(220,220,220,0.5)",
+                                                data: [20000,70000]
+                                            }, {
+                                                label: 'actuals',
+                                                backgroundColor: "rgba(151,187,205,0.5)",
+                                                data: [40000,50000]
+                                            }]
+
+                                        };
+
+                                        window.onload = function() {
+                                            var ctxPie = document.getElementById("pie-chart").getContext("2d");
+                                            window.myPie = new Chart(ctxPie, {
+                                                type: 'pie',
+                                                data: pieChartData,
+                                                options: {
+                                                    responsive: true,
+                                                    legend: {
+                                                        position: 'right',
+                                                    },
+                                                    title: {
+                                                        display: true,
+                                                        position: 'left',
+                                                        text: 'Budget Chart'
+                                                    }
+                                                }
+                                            });
+                                            var ctxBar = document.getElementById("bar-chart").getContext("2d");
+                                            window.myBar = new Chart(ctxBar, {
+                                                type: 'bar',
+                                                data: barChartData,
+                                                options: {
+                                                    // Elements options apply to all of the options unless overridden in a dataset
+                                                    // In this case, we are setting the border of each bar to be 2px wide and green
+                                                    elements: {
+                                                        rectangle: {
+                                                            borderWidth: 2,
+                                                            borderColor: 'rgb(0, 255, 0)',
+                                                            borderSkipped: 'bottom'
+                                                        }
+                                                    },
+                                                    responsive: true,
+                                                    legend: {
+                                                        position: 'right',
+                                                    },
+                                                    title: {
+                                                        display: true,
+                                                        text: 'Expense Chart'
+                                                    }
+                                                }
+                                            });
+
+                                        };
+                                    </script>
+                                </div>
+                                <div class="row">
+                                    <label class="text-right middle"></label>
+                                </div>
+                                <div class="row">
+                                    <canvas id="bar-chart"></canvas>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- Budget Tab -->
+                        <div class="tabs-panel" id="budget">
+                            <div class="row">
+                                <div class="small-5 columns">
+                                    <a class="button success" href="#">Add Budget <i class="fa fa-plus"></i></a>
+                                </div>
+                                <div class="small-5 columns text-right">
+                                    <div class="input-group">
+                                        <input class="input-group-field" type="text">
+                                        <div class="input-group-button">
+                                            <input type="submit" class="button" value="Search">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="small-12 columns">
+                                    <table>
+                                        <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Budget Name</th>
+                                            <th>Type</th>
+                                            <th>Budget</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>001</td>
+                                            <td>Supplies and Materials</td>
+                                            <td>Type A</td>
+                                            <td>45,000.00PHP</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>002</td>
+                                            <td>Networking</td>
+                                            <td>Type A</td>
+                                            <td>85,000.00PHP</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>002</td>
+                                            <td>Transportation</td>
+                                            <td>Type A</td>
+                                            <td>85,000.00PHP</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <ul class="pagination text-center" role="navigation" aria-label="Pagination">
+                                <li class="pagination-previous disabled">Previous</li>
+                                <li class="current"><span class="show-for-sr">You're on page</span> 1</li>
+                                <li><a href="#" aria-label="Page 2">2</a></li>
+                                <li><a href="#" aria-label="Page 3">3</a></li>
+                                <li><a href="#" aria-label="Page 4">4</a></li>
+                                <li class="ellipsis"></li>
+                                <li><a href="#" aria-label="Page 12">12</a></li>
+                                <li><a href="#" aria-label="Page 13">13</a></li>
+                                <li class="pagination-next"><a href="#" aria-label="Next page">Next</a></li>
+                            </ul>
+                        </div>
+                        <!-- Expense Tab -->
+                        <div class="tabs-panel" id="expense">
+                            <div class="row">
+                                <div class="small-5 columns">
+                                </div>
+                                <div class="small-5 columns text-right">
+                                    <div class="input-group">
+                                        <input class="input-group-field" type="text">
+                                        <div class="input-group-button">
+                                            <input type="submit" class="button" value="Search">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="small-12 columns">
+                                    <table>
+                                        <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Budget Name</th>
+                                            <th>VC#</th>
+                                            <th>Type</th>
+                                            <th>Total Expense</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>001</td>
+                                            <td>Supplies and Materials</td>
+                                            <td>001</td>
+                                            <td>Type A</td>
+                                            <td>45,000.00PHP</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>002</td>
+                                            <td>Networking</td>
+                                            <td>002</td>
+                                            <td>Type A</td>
+                                            <td>85,000.00PHP</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>002</td>
+                                            <td>Transportation</td>
+                                            <td>002</td>
+                                            <td>Type A</td>
+                                            <td>85,000.00PHP</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <ul class="pagination text-center" role="navigation" aria-label="Pagination">
+                                <li class="pagination-previous disabled">Previous</li>
+                                <li class="current"><span class="show-for-sr">You're on page</span> 1</li>
+                                <li><a href="#" aria-label="Page 2">2</a></li>
+                                <li><a href="#" aria-label="Page 3">3</a></li>
+                                <li><a href="#" aria-label="Page 4">4</a></li>
+                                <li class="ellipsis"></li>
+                                <li><a href="#" aria-label="Page 12">12</a></li>
+                                <li><a href="#" aria-label="Page 13">13</a></li>
+                                <li class="pagination-next"><a href="#" aria-label="Next page">Next</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Tab Contents: End-->
+        </div>
+
 
         
     </section>
