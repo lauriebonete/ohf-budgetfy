@@ -134,7 +134,7 @@ angular.module("budgetfyApp", ["selectize"])
         this.createNewProgram = function(program){
             $http.post("/program/create-program/create",program)
                 .then(function(response){
-                    window.location = evey.getHome()+"/program"
+                    /*window.location = evey.getHome()+"/program"*/
                 }, function(error) {
                     console.log(error);
                 });

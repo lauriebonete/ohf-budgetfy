@@ -35,4 +35,25 @@ public class ProgramAccess extends BaseEntity {
     public void setUserAccess(UserAccess userAccess) {
         this.userAccess = userAccess;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        ProgramAccess that = (ProgramAccess) o;
+
+        if (access != null ? !access.equals(that.access) : that.access != null) return false;
+        return !(userAccess != null ? !userAccess.equals(that.userAccess) : that.userAccess != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (access != null ? access.hashCode() : 0);
+        result = 31 * result + (userAccess != null ? userAccess.hashCode() : 0);
+        return result;
+    }
 }
