@@ -58,3 +58,15 @@ body {
 #program-summary {
   left: +300%;
 }
+
+.tabs-title {
+  float: left; }
+.tabs-title > a {
+  display: block;
+  padding: 1.25rem 1.5rem;
+  line-height: 1;
+  font-size: 0.75rem; }
+.tabs-title > a:hover {
+  background: #1583cc; } /* from #fefefe to #1583cc 20160709 JCT*/
+.tabs-title > a:focus, .tabs-title > a[aria-selected='true'] {
+  background: #0f598a; } /* from #e6e6e6 to #0f598a 20160709 JCT*/
