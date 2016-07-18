@@ -37,9 +37,13 @@ $(document).ready(function() {
 	});
 	/*Create program page navigation: End*/
 
+	/*Programs row click transition*/
 	$(".row-onclick").click(function(){
 		$("#home-page").hide();
 		$("#view-program").removeClass("hide");
 	});
+
+	/*Program-tabs table rows editable by double-click*/
+
 
 });
