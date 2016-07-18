@@ -1,10 +1,15 @@
 package org.ohf.controller;
 
 import org.evey.bean.ReferenceLookUp;
+import org.evey.bean.User;
 import org.evey.controller.BaseCrudController;
 import org.ohf.bean.Activity;
 import org.ohf.bean.Program;
+import org.ohf.bean.ProgramAccess;
+import org.ohf.bean.UserAccess;
 import org.ohf.service.ActivityService;
+import org.ohf.service.ProgramAccessService;
+import org.ohf.service.UserAccessService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,6 +27,12 @@ public class ProgramController extends BaseCrudController<Program> {
 
     @Autowired
     private ActivityService activityService;
+
+    @Autowired
+    private UserAccessService userAccessService;
+
+    @Autowired
+    private ProgramAccessService programAccessService;
 
     @RequestMapping(value = "/create-program/create", method = RequestMethod.POST, produces = "application/json")
     public @ResponseBody void createProgram(@RequestBody Program program){
@@ -44,6 +55,20 @@ public class ProgramController extends BaseCrudController<Program> {
             saveThisActivity.setActivityType(new ReferenceLookUp());
             saveThisActivity.getActivityType().setId(activity.getActivityTypeId());
             activityService.save(saveThisActivity);
+        }
+
+        for(UserAccess userAccess: program.getUserAccessList()){
+            UserAccess saveThisAccess = new UserAccess();
+            saveThisAccess.setUser(new User());
+            saveThisAccess.getUser().setId(userAccess.getUserId());
+            saveThisAccess.setProgram(saveThisProgram);
+            userAccessService.save(saveThisAccess);
+            for(ProgramAccess programAccess: userAccess.getProgramAccessSet()){
+                ProgramAccess saveThisProgramAccess = new ProgramAccess();
+                saveThisProgramAccess.setAccess(programAccess.getAccess());
+                saveThisProgramAccess.setUserAccess(saveThisAccess);
+                programAccessService.save(saveThisProgramAccess);
+            }
         }
     }
 
