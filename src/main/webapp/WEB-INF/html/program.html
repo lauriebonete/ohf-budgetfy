@@ -124,99 +124,43 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="small-6 columns">
+                            <div class="small-4 columns">
                                 <label class="text-right middle"></label>
                             </div>
                             <div class="small-1 columns">
                                 <label for="from-date" class="text-right middle">From</label>
                             </div>
-                            <div class="small-2 columns">
-                                <input type="date" id="from-date" placeholder="mm/dd/yyyy">
+                            <div class="small-3 columns">
+                                <input type="date" id="from-date" placeholder="">
                             </div>
                             <div class="small-1 columns">
                                 <label for="to-date" class="text-right middle">To</label>
                             </div>
-                            <div class="small-2 columns end">
-                                <input type="date" id="to-date" placeholder="mm/dd/yyyy">
+                            <div class="small-3 columns end">
+                                <input type="date" id="to-date" placeholder="">
                             </div>
                         </div>
                         <div class="row">
                             <label class="text-right middle"></label>
                         </div>
                         <div class="row">
-                            <canvas id="pie-chart"></canvas>
-                            <script src="Chart.js-2.1.6/dist/Chart.js"></script>
-                            <script>
-                                var pieChartData = {
-                                    labels: ["Expense", "Remaining Budget"],
-                                    datasets: [{
-                                        backgroundColor: ["#F7464A","#00e600"],
-                                        data: [1000000,100000000]
-                                    }]
-
-                                };
-                                var barChartData = {
-                                    labels: ["Laguna Teaching Program", "Fairview Teaching Program"],
-                                    datasets: [{
-                                        label: 'forecast',
-                                        backgroundColor: "rgba(220,220,220,0.5)",
-                                        data: [20000,70000]
-                                    }, {
-                                        label: 'actuals',
-                                        backgroundColor: "rgba(151,187,205,0.5)",
-                                        data: [40000,50000]
-                                    }]
-
-                                };
-
-                                window.onload = function() {
-                                    var ctxPie = document.getElementById("pie-chart").getContext("2d");
-                                    window.myPie = new Chart(ctxPie, {
-                                        type: 'pie',
-                                        data: pieChartData,
-                                        options: {
-                                            responsive: true,
-                                            legend: {
-                                                position: 'right',
-                                            },
-                                            title: {
-                                                display: true,
-                                                position: 'left',
-                                                text: 'Budget Chart'
-                                            }
-                                        }
-                                    });
-                                    var ctxBar = document.getElementById("bar-chart").getContext("2d");
-                                    window.myBar = new Chart(ctxBar, {
-                                        type: 'bar',
-                                        data: barChartData,
-                                        options: {
-                                            elements: {
-                                                rectangle: {
-                                                    borderWidth: 2,
-                                                    borderColor: 'rgb(0, 255, 0)',
-                                                    borderSkipped: 'bottom'
-                                                }
-                                            },
-                                            responsive: true,
-                                            legend: {
-                                                position: 'right',
-                                            },
-                                            title: {
-                                                display: true,
-                                                text: 'Expense Chart'
-                                            }
-                                        }
-                                    });
-
-                                };
-                            </script>
+                            <div class="small-3 columns">
+                                <label class="text-right middle"></label>
+                            </div>
+                            <div class="small-4 columns end" id="pie-canvas" style="width:50%">
+                                <canvas id="pie-chart"/>
+                            </div>
                         </div>
                         <div class="row">
                             <label class="text-right middle"></label>
                         </div>
                         <div class="row">
-                            <canvas id="bar-chart"></canvas>
+                            <div class="small-1 columns">
+                                <label class="text-right middle"></label>
+                            </div>
+                            <div class="small-5 columns end" id="bar-canvas" style="width:75%">
+                                <canvas id="bar-chart"/>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -365,6 +309,72 @@
     <script src="js/evey-1.0.js"></script>
     <script>
         $(document).foundation();
+    </script>
+    <script src="Chart.js-2.1.6/dist/Chart.js"></script>
+    <script>
+        var pieChartData = {
+            labels: ["Expense", "Remaining Budget"],
+            datasets: [{
+                backgroundColor: ["#F7464A","#00e600"],
+                data: [1000000,100000000]
+            }]
+
+        };
+        var barChartData = {
+            labels: ["Laguna Teaching Program", "Fairview Teaching Program"],
+            datasets: [{
+                label: 'forecast',
+                backgroundColor: "rgba(220,220,220,0.5)",
+                data: [20000,70000]
+            }, {
+                label: 'actuals',
+                backgroundColor: "rgba(151,187,205,0.5)",
+                data: [40000,50000]
+            }]
+
+        };
+
+        window.onload = function() {
+            var ctxPie = document.getElementById("pie-chart").getContext("2d");
+            window.myPie = new Chart(ctxPie, {
+                type: 'pie',
+                data: pieChartData,
+                options: {
+                    responsive: true,
+                    legend: {
+                        position: 'right',
+                    },
+                    title: {
+                        display: true,
+                        position: 'left',
+                        text: 'Budget Chart'
+                    }
+                }
+            });
+            var ctxBar = document.getElementById("bar-chart").getContext("2d");
+            window.myBar = new Chart(ctxBar, {
+                type: 'bar',
+                data: barChartData,
+                options: {
+                    elements: {
+                        rectangle: {
+                            borderWidth: 2,
+                            borderColor: 'rgb(0, 255, 0)',
+                            borderSkipped: 'bottom'
+                        }
+                    },
+                    responsive: true,
+                    legend: {
+                        position: 'right',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Expense Chart'
+                    }
+                }
+            });
+
+        };
     </script>
   </body>
 </html>
