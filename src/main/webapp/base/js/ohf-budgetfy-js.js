@@ -38,7 +38,7 @@ $(document).ready(function() {
 	/*Create program page navigation: End*/
 
 	/*Programs row click transition*/
-	$(".row-onclick").click(function(){
+	$(document).on("click",".row-onclick",function(){
 		$("#home-page").hide();
 		$("#view-program").removeClass("hide");
 	});
