@@ -5,7 +5,7 @@ angular.module("budgetfyApp", ["selectize"])
     .config(function ($httpProvider) {
         $httpProvider.defaults.headers.post['Content-Type'] =  "application/json";
     })
-    .controller("programController",["$scope","$http","userService","referenceLookUpService","programService",function($scope, $http,userService,referenceLookUpService,programService){
+    .controller("programController",["$scope","$http","userService","referenceLookUpService","programService","activityService",function($scope, $http,userService,referenceLookUpService,programService,activityService){
         $scope.userSelectizeModel = 0;
         $scope.activityTypeSelectizeModel = 0;
         $scope.userSelectConfig =
@@ -108,7 +108,23 @@ angular.module("budgetfyApp", ["selectize"])
         };
 
         $scope.viewProgram = function(programId){
-            console.log(programId);
+            activityService.getProgramActivities(programId).then(function(data){
+                $("#program-budget-view tbody tr").remove();
+                var budgetTable = $("#program-budget-view tbody");
+                var budgetRowTemplate  = $("#program-budget-row-template").html();
+
+                $.each(data.results, function(i,activity){
+                    console.log(activity);
+                    $(budgetTable).append(budgetRowTemplate);
+
+                    var lastRow = $(budgetTable).find("tr").last();
+                    $(lastRow).find("td.activity-name").text(activity.activityName);
+                    $(lastRow).find("td.activity-type").text();
+                    $(lastRow).find("td.activity-budget").text(activity.amount);
+                });
+            });
+
+
         }
 
     }])
@@ -147,5 +163,19 @@ angular.module("budgetfyApp", ["selectize"])
 
             });
         };
+    })
+    .service("activityService",function($http){
+        this.getProgramActivities = function(programId){
+
+            var activity = {
+                programId : programId
+            };
+
+            return $http.post("/activity/findEntity", activity).then(function successCallback(response){
+                return response.data;
+            }, function errorCallback(response){
+
+            });
+        }
     });
 

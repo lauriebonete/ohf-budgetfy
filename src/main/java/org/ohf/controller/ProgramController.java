@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
+
 /**
  * Created by Laurie on 7/2/2016.
  */
@@ -71,6 +73,13 @@ public class ProgramController extends BaseCrudController<Program> {
             }
         }
     }
+
+    /*@
+    public List<Activity> getProgramActivities(Long programId) throws Exception{
+        Activity lookFor = new Activity();
+        lookFor.setProgramId(programId);
+        return activityService.findEntity(lookFor);
+    }*/
 
     @RequestMapping(value = "/create-program")
     public ModelAndView loadCreateProgramPage() {

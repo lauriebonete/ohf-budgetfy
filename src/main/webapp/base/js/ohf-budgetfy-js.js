@@ -36,14 +36,4 @@ $(document).ready(function() {
 		$(".progress-meter").css("width", "75%");
 	});
 	/*Create program page navigation: End*/
-
-	/*Programs row click transition*/
-	$(document).on("click",".row-onclick",function(){
-		$("#home-page").hide();
-		$("#view-program").removeClass("hide");
-	});
-
-	/*Program-tabs table rows editable by double-click*/
-
-
 });

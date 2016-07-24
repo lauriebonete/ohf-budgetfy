@@ -92,251 +92,199 @@
 
 
         <div id="view-program" class="row collapse hide">
-        <div class="medium-2 columns">
-            <ul class="tabs vertical" id="program-tabs" data-tabs>
-                <li class="tabs-title is-active"><a class="button" href="#dashboard" aria-selected="true"><strong><i class="fa fa-bar-chart" aria-hidden="true"></i> Dashboard</strong></a></li>
-                <li class="tabs-title"><a class="button" href="#budget"><strong><i class="fa fa-calendar" aria-hidden="true"></i> Budget</strong></a></li>
-                <li class="tabs-title"><a class="button" href="#expense"><strong><i class="fa fa-money" aria-hidden="true"></i> Expense</strong></a></li>
-            </ul>
-        </div>
-
-
-        <!-- Tab Contents -->
-        <div class="medium-10 columns">
-            <div class="tabs-content vertical" data-tabs-content="program-tabs">
-                <!-- Dashboard -->
-                <div class="tabs-panel is-active" id="dashboard">
-                    <form data-abide>
+            <div class="medium-2 columns">
+                <ul class="tabs vertical" id="program-tabs" data-tabs>
+                    <li class="tabs-title is-active"><a class="button" href="#dashboard" aria-selected="true"><strong><i class="fa fa-bar-chart" aria-hidden="true"></i> Dashboard</strong></a></li>
+                    <li class="tabs-title"><a class="button" href="#budget"><strong><i class="fa fa-calendar" aria-hidden="true"></i> Budget</strong></a></li>
+                    <li class="tabs-title"><a class="button" href="#expense"><strong><i class="fa fa-money" aria-hidden="true"></i> Expense</strong></a></li>
+                </ul>
+            </div>
+            <div class="medium-10 columns">
+                <div class="tabs-content vertical" data-tabs-content="program-tabs">
+                    <!-- Dashboard -->
+                    <div class="tabs-panel is-active" id="dashboard">
+                        <form data-abide>
+                            <div class="row">
+                                <div class="small-5 columns">
+                                    <label for="allocate-budget" class="text-left middle"><strong>880,000,000.00PHP (not allocated)</strong></label>
+                                </div>
+                                <div class="small-7 columns end">
+                                    <a class="button success" href="#" id="allocate-budget">Allocate Budget <i class="fa fa-calculator" aria-hidden="true"></i></a>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="medium-5 columns">
+                                    <label for="review" class="text-left middle"><strong>Laguna Teaching Program is over expending!</strong></label>
+                                </div>
+                                <div class="medium-7 columns end">
+                                    <a class="button success" href="#" id="review">Review <i class="fa fa-book" aria-hidden="true"></i></a>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="small-4 columns">
+                                    <label class="text-right middle"></label>
+                                </div>
+                                <div class="small-1 columns">
+                                    <label for="from-date" class="text-right middle">From</label>
+                                </div>
+                                <div class="small-3 columns">
+                                    <input type="date" id="from-date" placeholder="">
+                                </div>
+                                <div class="small-1 columns">
+                                    <label for="to-date" class="text-right middle">To</label>
+                                </div>
+                                <div class="small-3 columns end">
+                                    <input type="date" id="to-date" placeholder="">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="text-right middle"></label>
+                            </div>
+                            <div class="row">
+                                <div class="small-3 columns">
+                                    <label class="text-right middle"></label>
+                                </div>
+                                <div class="small-4 columns end" id="pie-canvas" style="width:50%">
+                                    <canvas id="pie-chart"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="text-right middle"></label>
+                            </div>
+                            <div class="row">
+                                <div class="small-1 columns">
+                                    <label class="text-right middle"></label>
+                                </div>
+                                <div class="small-5 columns end" id="bar-canvas" style="width:75%">
+                                    <canvas id="bar-chart"/>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- Budget Tab -->
+                    <div class="tabs-panel" id="budget">
                         <div class="row">
                             <div class="small-5 columns">
-                                <label for="allocate-budget" class="text-left middle"><strong>880,000,000.00PHP (not allocated)</strong></label>
+                                <a class="button success" href="#">Add Budget <i class="fa fa-plus"></i></a>
                             </div>
-                            <div class="small-7 columns end">
-                                <a class="button success" href="#" id="allocate-budget">Allocate Budget <i class="fa fa-calculator" aria-hidden="true"></i></a>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="medium-5 columns">
-                                <label for="review" class="text-left middle"><strong>Laguna Teaching Program is over expending!</strong></label>
-                            </div>
-                            <div class="medium-7 columns end">
-                                <a class="button success" href="#" id="review">Review <i class="fa fa-book" aria-hidden="true"></i></a>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="small-4 columns">
-                                <label class="text-right middle"></label>
-                            </div>
-                            <div class="small-1 columns">
-                                <label for="from-date" class="text-right middle">From</label>
-                            </div>
-                            <div class="small-3 columns">
-                                <input type="date" id="from-date" placeholder="">
-                            </div>
-                            <div class="small-1 columns">
-                                <label for="to-date" class="text-right middle">To</label>
-                            </div>
-                            <div class="small-3 columns end">
-                                <input type="date" id="to-date" placeholder="">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <label class="text-right middle"></label>
-                        </div>
-                        <div class="row">
-                            <div class="small-3 columns">
-                                <label class="text-right middle"></label>
-                            </div>
-                            <div class="small-4 columns end" id="pie-canvas" style="width:50%">
-                                <canvas id="pie-chart"/>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <label class="text-right middle"></label>
-                        </div>
-                        <div class="row">
-                            <div class="small-1 columns">
-                                <label class="text-right middle"></label>
-                            </div>
-                            <div class="small-5 columns end" id="bar-canvas" style="width:75%">
-                                <canvas id="bar-chart"/>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <!-- Budget Tab -->
-                <div class="tabs-panel" id="budget">
-                    <div class="row">
-                        <div class="small-5 columns">
-                            <a class="button success" href="#">Add Budget <i class="fa fa-plus"></i></a>
-                        </div>
-                        <div class="small-5 columns text-right">
-                            <div class="input-group">
-                                <input class="input-group-field" type="text">
-                                <div class="input-group-button">
-                                    <input type="submit" class="button" value="Search">
+                            <div class="small-5 columns text-right">
+                                <div class="input-group">
+                                    <input class="input-group-field" type="text">
+                                    <div class="input-group-button">
+                                        <input type="submit" class="button" value="Search">
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="small-12 columns">
-                            <table class="hover">
-                                <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Budget Name</th>
-                                    <th>Type</th>
-                                    <th>Budget</th>
-                                    <th>Actions</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>001</td>
-                                    <td>Supplies and Materials</td>
-                                    <td>Type A</td>
-                                    <td>45,000.00PHP</td>
-                                    <td><a class="button alert"><i class="fa fa-minus"></i></a></td>
-                                </tr>
-
-                                <tr>
-                                    <td>002</td>
-                                    <td>Networking</td>
-                                    <td>Type A</td>
-                                    <td>85,000.00PHP</td>
-                                    <td><a class="button alert"><i class="fa fa-minus"></i></a></td>
-                                </tr>
-
-                                <tr>
-                                    <td>002</td>
-                                    <td>Transportation</td>
-                                    <td>Type A</td>
-                                    <td>85,000.00PHP</td>
-                                    <td><a class="button alert"><i class="fa fa-minus"></i></a></td>
-                                </tr>
-                                </tbody>
-                            </table>
+                        <div class="row">
+                            <div class="small-12 columns">
+                                <table class="hover" id="program-budget-view">
+                                    <thead>
+                                        <tr>
+                                            <th>Budget Name</th>
+                                            <th>Type</th>
+                                            <th>Budget</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
                         </div>
+                        <ul class="pagination text-center" role="navigation" aria-label="Pagination">
+                            <li class="pagination-previous disabled">Previous</li>
+                            <li class="current"><span class="show-for-sr">You're on page</span> 1</li>
+                            <li><a href="#" aria-label="Page 2">2</a></li>
+                            <li><a href="#" aria-label="Page 3">3</a></li>
+                            <li><a href="#" aria-label="Page 4">4</a></li>
+                            <li class="ellipsis"></li>
+                            <li><a href="#" aria-label="Page 12">12</a></li>
+                            <li><a href="#" aria-label="Page 13">13</a></li>
+                            <li class="pagination-next"><a href="#" aria-label="Next page">Next</a></li>
+                        </ul>
                     </div>
-                    <ul class="pagination text-center" role="navigation" aria-label="Pagination">
-                        <li class="pagination-previous disabled">Previous</li>
-                        <li class="current"><span class="show-for-sr">You're on page</span> 1</li>
-                        <li><a href="#" aria-label="Page 2">2</a></li>
-                        <li><a href="#" aria-label="Page 3">3</a></li>
-                        <li><a href="#" aria-label="Page 4">4</a></li>
-                        <li class="ellipsis"></li>
-                        <li><a href="#" aria-label="Page 12">12</a></li>
-                        <li><a href="#" aria-label="Page 13">13</a></li>
-                        <li class="pagination-next"><a href="#" aria-label="Next page">Next</a></li>
-                    </ul>
-                </div>
-                <!-- Expense Tab -->
-                <div class="tabs-panel" id="expense">
-                    <div class="row">
-                        <div class="small-5 columns">
-                        </div>
-                        <div class="small-5 columns text-right">
-                            <div class="input-group">
-                                <input class="input-group-field" type="text">
-                                <div class="input-group-button">
-                                    <input type="submit" class="button" value="Search">
+                    <!-- Expense Tab -->
+                    <div class="tabs-panel" id="expense">
+                        <div class="row">
+                            <div class="small-5 columns">
+                            </div>
+                            <div class="small-5 columns text-right">
+                                <div class="input-group">
+                                    <input class="input-group-field" type="text">
+                                    <div class="input-group-button">
+                                        <input type="submit" class="button" value="Search">
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="small-12 columns">
-                            <table class="hover">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Budget Name</th>
-                                        <th>Type</th>
-                                        <th>Total Expense</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>001</td>
-                                        <td>Supplies and Materials</td>
-                                        <td>Type A</td>
-                                        <td>45,000.00PHP</td>
-                                        <td><a class="button alert"><i class="fa fa-minus"></i></a></td>
-                                    </tr>
+                        <div class="row">
+                            <div class="small-12 columns">
+                                <table class="hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Budget Name</th>
+                                            <th>Type</th>
+                                            <th>Total Expense</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
 
-                                    <tr>
-                                        <td>002</td>
-                                        <td>Networking</td>
-                                        <td>Type A</td>
-                                        <td>85,000.00PHP</td>
-                                        <td><a class="button alert"><i class="fa fa-minus"></i></a></td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>002</td>
-                                        <td>Transportation</td>
-                                        <td>Type A</td>
-                                        <td>85,000.00PHP</td>
-                                        <td><a class="button alert"><i class="fa fa-minus"></i></a></td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
+                        <ul class="pagination text-center" role="navigation" aria-label="Pagination">
+                            <li class="pagination-previous disabled">Previous</li>
+                            <li class="current"><span class="show-for-sr">You're on page</span> 1</li>
+                            <li><a href="#" aria-label="Page 2">2</a></li>
+                            <li><a href="#" aria-label="Page 3">3</a></li>
+                            <li><a href="#" aria-label="Page 4">4</a></li>
+                            <li class="ellipsis"></li>
+                            <li><a href="#" aria-label="Page 12">12</a></li>
+                            <li><a href="#" aria-label="Page 13">13</a></li>
+                            <li class="pagination-next"><a href="#" aria-label="Next page">Next</a></li>
+                        </ul>
                     </div>
-                    <ul class="pagination text-center" role="navigation" aria-label="Pagination">
-                        <li class="pagination-previous disabled">Previous</li>
-                        <li class="current"><span class="show-for-sr">You're on page</span> 1</li>
-                        <li><a href="#" aria-label="Page 2">2</a></li>
-                        <li><a href="#" aria-label="Page 3">3</a></li>
-                        <li><a href="#" aria-label="Page 4">4</a></li>
-                        <li class="ellipsis"></li>
-                        <li><a href="#" aria-label="Page 12">12</a></li>
-                        <li><a href="#" aria-label="Page 13">13</a></li>
-                        <li class="pagination-next"><a href="#" aria-label="Next page">Next</a></li>
-                    </ul>
                 </div>
             </div>
         </div>
-    </div>
-            <!-- Tab Contents: End-->
     </section>
 
     <script src="js/vendor/what-input.js"></script>
     <script src="js/vendor/foundation.min.js"></script>
-    <script src="js/ohf-budgetfy-js.js"></script>
     <script src="js/evey-1.0.js"></script>
+    <script src="js/Chart.min.js"></script>
     <script>
         $(document).foundation();
-    </script>
-    <script src="Chart.js-2.1.6/dist/Chart.js"></script>
-    <script>
-        var pieChartData = {
-            labels: ["Expense", "Remaining Budget"],
-            datasets: [{
-                backgroundColor: ["#F7464A","#00e600"],
-                data: [1000000,100000000]
-            }]
 
-        };
-        var barChartData = {
-            labels: ["Laguna Teaching Program", "Fairview Teaching Program"],
-            datasets: [{
-                label: 'forecast',
-                backgroundColor: "rgba(220,220,220,0.5)",
-                data: [20000,70000]
-            }, {
-                label: 'actuals',
-                backgroundColor: "rgba(151,187,205,0.5)",
-                data: [40000,50000]
-            }]
+        $(document).ready(function(){
 
-        };
+            var pieChartData = {
+                labels: ["Expense", "Remaining Budget"],
+                datasets: [{
+                    backgroundColor: ["#F7464A","#00e600"],
+                    data: [1000000,100000000]
+                }]
 
-        window.onload = function() {
+            };
+            var barChartData = {
+                labels: ["Laguna Teaching Program", "Fairview Teaching Program"],
+                datasets: [{
+                    label: 'forecast',
+                    backgroundColor: "rgba(220,220,220,0.5)",
+                    data: [20000,70000]
+                }, {
+                    label: 'actuals',
+                    backgroundColor: "rgba(151,187,205,0.5)",
+                    data: [40000,50000]
+                }]
+
+            };
+
+
             var ctxPie = document.getElementById("pie-chart").getContext("2d");
-            window.myPie = new Chart(ctxPie, {
+            var pie = new Chart(ctxPie, {
                 type: 'pie',
                 data: pieChartData,
                 options: {
@@ -351,8 +299,9 @@
                     }
                 }
             });
+
             var ctxBar = document.getElementById("bar-chart").getContext("2d");
-            window.myBar = new Chart(ctxBar, {
+            var bar = new Chart(ctxBar, {
                 type: 'bar',
                 data: barChartData,
                 options: {
@@ -373,8 +322,19 @@
                     }
                 }
             });
+        }).on("click",".row-onclick",function(){
+            $("#home-page").addClass("hide");
+            $("#view-program").removeClass("hide");
+        });
+    </script>
 
-        };
+    <script type="text/html" id="program-budget-row-template">
+        <tr>
+            <td class="activity-name"></td>
+            <td class="activity-type"></td>
+            <td class="activity-budget"></td>
+            <td><a class="button alert"><i class="fa fa-minus"></i></a></td>
+        </tr>
     </script>
   </body>
 </html>
