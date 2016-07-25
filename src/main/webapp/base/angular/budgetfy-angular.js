@@ -60,7 +60,6 @@ angular.module("budgetfyApp", ["selectize"])
             },function(error){
 
             });
-
         };
 
         $scope.createProgram = function(){
@@ -114,22 +113,27 @@ angular.module("budgetfyApp", ["selectize"])
 
         $scope.viewProgram = function(programId){
             activityService.getProgramActivities(programId).then(function(data){
-                /*$("#program-budget-view tbody tr").remove();
-                var budgetTable = $("#program-budget-view tbody");
-                var budgetRowTemplate  = $("#program-budget-row-template").html();
-
-                $.each(data.results, function(i,activity){
-                    $(budgetTable).append(budgetRowTemplate);
-
-                    var lastRow = $(budgetTable).find("tr").last();
-                    $(lastRow).find("td.activity-name").text(activity.activityName);
-                    $(lastRow).find("td.activity-code").text(activity.activityCodeName);
-                    $(lastRow).find("td.activity-budget").text(activity.amount);
-                });*/
                 $scope.programActivities = data.results;
             });
+        }
 
+        $scope.addedActivityList = [];
+        $scope.addActivity = function(){
+            var activityType = $("#program-activity .selectize-input div.item").text();
+            var activityId = $("#program-activity .selectize-input div.item").attr("data-value");
+            var activityCodeId = $("#activity-code option:selected").val();
+            var activityCodeDisplay = $("#activity-code option:selected").text();
+            var activityBudget = $("#activity-budget").val();
 
+            var activityObject = {
+                activityTypeId:activityId,
+                activityName:activityType,
+                activityCodeId:activityCodeId,
+                amount: activityBudget,
+                activityCodeName:activityCodeDisplay
+            };
+
+            $scope.addedActivityList.push(activityObject);
         }
 
     }])

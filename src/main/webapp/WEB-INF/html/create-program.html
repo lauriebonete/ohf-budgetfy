@@ -214,25 +214,30 @@
             </div>
             <div class="row">
               <div class="small-6 small-centered columns">
-                  <a class="button success expanded" id="add-activity-btn">Add Activity <i class="fa fa-plus"></i></a>
+                  <a class="button success expanded" id="add-activity-btn" ng-click="addActivity()">Add Activity <i class="fa fa-plus"></i></a>
               </div>
             </div>
 
             <!-- Activty Table List: Start -->
             <div class="row">
-              <div class="small-12 columns">
-                <table id="activity-result" class="hover">
-                  <thead>
-                    <tr>
-                      <th>Activity Name</th>
-                      <th>Type</th>
-                      <th>Budget</th>
-                      <th>Budget</th>
-                    </tr>
-                  </thead>  
-                  <tbody>
-
-                  </tbody>  
+                <div class="small-12 columns">
+                    <table id="activity-result" class="hover">
+                        <thead>
+                            <tr>
+                                <th>Activity Name</th>
+                                <th>Type</th>
+                                <th>Budget</th>
+                                <th>Budget</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="activity in addedActivityList">
+                                <td>{{activity.activityName}}</td>
+                                <td>{{activity.activityCodeName}}</td>
+                                <td>{{activity.amount}}</td>
+                                <td><a class="button alert"><i class="fa fa-minus"></i></a></td>
+                            </tr>
+                        </tbody>
                 </table>      
               </div>
             </div>
@@ -294,19 +299,34 @@
             </div>
             <div class="row">
               <strong>Team Details</strong>
-              <table class="hover">
+              <table>
                   <tbody id="team-details-summary">
 
                   </tbody>
               </table>
             </div>
             <div class="row">
-              <strong>Activity Details</strong>
-              <table class="hover">
-                  <tbody id="activity-table-summary">
-
-                  </tbody>
-              </table>  
+                <strong>Activity Details</strong>
+                <table>
+                    <tbody id="activity-table-summary">
+                        <tr ng-repeat="activity in addedActivityList">
+                            <td>
+                                <div class="row">
+                                    <div class="small-6 columns">Activity Name</div>
+                                    <div class="small-6 columns end"><span>{{activity.activityName}}</span></div>
+                                </div>
+                                <div class="row">
+                                    <div class="small-6 columns">Total Budget</div>
+                                    <div class="small-6 columns end"><span>{{activity.amount}}</span></div>
+                                </div>
+                                <div class="row">
+                                    <div class="small-6 columns">Type</div>
+                                    <div class="small-6 columns end"><span>{{activity.activityCodeName}}</span></div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
 
             <div class="row">
@@ -333,11 +353,8 @@
     <script type="text/javascript">
         var addedActivityList = null;
         $(document).ready(function(){
-            addedActivityList = [];
         }).on("click","#next-to-summary",function(){
             $("#team-details-summary tr").remove();
-            $("#activity-table-summary tr").remove();
-
             var programName = $("#program-name").val();
             var totalBudget = $("#total-budget").val();
             var threshold = $("#threshold").val();
@@ -348,22 +365,6 @@
             $("#total-budget-summary").text(totalBudget +" PHP");
             $("#threshold-summary").text(threshold + " PHP");
             $("#duration-summary").text(programStart + " to " + programEnd);
-
-            $.each(addedActivityList, function (i,actObj) {
-                var actSummaryTbody = $("#activity-table-summary");
-                var template = $("#activity-row-template").html();
-
-                $(actSummaryTbody).append($(template));
-
-                var lastRow = $(actSummaryTbody).find("tr").last();
-
-                $(lastRow).attr("data-activityId",actObj.activityTypeId);
-                $(lastRow).find("span.activity-name-summary").text(actObj.activityName);
-                $(lastRow).find("span.activity-budget-summary").text(actObj.amount);
-                $(lastRow).find("span.activity-type-summary").text(actObj.activityType);
-
-            });
-
 
           $.each($("#added-user-access .row"),function(i, row){
               $("#team-details-summary").append($("#team-row-template").html());
@@ -440,34 +441,7 @@
                 $("#program-team").css("left", "0");
                 $(".progress-meter").css("width", "50%");
             }
-      }).on("click","#add-activity-btn", function() {
-            var activityType = $("#program-activity .selectize-input div.item").text();
-            var activityId = $("#program-activity .selectize-input div.item").attr("data-value");
-            var activityCodeId = $("#activity-code option:selected").val();
-            var activityCodeDisplay = $("#activity-code option:selected").text();
-            var activityBudget = $("#activity-budget").val();
-
-            var activityTableBody = $("#activity-result tbody");
-            var activityTemplate = $("#added-activity-template").html();
-            $(activityTableBody).prepend($(activityTemplate));
-            var lastRow = $(activityTableBody).find("tr").first();
-
-            var activityObject = {
-                activityTypeId:activityId,
-                activityName:activityType,
-                activityCodeId:activityCodeId,
-                amount: activityBudget,
-                activityCodeName:activityCodeDisplay
-            };
-
-            addedActivityList.push(activityObject);
-
-            $(lastRow).attr("data-activityId",activityId);
-            $(lastRow).find("td.activity-name-table").text(activityType);
-            $(lastRow).find("td.activity-type-table").text(activityCodeDisplay);
-            $(lastRow).find("td.activity-budget-table").text(activityBudget);
-
-        });
+      });
 
       function addThousandsSeparator(input) {
         var output = input.toString().replace(/,/g, '');
