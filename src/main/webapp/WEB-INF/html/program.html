@@ -16,247 +16,240 @@
         <script src="angular/budgetfy-angular.js"></script>
     </head>
     <body ng-app="budgetfyApp" ng-controller="programController">
-        <section id="header">
-            <div class="row">
-                <div class="small-6 columns text-left">
-                    <a class="button" href="/program">Programs</a>
-                    <a class="button">Expense</a>
-                    <a class="button">Reports</a>
-                </div>
-                <div class="small-6 columns text-right">
-                    <a class="button"><i class="fa fa-cog"></i></a>
-                    <a class="button"><i class="fa fa-exclamation"></i></a>
-                    <a class="button"><i class="fa fa-user"></i></a>
-                </div>
+    <section id="header">
+        <div class="row">
+            <div class="small-6 columns text-left">
+                <a class="button" href="/program">Programs</a>
+                <a class="button">Expense</a>
+                <a class="button">Reports</a>
             </div>
-        </section>
+            <div class="small-6 columns text-right">
+                <a class="button"><i class="fa fa-cog"></i></a>
+                <a class="button"><i class="fa fa-exclamation"></i></a>
+                <a class="button"><i class="fa fa-user"></i></a>
+            </div>
+        </div>
+    </section>
 
-        <section id="site-content">
-            <div id="home-page">
-                <div class="row">
-                    <div class="small-5 columns text-left">
-                        <a class="button success" href="/program/create-program">Create Program <i class="fa fa-plus"></i></a>
-                    </div>
-                    <div class="small-5 columns text-right">
-                        <div class="input-group">
-                            <input class="input-group-field" type="text" ng-model="programFilter">
-                            <div class="input-group-button">
-                                <input type="submit" class="button" value="Search">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="small-2 columns text-right">
-                        <select>
-                            <option value="2016">2016</option>
-                            <option value="2015">2015</option>
-                            <option value="2014">2014</option>
-                        </select>
-                    </div>
+    <section id="site-content">
+        <div id="home-page">
+          <div class="row">
+            <div class="small-5 columns text-left">
+              <a class="button success" href="/program/create-program">Create Program <i class="fa fa-plus"></i></a>
+            </div>
+            <div class="small-5 columns text-right">
+              <div class="input-group">
+                <input class="input-group-field" type="text">
+                <div class="input-group-button">
+                  <input type="submit" class="button" value="Search">
                 </div>
-
-
-              <!-- Program Table List: Start -->
-              <div class="row">
-                  <div class="small-12 columns">
-                      <table id="programs-result" class="hover">
-                          <thead>
-                            <tr>
-                                <th>Program Name</th>
-                                <th>Total Budget</th>
-                                <th>Duration</th>
-                            </tr>
-                          </thead>
-                          <tbody ng-init="loadPrograms()">
-                            <tr class="row-onclick" ng-repeat="program in programList | filter : programFilter" data-program="{{program.id}}" ng-click="viewProgram(program.id)">
-                                <td>{{program.programName}}</td>
-                                <td>{{program.displayProgramBudget}}</td>
-                                <td>{{program.displayProgramDuration}}</td>
-                            </tr>
-                          </tbody>
-                      </table>
-                  </div>
               </div>
-              <ul class="pagination text-center" role="navigation" aria-label="Pagination">
-                <li class="pagination-previous disabled">Previous</li>
-                <li class="current"><span class="show-for-sr">You're on page</span> 1</li>
-                <li><a href="#" aria-label="Page 2">2</a></li>
-                <li><a href="#" aria-label="Page 3">3</a></li>
-                <li><a href="#" aria-label="Page 4">4</a></li>
-                <li class="ellipsis"></li>
-                <li><a href="#" aria-label="Page 12">12</a></li>
-                <li><a href="#" aria-label="Page 13">13</a></li>
-                <li class="pagination-next"><a href="#" aria-label="Next page">Next</a></li>
-              </ul>
             </div>
-              <!-- Program Table List: End -->
+            <div class="small-2 columns text-right">
+              <select>
+                  <option value="2016">2016</option>
+                  <option value="2015">2015</option>
+                  <option value="2014">2014</option>
+              </select>
+            </div>
+          </div>
 
 
-            <div id="view-program" class="row collapse hide">
-                <div class="medium-2 columns">
-                    <ul class="tabs vertical" id="program-tabs" data-tabs>
-                        <li class="tabs-title is-active"><a class="button" href="#dashboard" aria-selected="true"><strong><i class="fa fa-bar-chart" aria-hidden="true"></i> Dashboard</strong></a></li>
-                        <li class="tabs-title"><a class="button" href="#budget"><strong><i class="fa fa-calendar" aria-hidden="true"></i> Budget</strong></a></li>
-                        <li class="tabs-title"><a class="button" href="#expense"><strong><i class="fa fa-money" aria-hidden="true"></i> Expense</strong></a></li>
-                    </ul>
-                </div>
-                <div class="medium-10 columns">
-                    <div class="tabs-content vertical" data-tabs-content="program-tabs">
-                        <!-- Dashboard -->
-                        <div class="tabs-panel is-active" id="dashboard">
-                            <form data-abide>
-                                <div class="row">
-                                    <div class="small-5 columns">
-                                        <label for="allocate-budget" class="text-left middle"><strong>880,000,000.00PHP (not allocated)</strong></label>
-                                    </div>
-                                    <div class="small-7 columns end">
-                                        <a class="button success" href="#" id="allocate-budget">Allocate Budget <i class="fa fa-calculator" aria-hidden="true"></i></a>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="medium-5 columns">
-                                        <label for="review" class="text-left middle"><strong>Laguna Teaching Program is over expending!</strong></label>
-                                    </div>
-                                    <div class="medium-7 columns end">
-                                        <a class="button success" href="#" id="review">Review <i class="fa fa-book" aria-hidden="true"></i></a>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="small-4 columns">
-                                        <label class="text-right middle"></label>
-                                    </div>
-                                    <div class="small-1 columns">
-                                        <label for="from-date" class="text-right middle">From</label>
-                                    </div>
-                                    <div class="small-3 columns">
-                                        <input type="date" id="from-date" placeholder="">
-                                    </div>
-                                    <div class="small-1 columns">
-                                        <label for="to-date" class="text-right middle">To</label>
-                                    </div>
-                                    <div class="small-3 columns end">
-                                        <input type="date" id="to-date" placeholder="">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <label class="text-right middle"></label>
-                                </div>
-                                <div class="row">
-                                    <div class="small-3 columns">
-                                        <label class="text-right middle"></label>
-                                    </div>
-                                    <div class="small-4 columns end" id="pie-canvas" style="width:50%">
-                                        <canvas id="pie-chart"/>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <label class="text-right middle"></label>
-                                </div>
-                                <div class="row">
-                                    <div class="small-1 columns">
-                                        <label class="text-right middle"></label>
-                                    </div>
-                                    <div class="small-5 columns end" id="bar-canvas" style="width:75%">
-                                        <canvas id="bar-chart"/>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <!-- Budget Tab -->
-                        <div class="tabs-panel" id="budget">
+          <!-- Program Table List: Start -->
+          <div class="row">
+              <div class="small-12 columns">
+                  <table id="programs-result" class="hover">
+                      <thead>
+                        <tr>
+                            <th>Program Name</th>
+                            <th>Total Budget</th>
+                            <th>Duration</th>
+                        </tr>
+                      </thead>
+                      <tbody ng-init="loadPrograms()">
+                        <tr class="row-onclick" ng-repeat="program in programList" data-program="{{program.id}}" ng-click="viewProgram(program.id)">
+                            <td>{{program.programName}}</td>
+                            <td>{{program.totalBudget}}</td>
+                            <td>{{program.programStart}}</td>
+                        </tr>
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+          <ul class="pagination text-center" role="navigation" aria-label="Pagination">
+            <li class="pagination-previous disabled">Previous</li>
+            <li class="current"><span class="show-for-sr">You're on page</span> 1</li>
+            <li><a href="#" aria-label="Page 2">2</a></li>
+            <li><a href="#" aria-label="Page 3">3</a></li>
+            <li><a href="#" aria-label="Page 4">4</a></li>
+            <li class="ellipsis"></li>
+            <li><a href="#" aria-label="Page 12">12</a></li>
+            <li><a href="#" aria-label="Page 13">13</a></li>
+            <li class="pagination-next"><a href="#" aria-label="Next page">Next</a></li>
+          </ul>
+        </div>
+          <!-- Program Table List: End -->
+
+
+        <div id="view-program" class="row collapse hide">
+            <div class="medium-2 columns">
+                <ul class="tabs vertical" id="program-tabs" data-tabs>
+                    <li class="tabs-title is-active"><a class="button" href="#dashboard" aria-selected="true"><strong><i class="fa fa-bar-chart" aria-hidden="true"></i> Dashboard</strong></a></li>
+                    <li class="tabs-title"><a class="button" href="#budget"><strong><i class="fa fa-calendar" aria-hidden="true"></i> Budget</strong></a></li>
+                    <li class="tabs-title"><a class="button" href="#expense"><strong><i class="fa fa-money" aria-hidden="true"></i> Expense</strong></a></li>
+                </ul>
+            </div>
+            <div class="medium-10 columns">
+                <div class="tabs-content vertical" data-tabs-content="program-tabs">
+                    <!-- Dashboard -->
+                    <div class="tabs-panel is-active" id="dashboard">
+                        <form data-abide>
                             <div class="row">
                                 <div class="small-5 columns">
-                                    <a class="button success" href="#">Add Budget <i class="fa fa-plus"></i></a>
+                                    <label for="allocate-budget" class="text-left middle"><strong>880,000,000.00PHP (not allocated)</strong></label>
                                 </div>
-                                <div class="small-5 columns text-right">
-                                    <div class="input-group">
-                                        <input class="input-group-field" type="text" ng-model="programBudgetFilter">
-                                        <div class="input-group-button">
-                                            <input type="submit" class="button" value="Search">
-                                        </div>
-                                    </div>
+                                <div class="small-7 columns end">
+                                    <a class="button success" href="#" id="allocate-budget">Allocate Budget <i class="fa fa-calculator" aria-hidden="true"></i></a>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="small-12 columns">
-                                    <table class="hover" id="program-budget-view">
-                                        <thead>
-                                            <tr>
-                                                <th>Budget Name</th>
-                                                <th>Type</th>
-                                                <th>Budget</th>
-                                                <th>Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr ng-repeat="activity in programActivities | filter:programBudgetFilter" data-activity-id="{{activity.id}}">
-                                                <td>{{activity.activityName}}</td>
-                                                <td>{{activity.activityCodeName}}</td>
-                                                <td>{{activity.displayAmount}}</td>
-                                                <td><a class="button alert"><i class="fa fa-minus"></i></a></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                <div class="medium-5 columns">
+                                    <label for="review" class="text-left middle"><strong>Laguna Teaching Program is over expending!</strong></label>
+                                </div>
+                                <div class="medium-7 columns end">
+                                    <a class="button success" href="#" id="review">Review <i class="fa fa-book" aria-hidden="true"></i></a>
                                 </div>
                             </div>
-                            <ul class="pagination text-center" role="navigation" aria-label="Pagination">
-                                <li class="pagination-previous disabled">Previous</li>
-                                <li class="current"><span class="show-for-sr">You're on page</span> 1</li>
-                                <li><a href="#" aria-label="Page 2">2</a></li>
-                                <li><a href="#" aria-label="Page 3">3</a></li>
-                                <li><a href="#" aria-label="Page 4">4</a></li>
-                                <li class="ellipsis"></li>
-                                <li><a href="#" aria-label="Page 12">12</a></li>
-                                <li><a href="#" aria-label="Page 13">13</a></li>
-                                <li class="pagination-next"><a href="#" aria-label="Next page">Next</a></li>
-                            </ul>
+                            <div class="row">
+                                <div class="small-4 columns">
+                                    <label class="text-right middle"></label>
+                                </div>
+                                <div class="small-1 columns">
+                                    <label for="from-date" class="text-right middle">From</label>
+                                </div>
+                                <div class="small-3 columns">
+                                    <input type="date" id="from-date" placeholder="">
+                                </div>
+                                <div class="small-1 columns">
+                                    <label for="to-date" class="text-right middle">To</label>
+                                </div>
+                                <div class="small-3 columns end">
+                                    <input type="date" id="to-date" placeholder="">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="text-right middle"></label>
+                            </div>
+                            <div class="row">
+                                <div class="small-3 columns">
+                                    <label class="text-right middle"></label>
+                                </div>
+                                <div class="small-4 columns end" id="pie-canvas" style="width:50%">
+                                    <canvas id="pie-chart"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="text-right middle"></label>
+                            </div>
+                            <div class="row">
+                                <div class="small-1 columns">
+                                    <label class="text-right middle"></label>
+                                </div>
+                                <div class="small-5 columns end" id="bar-canvas" style="width:75%">
+                                    <canvas id="bar-chart"/>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- Budget Tab -->
+                    <div class="tabs-panel" id="budget">
+                        <div class="row">
+                            <div class="small-5 columns">
+                                <a class="button success" href="#">Add Budget <i class="fa fa-plus"></i></a>
+                            </div>
+                            <div class="small-5 columns text-right">
+                                <div class="input-group">
+                                    <input class="input-group-field" type="text">
+                                    <div class="input-group-button">
+                                        <input type="submit" class="button" value="Search">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <!-- Expense Tab -->
-                        <div class="tabs-panel" id="expense">
-                            <div class="row">
-                                <div class="small-5 columns">
-                                </div>
-                                <div class="small-5 columns text-right">
-                                    <div class="input-group">
-                                        <input class="input-group-field" type="text">
-                                        <div class="input-group-button">
-                                            <input type="submit" class="button" value="Search">
-                                        </div>
+                        <div class="row">
+                            <div class="small-12 columns">
+                                <table class="hover" id="program-budget-view">
+                                    <thead>
+                                        <tr>
+                                            <th>Budget Name</th>
+                                            <th>Type</th>
+                                            <th>Budget</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <ul class="pagination text-center" role="navigation" aria-label="Pagination">
+                            <li class="pagination-previous disabled">Previous</li>
+                            <li class="current"><span class="show-for-sr">You're on page</span> 1</li>
+                            <li><a href="#" aria-label="Page 2">2</a></li>
+                            <li><a href="#" aria-label="Page 3">3</a></li>
+                            <li><a href="#" aria-label="Page 4">4</a></li>
+                            <li class="ellipsis"></li>
+                            <li><a href="#" aria-label="Page 12">12</a></li>
+                            <li><a href="#" aria-label="Page 13">13</a></li>
+                            <li class="pagination-next"><a href="#" aria-label="Next page">Next</a></li>
+                        </ul>
+                    </div>
+                    <!-- Expense Tab -->
+                    <div class="tabs-panel" id="expense">
+                        <div class="row">
+                            <div class="small-5 columns">
+                            </div>
+                            <div class="small-5 columns text-right">
+                                <div class="input-group">
+                                    <input class="input-group-field" type="text">
+                                    <div class="input-group-button">
+                                        <input type="submit" class="button" value="Search">
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="small-12 columns">
-                                    <table class="hover">
-                                        <thead>
-                                            <tr>
-                                                <th>Budget Name</th>
-                                                <th>Type</th>
-                                                <th>Total Expense</th>
-                                                <th>Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
+                        </div>
+                        <div class="row">
+                            <div class="small-12 columns">
+                                <table class="hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Budget Name</th>
+                                            <th>Type</th>
+                                            <th>Total Expense</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
 
-                                        </tbody>
-                                    </table>
-                                </div>
+                                    </tbody>
+                                </table>
                             </div>
-                            <ul class="pagination text-center" role="navigation" aria-label="Pagination">
-                                <li class="pagination-previous disabled">Previous</li>
-                                <li class="current"><span class="show-for-sr">You're on page</span> 1</li>
-                                <li><a href="#" aria-label="Page 2">2</a></li>
-                                <li><a href="#" aria-label="Page 3">3</a></li>
-                                <li><a href="#" aria-label="Page 4">4</a></li>
-                                <li class="ellipsis"></li>
-                                <li><a href="#" aria-label="Page 12">12</a></li>
-                                <li><a href="#" aria-label="Page 13">13</a></li>
-                                <li class="pagination-next"><a href="#" aria-label="Next page">Next</a></li>
-                            </ul>
                         </div>
+                        <ul class="pagination text-center" role="navigation" aria-label="Pagination">
+                            <li class="pagination-previous disabled">Previous</li>
+                            <li class="current"><span class="show-for-sr">You're on page</span> 1</li>
+                            <li><a href="#" aria-label="Page 2">2</a></li>
+                            <li><a href="#" aria-label="Page 3">3</a></li>
+                            <li><a href="#" aria-label="Page 4">4</a></li>
+                            <li class="ellipsis"></li>
+                            <li><a href="#" aria-label="Page 12">12</a></li>
+                            <li><a href="#" aria-label="Page 13">13</a></li>
+                            <li class="pagination-next"><a href="#" aria-label="Next page">Next</a></li>
+                        </ul>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
     <script src="js/vendor/what-input.js"></script>
     <script src="js/vendor/foundation.min.js"></script>
@@ -338,7 +331,7 @@
     <script type="text/html" id="program-budget-row-template">
         <tr>
             <td class="activity-name"></td>
-            <td class="activity-code"></td>
+            <td class="activity-type"></td>
             <td class="activity-budget"></td>
             <td><a class="button alert"><i class="fa fa-minus"></i></a></td>
         </tr>
