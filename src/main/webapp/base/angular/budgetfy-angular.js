@@ -103,7 +103,7 @@ angular.module("budgetfyApp", ["selectize"])
                 threshold:Number(threshold.replace(/,/g, '')),
                 programStart:programStart,
                 programEnd:programEnd,
-                activities:addedActivityList,
+                activities: $scope.addedActivityList,
                 userAccessList:userAccessList
             };
 
