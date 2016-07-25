@@ -5,8 +5,11 @@ import org.evey.bean.BaseEntity;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Created by Laurie on 7/2/2016.
@@ -42,6 +45,10 @@ public class Program extends BaseEntity {
     @OneToMany(mappedBy = "program")
     @JsonManagedReference
     private List<Activity> activities;
+
+    private transient String displayProgramDuration;
+
+    private transient String displayProgramBudget;
 
     public String getProgramName() {
         return programName;
@@ -105,5 +112,31 @@ public class Program extends BaseEntity {
 
     public void setPercentage(Double percentage) {
         this.percentage = percentage;
+    }
+
+    public String getDisplayProgramDuration() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM d, yyyy");
+        StringBuilder displayBuilder = new StringBuilder();
+        displayBuilder.append(dateFormat.format(this.programStart))
+                .append(" TO ")
+                .append(dateFormat.format(this.programEnd));
+
+        return displayBuilder.toString();
+    }
+
+    public String getDisplayProgramBudget() {
+        DecimalFormat formatter = (DecimalFormat) NumberFormat.getInstance(Locale.US);
+        DecimalFormatSymbols symbols = formatter.getDecimalFormatSymbols();
+
+        symbols.setGroupingSeparator(',');
+        formatter.setDecimalFormatSymbols(symbols);
+        return formatter.format(this.totalBudget)+"php";
+    }
+
+    @Override
+    public Map<String, String> getOrderBy() {
+        Map<String, String> orderMap = new HashMap<>();
+        orderMap.put("id","DESC");
+        return orderMap;
     }
 }

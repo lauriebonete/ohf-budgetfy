@@ -7,7 +7,11 @@ import org.evey.bean.ReferenceLookUp;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Laurie on 7/2/2016.
@@ -21,9 +25,6 @@ public class Activity extends BaseEntity {
 
     @Column(name = "AMOUNT")
     private BigDecimal amount;
-
-    @Column(name = "CODE")
-    private String code;
 
     @ManyToOne
     @JoinColumn(name = "PROGRAM_ID", referencedColumnName = "ID")
@@ -44,6 +45,26 @@ public class Activity extends BaseEntity {
     @Column(name = "ACTIVITY_TYPE_ID", insertable = false, updatable = false)
     private Long activityTypeId;
 
+    @ManyToOne
+    @JoinColumn(name = "CODE_ID", referencedColumnName = "ID")
+    private ReferenceLookUp activityCode;
+
+    @Column(name = "CODE_ID", insertable = false, updatable = false)
+    private Long activityCodeId;
+
+    private transient String displayAmount;
+
+    @Column(name = "ACTIVITY_CODE_NAME")
+    private String activityCodeName;
+
+    public String getActivityCodeName() {
+        return activityCodeName;
+    }
+
+    public void setActivityCodeName(String activityCodeName) {
+        this.activityCodeName = activityCodeName;
+    }
+
     public String getActivityName() {
         return activityName;
     }
@@ -58,14 +79,6 @@ public class Activity extends BaseEntity {
 
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
     }
 
     public Program getProgram() {
@@ -106,5 +119,30 @@ public class Activity extends BaseEntity {
 
     public void setActivityTypeId(Long activityTypeId) {
         this.activityTypeId = activityTypeId;
+    }
+
+    public ReferenceLookUp getActivityCode() {
+        return activityCode;
+    }
+
+    public void setActivityCode(ReferenceLookUp activityCode) {
+        this.activityCode = activityCode;
+    }
+
+    public Long getActivityCodeId() {
+        return activityCodeId;
+    }
+
+    public void setActivityCodeId(Long activityCodeId) {
+        this.activityCodeId = activityCodeId;
+    }
+
+    public String getDisplayAmount() {
+        DecimalFormat formatter = (DecimalFormat) NumberFormat.getInstance(Locale.US);
+        DecimalFormatSymbols symbols = formatter.getDecimalFormatSymbols();
+
+        symbols.setGroupingSeparator(',');
+        formatter.setDecimalFormatSymbols(symbols);
+        return formatter.format(this.amount)+"php";
     }
 }

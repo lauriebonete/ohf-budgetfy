@@ -196,10 +196,8 @@
                 <label class="text-right middle">Activity Type</label>
               </div>
               <div class="small-2 columns end text-right">
-                  <select>
-                      <option value="Activity1">Activity1</option>
-                      <option value="Activity2">Activity2</option>
-                      <option value="Activity3">Activity3</option>
+                  <select id="activity-code">
+                      <option ng-repeat="code in activityCodeList" value="{{code.id}}">{{code.value}}</option>
                   </select>
               </div>
             </div>
@@ -445,6 +443,8 @@
       }).on("click","#add-activity-btn", function() {
             var activityType = $("#program-activity .selectize-input div.item").text();
             var activityId = $("#program-activity .selectize-input div.item").attr("data-value");
+            var activityCodeId = $("#activity-code option:selected").val();
+            var activityCodeDisplay = $("#activity-code option:selected").text();
             var activityBudget = $("#activity-budget").val();
 
             var activityTableBody = $("#activity-result tbody");
@@ -455,15 +455,16 @@
             var activityObject = {
                 activityTypeId:activityId,
                 activityName:activityType,
-                activityType:null,
-                amount: activityBudget
+                activityCodeId:activityCodeId,
+                amount: activityBudget,
+                activityCodeName:activityCodeDisplay
             };
 
             addedActivityList.push(activityObject);
 
             $(lastRow).attr("data-activityId",activityId);
             $(lastRow).find("td.activity-name-table").text(activityType);
-            $(lastRow).find("td.activity-type-table").text();
+            $(lastRow).find("td.activity-type-table").text(activityCodeDisplay);
             $(lastRow).find("td.activity-budget-table").text(activityBudget);
 
         });

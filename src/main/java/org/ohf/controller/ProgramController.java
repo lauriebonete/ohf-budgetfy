@@ -56,6 +56,9 @@ public class ProgramController extends BaseCrudController<Program> {
             saveThisActivity.setProgram(saveThisProgram);
             saveThisActivity.setActivityType(new ReferenceLookUp());
             saveThisActivity.getActivityType().setId(activity.getActivityTypeId());
+            saveThisActivity.setActivityCode(new ReferenceLookUp());
+            saveThisActivity.getActivityCode().setId(activity.getActivityCodeId());
+            saveThisActivity.setActivityCodeName(activity.getActivityCodeName());
             activityService.save(saveThisActivity);
         }
 
@@ -73,13 +76,6 @@ public class ProgramController extends BaseCrudController<Program> {
             }
         }
     }
-
-    /*@
-    public List<Activity> getProgramActivities(Long programId) throws Exception{
-        Activity lookFor = new Activity();
-        lookFor.setProgramId(programId);
-        return activityService.findEntity(lookFor);
-    }*/
 
     @RequestMapping(value = "/create-program")
     public ModelAndView loadCreateProgramPage() {

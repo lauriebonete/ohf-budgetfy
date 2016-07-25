@@ -45,13 +45,18 @@ angular.module("budgetfyApp", ["selectize"])
         referenceLookUpService.getReferenceLookUpByCategory("ACTIVITY_TYPE").then(function(results){
             $scope.activityTypeList = results;
         },function(error){
-            console.log(error);
+
+        });
+
+        referenceLookUpService.getReferenceLookUpByCategory("ACTIVITY_CODE").then(function(results){
+            $scope.activityCodeList = results;
+        },function(error){
+
         });
 
         $scope.loadPrograms = function(){
             programService.getAllPrograms().then(function(results){
                 $scope.programList = results.results;
-                console.log($scope.programList);
             },function(error){
 
             });
@@ -109,19 +114,19 @@ angular.module("budgetfyApp", ["selectize"])
 
         $scope.viewProgram = function(programId){
             activityService.getProgramActivities(programId).then(function(data){
-                $("#program-budget-view tbody tr").remove();
+                /*$("#program-budget-view tbody tr").remove();
                 var budgetTable = $("#program-budget-view tbody");
                 var budgetRowTemplate  = $("#program-budget-row-template").html();
 
                 $.each(data.results, function(i,activity){
-                    console.log(activity);
                     $(budgetTable).append(budgetRowTemplate);
 
                     var lastRow = $(budgetTable).find("tr").last();
                     $(lastRow).find("td.activity-name").text(activity.activityName);
-                    $(lastRow).find("td.activity-type").text();
+                    $(lastRow).find("td.activity-code").text(activity.activityCodeName);
                     $(lastRow).find("td.activity-budget").text(activity.amount);
-                });
+                });*/
+                $scope.programActivities = data.results;
             });
 
 
@@ -157,7 +162,7 @@ angular.module("budgetfyApp", ["selectize"])
         };
 
         this.getAllPrograms = function(){
-            return $http.get("/program/findAll").then(function successCallback(response){
+            return $http.get("/program/findAllSort").then(function successCallback(response){
                 return response.data;
             }, function errorCallback(response){
 
