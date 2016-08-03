@@ -99,6 +99,8 @@
                         <li class="tabs-title"><a class="button" href="#budget"><strong><i class="fa fa-calendar" aria-hidden="true"></i> Budget</strong></a></li>
                         <li class="tabs-title"><a class="button" href="#expense"><strong><i class="fa fa-money" aria-hidden="true"></i> Expense</strong></a></li>
                     </ul>
+                    <label for="return-btn" class="middle"></label>
+                    <a class="button alert return-click middle" id="return-btn"><i class="fa fa-arrow-left" aria-hidden="true"></i> Return</a>
                 </div>
                 <div class="medium-10 columns">
                     <div class="tabs-content vertical" data-tabs-content="program-tabs">
@@ -386,6 +388,11 @@
         $("#add-activity").click(function(){
             $("#activity-form").removeClass("hide");
             $("#activity-form").addClass("callout secondary ease");
+        });
+
+        $("#return-btn").click(function(){
+            $("#home-page").removeClass("hide");
+            $("#view-program").addClass("hide");
         });
 
     </script>
