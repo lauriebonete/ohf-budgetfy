@@ -164,6 +164,25 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
             });
         };
 
+        $scope.addActivityToProgram = function(){
+            var activityType = $("#activity-form .selectize-input div.item").text();
+            var activityId = $("#activity-form .selectize-input div.item").attr("data-value");
+            var activityCodeId = $("#activity-form option:selected").val();
+            var activityCodeDisplay = $("#activity-form option:selected").text();
+            var activityBudget = $("#activity-budget").val();
+
+            var activityObject = {
+                activityTypeId:activityId,
+                activityName:activityType,
+                activityCodeId:activityCodeId,
+                amount: activityBudget,
+                activityCodeName:activityCodeDisplay,
+                program: {id:$scope.selectedProgram.id}
+            };
+
+            activityService.addActivityToProgram(activityObject);
+        };
+
         $scope.addedActivityList = [];
         $scope.addActivity = function(){
             var activityType = $("#program-activity .selectize-input div.item").text();
@@ -236,6 +255,9 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
             }, function errorCallback(response){
 
             });
+        };
+
+        this.addActivityToProgram = function(activity){
         }
     });
 
