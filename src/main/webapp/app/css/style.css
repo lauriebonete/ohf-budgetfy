@@ -71,13 +71,13 @@ body {
 .tabs-title > a:focus, .tabs-title > a[aria-selected='true'] {
   background: #0f598a; } /* from #e6e6e6 to #0f598a 20160709 JCT*/
 
-table.hover tr:hover {
+table.hover tbody tr:hover {
   cursor: pointer;
   background-color:#b7cddb
 }
 
 
-table.hover tr:nth-of-type(even):hover{
+table.hover tbody tr:nth-of-type(even):hover{
   cursor: pointer;
   background-color:#b7cddb
 }

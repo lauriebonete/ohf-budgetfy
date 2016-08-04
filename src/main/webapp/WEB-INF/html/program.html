@@ -4,17 +4,20 @@
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Expense Tracker</title>
 
         <link rel="stylesheet" href="css/foundation.min.css">
         <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="css/font-awesome.min.css">
         <link rel="stylesheet" href="css/motion-ui.min.css">
+        <link rel="stylesheet" href="css/selectize.default.css">
 
         <script src="js/jquery3.min.js"></script>
         <script src="js/angular.js"></script>
         <script src="js/selectize.min.js"></script>
         <script src="js/angular-selectize.js"></script>
         <script src="angular/budgetfy-angular.js"></script>
+        <script src="angular/dirPagination.js"></script>
     </head>
     <body ng-app="budgetfyApp" ng-controller="programController">
         <section id="header">
@@ -68,7 +71,7 @@
                             </tr>
                           </thead>
                           <tbody ng-init="loadPrograms()">
-                            <tr class="row-onclick" ng-repeat="program in programList | filter : programFilter" data-program="{{program.id}}" ng-click="viewProgram(program.id)">
+                            <tr class="row-onclick" dir-paginate="program in programList | filter : programFilter | itemsPerPage: programMaxSize" pagination-id="program-list" data-program="{{program.id}}" ng-click="viewProgram(program.id)">
                                 <td>{{program.programName}}</td>
                                 <td>{{program.displayProgramBudget}}</td>
                                 <td>{{program.displayProgramDuration}}</td>
@@ -78,15 +81,7 @@
                   </div>
               </div>
               <ul class="pagination text-center" role="navigation" aria-label="Pagination">
-                <li class="pagination-previous disabled">Previous</li>
-                <li class="current"><span class="show-for-sr">You're on page</span> 1</li>
-                <li><a href="#" aria-label="Page 2">2</a></li>
-                <li><a href="#" aria-label="Page 3">3</a></li>
-                <li><a href="#" aria-label="Page 4">4</a></li>
-                <li class="ellipsis"></li>
-                <li><a href="#" aria-label="Page 12">12</a></li>
-                <li><a href="#" aria-label="Page 13">13</a></li>
-                <li class="pagination-next"><a href="#" aria-label="Next page">Next</a></li>
+                  <dir-pagination-controls pagination-id="program-list" boundary-links="true"></dir-pagination-controls>
               </ul>
             </div>
               <!-- Program Table List: End -->
@@ -222,7 +217,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="small-6 small-centered columns">
-                                        <a class="button success expanded" id="add-activity-btn" ng-click="addActivity()">Add Activity <i class="fa fa-plus"></i></a>
+                                        <a class="button success expanded" id="add-activity-btn" ng-click="addActivityToProgram()">Add Activity <i class="fa fa-plus"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -238,7 +233,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr ng-repeat="activity in programActivities | filter:programBudgetFilter" data-activity-id="{{activity.id}}">
+                                            <tr dir-paginate="activity in selectedProgram.activities | filter:programBudgetFilter | itemsPerPage: 5" pagination-id="program-activity" data-activity-id="{{activity.id}}">
                                                 <td>{{activity.activityName}}</td>
                                                 <td>{{activity.activityCodeName}}</td>
                                                 <td>{{activity.displayAmount}}</td>
@@ -249,17 +244,10 @@
                                 </div>
                             </div>
                             <ul class="pagination text-center" role="navigation" aria-label="Pagination">
-                                <li class="pagination-previous disabled">Previous</li>
-                                <li class="current"><span class="show-for-sr">You're on page</span> 1</li>
-                                <li><a href="#" aria-label="Page 2">2</a></li>
-                                <li><a href="#" aria-label="Page 3">3</a></li>
-                                <li><a href="#" aria-label="Page 4">4</a></li>
-                                <li class="ellipsis"></li>
-                                <li><a href="#" aria-label="Page 12">12</a></li>
-                                <li><a href="#" aria-label="Page 13">13</a></li>
-                                <li class="pagination-next"><a href="#" aria-label="Next page">Next</a></li>
+                                <dir-pagination-controls pagination-id="program-activity" boundary-links="true"></dir-pagination-controls>
                             </ul>
                         </div>
+
                         <!-- Expense Tab -->
                         <div class="tabs-panel" id="expense">
                             <div class="row">

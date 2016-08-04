@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home - Expense Tracker</title>
+    <title>Expense Tracker</title>
     <link rel="stylesheet" href="/css/foundation.min.css">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/font-awesome.min.css">
@@ -15,6 +15,7 @@
     <script src="/js/selectize.min.js"></script>
     <script src="/js/angular-selectize.js"></script>
     <script src="/angular/budgetfy-angular.js"></script>
+      <script src="/angular/dirPagination.js"></script>
 
   </head>
   <body ng-app="budgetfyApp" ng-controller="programController">
@@ -133,7 +134,15 @@
               </div>
             </div>
             <div id="added-user-access">
-
+                <div class="row" ng-repeat="user in addedUserList">
+                    <div class="small-2 columns"><label class="text-left middle"></label></div>
+                    <div class="small-3 columns"><label class="added-user-username">{{user.userName}}</label></div>
+                    <div class="small-1 columns text-center"><input class="read-program-access" type="checkbox" ng-model="user.readAccess"><label></label></div>
+                    <div class="small-1 columns text-center"><input class="write-program-access" type="checkbox" ng-model="user.writeAccess"><label></label></div>
+                    <div class="small-1 columns text-center"><input class="update-program-access" type="checkbox" ng-model="user.updateAccess"><label></label></div>
+                    <div class="small-1 columns text-center"><input class="delete-program-access" type="checkbox" ng-model="user.deleteAccess"><label></label></div>
+                    <div class="small-1 columns end"><a class="button alert float-right"><i class="fa fa-minus"></i></a></div>
+                </div>
             </div>
             <div class="row">
               <div class="small-2 columns">
@@ -155,7 +164,7 @@
                  <input id="delete-access" type="checkbox"><label for="delete-access"></label>
               </div>
               <div class="small-1 columns end">
-                <a class="button success float-right" id="add-user-template"><i class="fa fa-plus"></i></a>
+                <a class="button success float-right" id="add-user-template" ng-click="addUser()"><i class="fa fa-plus"></i></a>
               </div>
             </div>
             
@@ -231,7 +240,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="activity in addedActivityList">
+                            <tr dir-paginate="activity in addedActivityList | itemsPerPage: 2" pagination-id="added-activity">
                                 <td>{{activity.activityName}}</td>
                                 <td>{{activity.activityCodeName}}</td>
                                 <td>{{activity.amount}}</td>
@@ -242,15 +251,7 @@
               </div>
             </div>
             <ul class="pagination text-center" role="navigation" aria-label="Pagination">
-              <li class="pagination-previous disabled">Previous</li>
-              <li class="current"><span class="show-for-sr">You're on page</span> 1</li>
-              <li><a href="#" aria-label="Page 2">2</a></li>
-              <li><a href="#" aria-label="Page 3">3</a></li>
-              <li><a href="#" aria-label="Page 4">4</a></li>
-              <li class="ellipsis"></li>
-              <li><a href="#" aria-label="Page 12">12</a></li>
-              <li><a href="#" aria-label="Page 13">13</a></li>
-              <li class="pagination-next"><a href="#" aria-label="Next page">Next</a></li>
+                <dir-pagination-controls template-url="/css/dirPagination.tpl.html" pagination-id="added-activity" boundary-links="true"></dir-pagination-controls>
             </ul>
             <!-- Activty Table List: End -->
 
@@ -259,7 +260,7 @@
                 <a class="button alert float-right program-activity-nav-prev">Back</a>        
               </div>
               <div class="small-7 columns end">
-                <a class="button success float-right program-activity-nav-next" id="next-to-summary">Next</a>
+                <a class="button success float-right program-activity-nav-next" id="next-to-summary" ng-click="showSummary()">Next</a>
               </div>
             </div>
           </div>
@@ -279,19 +280,19 @@
                 <tr>
                     <div class="row">
                     <div class="small-6 columns">Program Name</div>
-                    <div class="small-6 columns end"><span id="program-name-summary"></span></div>
+                    <div class="small-6 columns end"><span id="program-name-summary">{{programObject.programName}}</span></div>
                     </div>
                     <div class="row">
                     <div class="small-6 columns">Total Budget</div>
-                    <div class="small-6 columns end"><span id="total-budget-summary"></span></div>
+                    <div class="small-6 columns end"><span id="total-budget-summary">{{programObject.totalBudget}}</span></div>
                     </div>
                     <div class="row">
                     <div class="small-6 columns">Critical Level</div>
-                    <div class="small-6 columns end"><span id="threshold-summary"></span></div>
+                    <div class="small-6 columns end"><span id="threshold-summary">{{programObject.threshold}}</span></div>
                     </div>
                     <div class="row">
                     <div class="small-6 columns">Duration</div>
-                    <div class="small-6 columns end"><span id="duration-summary"></span></div>
+                    <div class="small-6 columns end"><span id="duration-summary">{{programObject.programStart}} to {{programObject.programEnd}}</span></div>
                     </div>
                   </td>  
                 </tr> 
@@ -301,7 +302,14 @@
               <strong>Team Details</strong>
               <table>
                   <tbody id="team-details-summary">
-
+                      <tr ng-repeat="user in addedUserList">
+                          <td>
+                              <div class="row">
+                                  <span class="small-6 columns team-summary-username">{{user.userName}}</span>
+                                  <span class="small-6 columns end team-summary-access">{{user.accessSummary}}</span>
+                              </div>
+                          </td>
+                      </tr>
                   </tbody>
               </table>
             </div>
@@ -353,7 +361,7 @@
     <script type="text/javascript">
         var addedActivityList = null;
         $(document).ready(function(){
-        }).on("click","#next-to-summary",function(){
+        })/*.on("click","#next-to-summary",function(){
             $("#team-details-summary tr").remove();
             var programName = $("#program-name").val();
             var totalBudget = $("#total-budget").val();
@@ -402,7 +410,7 @@
               $(tr).find("span.team-summary-access").text(access);
           });
 
-      }).on("change", "#percentage, #total-budget", function(){
+      })*/.on("change", "#percentage, #total-budget", function(){
         var percentage = $("#percentage").val();
         var totalBudget = $("#total-budget").val().replace(/,/g, '');
         if(percentage!=null && percentage!=undefined && percentage!="" &&
@@ -414,25 +422,6 @@
       }).on("keyup", "#total-budget", function(){
         $(this).val(addThousandsSeparator($(this).val()));
         $(this).trigger("change");
-      }).on("click","#add-user-template",function(){
-          $("#added-user-access").append($("#user-access-template").html());
-          var userTemplate = $("#added-user-access .row").last();
-
-          var row = $(this).parents("div.row");
-
-          var userId = $(row).find("selectize").val();
-          var userName = $(row).find(".selectize-input .item").text();
-          var readAccess = $(row).find("#read-access").is(":checked");
-          var writeAccess = $(row).find("#write-access").is(":checked");
-          var updateAccess = $(row).find("#update-access").is(":checked");
-          var deleteAccess = $(row).find("#delete-access").is(":checked");
-
-            $(userTemplate).attr("data-userId",userId);
-          $(userTemplate).find(".added-user-username").text(userName);
-          $(userTemplate).find(".read-program-access").prop("checked",readAccess);
-          $(userTemplate).find(".write-program-access").prop("checked",writeAccess);
-          $(userTemplate).find(".update-program-access").prop("checked",updateAccess);
-          $(userTemplate).find(".delete-program-access").prop("checked",deleteAccess);
       }).on("click",".program-detail-nav-next",function(){
 
             var isError = evey.validateEvey($("#program-details"));
@@ -487,18 +476,6 @@
                 </div>
             </td>
         </tr>
-      </script>
-
-      <script type="text/html" id="user-access-template">
-          <div class="row">
-              <div class="small-2 columns"><label class="text-left middle"></label></div>
-              <div class="small-3 columns"><label class="added-user-username"></label></div>
-              <div class="small-1 columns text-center"><input class="read-program-access" type="checkbox"><label></label></div>
-              <div class="small-1 columns text-center"><input class="write-program-access" type="checkbox"><label></label></div>
-              <div class="small-1 columns text-center"><input class="update-program-access" type="checkbox"><label></label></div>
-              <div class="small-1 columns text-center"><input class="delete-program-access" type="checkbox"><label></label></div>
-              <div class="small-1 columns end"><a class="button alert float-right"><i class="fa fa-minus"></i></a></div>
-          </div>
       </script>
 
       <script type="text/html" id="added-activity-template">

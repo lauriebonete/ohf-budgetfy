@@ -55,7 +55,7 @@ public abstract class BaseCrudController<T extends BaseEntity> {
 
         _log.error("ERROR LOGGER:", e);
 
-        returnMap.put("status", false);
+        returnMap.put("success", false);
         returnMap.put("message", "Ooopppsie! Something went wrong, but you're still awesome.");
         returnMap.put("error",e.getMessage());
         return returnMap;

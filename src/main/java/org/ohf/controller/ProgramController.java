@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Laurie on 7/2/2016.
@@ -37,7 +39,8 @@ public class ProgramController extends BaseCrudController<Program> {
     private ProgramAccessService programAccessService;
 
     @RequestMapping(value = "/create-program/create", method = RequestMethod.POST, produces = "application/json")
-    public @ResponseBody void createProgram(@RequestBody Program program){
+    public @ResponseBody
+    Map<String,Object> createProgram(@RequestBody Program program){
         get_log().info("CREATE_PROGRAM");
 
         Program saveThisProgram = new Program();
@@ -75,6 +78,10 @@ public class ProgramController extends BaseCrudController<Program> {
                 programAccessService.save(saveThisProgramAccess);
             }
         }
+        Map<String,Object> returnMap = new HashMap<>();
+        returnMap.put("success",true);
+        returnMap.put("program",saveThisProgram);
+        return returnMap;
     }
 
     @RequestMapping(value = "/create-program")

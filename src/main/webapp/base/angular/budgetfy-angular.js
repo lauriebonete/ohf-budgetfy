@@ -1,11 +1,12 @@
 /**
  * Created by Laurie on 7/4/2016.
  */
-angular.module("budgetfyApp", ["selectize"])
-    .config(function ($httpProvider) {
+angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPagination"])
+    .config(function ($httpProvider,paginationTemplateProvider) {
         $httpProvider.defaults.headers.post['Content-Type'] =  "application/json";
+        paginationTemplateProvider.setPath('css/dirPagination.tpl.html');
     })
-    .controller("programController",["$scope","$http","userService","referenceLookUpService","programService","activityService",function($scope, $http,userService,referenceLookUpService,programService,activityService){
+    .controller("programController",["$scope","$http","$filter","userService","referenceLookUpService","programService","activityService",function($scope, $http,$filter,userService,referenceLookUpService,programService,activityService){
         $scope.userSelectizeModel = 0;
         $scope.activityTypeSelectizeModel = 0;
         $scope.userSelectConfig =
@@ -56,13 +57,37 @@ angular.module("budgetfyApp", ["selectize"])
 
         $scope.loadPrograms = function(){
             programService.getAllPrograms().then(function(results){
+                $scope.programMaxSize = results.listSize;
                 $scope.programList = results.results;
             },function(error){
 
             });
         };
 
-        $scope.createProgram = function(){
+        $scope.addedUserList = [];
+        $scope.addUser = function(){
+            var row = $("#add-user-template").parents("div.row");
+
+            var userId = $(row).find("selectize").val();
+            var userName = $(row).find(".selectize-input .item").text();
+            var readAccess = $(row).find("#read-access").is(":checked");
+            var writeAccess = $(row).find("#write-access").is(":checked");
+            var updateAccess = $(row).find("#update-access").is(":checked");
+            var deleteAccess = $(row).find("#delete-access").is(":checked");
+
+            var user = {
+                id:userId,
+                userName:userName,
+                readAccess:readAccess,
+                writeAccess:writeAccess,
+                updateAccess:updateAccess,
+                deleteAccess:deleteAccess,
+                accessSummary:""
+            };
+            $scope.addedUserList.push(user);
+        };
+
+        $scope.showSummary = function(){
             var programName = $("#program-name").val();
             var totalBudget = $("#total-budget").val();
             var percentage = $("#percentage").val();
@@ -71,32 +96,42 @@ angular.module("budgetfyApp", ["selectize"])
             var programEnd = $("#program-end").val();
 
             var userAccessList = [];
-            $.each($("#added-user-access div.row"),function(i,row){
-                var userId = $(row).attr("data-userid");
-
+            $.each($scope.addedUserList, function(i,user){
                 var programAccessSet = [];
-                if($(row).find(".read-program-access").is(":checked")){
+                if(user.readAccess){
                     programAccessSet.push({access:"PROGRAM_READ_ACCESS"});
+                    user.accessSummary += "Read";
                 }
-                if($(row).find(".write-program-access").is(":checked")){
+                if(user.writeAccess){
                     programAccessSet.push({access:"PROGRAM_WRITE_ACCESS"});
+                    if(user.accessSummary!=null && user.accessSummary!="" && user.accessSummary.length>0){
+                        user.accessSummary += ", ";
+                    }
+                    user.accessSummary += "Write";
                 }
-                if($(row).find(".update-program-access").is(":checked")){
+                if(user.updateAccess){
                     programAccessSet.push({access:"PROGRAM_UPDATE_ACCESS"});
+                    if(user.accessSummary!=null && user.accessSummary!="" && user.accessSummary.length>0){
+                        user.accessSummary += ", ";
+                    }
+                    user.accessSummary += "Update";
                 }
-                if($(row).find(".delete-program-access").is(":checked")){
+                if(user.deleteAccess){
                     programAccessSet.push({access:"PROGRAM_DELETE_ACCESS"});
+                    if(user.accessSummary!=null && user.accessSummary!="" && user.accessSummary.length>0){
+                        user.accessSummary += ", ";
+                    }
+                    user.accessSummary += "Delete";
                 }
-
                 var userAccess = {
-                    userId:userId,
+                    userId:user.id,
                     programAccessSet: programAccessSet
                 };
 
                 userAccessList.push(userAccess);
             });
 
-            var programObject = {
+            $scope.programObject = {
                 programName:programName,
                 totalBudget:Number(totalBudget.replace(/,/g, '')),
                 percentage:Number(percentage),
@@ -106,16 +141,28 @@ angular.module("budgetfyApp", ["selectize"])
                 activities: $scope.addedActivityList,
                 userAccessList:userAccessList
             };
+        };
 
-            console.log(programObject);
-            programService.createNewProgram(programObject);
+        $scope.createProgram = function(){
+            programService.createNewProgram($scope.programObject).then(function(results){
+                if(results!=null && results){
+                    $scope.programObject = null;
+                    $scope.addedActivityList = [];
+                    $scope.addedUserList = [];
+                    window.location = evey.getHome()+"/program";
+                }
+            },function(error){
+
+            });
         };
 
         $scope.viewProgram = function(programId){
+            var found = $filter('filter')($scope.programList, {id: programId}, true);
+            $scope.selectedProgram = found;
             activityService.getProgramActivities(programId).then(function(data){
-                $scope.programActivities = data.results;
+                $scope.selectedProgram.activities = data.results;
             });
-        }
+        };
 
         $scope.addedActivityList = [];
         $scope.addActivity = function(){
@@ -133,8 +180,8 @@ angular.module("budgetfyApp", ["selectize"])
                 activityCodeName:activityCodeDisplay
             };
 
-            $scope.addedActivityList.push(activityObject);
-        }
+            $scope.addedActivityList.unshift(activityObject);
+        };
 
     }])
     .service("userService", function($http){
@@ -157,9 +204,13 @@ angular.module("budgetfyApp", ["selectize"])
     })
     .service("programService",function($http){
         this.createNewProgram = function(program){
-            $http.post("/program/create-program/create",program)
+            return $http.post("/program/create-program/create",program)
                 .then(function(response){
-                    /*window.location = evey.getHome()+"/program"*/
+                    if(response.data.success){
+                        return true;
+                    } else {
+                        console.log("error");
+                    }
                 }, function(error) {
                     console.log(error);
                 });
