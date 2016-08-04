@@ -158,7 +158,10 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
 
         $scope.viewProgram = function(programId){
             var found = $filter('filter')($scope.programList, {id: programId}, true);
-            $scope.selectedProgram = found;
+            if(found.length>0){
+                $scope.selectedProgram = found[0];
+            }
+
             activityService.getProgramActivities(programId).then(function(data){
                 $scope.selectedProgram.activities = data.results;
             });
@@ -179,8 +182,9 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
                 activityCodeName:activityCodeDisplay,
                 program: {id:$scope.selectedProgram.id}
             };
-
-            activityService.addActivityToProgram(activityObject);
+            activityService.addActivityToProgram(activityObject).then(function(data){
+                $scope.selectedProgram.activities.unshift(data.data.result);
+            });
         };
 
         $scope.addedActivityList = [];
@@ -258,6 +262,11 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
         };
 
         this.addActivityToProgram = function(activity){
+            return $http.post("/activity", activity).then(function successCallback(response){
+                return response;
+            }, function errorCallback(response){
+
+            });
         }
     });
 
