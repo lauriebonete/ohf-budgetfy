@@ -149,7 +149,7 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
                     $scope.programObject = null;
                     $scope.addedActivityList = [];
                     $scope.addedUserList = [];
-                    window.location = evey.getHome()+"/program";
+                    window.location = evey.getHome()+"/budgetfy/program";
                 }
             },function(error){
 
