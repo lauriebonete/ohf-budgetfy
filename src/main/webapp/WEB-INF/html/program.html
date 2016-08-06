@@ -143,7 +143,7 @@
                                         <label class="text-right middle"></label>
                                     </div>
                                     <div class="small-4 columns end" id="pie-canvas" style="width:50%">
-                                        <canvas id="pie-chart"/>
+                                        <canvas id="pie-chart"></canvas>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -154,7 +154,7 @@
                                         <label class="text-right middle"></label>
                                     </div>
                                     <div class="small-5 columns end" id="bar-canvas" style="width:75%">
-                                        <canvas id="bar-chart"/>
+                                        <canvas id="bar-chart"></canvas>
                                     </div>
                                 </div>
                             </form>
@@ -296,46 +296,109 @@
 
                         <!-- Expense Tab -->
                         <div class="tabs-panel" id="expense">
-                            <div class="row">
-                                <div class="small-5 columns">
-                                </div>
-                                <div class="small-5 columns text-right">
-                                    <div class="input-group">
-                                        <input class="input-group-field" type="text">
-                                        <div class="input-group-button">
-                                            <input type="submit" class="button" value="Search">
+                            <div class="row" id="expense-table">
+                                <div class="row">
+                                    <div class="small-5 columns">
+                                    </div>
+                                    <div class="small-5 columns text-right">
+                                        <div class="input-group">
+                                            <input class="input-group-field" type="text">
+                                            <div class="input-group-button">
+                                                <input type="submit" class="button" value="Search">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="small-12 columns">
-                                    <table class="hover">
-                                        <thead>
-                                            <tr>
-                                                <th>Budget Name</th>
-                                                <th>Type</th>
-                                                <th>Total Expense</th>
-                                                <th>Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-
-                                        </tbody>
-                                    </table>
+                                <div class="row">
+                                    <div class="small-12 columns">
+                                        <table class="hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Activity Name</th>
+                                                    <th>Type</th>
+                                                    <th>Total Expense</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr id="particulars-row">
+                                                    <td>Test1</td>
+                                                    <td>Test2</td>
+                                                    <td>Test3</td>
+                                                    <td>Test4</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
+                                <ul class="pagination text-center" role="navigation" aria-label="Pagination">
+                                    <li class="pagination-previous disabled">Previous</li>
+                                    <li class="current"><span class="show-for-sr">You're on page</span> 1</li>
+                                    <li><a href="#" aria-label="Page 2">2</a></li>
+                                    <li><a href="#" aria-label="Page 3">3</a></li>
+                                    <li><a href="#" aria-label="Page 4">4</a></li>
+                                    <li class="ellipsis"></li>
+                                    <li><a href="#" aria-label="Page 12">12</a></li>
+                                    <li><a href="#" aria-label="Page 13">13</a></li>
+                                    <li class="pagination-next"><a href="#" aria-label="Next page">Next</a></li>
+                                </ul>
                             </div>
-                            <ul class="pagination text-center" role="navigation" aria-label="Pagination">
-                                <li class="pagination-previous disabled">Previous</li>
-                                <li class="current"><span class="show-for-sr">You're on page</span> 1</li>
-                                <li><a href="#" aria-label="Page 2">2</a></li>
-                                <li><a href="#" aria-label="Page 3">3</a></li>
-                                <li><a href="#" aria-label="Page 4">4</a></li>
-                                <li class="ellipsis"></li>
-                                <li><a href="#" aria-label="Page 12">12</a></li>
-                                <li><a href="#" aria-label="Page 13">13</a></li>
-                                <li class="pagination-next"><a href="#" aria-label="Next page">Next</a></li>
-                            </ul>
+                            <div class="row collapse hide" id="particulars-table">
+                                <div class="row">
+                                    <div class="small-3 columns">
+                                        <a class="button alert" id="return-expense"><strong><i class="fa fa-angle-left" aria-hidden="true"></i></strong></a>
+                                    </div>
+                                    <div class="small-2 columns">
+                                    </div>
+                                    <div class="small-5 columns text-right">
+                                        <div class="input-group">
+                                            <input class="input-group-field" type="text">
+                                            <div class="input-group-button">
+                                                <input type="submit" class="button" value="Search">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row collapse">
+                                    <div class="small-12 columns">
+                                        <table class="hover">
+                                            <thead>
+                                            <tr>
+                                                <th>Particular Name</th>
+                                                <th>Program</th>
+                                                <th>Budget</th>
+                                                <th>CV#</th>
+                                                <th>Check/Ref#</th>
+                                                <th>Expense</th>
+                                                <th>Receipt</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Transportation Expense</td>
+                                                    <td>CYP</td>
+                                                    <td>Transportation</td>
+                                                    <td>001</td>
+                                                    <td>001</td>
+                                                    <td>10,000.00PHP</td>
+                                                    <td><a class="button success">View</a></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <ul class="pagination text-center" role="navigation" aria-label="Pagination">
+                                    <li class="pagination-previous disabled">Previous</li>
+                                    <li class="current"><span class="show-for-sr">You're on page</span> 1</li>
+                                    <li><a href="#" aria-label="Page 2">2</a></li>
+                                    <li><a href="#" aria-label="Page 3">3</a></li>
+                                    <li><a href="#" aria-label="Page 4">4</a></li>
+                                    <li class="ellipsis"></li>
+                                    <li><a href="#" aria-label="Page 12">12</a></li>
+                                    <li><a href="#" aria-label="Page 13">13</a></li>
+                                    <li class="pagination-next"><a href="#" aria-label="Next page">Next</a></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -422,6 +485,16 @@
         $("#return-btn").click(function(){
             $("#home-page").removeClass("hide");
             $("#view-program").addClass("hide");
+        });
+
+        $("#particulars-row").click(function(){
+            $("#particulars-table").removeClass("hide");
+            $("#expense-table").addClass("hide");
+        });
+
+        $("#return-expense").click(function(){
+            $("#particulars-table").addClass("hide");
+            $("#expense-table").removeClass("hide");
         });
 
     </script>
