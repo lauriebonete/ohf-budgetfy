@@ -5,17 +5,17 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Expense Tracker</title>
-    <link rel="stylesheet" href="/css/foundation.min.css">
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/css/selectize.default.css">
+    <link rel="stylesheet" href="../css/foundation.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/selectize.default.css">
 
-    <script src="/js/jquery3.min.js"></script>
-    <script src="/js/angular.js"></script>
-    <script src="/js/selectize.min.js"></script>
-    <script src="/js/angular-selectize.js"></script>
-    <script src="/angular/budgetfy-angular.js"></script>
-      <script src="/angular/dirPagination.js"></script>
+    <script src="../js/jquery3.min.js"></script>
+    <script src="../js/angular.js"></script>
+    <script src="../js/selectize.min.js"></script>
+    <script src="../js/angular-selectize.js"></script>
+    <script src="../angular/budgetfy-angular.js"></script>
+      <script src="../angular/dirPagination.js"></script>
 
   </head>
   <body ng-app="budgetfyApp" ng-controller="programController">
@@ -23,7 +23,7 @@
     <section id="header">
       <div class="row">
         <div class="small-6 columns text-left">
-          <a class="button" href="/program">Programs</a>
+          <a class="button" href="/budgetfy/program">Programs</a>
           <a class="button">Expense</a>
           <a class="button">Reports</a>
         </div>
@@ -353,64 +353,15 @@
     </section>
   </body>
   <footer>
-      <script src="/js/vendor/what-input.js"></script>
-      <script src="/js/vendor/foundation.min.js"></script>
-      <script src="/js/ohf-budgetfy-js.js"></script>
-      <script src="/js/evey-1.0.js"></script>
+      <script src="../js/vendor/what-input.js"></script>
+      <script src="../js/vendor/foundation.min.js"></script>
+      <script src="../js/ohf-budgetfy-js.js"></script>
+      <script src="../js/evey-1.0.js"></script>
 
     <script type="text/javascript">
         var addedActivityList = null;
         $(document).ready(function(){
-        })/*.on("click","#next-to-summary",function(){
-            $("#team-details-summary tr").remove();
-            var programName = $("#program-name").val();
-            var totalBudget = $("#total-budget").val();
-            var threshold = $("#threshold").val();
-            var programStart = $("#program-start").val();
-            var programEnd = $("#program-end").val();
-
-            $("#program-name-summary").text(programName);
-            $("#total-budget-summary").text(totalBudget +" PHP");
-            $("#threshold-summary").text(threshold + " PHP");
-            $("#duration-summary").text(programStart + " to " + programEnd);
-
-          $.each($("#added-user-access .row"),function(i, row){
-              $("#team-details-summary").append($("#team-row-template").html());
-              var tr = $("#team-details-summary tr").last();
-
-              $(tr).find("span.team-summary-username").attr("data-userid",$(row).find(".added-user-username").attr("data-userid"));
-              $(tr).find("span.team-summary-username").text($(row).find(".added-user-username").text());
-
-              var access = "";
-              if($(row).find(".read-program-access").is(":checked")){
-                  if(access.length>0){
-                      access+=", ";
-                  }
-                  access += "Read";
-              }
-              if($(row).find(".write-program-access").is(":checked")){
-                  if(access.length>0){
-                      access+=", ";
-                  }
-                  access += "Write";
-              }
-              if($(row).find(".update-program-access").is(":checked")){
-                  if(access.length>0){
-                      access+=", ";
-                  }
-                  access += "Update";
-              }
-              if($(row).find(".delete-program-access").is(":checked")){
-                  if(access.length>0){
-                      access+=", ";
-                  }
-                  access += "Delete";
-              }
-
-              $(tr).find("span.team-summary-access").text(access);
-          });
-
-      })*/.on("change", "#percentage, #total-budget", function(){
+        }).on("change", "#percentage, #total-budget", function(){
         var percentage = $("#percentage").val();
         var totalBudget = $("#total-budget").val().replace(/,/g, '');
         if(percentage!=null && percentage!=undefined && percentage!="" &&
@@ -447,44 +398,5 @@
         );
       }
     </script>
-
-      <script type="text/html" id="team-row-template">
-          <tr>
-              <td>
-                  <div class="row">
-                      <span class="small-6 columns team-summary-username"></span>
-                      <span class="small-6 columns end team-summary-access"></span>
-                  </div>
-              </td>
-          </tr>
-      </script>
-
-      <script type="text/html" id="activity-row-template">
-        <tr>
-            <td>
-                <div class="row">
-                    <div class="small-6 columns">Activity Name</div>
-                    <div class="small-6 columns end"><span class="activity-name-summary"></span></div>
-                </div>
-                <div class="row">
-                    <div class="small-6 columns">Total Budget</div>
-                    <div class="small-6 columns end"><span class="activity-budget-summary"></span></div>
-                </div>
-                <div class="row">
-                    <div class="small-6 columns">Type</div>
-                    <div class="small-6 columns end"><span class="activity-type-summary"></span></div>
-                </div>
-            </td>
-        </tr>
-      </script>
-
-      <script type="text/html" id="added-activity-template">
-          <tr>
-              <td class="activity-name-table"></td>
-              <td class="activity-type-table"></td>
-              <td class="activity-budget-table"></td>
-              <td><a class="button alert"><i class="fa fa-minus"></i></a></td>
-          </tr>
-      </script>
   </footer>
 </html>

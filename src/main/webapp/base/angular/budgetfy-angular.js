@@ -167,6 +167,14 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
             });
         };
 
+        $scope.selectActivityProgram = function(activityId){
+            var found = $filter('filter')($scope.selectedProgram.activities, {id: activityId}, true);
+            if(found.length>0){
+                $scope.selectedActivity = found[0];
+                console.log($scope.selectedActivity);
+            }
+        };
+
         $scope.addActivityToProgram = function(){
             var activityType = $("#activity-form .selectize-input div.item").text();
             var activityId = $("#activity-form .selectize-input div.item").attr("data-value");
@@ -209,7 +217,7 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
     }])
     .service("userService", function($http){
         this.getAllUsers = function(){
-            return $http.get("/user/findAll").then(function successCallback(response){
+            return $http.get("/budgetfy/user/findAll").then(function successCallback(response){
                 return response.data.results;
             }, function errorCallback(response){
 
@@ -218,7 +226,7 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
     })
     .service("referenceLookUpService",function($http){
         this.getReferenceLookUpByCategory = function(categoryName){
-            return $http.get("/reference/getReferenceLookUpByCategory/"+categoryName).then(function successCallback(response){
+            return $http.get("/budgetfy/reference/getReferenceLookUpByCategory/"+categoryName).then(function successCallback(response){
                 return response.data;
             }, function errorCallback(response){
 
@@ -227,7 +235,7 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
     })
     .service("programService",function($http){
         this.createNewProgram = function(program){
-            return $http.post("/program/create-program/create",program)
+            return $http.post("/budgetfy/program/create-program/create",program)
                 .then(function(response){
                     if(response.data.success){
                         return true;
@@ -240,7 +248,7 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
         };
 
         this.getAllPrograms = function(){
-            return $http.get("/program/findAllSort").then(function successCallback(response){
+            return $http.get("/budgetfy/program/findAllSort").then(function successCallback(response){
                 return response.data;
             }, function errorCallback(response){
 
@@ -254,7 +262,7 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
                 programId : programId
             };
 
-            return $http.post("/activity/findEntity", activity).then(function successCallback(response){
+            return $http.post("/budgetfy/activity/findEntity", activity).then(function successCallback(response){
                 return response.data;
             }, function errorCallback(response){
 
@@ -262,7 +270,7 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
         };
 
         this.addActivityToProgram = function(activity){
-            return $http.post("/activity", activity).then(function successCallback(response){
+            return $http.post("/budgetfy/activity", activity).then(function successCallback(response){
                 return response;
             }, function errorCallback(response){
 
