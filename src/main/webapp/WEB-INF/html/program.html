@@ -174,7 +174,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div data-toggler data-animate="slide-in-down slide-out-up" class="row callout secondary ease" id="activity-form">
+                            <div data-toggler data-animate="slide-in-down slide-out-up" class="row callout secondary ease" id="activity-form" style="display: none">
                                 <div class="row">
                                     <div class="small-12 columns end">
                                         <h5 class="text-left"><strong>Manage Activities</strong></h5>
@@ -221,7 +221,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div data-toggler data-animate="slide-in-down slide-out-up" class="row callout secondary ease" id="update-activity-form">
+                            <div data-toggler data-animate="slide-in-down slide-out-up" class="row callout secondary ease" id="update-activity-form" style="display: none">
                                 <div class="row">
                                     <div class="small-12 columns end">
                                         <h5 class="text-left"><strong>Manage Activities</strong></h5>
@@ -255,15 +255,15 @@
                                         <label class="middle"></label>
                                     </div>
                                     <div class="small-2 columns text-right">
-                                        <label for="remaining-budget" class="middle">Remaining Budget</label>
+                                        <label for="update-remaining-budget" class="middle">Remaining Budget</label>
                                     </div>
                                     <div class="small-2 columns text-right end">
-                                        <input type="number" id="remaining-budget" disabled>
+                                        <input type="number" id="update-remaining-budget" disabled>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="small-6 small-centered columns">
-                                        <a class="button success expanded" id="add-activity-btn" ng-click="addActivityToProgram()">Add Activity <i class="fa fa-plus"></i></a>
+                                        <a class="button success expanded" id="update-activity-btn" ng-click="addActivityToProgram()">Update Activity <i class="fa fa-plus"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -283,6 +283,14 @@
                                                 <td>{{activity.activityName}}</td>
                                                 <td>{{activity.activityCodeName}}</td>
                                                 <td>{{activity.displayAmount}}</td>
+                                                <td><a class="button alert"><i class="fa fa-minus"></i></a></td>
+                                            </tr>
+                                        </tbody>
+                                        <tbody>
+                                            <tr data-toggle="update-activity-form">
+                                                <td>Test1</td>
+                                                <td>Test2</td>
+                                                <td>Test3</td>
                                                 <td><a class="button alert"><i class="fa fa-minus"></i></a></td>
                                             </tr>
                                         </tbody>
