@@ -171,8 +171,13 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
             var found = $filter('filter')($scope.selectedProgram.activities, {id: activityId}, true);
             if(found.length>0){
                 $scope.selectedActivity = found[0];
-                console.log($scope.selectedActivity);
             }
+        };
+
+        $scope.updateActivity = function(){
+            $scope.selectedActivity.activityType = {id:$scope.selectedActivity.activityTypeId};
+            /*$scope.selectedActivity.activityCode = {id:$scope.se}*/
+            console.log($scope.selectedActivity);
         };
 
         $scope.addActivityToProgram = function(){
@@ -184,8 +189,10 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
 
             var activityObject = {
                 activityTypeId:activityId,
+                activityType : {id:activityId},
                 activityName:activityType,
                 activityCodeId:activityCodeId,
+                activityCode:{id:activityCodeId},
                 amount: activityBudget,
                 activityCodeName:activityCodeDisplay,
                 program: {id:$scope.selectedProgram.id}
