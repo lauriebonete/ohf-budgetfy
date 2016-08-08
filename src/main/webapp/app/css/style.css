@@ -76,8 +76,13 @@ table.hover tbody tr:hover {
   background-color:#b7cddb
 }
 
-
 table.hover tbody tr:nth-of-type(even):hover{
   cursor: pointer;
   background-color:#b7cddb
+}
+
+#site-content {
+  overflow-y:scroll;
+  overflow-x:hidden;
+  height:560px;
 }
