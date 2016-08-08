@@ -255,15 +255,15 @@
                                         <label class="middle"></label>
                                     </div>
                                     <div class="small-2 columns text-right">
-                                        <label for="update-remaining-budget" class="middle">Remaining Budget</label>
+                                        <label class="middle">Remaining Budget</label>
                                     </div>
                                     <div class="small-2 columns text-right end">
-                                        <input type="number" id="update-remaining-budget" disabled>
+                                        <input type="number" disabled>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="small-6 small-centered columns">
-                                        <a class="button success expanded" id="update-activity-btn" ng-click="addActivityToProgram()">Update Activity <i class="fa fa-plus"></i></a>
+                                        <a class="button success expanded" ng-click="updateActivity()">Update Activity <i class="fa fa-pencil"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -283,14 +283,6 @@
                                                 <td>{{activity.activityName}}</td>
                                                 <td>{{activity.activityCodeName}}</td>
                                                 <td>{{activity.displayAmount}}</td>
-                                                <td><a class="button alert"><i class="fa fa-minus"></i></a></td>
-                                            </tr>
-                                        </tbody>
-                                        <tbody>
-                                            <tr data-toggle="update-activity-form">
-                                                <td>Test1</td>
-                                                <td>Test2</td>
-                                                <td>Test3</td>
                                                 <td><a class="button alert"><i class="fa fa-minus"></i></a></td>
                                             </tr>
                                         </tbody>
