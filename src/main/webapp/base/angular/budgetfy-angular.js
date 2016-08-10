@@ -175,9 +175,29 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
         };
 
         $scope.updateActivity = function(){
+            var foundType = $scope.activityTypeList.filter(function(type){
+               return (type.id == $scope.selectedActivity.activityTypeId);
+            });
+            var foundCode = $scope.activityCodeList.filter(function(code){
+                return (code.id == $scope.selectedActivity.activityCodeId);
+            });
+            if(foundCode.length>0){
+                $scope.selectedActivity.activityCodeName = foundCode[0].value;
+            }
+            if(foundType.length>0){
+                $scope.selectedActivity.activityName = foundType[0].value;
+            }
+
             $scope.selectedActivity.activityType = {id:$scope.selectedActivity.activityTypeId};
-            /*$scope.selectedActivity.activityCode = {id:$scope.se}*/
-            console.log($scope.selectedActivity);
+            $scope.selectedActivity.activityCode = {id:$scope.selectedActivity.activityCodeId};
+            $scope.selectedActivity.program = {id:$scope.selectedActivity.programId};
+            activityService.addUpdateActivity($scope.selectedActivity).then(function(data){
+                $scope.selectedProgram.activities.filter(function(activity){
+                    if(activity.id==data.data.result.id){
+                        activity == data.data.result;
+                    }
+                });
+            });
         };
 
         $scope.addActivityToProgram = function(){
@@ -197,7 +217,7 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
                 activityCodeName:activityCodeDisplay,
                 program: {id:$scope.selectedProgram.id}
             };
-            activityService.addActivityToProgram(activityObject).then(function(data){
+            activityService.addUpdateActivity(activityObject).then(function(data){
                 $scope.selectedProgram.activities.unshift(data.data.result);
             });
         };
@@ -276,7 +296,7 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
             });
         };
 
-        this.addActivityToProgram = function(activity){
+        this.addUpdateActivity = function(activity){
             return $http.post("/budgetfy/activity", activity).then(function successCallback(response){
                 return response;
             }, function errorCallback(response){

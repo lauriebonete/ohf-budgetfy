@@ -279,7 +279,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr dir-paginate="activity in selectedProgram.activities | filter:programBudgetFilter | itemsPerPage: 5" pagination-id="program-activity" data-activity-id="{{activity.id}}" ng-click="selectActivityProgram(activity.id)">
+                                            <tr data-toggle="update-activity-form" dir-paginate="activity in selectedProgram.activities | filter:programBudgetFilter | itemsPerPage: 5" pagination-id="program-activity" data-activity-id="{{activity.id}}" ng-click="selectActivityProgram(activity.id)">
                                                 <td>{{activity.activityName}}</td>
                                                 <td>{{activity.activityCodeName}}</td>
                                                 <td>{{activity.displayAmount}}</td>
