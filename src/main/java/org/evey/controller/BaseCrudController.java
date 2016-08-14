@@ -232,4 +232,5 @@ public abstract class BaseCrudController<T extends BaseEntity> {
     public static Logger get_log() {
         return _log;
     }
+
 }

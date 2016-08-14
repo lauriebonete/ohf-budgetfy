@@ -19,7 +19,7 @@
         <script src="angular/budgetfy-angular.js"></script>
         <script src="angular/dirPagination.js"></script>
     </head>
-    <body ng-app="budgetfyApp" ng-controller="programController">
+    <body ng-app="budgetfyApp">
         <section id="header">
             <div class="row">
                 <div class="small-6 columns text-left">
@@ -35,7 +35,7 @@
             </div>
         </section>
 
-        <section id="site-content">
+        <section id="site-content" ng-controller="voucherController">
             <div id="expense-main">
                 <div class="row">
                     <div class="small-5 columns text-left">
@@ -43,7 +43,7 @@
                     </div>
                     <div class="small-5 columns text-right">
                         <div class="input-group">
-                            <input class="input-group-field" type="text" ng-model="programFilter">
+                            <input class="input-group-field" type="text" ng-model="voucherFilter">
                             <div class="input-group-button">
                                 <input type="submit" class="button" value="Search">
                             </div>
@@ -58,31 +58,34 @@
                     </div>
                 </div>
 
-
-              <!-- Expense Table List: Start -->
-              <div class="row">
-                  <div class="small-12 columns">
-                      <table id="programs-result" class="hover">
-                          <thead>
+                <!-- Expense Table List: Start -->
+                <div class="row">
+                    <div class="small-12 columns">
+                        <table id="voucher-result" class="hover">
+                            <thead>
                             <tr>
-                                <th>Activity Name</th>
-                                <th>Type</th>
-                                <th>Total Expense</th>
+                                <th>Voucher Number</th>
+                                <th>Check Reference</th>
+                                <th>Payee</th>
+                                <th>Date</th>
+                                <th>Total Amount</th>
                             </tr>
-                          </thead>
-                          <tbody ng-init="loadPrograms()">
-                            <tr class="row-onclick">
-                                <td>Expense1</td>
-                                <td>Expense Type</td>
-                                <td>1,000.00PHP</td>
+                            </thead>
+                            <tbody ng-init="loadVoucher()">
+                            <tr class="row-onclick"  dir-paginate="voucher in voucherList | filter : voucherFilter | itemsPerPage: voucherMaxSize" pagination-id="voucher-list" data-program="{{voucher.id}}" ng-click="viewVoucher(voucher.id)">
+                                <td>{{voucher.vcNumber}}</td>
+                                <td>{{voucher.reference}}</td>
+                                <td>{{voucher.payee}}</td>
+                                <td>{{voucher.date}}</td>
+                                <td>{{voucher.totalAmount}}</td>
                             </tr>
-                          </tbody>
-                      </table>
-                  </div>
-              </div>
-              <ul class="pagination text-center" role="navigation" aria-label="Pagination">
-                  <dir-pagination-controls pagination-id="program-list" boundary-links="true"></dir-pagination-controls>
-              </ul>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <ul class="pagination text-center" role="navigation" aria-label="Pagination">
+                    <dir-pagination-controls pagination-id="voucher-list" boundary-links="true"></dir-pagination-controls>
+                </ul>
             </div>
             <!-- Expense Table List: End -->
             <!-- Add Expense-->

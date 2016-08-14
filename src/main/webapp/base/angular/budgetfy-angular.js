@@ -6,6 +6,16 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
         $httpProvider.defaults.headers.post['Content-Type'] =  "application/json";
         paginationTemplateProvider.setPath('css/dirPagination.tpl.html');
     })
+    .controller("voucherController", ["$scope","$http","voucherService",function($scope,$http,voucherService){
+        $scope.loadVoucher = function(){
+            voucherService.getAllVouchers().then(function(results){
+                $scope.voucherMaxSize = results.listSize;
+                $scope.voucherList = results.results;
+            },function(error){
+
+            });
+        };
+    }])
     .controller("programController",["$scope","$http","$filter","userService","referenceLookUpService","programService","activityService",function($scope, $http,$filter,userService,referenceLookUpService,programService,activityService){
         $scope.userSelectizeModel = 0;
         $scope.activityTypeSelectizeModel = 0;
@@ -175,9 +185,29 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
         };
 
         $scope.updateActivity = function(){
+            var foundType = $scope.activityTypeList.filter(function(type){
+               return (type.id == $scope.selectedActivity.activityTypeId);
+            });
+            var foundCode = $scope.activityCodeList.filter(function(code){
+                return (code.id == $scope.selectedActivity.activityCodeId);
+            });
+            if(foundCode.length>0){
+                $scope.selectedActivity.activityCodeName = foundCode[0].value;
+            }
+            if(foundType.length>0){
+                $scope.selectedActivity.activityName = foundType[0].value;
+            }
+
             $scope.selectedActivity.activityType = {id:$scope.selectedActivity.activityTypeId};
-            /*$scope.selectedActivity.activityCode = {id:$scope.se}*/
-            console.log($scope.selectedActivity);
+            $scope.selectedActivity.activityCode = {id:$scope.selectedActivity.activityCodeId};
+            $scope.selectedActivity.program = {id:$scope.selectedActivity.programId};
+            activityService.addUpdateActivity($scope.selectedActivity).then(function(data){
+                $scope.selectedProgram.activities.filter(function(activity){
+                    if(activity.id==data.data.result.id){
+                        activity == data.data.result;
+                    }
+                });
+            });
         };
 
         $scope.addActivityToProgram = function(){
@@ -197,7 +227,7 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
                 activityCodeName:activityCodeDisplay,
                 program: {id:$scope.selectedProgram.id}
             };
-            activityService.addActivityToProgram(activityObject).then(function(data){
+            activityService.addUpdateActivity(activityObject).then(function(data){
                 $scope.selectedProgram.activities.unshift(data.data.result);
             });
         };
@@ -262,6 +292,15 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
             });
         };
     })
+    .service("voucherService",function($http){
+        this.getAllVouchers = function(){
+            return $http.get("/budgetfy/expense/findAllSort").then(function successCallback(response){
+                return response.data;
+            }, function errorCallback(response){
+
+            });
+        }
+    })
     .service("activityService",function($http){
         this.getProgramActivities = function(programId){
 
@@ -276,7 +315,7 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
             });
         };
 
-        this.addActivityToProgram = function(activity){
+        this.addUpdateActivity = function(activity){
             return $http.post("/budgetfy/activity", activity).then(function successCallback(response){
                 return response;
             }, function errorCallback(response){
