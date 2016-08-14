@@ -16,24 +16,41 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
             });
         };
 
+        $scope.viewVoucher = function(voucherId){
+            var temp = voucherService.findVoucherInList($scope.voucherList,voucherId);
+            temp.date = new Date(temp.date);
+            $scope.selectedVoucher = temp;
+            console.log($scope.selectedVoucher);
+        };
+
         $scope.prepareNewVoucher = function(){
+            $scope.createVoucher.particulars = $scope.newParticularList;
             console.log($scope.createVoucher);
+            voucherService.saveVoucher($scope.createVoucher);
         };
 
         $scope.newParticularList = [];
         $scope.addNewParticular =function(){
             var fileId = $("#dropZone .dz-preview").attr("data-file");
+
+            var program = programService.findProgramInList($scope.programList,$scope.addParticular.addParticularProgramModel);
+            var activity = activityService.findActivityInList($scope.programActivities,$scope.addParticular.addParticularActivityModel);
+
             var particular = {
                 "description": $scope.addParticular.description,
                 "expense": $scope.addParticular.expense,
-                "activity": {id:$scope.addParticular.addParticularActivityModel},
-                "program": {id:$scope.addParticular.addParticularProgramModel},
-                "receipt": {id:fileId}
+                "activity": activity,
+                "program": program
             };
 
-            $scope.newParticularList.push(particular);
-            console.log($scope.newParticularList);
+            if(fileId!="" &&
+                fileId!=null &&
+                fileId!=undefined){
+                particular.receipt = {"id":fileId}
+            }
+            console.log(fileId,particular);
 
+            $scope.newParticularList.push(particular);
         };
 
         $scope.programConfig =
@@ -347,6 +364,16 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
                 });
         };
 
+        this.findProgramInList = function(programList, id){
+            var foundProgram = programList.filter(function(program){
+                return (program.id == id);
+            });
+            if(foundProgram.length>0){
+                return foundProgram[0];
+            }
+            return null;
+        };
+
         this.getAllPrograms = function(){
             return $http.get("/budgetfy/program/findAllSort").then(function successCallback(response){
                 return response.data;
@@ -362,7 +389,30 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
             }, function errorCallback(response){
 
             });
-        }
+        };
+
+        this.findVoucherInList = function(voucherList,id){
+            var foundVoucher = voucherList.filter(function(voucher){
+                return (voucher.id == id);
+            });
+            if(foundVoucher.length>0){
+                return foundVoucher[0];
+            }
+            return null;
+        };
+
+        this.saveVoucher = function(voucher){
+            return $http.post("/budgetfy/expense/",voucher)
+                .then(function(response){
+                    if(response.data.success){
+                        return true;
+                    } else {
+                        console.log("error");
+                    }
+                }, function(error) {
+                    console.log(error);
+                });
+        };
     })
     .service("activityService",function($http){
         this.getProgramActivities = function(programId){
@@ -376,6 +426,16 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
             }, function errorCallback(response){
 
             });
+        };
+
+        this.findActivityInList = function(activityList, id){
+            var foundActivity = activityList.filter(function(activity){
+                return (activity.id == id);
+            });
+            if(foundActivity.length>0){
+                return foundActivity[0];
+            }
+            return null;
         };
 
         this.addUpdateActivity = function(activity){

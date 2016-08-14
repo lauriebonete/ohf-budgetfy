@@ -168,5 +168,9 @@ public class BaseEntity implements Serializable{
 	}
 
 	@PrePersist
-	protected void prePersist(){}
+	protected void prePersist(){
+		if(this.isActive==null){
+			this.isActive = true;
+		}
+	}
 }

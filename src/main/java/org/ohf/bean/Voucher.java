@@ -1,5 +1,6 @@
 package org.ohf.bean;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.evey.bean.BaseEntity;
 
@@ -26,6 +27,7 @@ public class Voucher extends BaseEntity {
     @Column(name = "PAYEE")
     private String payee;
 
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="MM-dd-yyyy")
     @Temporal(TemporalType.DATE)
     @Column(name = "VC_DATE")
     private Date date;

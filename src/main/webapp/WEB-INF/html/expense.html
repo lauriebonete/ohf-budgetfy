@@ -73,7 +73,7 @@
                             </tr>
                             </thead>
                             <tbody ng-init="loadVoucher()">
-                            <tr class="row-onclick"  dir-paginate="voucher in voucherList | filter : voucherFilter | itemsPerPage: voucherMaxSize" pagination-id="voucher-list" data-program="{{voucher.id}}" ng-click="viewVoucher(voucher.id)">
+                            <tr class="row-onclick" dir-paginate="voucher in voucherList | filter : voucherFilter | itemsPerPage: voucherMaxSize" pagination-id="voucher-list" ng-click="viewVoucher(voucher.id)">
                                 <td>{{voucher.vcNumber}}</td>
                                 <td>{{voucher.reference}}</td>
                                 <td>{{voucher.payee}}</td>
@@ -170,17 +170,17 @@
                             <tr>
                                 <th>Particular Name</th>
                                 <th>Program</th>
-                                <th>Budget</th>
+                                <th>Activity</th>
                                 <th>Expense</th>
-                                <th>Receipt</th>
+                                <th>Attachment</th>
                                 <th>Actions</th>
                             </tr>
                             </thead>
                             <tbody>
                                 <tr  dir-paginate="particular in newParticularList | itemsPerPage: 5" pagination-id="add-voucher-activity">
                                     <td>{{particular.description}}</td>
-                                    <td>{{particular.program.id}}</td>
-                                    <td>{{particular.activity.id}}</td>
+                                    <td>{{particular.program.programName}}</td>
+                                    <td>{{particular.activity.activityName}}</td>
                                     <td>{{particular.expense}}</td>
                                     <td><a class="button success"><i class="fa fa-file-image-o" aria-hidden="true"></i></a></td>
                                     <td><a class="button alert"><i class="fa fa-minus"></i></a></td>
@@ -207,36 +207,36 @@
             <div id="update-expense" class="row collapse hide">
                 <div class="row">
                     <div class="small-1 columns">
-                        <label for="payee-update" class="text-right middle">Payee</label>
+                        <label class="text-right middle">Payee</label>
                     </div>
                     <div class="small-3 columns">
-                        <input type="text" id="payee-update">
+                        <input type="text" ng-model="selectedVoucher.payee">
                     </div>
                     <div class="small-4 columns">
                         <label class="text-right middle"></label>
                     </div>
                     <div class="small-1 columns">
-                        <label for="reference-num-update" class="text-right middle">Check/Ref#</label>
+                        <label class="text-right middle">Check/Ref#</label>
                     </div>
                     <div class="small-3 columns end">
-                        <input type="text" id="reference-num-update">
+                        <input type="text" ng-model="selectedVoucher.reference">
                     </div>
                 </div>
                 <div class="row">
                     <div class="small-1 columns">
-                        <label for="date-update" class="text-right middle">Date</label>
+                        <label class="text-right middle">Date</label>
                     </div>
                     <div class="small-3 columns">
-                        <input type="date" id="date-update" placeholder="">
+                        <input type="date" ng-model="selectedVoucher.date" placeholder="">
                     </div>
                     <div class="small-4 columns">
                         <label class="text-right middle"></label>
                     </div>
                     <div class="small-1 columns">
-                        <label for="vc-num-update" class="text-right middle">VC#</label>
+                        <label class="text-right middle">VC#</label>
                     </div>
                     <div class="small-3 columns end">
-                        <input type="text" id="vc-num-update">
+                        <input type="text" ng-model="selectedVoucher.vcNumber">
                     </div>
                 </div>
                 <div class="row">
@@ -244,10 +244,10 @@
                         <label class="text-right middle"></label>
                     </div>
                     <div class="small-2 columns">
-                        <label for="total-amount-update" class="text-right middle">Total Amount</label>
+                        <label class="text-right middle">Total Amount</label>
                     </div>
                     <div class="small-3 columns end">
-                        <input type="text" id="total-amount-update">
+                        <input type="text" ng-model="selectedVoucher.totalAmount">
                     </div>
                 </div>
                 <div class="row">
@@ -258,18 +258,10 @@
                         <input type="text" id="particular-update" placeholder="">
                     </div>
                     <div class="small-2 columns">
-                        <select placeholder="Program">
-                            <option value="Program1">Program1</option>
-                            <option value="Program2">Program2</option>
-                            <option value="Program3">Program3</option>
-                        </select>
+                        <selectize config='programConfig' options='programList' ng-model="selectedParticular.programId"></selectize>
                     </div>
                     <div class="small-2 columns">
-                        <select placeholder="Budget">
-                            <option value="Budget1">Budget1</option>
-                            <option value="Budget2">Budget2</option>
-                            <option value="Budget3">Budget3</option>
-                        </select>
+                        <selectize config='programActivityConfig' options='programActivities' ng-model="addParticular.addParticularActivityModel"></selectize>
                     </div>
                     <div class="small-3 columns end">
                         <input type="text" id="particular-amount-update">
@@ -296,9 +288,9 @@
                             <tr>
                                 <th>Particular Name</th>
                                 <th>Program</th>
-                                <th>Budget</th>
+                                <th>Activity</th>
                                 <th>Expense</th>
-                                <th>Receipt</th>
+                                <th>Attachment</th>
                                 <th>Actions</th>
                             </tr>
                             </thead>
