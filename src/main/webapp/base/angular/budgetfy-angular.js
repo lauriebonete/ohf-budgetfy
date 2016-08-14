@@ -6,6 +6,16 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
         $httpProvider.defaults.headers.post['Content-Type'] =  "application/json";
         paginationTemplateProvider.setPath('css/dirPagination.tpl.html');
     })
+    .controller("voucherController", ["$scope","$http","voucherService",function($scope,$http,voucherService){
+        $scope.loadVoucher = function(){
+            voucherService.getAllVouchers().then(function(results){
+                $scope.voucherMaxSize = results.listSize;
+                $scope.voucherList = results.results;
+            },function(error){
+
+            });
+        };
+    }])
     .controller("programController",["$scope","$http","$filter","userService","referenceLookUpService","programService","activityService",function($scope, $http,$filter,userService,referenceLookUpService,programService,activityService){
         $scope.userSelectizeModel = 0;
         $scope.activityTypeSelectizeModel = 0;
@@ -281,6 +291,15 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
 
             });
         };
+    })
+    .service("voucherService",function($http){
+        this.getAllVouchers = function(){
+            return $http.get("/budgetfy/expense/findAllSort").then(function successCallback(response){
+                return response.data;
+            }, function errorCallback(response){
+
+            });
+        }
     })
     .service("activityService",function($http){
         this.getProgramActivities = function(programId){

@@ -8,6 +8,6 @@ import org.springframework.stereotype.Service;
 /**
  * Created by Laurie on 7/2/2016.
  */
-@Service("voucherServiceImpl")
+@Service("voucherService")
 public class VoucherServiceImpl extends BaseCrudServiceImpl<Voucher> implements VoucherService {
 }

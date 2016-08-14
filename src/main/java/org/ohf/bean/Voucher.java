@@ -6,7 +6,9 @@ import org.evey.bean.BaseEntity;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Laurie on 7/2/2016.
@@ -92,6 +94,13 @@ public class Voucher extends BaseEntity {
 
     public void setParticulars(List<Particular> particulars) {
         this.particulars = particulars;
+    }
+
+    @Override
+    public Map<String, String> getOrderBy() {
+        Map<String, String> orderMap = new HashMap<>();
+        orderMap.put("id","DESC");
+        return orderMap;
     }
 }
 
