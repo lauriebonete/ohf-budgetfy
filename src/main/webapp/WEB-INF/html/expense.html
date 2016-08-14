@@ -11,6 +11,7 @@
         <link rel="stylesheet" href="css/font-awesome.min.css">
         <link rel="stylesheet" href="css/motion-ui.min.css">
         <link rel="stylesheet" href="css/selectize.default.css">
+        <link rel="stylesheet" href="css/dropzone.css">
 
         <script src="js/jquery3.min.js"></script>
         <script src="js/angular.js"></script>
@@ -92,36 +93,36 @@
             <div id="add-expense" class="row collapse hide">
                 <div class="row">
                     <div class="small-1 columns">
-                        <label for="payee" class="text-right middle">Payee</label>
+                        <label class="text-right middle">Payee</label>
                     </div>
                     <div class="small-3 columns">
-                        <input type="text" id="payee">
+                        <input type="text" ng-model="createVoucher.payee">
                     </div>
                     <div class="small-4 columns">
                         <label class="text-right middle"></label>
                     </div>
                     <div class="small-1 columns">
-                        <label for="reference-num" class="text-right middle">Check/Ref#</label>
+                        <label class="text-right middle">Check/Ref#</label>
                     </div>
                     <div class="small-3 columns end">
-                        <input type="text" id="reference-num">
+                        <input type="text" ng-model="createVoucher.reference">
                     </div>
                 </div>
                 <div class="row">
                     <div class="small-1 columns">
-                        <label for="date" class="text-right middle">Date</label>
+                        <label class="text-right middle">Date</label>
                     </div>
                     <div class="small-3 columns">
-                        <input type="date" id="date" placeholder="">
+                        <input type="date" ng-model="createVoucher.date" placeholder="">
                     </div>
                     <div class="small-4 columns">
                         <label class="text-right middle"></label>
                     </div>
                     <div class="small-1 columns">
-                        <label for="vc-num" class="text-right middle">VC#</label>
+                        <label class="text-right middle">VC#</label>
                     </div>
                     <div class="small-3 columns end">
-                        <input type="text" id="vc-num">
+                        <input type="text" ng-model="createVoucher.vcNumber">
                     </div>
                 </div>
                 <div class="row">
@@ -129,49 +130,37 @@
                         <label class="text-right middle"></label>
                     </div>
                     <div class="small-2 columns">
-                        <label for="total-amount" class="text-right middle">Total Amount</label>
+                        <label class="text-right middle">Total Amount</label>
                     </div>
                     <div class="small-3 columns end">
-                        <input type="text" id="total-amount">
+                        <input type="text" ng-model="createVoucher.totalAmount">
                     </div>
                 </div>
                 <div class="row">
                     <div class="small-1 columns">
-                        <label for="particular" class="text-right middle">Particular</label>
+                        <label class="text-right middle">Particular</label>
                     </div>
                     <div class="small-4 columns">
-                        <input type="text" id="particular" placeholder="">
+                        <input type="text" ng-model="addParticular.description" placeholder="">
                     </div>
                     <div class="small-2 columns">
-                        <select placeholder="Program">
-                            <option value="Program1">Program1</option>
-                            <option value="Program2">Program2</option>
-                            <option value="Program3">Program3</option>
-                        </select>
+                        <selectize config='programConfig' options='programList' ng-model="addParticular.addParticularProgramModel"></selectize>
                     </div>
                     <div class="small-2 columns">
-                        <select placeholder="Budget">
-                            <option value="Budget1">Budget1</option>
-                            <option value="Budget2">Budget2</option>
-                            <option value="Budget3">Budget3</option>
-                        </select>
+                        <selectize config='programActivityConfig' options='programActivities' ng-model="addParticular.addParticularActivityModel"></selectize>
                     </div>
                     <div class="small-3 columns end">
-                        <input type="text" id="particular-amount">
+                        <input type="text" ng-model="addParticular.expense">
                     </div>
                 </div>
                 <div class="row">
-                    <div class="small-1 columns">
-                        <a class="button success"><i class="fa fa-file-image-o" aria-hidden="true"></i></a>
+                    <div class="columns small-12">
+                        <form action="/budgetfy/file/upload" method="POST" enctype="multipart/form-data" class="dropzone" id="dropZone"/>
                     </div>
-                    <div class="small-2 columns">
-                        <a class="button success">Attach Receipt</a>
-                    </div>
-                    <div class="small-6 columns">
-                        <label class="text-right middle"></label>
-                    </div>
-                    <div class="small-3 columns">
-                        <a class="button success">Add Particular</a>
+                </div>
+                <div class="row">
+                    <div class="small-12 columns">
+                        <a class="button success" ng-click="addNewParticular()">Add Particular</a>
                     </div>
                 </div>
                 <div class="row">
@@ -188,19 +177,11 @@
                             </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>Transportation Expense</td>
-                                    <td>CYP</td>
-                                    <td>Transportation</td>
-                                    <td>10,000.00PHP</td>
-                                    <td><a class="button success"><i class="fa fa-file-image-o" aria-hidden="true"></i></a></td>
-                                    <td><a class="button alert"><i class="fa fa-minus"></i></a></td>
-                                </tr>
-                                <tr>
-                                    <td>Food Expense</td>
-                                    <td>CYP</td>
-                                    <td>Supplies and Materials</td>
-                                    <td>5,000.00PHP</td>
+                                <tr  dir-paginate="particular in newParticularList | itemsPerPage: 5" pagination-id="add-voucher-activity">
+                                    <td>{{particular.description}}</td>
+                                    <td>{{particular.program.id}}</td>
+                                    <td>{{particular.activity.id}}</td>
+                                    <td>{{particular.expense}}</td>
                                     <td><a class="button success"><i class="fa fa-file-image-o" aria-hidden="true"></i></a></td>
                                     <td><a class="button alert"><i class="fa fa-minus"></i></a></td>
                                 </tr>
@@ -209,22 +190,14 @@
                     </div>
                 </div>
                 <ul class="pagination text-center" role="navigation" aria-label="Pagination">
-                    <li class="pagination-previous disabled">Previous</li>
-                    <li class="current"><span class="show-for-sr">You're on page</span> 1</li>
-                    <li><a href="#" aria-label="Page 2">2</a></li>
-                    <li><a href="#" aria-label="Page 3">3</a></li>
-                    <li><a href="#" aria-label="Page 4">4</a></li>
-                    <li class="ellipsis"></li>
-                    <li><a href="#" aria-label="Page 12">12</a></li>
-                    <li><a href="#" aria-label="Page 13">13</a></li>
-                    <li class="pagination-next"><a href="#" aria-label="Next page">Next</a></li>
+                    <dir-pagination-controls pagination-id="add-voucher-activity" boundary-links="true"></dir-pagination-controls>
                 </ul>
                 <div class="row">
                     <div class="small-3 columns">
                         <a class="button alert float-right cancel-btn">Cancel</a>
                     </div>
                     <div class="small-7 columns end">
-                        <a class="button success float-right" id="submit-form">Next</a>
+                        <a class="button success float-right" id="submit-form" ng-click="prepareNewVoucher()">Next</a>
                     </div>
                 </div>
             </div>
@@ -373,23 +346,88 @@
             <!-- Update Expense: End -->
         </section>
 
-    <script src="js/vendor/what-input.js"></script>
-    <script src="js/vendor/foundation.min.js"></script>
-    <script src="js/evey-1.0.js"></script>
-    <script src="js/motion-ui.min.js"></script>
-    <script>
-        $(document).ready(function(){
-        }).on("click",".button-press",function(){
-            $("#expense-main").addClass("hide");
-            $("#add-expense").removeClass("hide");
-        }).on("click",".cancel-btn",function(){
-            $("#expense-main").removeClass("hide");
-            $("#add-expense").addClass("hide");
-            $("#update-expense").addClass("hide");
-        }).on("click",".row-onclick",function(){
-            $("#expense-main").addClass("hide");
-            $("#update-expense").removeClass("hide");
-        });
-    </script>
+        <script src="js/vendor/what-input.js"></script>
+        <script src="js/vendor/foundation.min.js"></script>
+        <script src="js/evey-1.0.js"></script>
+        <script src="js/motion-ui.min.js"></script>
+        <script src="js/dropzone.js"></script>
+        <script>
+            $(document).ready(function(){
+            }).on("click",".button-press",function(){
+                $("#expense-main").addClass("hide");
+                $("#add-expense").removeClass("hide");
+            }).on("click",".cancel-btn",function(){
+                $("#expense-main").removeClass("hide");
+                $("#add-expense").addClass("hide");
+                $("#update-expense").addClass("hide");
+            }).on("click",".row-onclick",function(){
+                $("#expense-main").addClass("hide");
+                $("#update-expense").removeClass("hide");
+            });
+
+            Dropzone.options.dropZone = {
+                maxFiles: 1,
+                /*addRemoveLinks: true,*/
+                accept: function(file, done) {
+                    done();
+                },
+                init: function() {
+                    userImage = this;
+                    this.on("maxfilesexceeded", function(file){
+                        this.removeAllFiles();
+                        this.addFile(file);
+                    });
+
+                    this.on("success",function(file, response){
+                        $(".dz-preview").attr("data-file", $(response).attr("id"));
+                    });
+
+                    this.on("addedfile", function (file,isPreloaded) {
+                        if(isPreloaded){
+                            var removeButton = Dropzone.createElement("<a><i class='fa fa-times fa-2x'></i></a>");
+                            var _this = this;
+
+                            removeButton.addEventListener("click", function (e) {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                _this.removeFile(file);
+
+                                var userId = $("#image-modal").attr("data-user");
+
+                                var user = new Object;
+                                user["id"] = userId;
+
+                                $.ajax({
+                                    url: evey.getHome()+"/user/remove-image",
+                                    data: JSON.stringify(user),
+                                    type: "POST",
+                                    dataType: "JSON",
+                                    contentType: "application/json",
+                                    success:function(data){
+                                        if(data.status) {
+                                            evey.promptSuccess(data.message);
+                                            $('#image-modal').foundation('reveal', 'close');
+                                            $(".picked").removeAttr("data-image");
+                                        } else {
+                                            evey.promptAlert(data.message);
+                                        }
+                                    }
+                                });
+                            });
+
+                            file.previewElement.appendChild(removeButton);
+                        }
+                        var img = $(file.previewTemplate).find("img");
+                        img[0].onload = function () {
+                            img.css({
+                                width: "100%",
+                                height:"100%",
+                            });
+                        };
+                    });
+                }
+            };
+
+        </script>
   </body>
 </html>

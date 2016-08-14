@@ -6,7 +6,7 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
         $httpProvider.defaults.headers.post['Content-Type'] =  "application/json";
         paginationTemplateProvider.setPath('css/dirPagination.tpl.html');
     })
-    .controller("voucherController", ["$scope","$http","voucherService",function($scope,$http,voucherService){
+    .controller("voucherController", ["$scope","$http","voucherService","programService","activityService",function($scope,$http,voucherService,programService,activityService){
         $scope.loadVoucher = function(){
             voucherService.getAllVouchers().then(function(results){
                 $scope.voucherMaxSize = results.listSize;
@@ -15,6 +15,69 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
 
             });
         };
+
+        $scope.prepareNewVoucher = function(){
+            console.log($scope.createVoucher);
+        };
+
+        $scope.newParticularList = [];
+        $scope.addNewParticular =function(){
+            var fileId = $("#dropZone .dz-preview").attr("data-file");
+            var particular = {
+                "description": $scope.addParticular.description,
+                "expense": $scope.addParticular.expense,
+                "activity": {id:$scope.addParticular.addParticularActivityModel},
+                "program": {id:$scope.addParticular.addParticularProgramModel},
+                "receipt": {id:fileId}
+            };
+
+            $scope.newParticularList.push(particular);
+            console.log($scope.newParticularList);
+
+        };
+
+        $scope.programConfig =
+        {
+            valueField : 'id',
+            labelField : 'programName',
+            searchField: ['programName'],
+            delimiter : '|',
+            placeholder : 'Pick a Program',
+            plugins: ['remove_button'],
+            onInitialize : function (selectize) {
+                // receives the selectize object as an argument
+            },
+            onChange: function(value) {
+                activityService.getProgramActivities(value).then(function(results){
+                    $scope.addParticularActivityModel = 0;
+                    $scope.programActivities = results.results;
+                },function(error){
+
+                })
+            },
+            maxItems:1
+        };
+
+        $scope.programActivityConfig =
+        {
+            valueField : 'id',
+            labelField : 'activityName',
+            searchField: ['activityName'],
+            delimiter : '|',
+            placeholder : 'Pick an Activity',
+            plugins: ['remove_button'],
+            onInitialize : function (selectize) {
+                // receives the selectize object as an argument
+            },
+            maxItems:1
+        };
+
+        programService.getAllPrograms().then(function(results){
+            $scope.programList = results.results;
+        },function(error){
+
+        });
+
     }])
     .controller("programController",["$scope","$http","$filter","userService","referenceLookUpService","programService","activityService",function($scope, $http,$filter,userService,referenceLookUpService,programService,activityService){
         $scope.userSelectizeModel = 0;
