@@ -11,6 +11,7 @@
         <link rel="stylesheet" href="css/font-awesome.min.css">
         <link rel="stylesheet" href="css/motion-ui.min.css">
         <link rel="stylesheet" href="css/selectize.default.css">
+        <link rel="stylesheet" href="css/jquery-ui.min.css">
 
         <script src="js/jquery3.min.js"></script>
         <script src="js/angular.js"></script>
@@ -23,7 +24,7 @@
         <section id="header">
             <div class="row">
                 <div class="small-6 columns text-left">
-                    <a class="button" href="/budgetfy/program">Programs</a>
+                    <a class="button active-page" href="/budgetfy/program">Programs</a>
                     <a class="button" href="/budgetfy/expense">Expense</a>
                     <a class="button">Reports</a>
                 </div>
@@ -142,11 +143,14 @@
                                     <label class="text-right middle"></label>
                                 </div>
                                 <div class="row">
-                                    <div class="small-3 columns">
+                                    <div class="small-1 columns">
                                         <label class="text-right middle"></label>
                                     </div>
-                                    <div class="small-4 columns end" id="pie-canvas" style="width:50%">
-                                        <canvas id="pie-chart"></canvas>
+                                    <div class="small-10 columns end">
+                                        <div id="progressbar"></div>
+                                    </div>
+                                    <div class="small-1 columns">
+                                        <label class="text-right middle"></label>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -411,6 +415,7 @@
     <script src="js/evey-1.0.js"></script>
     <script src="js/Chart.min.js"></script>
     <script src="js/motion-ui.min.js"></script>
+    <script src="js/jquery-ui.min.js"></script>
     <script>
         $(document).foundation();
 
@@ -496,6 +501,10 @@
         $("#return-expense").click(function(){
             $("#particulars-table").addClass("hide");
             $("#expense-table").removeClass("hide");
+        });
+
+        $( "#progressbar" ).progressbar({
+            value: 37
         });
 
     </script>

@@ -86,3 +86,11 @@ table.hover tbody tr:nth-of-type(even):hover{
   overflow-x:hidden;
   height:90vh;
 }
+
+a.active-page {
+  background-color:#1583cc
+}
+
+#progressbar .ui-progressbar-value {
+  background-color: #ccc;
+}
