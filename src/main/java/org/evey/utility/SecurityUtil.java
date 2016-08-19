@@ -3,6 +3,7 @@ package org.evey.utility;
 import org.apache.log4j.Logger;
 import org.evey.security.SessionUser;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
  * Created by Laurie on 1/19/2016.
@@ -10,6 +11,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 public class SecurityUtil {
 
     private static Logger _log = Logger.getLogger(SecurityUtil.class);
+
+    private static BCryptPasswordEncoder passwordEncoder;
 
     public static SessionUser getSessionUser(){
         try {
@@ -24,5 +27,21 @@ public class SecurityUtil {
         }
 
         return null;
+    }
+
+    public static String encryptPassword(String cleartext) {
+        if (passwordEncoder != null) {
+            return passwordEncoder.encode(cleartext);
+        }
+        return cleartext;
+    }
+
+    public static Boolean isMatchPassword(String password, String testPassword){
+        if (passwordEncoder != null){
+            if (passwordEncoder.matches(testPassword,password)){
+                return true;
+            }
+        }
+        return false;
     }
 }

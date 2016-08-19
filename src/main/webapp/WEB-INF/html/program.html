@@ -90,7 +90,7 @@
 
             <div id="view-program" class="row collapse hide">
                 <div class="row">
-                    <h1>CYP</h1>
+                    <h1>{{selectedProgram.programName}}</h1>
                 </div>
                 <div class="medium-2 columns">
                     <ul class="tabs vertical" id="program-tabs" data-tabs>
@@ -309,7 +309,7 @@
                                     </div>
                                     <div class="small-5 columns text-right">
                                         <div class="input-group">
-                                            <input class="input-group-field" type="text">
+                                            <input class="input-group-field" type="text" ng-model="activityExpenseFilter">
                                             <div class="input-group-button">
                                                 <input type="submit" class="button" value="Search">
                                             </div>
@@ -328,10 +328,10 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr id="particulars-row">
-                                                    <td>Test1</td>
-                                                    <td>Test2</td>
-                                                    <td>Test3</td>
+                                                <tr dir-paginate="activity in selectedProgram.activityExpense | filter:activityExpenseFilter | itemsPerPage: 5" pagination-id="activity-expense">
+                                                    <td>{{activity.activity.activityName}}</td>
+                                                    <td>{{activity.activity.activityCodeName}}</td>
+                                                    <td>{{activity.expense}}</td>
                                                     <td>Test4</td>
                                                 </tr>
                                             </tbody>
@@ -339,15 +339,7 @@
                                     </div>
                                 </div>
                                 <ul class="pagination text-center" role="navigation" aria-label="Pagination">
-                                    <li class="pagination-previous disabled">Previous</li>
-                                    <li class="current"><span class="show-for-sr">You're on page</span> 1</li>
-                                    <li><a href="#" aria-label="Page 2">2</a></li>
-                                    <li><a href="#" aria-label="Page 3">3</a></li>
-                                    <li><a href="#" aria-label="Page 4">4</a></li>
-                                    <li class="ellipsis"></li>
-                                    <li><a href="#" aria-label="Page 12">12</a></li>
-                                    <li><a href="#" aria-label="Page 13">13</a></li>
-                                    <li class="pagination-next"><a href="#" aria-label="Next page">Next</a></li>
+                                    <dir-pagination-controls pagination-id="activity-expense" boundary-links="true"></dir-pagination-controls>
                                 </ul>
                             </div>
                             <div class="row collapse hide" id="particulars-table">

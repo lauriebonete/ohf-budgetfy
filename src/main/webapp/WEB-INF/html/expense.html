@@ -177,7 +177,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                                <tr  dir-paginate="particular in newParticularList | itemsPerPage: 5" pagination-id="add-voucher-activity">
+                                <tr dir-paginate="particular in newParticularList | itemsPerPage: 5" pagination-id="add-voucher-particular">
                                     <td>{{particular.description}}</td>
                                     <td>{{particular.program.programName}}</td>
                                     <td>{{particular.activity.activityName}}</td>
@@ -190,7 +190,7 @@
                     </div>
                 </div>
                 <ul class="pagination text-center" role="navigation" aria-label="Pagination">
-                    <dir-pagination-controls pagination-id="add-voucher-activity" boundary-links="true"></dir-pagination-controls>
+                    <dir-pagination-controls pagination-id="add-voucher-particular" boundary-links="true"></dir-pagination-controls>
                 </ul>
                 <div class="row">
                     <div class="small-3 columns">
@@ -295,19 +295,11 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>Transportation Expense</td>
-                                <td>CYP</td>
-                                <td>Transportation</td>
-                                <td>10,000.00PHP</td>
-                                <td><a class="button success"><i class="fa fa-file-image-o" aria-hidden="true"></i></a></td>
-                                <td><a class="button alert"><i class="fa fa-minus"></i></a></td>
-                            </tr>
-                            <tr>
-                                <td>Food Expense</td>
-                                <td>CYP</td>
-                                <td>Supplies and Materials</td>
-                                <td>5,000.00PHP</td>
+                            <tr dir-paginate="particular in selectedVoucher.particulars | itemsPerPage: 5" pagination-id="view-voucher-particular">
+                                <td>{{particular.description}}</td>
+                                <td>{{particular.program.programName}}</td>
+                                <td>{{particular.activity.activityName}}</td>
+                                <td>{{particular.expense}}</td>
                                 <td><a class="button success"><i class="fa fa-file-image-o" aria-hidden="true"></i></a></td>
                                 <td><a class="button alert"><i class="fa fa-minus"></i></a></td>
                             </tr>
@@ -316,15 +308,7 @@
                     </div>
                 </div>
                 <ul class="pagination text-center" role="navigation" aria-label="Pagination">
-                    <li class="pagination-previous disabled">Previous</li>
-                    <li class="current"><span class="show-for-sr">You're on page</span> 1</li>
-                    <li><a href="#" aria-label="Page 2">2</a></li>
-                    <li><a href="#" aria-label="Page 3">3</a></li>
-                    <li><a href="#" aria-label="Page 4">4</a></li>
-                    <li class="ellipsis"></li>
-                    <li><a href="#" aria-label="Page 12">12</a></li>
-                    <li><a href="#" aria-label="Page 13">13</a></li>
-                    <li class="pagination-next"><a href="#" aria-label="Next page">Next</a></li>
+                    <dir-pagination-controls pagination-id="view-voucher-particular" boundary-links="true"></dir-pagination-controls>
                 </ul>
                 <div class="row">
                     <div class="small-3 columns">
