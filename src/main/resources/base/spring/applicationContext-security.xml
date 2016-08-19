@@ -29,8 +29,16 @@
         <sec:logout logout-url="/logout" logout-success-url="/login?login_response=success_logout&amp;error=false"></sec:logout>
     </sec:http>
 
+    <bean id="passwordEncoder"
+          class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+    </bean>
+
     <sec:authentication-manager >
-        <sec:authentication-provider ref="loginController"/>
+        <sec:authentication-provider ref="loginController">
+<!--
+            <sec:password-encoder ref="passwordEncoder" />
+-->
+        </sec:authentication-provider>
     </sec:authentication-manager>
 
     <bean id="loginController" class="org.ohf.controller.LoginController" />

@@ -2,6 +2,7 @@ package org.evey.bean;
 
 import org.evey.annotation.JoinSet;
 import org.evey.annotation.UniqueField;
+import org.evey.utility.SecurityUtil;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -76,11 +77,13 @@ public class User extends BaseEntity{
 	public void setUsername(String username) {
 		this.username = username;
 	}
+
 	public String getPassword() {
 		return password;
 	}
+
 	public void setPassword(String password) {
-		this.password = password;
+		this.password = SecurityUtil.encryptPassword(password);
 	}
 	public Date getHiredDate() {
 		return hiredDate;
@@ -211,5 +214,9 @@ public class User extends BaseEntity{
 
 	public String getUserDisplay() {
 		return username+" - "+firstName+" "+lastName;
+	}
+
+	public Boolean isMatchPassword(String password){
+		return SecurityUtil.isMatchPassword(this.password,password);
 	}
 }

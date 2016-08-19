@@ -6,7 +6,7 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
         $httpProvider.defaults.headers.post['Content-Type'] =  "application/json";
         paginationTemplateProvider.setPath('css/dirPagination.tpl.html');
     })
-    .controller("voucherController", ["$scope","$http","voucherService","programService","activityService",function($scope,$http,voucherService,programService,activityService){
+    .controller("voucherController", ["$scope","$http","voucherService","programService","activityService","particularService",function($scope,$http,voucherService,programService,activityService,particularService){
         $scope.loadVoucher = function(){
             voucherService.getAllVouchers().then(function(results){
                 $scope.voucherMaxSize = results.listSize;
@@ -17,9 +17,10 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
         };
 
         $scope.viewVoucher = function(voucherId){
-            var temp = voucherService.findVoucherInList($scope.voucherList,voucherId);
-            temp.date = new Date(temp.date);
-            $scope.selectedVoucher = temp;
+            $scope.selectedVoucher = voucherService.findVoucherInList($scope.voucherList,voucherId);
+            particularService.findParticularsOfVoucher(voucherId).then(function(results){
+                $scope.selectedVoucher.particulars = results.results
+            });
             console.log($scope.selectedVoucher);
         };
 
@@ -255,6 +256,11 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
             activityService.getProgramActivities(programId).then(function(data){
                 $scope.selectedProgram.activities = data.results;
             });
+
+            activityService.findActivityExpense(programId).then(function(data){
+                $scope.selectedProgram.activityExpense = data.results;
+                console.log($scope.selectedProgram.activityExpense);
+            });
         };
 
         $scope.selectActivityProgram = function(activityId){
@@ -329,6 +335,11 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
             };
 
             $scope.addedActivityList.unshift(activityObject);
+
+            $scope.remainingBudget = parseInt($("#total-budget").val().replace(/\,/g,''));
+            $.each($scope.addedActivityList, function(i, activity){
+                $scope.remainingBudget -= activity.amount;
+            });
         };
 
     }])
@@ -414,6 +425,20 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
                 });
         };
     })
+    .service("particularService",function($http){
+        this.findParticularsOfVoucher = function(voucherId){
+
+            var particular = {
+                voucherId: voucherId
+            };
+
+            return $http.post("/budgetfy/particular/findEntity", particular).then(function successCallback(response){
+                return response.data;
+            }, function errorCallback(response){
+
+            });
+        };
+    })
     .service("activityService",function($http){
         this.getProgramActivities = function(programId){
 
@@ -444,6 +469,15 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
             }, function errorCallback(response){
 
             });
-        }
+        };
+
+        this.findActivityExpense = function(programId){
+            return $http.get("/budgetfy/activity/getActivityExpense",{params:{programId:programId}}).then(function successCallback(response){
+                return response.data;
+            }, function errorCallback(response){
+
+            });
+        };
+
     });
 
