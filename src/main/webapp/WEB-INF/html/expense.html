@@ -36,7 +36,7 @@
             </div>
         </section>
 
-        <section id="site-content" ng-controller="voucherController">
+        <div id="site-content" ng-controller="voucherController">
             <div id="expense-main">
                 <div class="row">
                     <div class="small-5 columns text-left">
@@ -90,253 +90,330 @@
             </div>
             <!-- Expense Table List: End -->
             <!-- Add Expense-->
-            <div id="add-expense" class="row collapse hide">
-                <div class="row">
-                    <div class="small-1 columns">
-                        <label class="text-right middle">Payee</label>
+            <div id="add-expense-form-container">
+                <form data-abide>
+                    <div id="add-expense" class="row collapse hide">
+                        <div class="row">
+                            <div class="small-1 columns">
+                                <label class="text-right middle">Payee</label>
+                            </div>
+                            <div class="small-3 columns">
+                                <input type="text" ng-model="createVoucher.payee">
+                            </div>
+                            <div class="small-4 columns">
+                                <label class="text-right middle"></label>
+                            </div>
+                            <div class="small-1 columns">
+                                <label class="text-right middle">Check/Ref#</label>
+                            </div>
+                            <div class="small-3 columns end">
+                                <input type="text" ng-model="createVoucher.reference">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="small-1 columns">
+                                <label class="text-right middle">Date</label>
+                            </div>
+                            <div class="small-3 columns">
+                                <input type="date" ng-model="createVoucher.date" placeholder="">
+                            </div>
+                            <div class="small-4 columns">
+                                <label class="text-right middle"></label>
+                            </div>
+                            <div class="small-1 columns">
+                                <label class="text-right middle">VC#</label>
+                            </div>
+                            <div class="small-3 columns end">
+                                <input type="text" ng-model="createVoucher.vcNumber">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="small-7 columns">
+                                <label class="text-right middle"></label>
+                            </div>
+                            <div class="small-2 columns">
+                                <label class="text-right middle">Total Amount</label>
+                            </div>
+                            <div class="small-3 columns end">
+                                <input type="text" ng-model="createVoucher.totalAmount">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="small-1 columns">
+                                <label class="text-right middle">Particular</label>
+                            </div>
+                            <div class="small-4 columns">
+                                <input type="text" ng-model="addParticular.description" placeholder="">
+                            </div>
+                            <div class="small-2 columns">
+                                <selectize config='programConfig' options='programList' ng-model="addParticular.addParticularProgramModel"></selectize>
+                            </div>
+                            <div class="small-2 columns">
+                                <selectize config='programActivityConfig' options='programActivities' ng-model="addParticular.addParticularActivityModel"></selectize>
+                            </div>
+                            <div class="small-3 columns end">
+                                <input type="text" ng-model="addParticular.expense">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="columns small-12">
+                                <form action="/budgetfy/file/upload" method="POST" enctype="multipart/form-data" class="dropzone" id="dropZone"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="small-12 columns">
+                                <a class="button success" ng-click="addNewParticular()">Add Particular</a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="small-12 columns">
+                                <table class="hover" id="particular-table">
+                                    <thead>
+                                    <tr>
+                                        <th>Particular Name</th>
+                                        <th>Program</th>
+                                        <th>Activity</th>
+                                        <th>Expense</th>
+                                        <th>Attachment</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr  dir-paginate="particular in newParticularList | itemsPerPage: 5" pagination-id="add-voucher-activity">
+                                            <td>{{particular.description}}</td>
+                                            <td>{{particular.program.programName}}</td>
+                                            <td>{{particular.activity.activityName}}</td>
+                                            <td>{{particular.expense}}</td>
+                                            <td><a class="button success"><i class="fa fa-file-image-o" aria-hidden="true"></i></a></td>
+                                            <td><a class="button alert"><i class="fa fa-minus"></i></a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <ul class="pagination text-center" role="navigation" aria-label="Pagination">
+                            <dir-pagination-controls pagination-id="add-voucher-activity" boundary-links="true"></dir-pagination-controls>
+                        </ul>
+                        <div class="row">
+                            <div class="small-3 columns">
+                                <a class="button alert float-right cancel-btn">Cancel</a>
+                            </div>
+                            <div class="small-7 columns end">
+                                <a class="button success float-right expense-summary-nav-next" id="submit-form" ng-click="prepareNewVoucher()">Next</a>
+                            </div>
+                        </div>
                     </div>
-                    <div class="small-3 columns">
-                        <input type="text" ng-model="createVoucher.payee">
-                    </div>
-                    <div class="small-4 columns">
-                        <label class="text-right middle"></label>
-                    </div>
-                    <div class="small-1 columns">
-                        <label class="text-right middle">Check/Ref#</label>
-                    </div>
-                    <div class="small-3 columns end">
-                        <input type="text" ng-model="createVoucher.reference">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="small-1 columns">
-                        <label class="text-right middle">Date</label>
-                    </div>
-                    <div class="small-3 columns">
-                        <input type="date" ng-model="createVoucher.date" placeholder="">
-                    </div>
-                    <div class="small-4 columns">
-                        <label class="text-right middle"></label>
-                    </div>
-                    <div class="small-1 columns">
-                        <label class="text-right middle">VC#</label>
-                    </div>
-                    <div class="small-3 columns end">
-                        <input type="text" ng-model="createVoucher.vcNumber">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="small-7 columns">
-                        <label class="text-right middle"></label>
-                    </div>
-                    <div class="small-2 columns">
-                        <label class="text-right middle">Total Amount</label>
-                    </div>
-                    <div class="small-3 columns end">
-                        <input type="text" ng-model="createVoucher.totalAmount">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="small-1 columns">
-                        <label class="text-right middle">Particular</label>
-                    </div>
-                    <div class="small-4 columns">
-                        <input type="text" ng-model="addParticular.description" placeholder="">
-                    </div>
-                    <div class="small-2 columns">
-                        <selectize config='programConfig' options='programList' ng-model="addParticular.addParticularProgramModel"></selectize>
-                    </div>
-                    <div class="small-2 columns">
-                        <selectize config='programActivityConfig' options='programActivities' ng-model="addParticular.addParticularActivityModel"></selectize>
-                    </div>
-                    <div class="small-3 columns end">
-                        <input type="text" ng-model="addParticular.expense">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="columns small-12">
-                        <form action="/budgetfy/file/upload" method="POST" enctype="multipart/form-data" class="dropzone" id="dropZone"/>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="small-12 columns">
-                        <a class="button success" ng-click="addNewParticular()">Add Particular</a>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="small-12 columns">
-                        <table class="hover" id="particular-table">
-                            <thead>
-                            <tr>
-                                <th>Particular Name</th>
-                                <th>Program</th>
-                                <th>Activity</th>
-                                <th>Expense</th>
-                                <th>Attachment</th>
-                                <th>Actions</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                                <tr  dir-paginate="particular in newParticularList | itemsPerPage: 5" pagination-id="add-voucher-activity">
-                                    <td>{{particular.description}}</td>
-                                    <td>{{particular.program.programName}}</td>
-                                    <td>{{particular.activity.activityName}}</td>
-                                    <td>{{particular.expense}}</td>
-                                    <td><a class="button success"><i class="fa fa-file-image-o" aria-hidden="true"></i></a></td>
-                                    <td><a class="button alert"><i class="fa fa-minus"></i></a></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <ul class="pagination text-center" role="navigation" aria-label="Pagination">
-                    <dir-pagination-controls pagination-id="add-voucher-activity" boundary-links="true"></dir-pagination-controls>
-                </ul>
-                <div class="row">
-                    <div class="small-3 columns">
-                        <a class="button alert float-right cancel-btn">Cancel</a>
-                    </div>
-                    <div class="small-7 columns end">
-                        <a class="button success float-right" id="submit-form" ng-click="prepareNewVoucher()">Next</a>
-                    </div>
-                </div>
-            </div>
-            <!-- Add Expense: End -->
+                    <!-- Add Expense: End -->
 
-            <!-- Update Expense -->
-            <div id="update-expense" class="row collapse hide">
-                <div class="row">
-                    <div class="small-1 columns">
-                        <label class="text-right middle">Payee</label>
+                    <!-- Update Expense -->
+                    <div id="update-expense" class="row collapse hide">
+                        <div class="row">
+                            <div class="small-1 columns">
+                                <label class="text-right middle">Payee</label>
+                            </div>
+                            <div class="small-3 columns">
+                                <input type="text" ng-model="selectedVoucher.payee">
+                            </div>
+                            <div class="small-4 columns">
+                                <label class="text-right middle"></label>
+                            </div>
+                            <div class="small-1 columns">
+                                <label class="text-right middle">Check/Ref#</label>
+                            </div>
+                            <div class="small-3 columns end">
+                                <input type="text" ng-model="selectedVoucher.reference">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="small-1 columns">
+                                <label class="text-right middle">Date</label>
+                            </div>
+                            <div class="small-3 columns">
+                                <input type="date" ng-model="selectedVoucher.date" placeholder="">
+                            </div>
+                            <div class="small-4 columns">
+                                <label class="text-right middle"></label>
+                            </div>
+                            <div class="small-1 columns">
+                                <label class="text-right middle">VC#</label>
+                            </div>
+                            <div class="small-3 columns end">
+                                <input type="text" ng-model="selectedVoucher.vcNumber">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="small-7 columns">
+                                <label class="text-right middle"></label>
+                            </div>
+                            <div class="small-2 columns">
+                                <label class="text-right middle">Total Amount</label>
+                            </div>
+                            <div class="small-3 columns end">
+                                <input type="text" ng-model="selectedVoucher.totalAmount">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="small-1 columns">
+                                <label for="particular-update" class="text-right middle">Particular</label>
+                            </div>
+                            <div class="small-4 columns">
+                                <input type="text" id="particular-update" placeholder="">
+                            </div>
+                            <div class="small-2 columns">
+                                <selectize config='programConfig' options='programList' ng-model="selectedParticular.programId"></selectize>
+                            </div>
+                            <div class="small-2 columns">
+                                <selectize config='programActivityConfig' options='programActivities' ng-model="addParticular.addParticularActivityModel"></selectize>
+                            </div>
+                            <div class="small-3 columns end">
+                                <input type="text" id="particular-amount-update">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="small-1 columns">
+                                <a class="button success"><i class="fa fa-file-image-o" aria-hidden="true"></i></a>
+                            </div>
+                            <div class="small-2 columns">
+                                <a class="button success">Attach Receipt</a>
+                            </div>
+                            <div class="small-6 columns">
+                                <label class="text-right middle"></label>
+                            </div>
+                            <div class="small-3 columns">
+                                <a class="button success">Add Particular</a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="small-12 columns">
+                                <table class="hover" id="particular-table-update">
+                                    <thead>
+                                    <tr>
+                                        <th>Particular Name</th>
+                                        <th>Program</th>
+                                        <th>Activity</th>
+                                        <th>Expense</th>
+                                        <th>Attachment</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>Transportation Expense</td>
+                                        <td>CYP</td>
+                                        <td>Transportation</td>
+                                        <td>10,000.00PHP</td>
+                                        <td><a class="button success"><i class="fa fa-file-image-o" aria-hidden="true"></i></a></td>
+                                        <td><a class="button alert"><i class="fa fa-minus"></i></a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Food Expense</td>
+                                        <td>CYP</td>
+                                        <td>Supplies and Materials</td>
+                                        <td>5,000.00PHP</td>
+                                        <td><a class="button success"><i class="fa fa-file-image-o" aria-hidden="true"></i></a></td>
+                                        <td><a class="button alert"><i class="fa fa-minus"></i></a></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <ul class="pagination text-center" role="navigation" aria-label="Pagination">
+                            <li class="pagination-previous disabled">Previous</li>
+                            <li class="current"><span class="show-for-sr">You're on page</span> 1</li>
+                            <li><a href="#" aria-label="Page 2">2</a></li>
+                            <li><a href="#" aria-label="Page 3">3</a></li>
+                            <li><a href="#" aria-label="Page 4">4</a></li>
+                            <li class="ellipsis"></li>
+                            <li><a href="#" aria-label="Page 12">12</a></li>
+                            <li><a href="#" aria-label="Page 13">13</a></li>
+                            <li class="pagination-next"><a href="#" aria-label="Next page">Next</a></li>
+                        </ul>
+                        <div class="row">
+                            <div class="small-3 columns">
+                                <a class="button alert float-right cancel-btn">Cancel</a>
+                            </div>
+                            <div class="small-7 columns end">
+                                <a class="button success float-right" id="submit-update-form">Next</a>
+                            </div>
+                        </div>
                     </div>
-                    <div class="small-3 columns">
-                        <input type="text" ng-model="selectedVoucher.payee">
+                    <!-- Update Expense: End -->
+                    <!-- Expense Summary: Start -->
+                    <div id="expense-summary">
+                        <div class="row">
+                            <h5 class="text-left"><strong>Expense Summary</strong></h5>
+                        </div>
+
+                        <div class="row">
+                            <strong>Expense Details</strong>
+                            <table class="hover">
+                                <tr>
+                                    <td>
+                                        <div class="row">
+                                            <div class="small-6 columns">Payee</div>
+                                            <div class="small-6 columns end"><span id="payee-summary">OpenHeart</span></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="small-6 columns">Check/Ref#</div>
+                                            <div class="small-6 columns end"><span id="check-ref-summary">2424222</span></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="small-6 columns">VC#</div>
+                                            <div class="small-6 columns end"><span id="vc-summary">0000999</span></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="small-6 columns">Date</div>
+                                            <div class="small-6 columns end"><span id="date-summary">08/12/16</span></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="small-6 columns">Total Amount</div>
+                                            <div class="small-6 columns end"><span id="total-amount-summary">100,000.00PHP</span></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div class="row">
+                            <strong>Particulars</strong>
+                            <table>
+                                <tbody id="particular-table-summary">
+                                <tr>
+                                    <td>
+                                        <div class="row">
+                                            <div class="small-6 columns">Name</div>
+                                            <div class="small-6 columns end"><span>TestParticular1</span></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="small-6 columns">Program</div>
+                                            <div class="small-6 columns end"><span>ProgramTest1</span></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="small-6 columns">Activity</div>
+                                            <div class="small-6 columns end"><span>ActivityTest1</span></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="small-6 columns">Expense</div>
+                                            <div class="small-6 columns end"><span>10,000.00PHP</span></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="row">
+                            <div class="small-3 columns">
+                                <a class="button alert float-right expense-summary-nav-prev">Back</a>
+                            </div>
+                            <div class="small-7 columns end">
+                                <a class="button success float-right" id="submit-expense">Finish</a>
+                            </div>
+                        </div>
                     </div>
-                    <div class="small-4 columns">
-                        <label class="text-right middle"></label>
-                    </div>
-                    <div class="small-1 columns">
-                        <label class="text-right middle">Check/Ref#</label>
-                    </div>
-                    <div class="small-3 columns end">
-                        <input type="text" ng-model="selectedVoucher.reference">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="small-1 columns">
-                        <label class="text-right middle">Date</label>
-                    </div>
-                    <div class="small-3 columns">
-                        <input type="date" ng-model="selectedVoucher.date" placeholder="">
-                    </div>
-                    <div class="small-4 columns">
-                        <label class="text-right middle"></label>
-                    </div>
-                    <div class="small-1 columns">
-                        <label class="text-right middle">VC#</label>
-                    </div>
-                    <div class="small-3 columns end">
-                        <input type="text" ng-model="selectedVoucher.vcNumber">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="small-7 columns">
-                        <label class="text-right middle"></label>
-                    </div>
-                    <div class="small-2 columns">
-                        <label class="text-right middle">Total Amount</label>
-                    </div>
-                    <div class="small-3 columns end">
-                        <input type="text" ng-model="selectedVoucher.totalAmount">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="small-1 columns">
-                        <label for="particular-update" class="text-right middle">Particular</label>
-                    </div>
-                    <div class="small-4 columns">
-                        <input type="text" id="particular-update" placeholder="">
-                    </div>
-                    <div class="small-2 columns">
-                        <selectize config='programConfig' options='programList' ng-model="selectedParticular.programId"></selectize>
-                    </div>
-                    <div class="small-2 columns">
-                        <selectize config='programActivityConfig' options='programActivities' ng-model="addParticular.addParticularActivityModel"></selectize>
-                    </div>
-                    <div class="small-3 columns end">
-                        <input type="text" id="particular-amount-update">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="small-1 columns">
-                        <a class="button success"><i class="fa fa-file-image-o" aria-hidden="true"></i></a>
-                    </div>
-                    <div class="small-2 columns">
-                        <a class="button success">Attach Receipt</a>
-                    </div>
-                    <div class="small-6 columns">
-                        <label class="text-right middle"></label>
-                    </div>
-                    <div class="small-3 columns">
-                        <a class="button success">Add Particular</a>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="small-12 columns">
-                        <table class="hover" id="particular-table-update">
-                            <thead>
-                            <tr>
-                                <th>Particular Name</th>
-                                <th>Program</th>
-                                <th>Activity</th>
-                                <th>Expense</th>
-                                <th>Attachment</th>
-                                <th>Actions</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>Transportation Expense</td>
-                                <td>CYP</td>
-                                <td>Transportation</td>
-                                <td>10,000.00PHP</td>
-                                <td><a class="button success"><i class="fa fa-file-image-o" aria-hidden="true"></i></a></td>
-                                <td><a class="button alert"><i class="fa fa-minus"></i></a></td>
-                            </tr>
-                            <tr>
-                                <td>Food Expense</td>
-                                <td>CYP</td>
-                                <td>Supplies and Materials</td>
-                                <td>5,000.00PHP</td>
-                                <td><a class="button success"><i class="fa fa-file-image-o" aria-hidden="true"></i></a></td>
-                                <td><a class="button alert"><i class="fa fa-minus"></i></a></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <ul class="pagination text-center" role="navigation" aria-label="Pagination">
-                    <li class="pagination-previous disabled">Previous</li>
-                    <li class="current"><span class="show-for-sr">You're on page</span> 1</li>
-                    <li><a href="#" aria-label="Page 2">2</a></li>
-                    <li><a href="#" aria-label="Page 3">3</a></li>
-                    <li><a href="#" aria-label="Page 4">4</a></li>
-                    <li class="ellipsis"></li>
-                    <li><a href="#" aria-label="Page 12">12</a></li>
-                    <li><a href="#" aria-label="Page 13">13</a></li>
-                    <li class="pagination-next"><a href="#" aria-label="Next page">Next</a></li>
-                </ul>
-                <div class="row">
-                    <div class="small-3 columns">
-                        <a class="button alert float-right cancel-btn">Cancel</a>
-                    </div>
-                    <div class="small-7 columns end">
-                        <a class="button success float-right" id="submit-update-form">Next</a>
-                    </div>
-                </div>
+                </form>
             </div>
-            <!-- Update Expense: End -->
-        </section>
+
 
         <script src="js/vendor/what-input.js"></script>
         <script src="js/vendor/foundation.min.js"></script>
@@ -355,6 +432,12 @@
             }).on("click",".row-onclick",function(){
                 $("#expense-main").addClass("hide");
                 $("#update-expense").removeClass("hide");
+            }).on("click",".expense-summary-nav-prev",function() {
+                $("#add-expense").css("left","0");
+                $("#expense-summary").css("left", "+100%");
+            }).on("click",".expense-summary-nav-next",function() {
+                $("#add-expense").css("left","-100%");
+                $("#expense-summary").css("left", "0");
             });
 
             Dropzone.options.dropZone = {
