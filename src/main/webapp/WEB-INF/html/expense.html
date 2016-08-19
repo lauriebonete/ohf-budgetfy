@@ -321,31 +321,34 @@
             </div>
             <!-- Update Expense: End -->
             <!-- Expense Summary: Start-->
-            <div id="program-summary">
+            <div id="expense-summary">
                 <div class="row">
-                    <h5 class="text-left"><strong>Program Summary</strong></h5>
+                    <h5 class="text-left"><strong>Expense Summary</strong></h5>
                 </div>
-
                 <div class="row">
-                    <strong>Program Details</strong>
+                    <strong>Details</strong>
                     <table class="hover">
                         <tr>
                             <td>
                                 <div class="row">
-                                    <div class="small-6 columns">Program Name</div>
-                                    <div class="small-6 columns end"><span id="program-name-summary">{{programObject.programName}}</span></div>
+                                    <div class="small-6 columns">Payee</div>
+                                    <div class="small-6 columns end"><span id="payee-summary">PayeeTest1</span></div>
                                 </div>
                                 <div class="row">
-                                    <div class="small-6 columns">Total Budget</div>
-                                    <div class="small-6 columns end"><span id="total-budget-summary">{{programObject.totalBudget}}</span></div>
+                                    <div class="small-6 columns">Check/Ref#</div>
+                                    <div class="small-6 columns end"><span id="check-ref-summary">298844</span></div>
                                 </div>
                                 <div class="row">
-                                    <div class="small-6 columns">Critical Level</div>
-                                    <div class="small-6 columns end"><span id="threshold-summary">{{programObject.threshold}}</span></div>
+                                    <div class="small-6 columns">VC#</div>
+                                    <div class="small-6 columns end"><span id="vc-summary">100009</span></div>
                                 </div>
                                 <div class="row">
-                                    <div class="small-6 columns">Duration</div>
-                                    <div class="small-6 columns end"><span id="duration-summary">{{programObject.programStart}} to {{programObject.programEnd}}</span></div>
+                                    <div class="small-6 columns">Date</div>
+                                    <div class="small-6 columns end"><span id="date-summary">08/20/2016</span></div>
+                                </div>
+                                <div class="row">
+                                    <div class="small-6 columns">Total Amount</div>
+                                    <div class="small-6 columns end"><span id="total-amount-summary">100,000.00PHP</span></div>
                                 </div>
                             </td>
                         </tr>
@@ -354,20 +357,24 @@
                 <div class="row">
                     <strong>Particulars</strong>
                     <table>
-                        <tbody id="activity-table-summary">
-                        <tr ng-repeat="activity in addedActivityList">
+                        <tbody id="particular-table-summary">
+                        <tr>
                             <td>
                                 <div class="row">
-                                    <div class="small-6 columns">Activity Name</div>
-                                    <div class="small-6 columns end"><span>{{activity.activityName}}</span></div>
+                                    <div class="small-6 columns">Name</div>
+                                    <div class="small-6 columns end"><span>ParticularName1</span></div>
                                 </div>
                                 <div class="row">
-                                    <div class="small-6 columns">Total Budget</div>
-                                    <div class="small-6 columns end"><span>{{activity.amount}}</span></div>
+                                    <div class="small-6 columns">Program</div>
+                                    <div class="small-6 columns end"><span>ProgramTest1</span></div>
                                 </div>
                                 <div class="row">
-                                    <div class="small-6 columns">Type</div>
-                                    <div class="small-6 columns end"><span>{{activity.activityCodeName}}</span></div>
+                                    <div class="small-6 columns">Action</div>
+                                    <div class="small-6 columns end"><span>ActivityTest1</span></div>
+                                </div>
+                                <div class="row">
+                                    <div class="small-6 columns">Expense</div>
+                                    <div class="small-6 columns end"><span>10,000.00PHP</span></div>
                                 </div>
                             </td>
                         </tr>
