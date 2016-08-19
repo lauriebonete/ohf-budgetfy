@@ -94,3 +94,28 @@ a.active-page {
 #progressbar .ui-progressbar-value {
   background-color: #ccc;
 }
+
+#add-expense-form-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+#add-expense-form-container div[id^="expense"]{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-transition: all 300ms ease-in 300ms;
+  -moz-transition: all 300ms ease-in 300ms;
+  -o-transition: all 300ms ease-in 300ms;
+  transition: all 300ms ease-in 300ms;
+}
+
+#add-expense {
+  left: 0;
+}
+
+#expense-summary {
+  left: +100%;
+}
