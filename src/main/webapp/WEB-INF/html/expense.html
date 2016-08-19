@@ -197,7 +197,7 @@
                         <a class="button alert float-right cancel-btn">Cancel</a>
                     </div>
                     <div class="small-7 columns end">
-                        <a class="button success float-right" id="submit-form" ng-click="prepareNewVoucher()">Next</a>
+                        <a class="button success float-right add-expense-nav-next" id="submit-form" ng-click="prepareNewVoucher()">Next</a>
                     </div>
                 </div>
             </div>
@@ -358,26 +358,26 @@
                     <strong>Particulars</strong>
                     <table>
                         <tbody id="particular-table-summary">
-                        <tr>
-                            <td>
-                                <div class="row">
-                                    <div class="small-6 columns">Name</div>
-                                    <div class="small-6 columns end"><span>ParticularName1</span></div>
-                                </div>
-                                <div class="row">
-                                    <div class="small-6 columns">Program</div>
-                                    <div class="small-6 columns end"><span>ProgramTest1</span></div>
-                                </div>
-                                <div class="row">
-                                    <div class="small-6 columns">Action</div>
-                                    <div class="small-6 columns end"><span>ActivityTest1</span></div>
-                                </div>
-                                <div class="row">
-                                    <div class="small-6 columns">Expense</div>
-                                    <div class="small-6 columns end"><span>10,000.00PHP</span></div>
-                                </div>
-                            </td>
-                        </tr>
+                            <tr>
+                                <td>
+                                    <div class="row">
+                                        <div class="small-6 columns">Name</div>
+                                        <div class="small-6 columns end"><span>ParticularName1</span></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="small-6 columns">Program</div>
+                                        <div class="small-6 columns end"><span>ProgramTest1</span></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="small-6 columns">Activity</div>
+                                        <div class="small-6 columns end"><span>ActivityTest1</span></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="small-6 columns">Expense</div>
+                                        <div class="small-6 columns end"><span>10,000.00PHP</span></div>
+                                    </div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -411,9 +411,9 @@
             }).on("click",".row-onclick",function(){
                 $("#expense-main").addClass("hide");
                 $("#update-expense").removeClass("hide");
-            }).on("click","",function() {
-                $("#program-details").css("left","-100%");
-                $("#program-team").css("left", "0");
+            }).on("click","add-expense-nav-next",function() {
+                $("#add-expense").css("left","-100%");
+                $("#expense-summary").css("left", "0");
             });
 
             Dropzone.options.dropZone = {
