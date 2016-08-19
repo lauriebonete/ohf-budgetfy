@@ -108,7 +108,7 @@
                             <form data-abide>
                                 <div class="row">
                                     <div class="small-5 columns">
-                                        <label for="allocate-budget" class="text-left middle"><strong>880,000,000.00PHP (not allocated)</strong></label>
+                                        <label for="allocate-budget" class="text-left middle"><strong>{{unallocatedBudget}}PHP (Not allocated)</strong></label>
                                     </div>
                                     <div class="small-7 columns end">
                                         <a class="button success hide" href="#" id="allocate-budget">Allocate Budget <i class="fa fa-calculator" aria-hidden="true"></i></a>
@@ -147,7 +147,7 @@
                                         <label class="text-right middle"></label>
                                     </div>
                                     <div class="small-10 columns end">
-                                        <div id="progressbar"></div>
+                                        <div id="progressbar" class="progress-bar"></div>
                                     </div>
                                     <div class="small-1 columns">
                                         <label class="text-right middle"></label>
@@ -324,15 +324,13 @@
                                                     <th>Activity Name</th>
                                                     <th>Type</th>
                                                     <th>Total Expense</th>
-                                                    <th>Actions</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr dir-paginate="activity in selectedProgram.activityExpense | filter:activityExpenseFilter | itemsPerPage: 5" pagination-id="activity-expense">
+                                                <tr ng-click="viewActivityExpense(activity.activity.id)" dir-paginate="activity in selectedProgram.activityExpense | filter:activityExpenseFilter | itemsPerPage: 5" pagination-id="activity-expense" class="program-expense-row">
                                                     <td>{{activity.activity.activityName}}</td>
                                                     <td>{{activity.activity.activityCodeName}}</td>
                                                     <td>{{activity.expense}}</td>
-                                                    <td>Test4</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -351,7 +349,7 @@
                                     </div>
                                     <div class="small-5 columns text-right">
                                         <div class="input-group">
-                                            <input class="input-group-field" type="text">
+                                            <input class="input-group-field" type="text" ng-model="viewExpenseActivity">
                                             <div class="input-group-button">
                                                 <input type="submit" class="button" value="Search">
                                             </div>
@@ -372,12 +370,12 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>Transportation Expense</td>
-                                                    <td>Transportation</td>
-                                                    <td>001</td>
-                                                    <td>001</td>
-                                                    <td>10,000.00PHP</td>
+                                                <tr dir-paginate="particular in activityExpense | filter: viewExpenseActivity | itemsPerPage: 5" pagination-id="view-expense-table">
+                                                    <td>{{particular.description}}</td>
+                                                    <td>{{particular.activity.activityName}}</td>
+                                                    <td>{{particular.voucher.vcNumber}}</td>
+                                                    <td>{{particular.voucher.reference}}</td>
+                                                    <td>{{particular.expense}}</td>
                                                     <td><a class="button success">View</a></td>
                                                 </tr>
                                             </tbody>
@@ -385,15 +383,7 @@
                                     </div>
                                 </div>
                                 <ul class="pagination text-center" role="navigation" aria-label="Pagination">
-                                    <li class="pagination-previous disabled">Previous</li>
-                                    <li class="current"><span class="show-for-sr">You're on page</span> 1</li>
-                                    <li><a href="#" aria-label="Page 2">2</a></li>
-                                    <li><a href="#" aria-label="Page 3">3</a></li>
-                                    <li><a href="#" aria-label="Page 4">4</a></li>
-                                    <li class="ellipsis"></li>
-                                    <li><a href="#" aria-label="Page 12">12</a></li>
-                                    <li><a href="#" aria-label="Page 13">13</a></li>
-                                    <li class="pagination-next"><a href="#" aria-label="Next page">Next</a></li>
+                                    <dir-pagination-controls pagination-id="view-expense-table" boundary-links="true"></dir-pagination-controls>
                                 </ul>
                             </div>
                         </div>
@@ -413,71 +403,13 @@
 
         $(document).ready(function(){
 
-            var pieChartData = {
-                labels: ["Expense", "Remaining Budget"],
-                datasets: [{
-                    backgroundColor: ["#F7464A","#00e600"],
-                    data: [1000000,100000000]
-                }]
 
-            };
-            var barChartData = {
-                labels: ["Laguna Teaching Program", "Fairview Teaching Program"],
-                datasets: [{
-                    label: 'forecast',
-                    backgroundColor: "rgba(220,220,220,0.5)",
-                    data: [20000,70000]
-                }, {
-                    label: 'actuals',
-                    backgroundColor: "rgba(151,187,205,0.5)",
-                    data: [40000,50000]
-                }]
-
-            };
-
-
-            var ctxPie = document.getElementById("pie-chart").getContext("2d");
-            var pie = new Chart(ctxPie, {
-                type: 'pie',
-                data: pieChartData,
-                options: {
-                    responsive: true,
-                    legend: {
-                        position: 'right',
-                    },
-                    title: {
-                        display: true,
-                        position: 'left',
-                        text: 'Budget Chart'
-                    }
-                }
-            });
-
-            var ctxBar = document.getElementById("bar-chart").getContext("2d");
-            var bar = new Chart(ctxBar, {
-                type: 'bar',
-                data: barChartData,
-                options: {
-                    elements: {
-                        rectangle: {
-                            borderWidth: 2,
-                            borderColor: 'rgb(0, 255, 0)',
-                            borderSkipped: 'bottom'
-                        }
-                    },
-                    responsive: true,
-                    legend: {
-                        position: 'right',
-                    },
-                    title: {
-                        display: true,
-                        text: 'Expense Chart'
-                    }
-                }
-            });
         }).on("click",".row-onclick",function(){
             $("#home-page").addClass("hide");
             $("#view-program").removeClass("hide");
+        }).on("click", ".program-expense-row", function(){
+            $("#particulars-table").removeClass("hide");
+            $("#expense-table").addClass("hide");
         });
 
         $("#return-btn").click(function(){
@@ -485,17 +417,12 @@
             $("#view-program").addClass("hide");
         });
 
-        $("#particulars-row").click(function(){
-            $("#particulars-table").removeClass("hide");
-            $("#expense-table").addClass("hide");
-        });
-
         $("#return-expense").click(function(){
             $("#particulars-table").addClass("hide");
             $("#expense-table").removeClass("hide");
         });
 
-        $( "#progressbar" ).progressbar({
+        $("#progressbar").progressbar({
             value: 37
         });
 

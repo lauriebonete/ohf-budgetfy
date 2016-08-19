@@ -10,6 +10,21 @@ var evey = (function(){
             return window.location.protocol + '//' + window.location.host + path;
         },
 
+        addThousandsSeparator : function(input){
+            var output = input.toString().replace(/,/g, '');
+            return (output.toString()).replace(
+                /^([-+]?)(0?)(\d+)(.?)(\d+)$/g, function(match, sign, zeros, before, decimal, after) {
+                    var reverseString = function(string) { return string.split('').reverse().join(''); };
+                    var insertCommas  = function(string) {
+                        var reversed = reverseString(string);
+                        var reversedWithCommas = reversed.match(/.{1,3}/g).join(',');
+                        return reverseString(reversedWithCommas);
+                    };
+                    return sign + (decimal ? insertCommas(before) + decimal + after : insertCommas(before + after));
+                }
+            );
+        },
+
         getUrlParams : function(){
             var path = window.location.search;
             if(path.indexOf("?")>=0){
