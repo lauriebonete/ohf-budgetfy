@@ -97,7 +97,7 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
         });
 
     }])
-    .controller("programController",["$scope","$http","$filter","userService","referenceLookUpService","programService","activityService",function($scope, $http,$filter,userService,referenceLookUpService,programService,activityService){
+    .controller("programController",["$scope","$http","$filter","userService","referenceLookUpService","programService","activityService", "particularService",function($scope, $http,$filter,userService,referenceLookUpService,programService,activityService, particularService){
         $scope.userSelectizeModel = 0;
         $scope.activityTypeSelectizeModel = 0;
         $scope.userSelectConfig =
@@ -259,7 +259,79 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
 
             activityService.findActivityExpense(programId).then(function(data){
                 $scope.selectedProgram.activityExpense = data.results;
-                console.log($scope.selectedProgram.activityExpense);
+
+                var labels = [];
+                var forecastData = [];
+                var actualsData = [];
+                var totalActuals = 0;
+                $.each(data.results,function(i,result){
+                    labels.push(result.activity.activityName);
+                    forecastData.push(result.activity.amount);
+                    actualsData.push(result.expense);
+
+                    totalActuals += result.expense;
+                });
+                var barChartData = {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Forecast',
+                        backgroundColor: "#2199e8",
+                        data: forecastData
+                    }, {
+                        label: 'Actual',
+                        backgroundColor: "#79c1f1",
+                        data: actualsData
+                    }]
+
+                };
+
+                var ctxBar = document.getElementById("bar-chart").getContext("2d");
+                var bar = new Chart(ctxBar, {
+                    type: 'bar',
+                    data: barChartData,
+                    options: {
+                        elements: {
+                            rectangle: {
+                                borderWidth: 2,
+                                borderColor: "#0f598a",
+                                borderSkipped: 'bottom'
+                            }
+                        },
+                        responsive: true,
+                        legend: {
+                            position: 'right',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Expense Chart'
+                        }
+                    }
+                });
+
+                $("#progressbar").progressbar({
+                    value: (totalActuals/$scope.selectedProgram.totalBudget)*100
+                });
+
+                if($scope.selectedProgram.threshold<=totalActuals){
+                    $("#progressbar .ui-progressbar-value").css('background-color','#ffae19');
+                } else if ($scope.selectedProgram.threshold > totalActuals){
+                    $("#progressbar .ui-progressbar-value").css('background-color','#3adb76');
+                }
+
+                if($scope.selectedProgram.totalBudget<totalActuals){
+                    $("#progressbar .ui-progressbar-value").css('background-color','#ec5840');
+                }
+
+                $scope.unallocatedBudget = evey.addThousandsSeparator($scope.selectedProgram.totalBudget - totalActuals)
+
+            });
+        };
+
+        $scope.viewActivityExpense = function(activityId){
+            particularService.findParticularsOfActivity(activityId).then(function(result){
+                $scope.activityExpense = result.results;
+            }, function(error){
+
             });
         };
 
@@ -430,6 +502,19 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
 
             var particular = {
                 voucherId: voucherId
+            };
+
+            return $http.post("/budgetfy/particular/findEntity", particular).then(function successCallback(response){
+                return response.data;
+            }, function errorCallback(response){
+
+            });
+        };
+
+        this.findParticularsOfActivity = function(activityId){
+
+            var particular = {
+                activityId: activityId
             };
 
             return $http.post("/budgetfy/particular/findEntity", particular).then(function successCallback(response){
