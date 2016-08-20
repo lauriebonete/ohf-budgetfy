@@ -14,7 +14,9 @@ body {
 
 /*Site-content CSS Style*/
 #site-content {
-
+  overflow-y:scroll;
+  overflow-x:hidden;
+  height:90vh;
 }
 
 /*Create project specific CSS*/
@@ -81,12 +83,6 @@ table.hover tbody tr:nth-of-type(even):hover{
   background-color:#b7cddb
 }
 
-#site-content {
-  overflow-y:scroll;
-  overflow-x:hidden;
-  height:90vh;
-}
-
 a.active-page {
   background-color:#1583cc
 }
@@ -102,7 +98,7 @@ a.active-page {
   overflow: hidden;
 }
 
-#expense-container div[id^="program"]{
+#expense-container div[id^="expense"]{
   position: absolute;
   width: 100%;
   height: 100%;
@@ -112,7 +108,7 @@ a.active-page {
   transition: all 300ms ease-in 300ms;
 }
 
-#add-expense {
+#expense-add {
   left: 0;
 }
 

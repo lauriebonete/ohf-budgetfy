@@ -91,7 +91,7 @@
             <!-- Expense Table List: End -->
             <div id="expense-container">
                 <!-- Add Expense-->
-                <div id="add-expense" class="row collapse hide">
+                <div id="expense-add">
                     <div class="row">
                         <div class="small-1 columns">
                             <label class="text-right middle">Payee</label>
@@ -205,7 +205,7 @@
                 <!-- Add Expense: End -->
 
                 <!-- Update Expense -->
-                <div id="update-expense" class="row collapse hide">
+                <!--<div id="expense-update" class="row collapse hide">
                     <div class="row">
                         <div class="small-1 columns">
                             <label class="text-right middle">Payee</label>
@@ -319,10 +319,10 @@
                             <a class="button success float-right" id="submit-update-form">Next</a>
                         </div>
                     </div>
-                </div>
+                </div>-->
                 <!-- Update Expense: End -->
                 <!-- Expense Summary: Start-->
-                <div id="expense-summary" class="row collapse hide">
+                <div id="expense-summary">
                     <div class="row">
                         <h5 class="text-left"><strong>Expense Summary</strong></h5>
                     </div>
@@ -406,6 +406,7 @@
             }).on("click",".button-press",function(){
                 $("#expense-main").addClass("hide");
                 $("#add-expense").removeClass("hide");
+                $("#expense-summary").removeClass("hide")
             }).on("click",".cancel-btn",function(){
                 $("#expense-main").removeClass("hide");
                 $("#add-expense").addClass("hide");
@@ -414,8 +415,8 @@
                 $("#expense-main").addClass("hide");
                 $("#update-expense").removeClass("hide");
             }).on("click",".add-expense-nav-next",function() {
-                $("#add-expense").css("left","-100%");
-                $("#expense-summary").css("left", "0").removeClass("hide");
+                $("#expense-add").css("left","-100%");
+                $("#expense-summary").css("left", "0");
             });
 
             Dropzone.options.dropZone = {
