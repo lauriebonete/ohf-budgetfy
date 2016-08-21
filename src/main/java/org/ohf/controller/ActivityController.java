@@ -31,4 +31,12 @@ public class ActivityController extends BaseCrudController<Activity> {
         return returnMap;
     }
 
+    @RequestMapping(value = "/countActivityExpense", method = RequestMethod.GET, produces = "application/json")
+    public @ResponseBody Map<String,Object> countActivityExpense(Long activityId){
+        Map<String,Object> returnMap = new HashMap<>();
+        returnMap.put("count", ((ActivityService)getService()).countActivityExpense(activityId));
+        returnMap.put("status",true);
+        return returnMap;
+    }
+
 }

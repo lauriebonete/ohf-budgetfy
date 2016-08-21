@@ -12,4 +12,5 @@ import java.util.List;
 public interface ActivityService extends BaseCrudService<Activity> {
 
     public List<ActivityExpenseDTO> findActivityExpense(Long programId);
+    public Long countActivityExpense(Long activityId);
 }

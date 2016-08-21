@@ -25,4 +25,9 @@ public class ActivityServiceImpl extends BaseCrudServiceImpl<Activity> implement
     public List<ActivityExpenseDTO> findActivityExpense(Long programId) {
         return activityDao.findActivityExpense(programId, "jpql.activity.find-program-activity-expense");
     }
+
+    @Override
+    public Long countActivityExpense(Long activityId) {
+        return activityDao.countActivityExpense(activityId);
+    }
 }

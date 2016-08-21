@@ -286,11 +286,11 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr data-toggle="update-activity-form" dir-paginate="activity in selectedProgram.activities | filter:programBudgetFilter | itemsPerPage: 5" pagination-id="program-activity" data-activity-id="{{activity.id}}" ng-click="selectActivityProgram(activity.id)">
-                                                <td>{{activity.activityName}}</td>
-                                                <td>{{activity.activityCodeName}}</td>
-                                                <td>{{activity.displayAmount}}</td>
-                                                <td><a class="button alert"><i class="fa fa-minus"></i></a></td>
+                                            <tr dir-paginate="activity in selectedProgram.activities | filter:programBudgetFilter | itemsPerPage: 5" pagination-id="program-activity" data-activity-id="{{activity.id}}" ng-click="selectActivityProgram(activity.id)">
+                                                <td data-toggle="update-activity-form" >{{activity.activityName}}</td>
+                                                <td data-toggle="update-activity-form" >{{activity.activityCodeName}}</td>
+                                                <td data-toggle="update-activity-form" >{{activity.displayAmount}}</td>
+                                                <td><a class="button alert" ng-click="removeActivityProgram(activity.id)"><i class="fa fa-minus"></i></a></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -303,7 +303,7 @@
 
                         <!-- Expense Tab -->
                         <div class="tabs-panel" id="expense">
-                            <div class="row" id="expense-table">
+                            <div id="expense-table">
                                 <div class="row">
                                     <div class="small-5 columns">
                                     </div>

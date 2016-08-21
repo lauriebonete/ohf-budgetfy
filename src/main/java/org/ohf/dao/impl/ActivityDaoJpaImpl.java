@@ -26,4 +26,19 @@ public class ActivityDaoJpaImpl extends BaseEntityDaoJpaImpl<Activity,Long> impl
         List<ActivityExpenseDTO> results = query.getResultList();
         return results;
     }
+
+    @Override
+    public Long countActivityExpense(Long activityId) {
+
+        String queryString = "SELECT count(obj.id) FROM Particular obj WHERE obj.activity.id = :activityId";
+        Query query = getEntityManager().createQuery(queryString);
+        query.setParameter("activityId",activityId);
+
+        Object count = query.getSingleResult();
+        if (count != null){
+            return (Long) count;
+        }
+
+        return 0L;
+    }
 }

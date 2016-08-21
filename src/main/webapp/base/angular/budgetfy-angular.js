@@ -147,10 +147,22 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
         });
 
         $scope.loadPrograms = function(){
-            programService.getAllPrograms().then(function(results){
+            programService.getAllPrograms().then(function successCallback(results){
                 $scope.programMaxSize = results.listSize;
                 $scope.programList = results.results;
-            },function(error){
+            },function errorCallback(error){
+
+            });
+        };
+
+        $scope.removeActivityProgram = function(activityId){
+            activityService.removeActivityFromProgram(activityId).then(function (results){
+                if(results.status){
+                    $scope.selectedProgram.activities = $filter('filter')($scope.selectedProgram.activities , { id: ('!' + activityId) });
+                }
+
+                console.log(results);
+            }, function (error){
 
             });
         };
@@ -559,6 +571,27 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
         this.findActivityExpense = function(programId){
             return $http.get("/budgetfy/activity/getActivityExpense",{params:{programId:programId}}).then(function successCallback(response){
                 return response.data;
+            }, function errorCallback(response){
+
+            });
+        };
+
+        this.removeActivityFromProgram = function(activityId){
+            return $http.get("/budgetfy/activity/countActivityExpense",{params:{activityId:activityId}}).then(function successCallback(response){
+                if(response.data.status && response.data.count <= 0){
+                    return $http.delete("/budgetfy/activity/"+activityId).then(function successCallback(deleteResponse){
+                        return deleteResponse.data
+                    }, function errorCallback(response){
+
+                    });
+                } else {
+                    var returnData = {
+                        "status":false,
+                        "message": "cannot be delete"
+                    };
+
+                    return returnData;
+                }
             }, function errorCallback(response){
 
             });

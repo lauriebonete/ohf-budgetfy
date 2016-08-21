@@ -11,4 +11,5 @@ import java.util.List;
  */
 public interface ActivityDao extends BaseEntityDao<Activity,Long> {
     public List<ActivityExpenseDTO> findActivityExpense(Long programId, String queryName);
+    public Long countActivityExpense(Long activityId);
 }
