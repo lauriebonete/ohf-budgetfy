@@ -89,7 +89,7 @@
                 </ul>
             </div>
             <!-- Expense Table List: End -->
-            <div id="expense-container">
+            <div id="expense-add-container" class="hide">
                 <!-- Add Expense-->
                 <div id="expense-add">
                     <div class="row">
@@ -203,9 +203,81 @@
                     </div>
                 </div>
                 <!-- Add Expense: End -->
+                <!-- Add Expense Summary: Start-->
+                <div id="expense-add-summary">
+                    <div class="row">
+                        <h5 class="text-left"><strong>Expense Summary</strong></h5>
+                    </div>
+                    <div class="row">
+                        <strong>Details</strong>
+                        <table>
+                            <tr>
+                                <td>
+                                    <div class="row">
+                                        <div class="small-6 columns">Payee</div>
+                                        <div class="small-6 columns end"><span id="payee-summary">PayeeTest1</span></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="small-6 columns">Check/Ref#</div>
+                                        <div class="small-6 columns end"><span id="check-ref-summary">298844</span></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="small-6 columns">VC#</div>
+                                        <div class="small-6 columns end"><span id="vc-summary">100009</span></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="small-6 columns">Date</div>
+                                        <div class="small-6 columns end"><span id="date-summary">08/20/2016</span></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="small-6 columns">Total Amount</div>
+                                        <div class="small-6 columns end"><span id="total-amount-summary">100,000.00PHP</span></div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="row">
+                        <strong>Particulars</strong>
+                        <table>
+                            <tbody id="particular-table-summary">
+                                <tr>
+                                    <td>
+                                        <div class="row">
+                                            <div class="small-6 columns">Name</div>
+                                            <div class="small-6 columns end"><span>ParticularName1</span></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="small-6 columns">Program</div>
+                                            <div class="small-6 columns end"><span>ProgramTest1</span></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="small-6 columns">Activity</div>
+                                            <div class="small-6 columns end"><span>ActivityTest1</span></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="small-6 columns">Expense</div>
+                                            <div class="small-6 columns end"><span>10,000.00PHP</span></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
 
-                <!-- Update Expense -->
-                <!--<div id="expense-update" class="row collapse hide">
+                    <div class="row">
+                        <div class="small-3 columns">
+                            <a class="button alert float-right add-summary-nav-prev">Back</a>
+                        </div>
+                        <div class="small-7 columns end">
+                            <a class="button success float-right add-summary-nav-next">Finish</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Add Expense Summary: End-->
+            </div>
+            <div id="expense-update-container" class="hide">
+                <div id="expense-update">
                     <div class="row">
                         <div class="small-1 columns">
                             <label class="text-right middle">Payee</label>
@@ -316,13 +388,13 @@
                             <a class="button alert float-right cancel-btn">Cancel</a>
                         </div>
                         <div class="small-7 columns end">
-                            <a class="button success float-right" id="submit-update-form">Next</a>
+                            <a class="button success float-right update-expense-nav-next" id="submit-update-form">Next</a>
                         </div>
                     </div>
-                </div>-->
+                </div>
                 <!-- Update Expense: End -->
-                <!-- Expense Summary: Start-->
-                <div id="expense-summary">
+                <!-- Update Expense Summary: Start-->
+                <div id="expense-update-summary">
                     <div class="row">
                         <h5 class="text-left"><strong>Expense Summary</strong></h5>
                     </div>
@@ -333,23 +405,23 @@
                                 <td>
                                     <div class="row">
                                         <div class="small-6 columns">Payee</div>
-                                        <div class="small-6 columns end"><span id="payee-summary">PayeeTest1</span></div>
+                                        <div class="small-6 columns end"><span id="update-payee-summary">PayeeTest1</span></div>
                                     </div>
                                     <div class="row">
                                         <div class="small-6 columns">Check/Ref#</div>
-                                        <div class="small-6 columns end"><span id="check-ref-summary">298844</span></div>
+                                        <div class="small-6 columns end"><span id="update-check-ref-summary">298844</span></div>
                                     </div>
                                     <div class="row">
                                         <div class="small-6 columns">VC#</div>
-                                        <div class="small-6 columns end"><span id="vc-summary">100009</span></div>
+                                        <div class="small-6 columns end"><span id="update-vc-summary">100009</span></div>
                                     </div>
                                     <div class="row">
                                         <div class="small-6 columns">Date</div>
-                                        <div class="small-6 columns end"><span id="date-summary">08/20/2016</span></div>
+                                        <div class="small-6 columns end"><span id="update-date-summary">08/20/2016</span></div>
                                     </div>
                                     <div class="row">
                                         <div class="small-6 columns">Total Amount</div>
-                                        <div class="small-6 columns end"><span id="total-amount-summary">100,000.00PHP</span></div>
+                                        <div class="small-6 columns end"><span id="update-total-amount-summary">100,000.00PHP</span></div>
                                     </div>
                                 </td>
                             </tr>
@@ -358,41 +430,41 @@
                     <div class="row">
                         <strong>Particulars</strong>
                         <table>
-                            <tbody id="particular-table-summary">
-                                <tr>
-                                    <td>
-                                        <div class="row">
-                                            <div class="small-6 columns">Name</div>
-                                            <div class="small-6 columns end"><span>ParticularName1</span></div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="small-6 columns">Program</div>
-                                            <div class="small-6 columns end"><span>ProgramTest1</span></div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="small-6 columns">Activity</div>
-                                            <div class="small-6 columns end"><span>ActivityTest1</span></div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="small-6 columns">Expense</div>
-                                            <div class="small-6 columns end"><span>10,000.00PHP</span></div>
-                                        </div>
-                                    </td>
-                                </tr>
+                            <tbody id="particular-update-summary">
+                            <tr>
+                                <td>
+                                    <div class="row">
+                                        <div class="small-6 columns">Name</div>
+                                        <div class="small-6 columns end"><span>ParticularName1</span></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="small-6 columns">Program</div>
+                                        <div class="small-6 columns end"><span>ProgramTest1</span></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="small-6 columns">Activity</div>
+                                        <div class="small-6 columns end"><span>ActivityTest1</span></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="small-6 columns">Expense</div>
+                                        <div class="small-6 columns end"><span>10,000.00PHP</span></div>
+                                    </div>
+                                </td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
 
                     <div class="row">
                         <div class="small-3 columns">
-                            <a class="button alert float-right program-summary-nav-prev">Back</a>
+                            <a class="button alert float-right update-summary-nav-prev">Back</a>
                         </div>
                         <div class="small-7 columns end">
-                            <a class="button success float-right program-summary-nav-next" id="create-program" ng-click="createProgram()">Finish</a>
+                            <a class="button success float-right update-summary-nav-next" id="" ng-click="">Finish</a>
                         </div>
                     </div>
                 </div>
-                <!-- Expense Summary: End-->
+                <!--Update Expense Summary: End-->
             </div>
         </section>
 
@@ -405,18 +477,26 @@
             $(document).ready(function(){
             }).on("click",".button-press",function(){
                 $("#expense-main").addClass("hide");
-                $("#add-expense").removeClass("hide");
-                $("#expense-summary").removeClass("hide")
+                $("#expense-add-container").removeClass("hide");
             }).on("click",".cancel-btn",function(){
                 $("#expense-main").removeClass("hide");
-                $("#add-expense").addClass("hide");
-                $("#update-expense").addClass("hide");
+                $("#expense-add-container").addClass("hide");
+                $("#expense-update-container").addClass("hide");
             }).on("click",".row-onclick",function(){
                 $("#expense-main").addClass("hide");
-                $("#update-expense").removeClass("hide");
+                $("#expense-update-container").removeClass("hide");
             }).on("click",".add-expense-nav-next",function() {
                 $("#expense-add").css("left","-100%");
-                $("#expense-summary").css("left", "0");
+                $("#expense-add-summary").css("left", "0");
+            }).on("click",".update-expense-nav-next",function() {
+                $("#expense-update").css("left","-100%");
+                $("#expense-update-summary").css("left", "0");
+            }).on("click",".add-summary-nav-prev",function() {
+                $("#expense-add").css("left","0");
+                $("#expense-add-summary").css("left", "+100%");
+            }).on("click",".update-summary-nav-prev",function() {
+                $("#expense-update").css("left","0");
+                $("#expense-update-summary").css("left", "+100%");
             });
 
             Dropzone.options.dropZone = {
