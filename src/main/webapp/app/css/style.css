@@ -91,14 +91,14 @@ a.active-page {
   background-color: #ccc;
 }
 
-#expense-container {
+#expense-add-container {
   position: absolute;
   width: 100%;
   height: 100%;
   overflow: hidden;
 }
 
-#expense-container div[id^="expense"]{
+#expense-add-container div[id^="expense"]{
   position: absolute;
   width: 100%;
   height: 100%;
@@ -112,6 +112,31 @@ a.active-page {
   left: 0;
 }
 
-#expense-summary {
+#expense-add-summary {
+  left: +100%;
+}
+
+#expense-update-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+#expense-update-container div[id^="expense"]{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-transition: all 300ms ease-in 300ms;
+  -moz-transition: all 300ms ease-in 300ms;
+  -o-transition: all 300ms ease-in 300ms;
+  transition: all 300ms ease-in 300ms;
+}
+
+#expense-update {
+  left: 0;
+}
+
+#expense-update-summary {
   left: +100%;
 }
