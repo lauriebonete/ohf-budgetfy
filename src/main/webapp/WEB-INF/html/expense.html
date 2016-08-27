@@ -183,8 +183,8 @@
                                         <td>{{particular.program.programName}}</td>
                                         <td>{{particular.activity.activityName}}</td>
                                         <td>{{particular.expense}}</td>
-                                        <td><a class="button success"><i class="fa fa-file-image-o" aria-hidden="true"></i></a></td>
-                                        <td><a class="button alert"><i class="fa fa-minus"></i></a></td>
+                                        <td ng-click="downloadAttachment(particular.receipt.id)"><a class="button success" ng-if="particular.receipt != null"><i class="fa fa-file-image-o" aria-hidden="true"></i></a></td>
+                                        <td ng-click="removeParticularOnAdd(particular)"><a class="button alert"><i class="fa fa-minus"></i></a></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -206,71 +206,77 @@
                 <!-- Add Expense Summary: Start-->
                 <div id="expense-add-summary">
                     <div class="row">
-                        <h5 class="text-left"><strong>Expense Summary</strong></h5>
+                        <div class="small-12 columns">
+                            <h5 class="text-left"><strong>Expense Summary</strong></h5>
+                        </div>
                     </div>
                     <div class="row">
-                        <strong>Details</strong>
-                        <table>
-                            <tr>
-                                <td>
-                                    <div class="row">
-                                        <div class="small-6 columns">Payee</div>
-                                        <div class="small-6 columns end"><span id="payee-summary">PayeeTest1</span></div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="small-6 columns">Check/Ref#</div>
-                                        <div class="small-6 columns end"><span id="check-ref-summary">298844</span></div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="small-6 columns">VC#</div>
-                                        <div class="small-6 columns end"><span id="vc-summary">100009</span></div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="small-6 columns">Date</div>
-                                        <div class="small-6 columns end"><span id="date-summary">08/20/2016</span></div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="small-6 columns">Total Amount</div>
-                                        <div class="small-6 columns end"><span id="total-amount-summary">100,000.00PHP</span></div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="row">
-                        <strong>Particulars</strong>
-                        <table>
-                            <tbody id="particular-table-summary">
+                        <div class="small-12 columns">
+                            <strong>Details</strong>
+                            <table>
                                 <tr>
                                     <td>
                                         <div class="row">
-                                            <div class="small-6 columns">Name</div>
-                                            <div class="small-6 columns end"><span>ParticularName1</span></div>
+                                            <div class="small-6 columns">Payee</div>
+                                            <div class="small-6 columns end"><span id="payee-summary">{{createVoucher.payee}}</span></div>
                                         </div>
                                         <div class="row">
-                                            <div class="small-6 columns">Program</div>
-                                            <div class="small-6 columns end"><span>ProgramTest1</span></div>
+                                            <div class="small-6 columns">Check/Ref#</div>
+                                            <div class="small-6 columns end"><span id="check-ref-summary">{{createVoucher.reference}}</span></div>
                                         </div>
                                         <div class="row">
-                                            <div class="small-6 columns">Activity</div>
-                                            <div class="small-6 columns end"><span>ActivityTest1</span></div>
+                                            <div class="small-6 columns">VC#</div>
+                                            <div class="small-6 columns end"><span id="vc-summary">{{createVoucher.vcNumber}}</span></div>
                                         </div>
                                         <div class="row">
-                                            <div class="small-6 columns">Expense</div>
-                                            <div class="small-6 columns end"><span>10,000.00PHP</span></div>
+                                            <div class="small-6 columns">Date</div>
+                                            <div class="small-6 columns end"><span id="date-summary">{{createVoucher.date}}</span></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="small-6 columns">Total Amount</div>
+                                            <div class="small-6 columns end"><span id="total-amount-summary">{{createVoucher.totalAmount}}</span></div>
                                         </div>
                                     </td>
                                 </tr>
-                            </tbody>
-                        </table>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="small-12 columns">
+                                <strong>Particulars</strong>
+                                <table>
+                                    <tbody id="particular-table-summary">
+                                    <tr ng-repeat="particular in createVoucher.particulars">
+                                    <td>
+                                        <div class="row">
+                                            <div class="small-6 columns">Name</div>
+                                            <div class="small-6 columns end"><span>{{particular.description}}</span></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="small-6 columns">Program</div>
+                                            <div class="small-6 columns end"><span>{{particular.program.programName}}</span></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="small-6 columns">Activity</div>
+                                            <div class="small-6 columns end"><span>{{particular.activity.activityName}}</span></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="small-6 columns">Expense</div>
+                                            <div class="small-6 columns end"><span>{{particular.expense}}</span></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
 
                     <div class="row">
-                        <div class="small-3 columns">
-                            <a class="button alert float-right add-summary-nav-prev">Back</a>
+                        <div class="small-6 columns text-center">
+                            <a class="button alert add-summary-nav-prev">Back</a>
                         </div>
-                        <div class="small-7 columns end">
-                            <a class="button success float-right add-summary-nav-next">Finish</a>
+                        <div class="small-6 columns text-center">
+                            <a class="button success add-summary-nav-next" ng-click="createVoucher()">Finish</a>
                         </div>
                     </div>
                 </div>
@@ -373,8 +379,8 @@
                                     <td>{{particular.program.programName}}</td>
                                     <td>{{particular.activity.activityName}}</td>
                                     <td>{{particular.expense}}</td>
-                                    <td><a class="button success"><i class="fa fa-file-image-o" aria-hidden="true"></i></a></td>
-                                    <td><a class="button alert"><i class="fa fa-minus"></i></a></td>
+                                    <td ng-click="downloadAttachment(particular.receiptId)"><a class="button success" ng-if="particular.receiptId != null"><i class="fa fa-file-image-o" aria-hidden="true"></i></a></td>
+                                    <td ng-click="removeParticular(particular.id)"><a class="button alert"><i class="fa fa-minus"></i></a></td>
                                 </tr>
                                 </tbody>
                             </table>

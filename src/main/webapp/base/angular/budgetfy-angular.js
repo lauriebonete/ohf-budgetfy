@@ -6,7 +6,7 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
         $httpProvider.defaults.headers.post['Content-Type'] =  "application/json";
         paginationTemplateProvider.setPath('css/dirPagination.tpl.html');
     })
-    .controller("voucherController", ["$scope","$http","voucherService","programService","activityService","particularService",function($scope,$http,voucherService,programService,activityService,particularService){
+    .controller("voucherController", ["$scope","$http", "$filter","voucherService","programService","activityService","particularService","fileDetailService",function($scope,$http,$filter,voucherService,programService,activityService,particularService,fileDetailService){
         $scope.loadVoucher = function(){
             voucherService.getAllVouchers().then(function(results){
                 $scope.voucherMaxSize = results.listSize;
@@ -21,12 +21,14 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
             particularService.findParticularsOfVoucher(voucherId).then(function(results){
                 $scope.selectedVoucher.particulars = results.results
             });
-            console.log($scope.selectedVoucher);
         };
 
         $scope.prepareNewVoucher = function(){
             $scope.createVoucher.particulars = $scope.newParticularList;
-            console.log($scope.createVoucher);
+            /!*voucherService.saveVoucher($scope.createVoucher);*!/
+        };
+
+        $scope.createVoucher = function(){
             voucherService.saveVoucher($scope.createVoucher);
         };
 
@@ -49,8 +51,6 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
                 fileId!=undefined){
                 particular.receipt = {"id":fileId}
             }
-            console.log(fileId,particular);
-
             $scope.newParticularList.push(particular);
         };
 
@@ -95,6 +95,25 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
         },function(error){
 
         });
+
+        $scope.downloadAttachment = function(fileId){
+            fileDetailService.downloadFile(fileId)
+        };
+
+
+        $scope.removeParticularOnAdd = function(particular){
+            $scope.newParticularList = $filter('filter')($scope.newParticularList, { description: ('!' + particular.description)/*, activity: {id: ("!"+particular.activity.id)}, program: {id: ("!"+particular.program.id)}  */});
+        };
+
+        $scope.removeParticular = function(particularId){
+            particularService.deleteParticular(particularId).then(function(results){
+                if(results.status){
+                    $scope.selectedVoucher.particulars = $filter('filter')($scope.selectedVoucher.particulars, { id: ('!' +particularId)});
+                }
+            },function(error){
+
+            });
+        };
 
     }])
     .controller("programController",["$scope","$http","$filter","userService","referenceLookUpService","programService","activityService", "particularService",function($scope, $http,$filter,userService,referenceLookUpService,programService,activityService, particularService){
@@ -498,13 +517,13 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
 
         this.saveVoucher = function(voucher){
             return $http.post("/budgetfy/expense/",voucher)
-                .then(function(response){
-                    if(response.data.success){
+                .then(function successCallback(response){
+                    if(response.data.status){
                         return true;
                     } else {
                         console.log("error");
                     }
-                }, function(error) {
+                }, function errorCallback(error) {
                     console.log(error);
                 });
         };
@@ -534,6 +553,19 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
             }, function errorCallback(response){
 
             });
+        };
+
+        this.deleteParticular = function(particularId){
+            return $http.delete("/budgetfy/particular/"+particularId).then(function successCallback(response){
+                return response.data;
+            }, function errorCallback(response){
+
+            });
+        };
+
+    }).service("fileDetailService", function($http){
+        this.downloadFile = function(fileId){
+            window.location.href = evey.getHome()+"/budgetfy/file/download/"+fileId;
         };
     })
     .service("activityService",function($http){
