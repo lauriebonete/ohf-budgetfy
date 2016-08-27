@@ -23,9 +23,31 @@
 <body ng-app="budgetfyApp" ng-controller="loginController">
 
 <section id="site-content">
-    <form name="login" method="GET" action="/budgetfy/login">
-
-    </form>
+    <div class="large-3 large-centered columns">
+        <div id="login-box">
+            <div class="row">
+                <div class="large-12 columns">
+                    <form>
+                        <div class="row">
+                            <div class="large-12 columns">
+                                <input type="text" name="username" placeholder="Username" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="large-12 columns">
+                                <input type="password" name="password" placeholder="Password" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="large-12 large-centered columns">
+                                <input type="submit" class="button expand" value="Log In"/>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 
 <script src="js/vendor/what-input.js"></script>
@@ -35,10 +57,7 @@
 <script src="js/motion-ui.min.js"></script>
 <script src="js/jquery-ui.min.js"></script>
 <script>
-    $(document).ready(function(){
-        //redirect to login page
-        document.forms["login"].submit();
-    });
+
 </script>
 </body>
 </html>
