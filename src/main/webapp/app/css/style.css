@@ -14,17 +14,19 @@ body {
 
 /*Site-content CSS Style*/
 #site-content {
-  overflow-y:scroll;
+  /*overflow-y:scroll;
   overflow-x:hidden;
-  height:90vh;
+  height:90vh;*/
 }
 
 /*Create project specific CSS*/
 #create-program-form-container {
   position: absolute;
   width: 100%;
-  height: 100%;
-  overflow: hidden;
+  height: 87vh;
+  /*overflow: hidden;*/
+  overflow-y:scroll;
+  overflow-x:hidden;
 }
 
 #create-program-form-container div[id^="program"]{
@@ -94,8 +96,10 @@ a.active-page {
 #expense-add-container {
   position: absolute;
   width: 100%;
-  height: 100%;
-  overflow: hidden;
+  height: 88vh;
+  /*overflow: hidden;*/
+  overflow-y:scroll;
+  overflow-x:hidden;
 }
 
 #expense-add-container div[id^="expense"]{
@@ -119,8 +123,10 @@ a.active-page {
 #expense-update-container {
   position: absolute;
   width: 100%;
-  height: 100%;
-  overflow: hidden;
+  height: 88vh;
+  /*overflow: hidden;*/
+  overflow-y:scroll;
+  overflow-x:hidden;
 }
 
 #expense-update-container div[id^="expense"]{
