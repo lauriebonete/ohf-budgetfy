@@ -148,7 +148,7 @@
                             <label class="text-right middle"></label>
                         </div>
                     </div>
-                    <div data-toggler data-animate="slide-in-down slide-out-up" class="row callout secondary ease" id="expense-form-add" >
+                    <div data-toggler data-animate="slide-in-down slide-out-up" class="row callout secondary ease" id="expense-form-add" style="display: none">
                         <div class="row">
                             <div class="small-1 columns">
                                 <label class="text-right middle">Particular</label>
@@ -493,6 +493,8 @@
         <script src="js/motion-ui.min.js"></script>
         <script src="js/dropzone.js"></script>
         <script>
+            $(document).foundation();
+
             $(document).ready(function(){
             }).on("click",".button-press",function(){
                 $("#expense-main").addClass("hide");
