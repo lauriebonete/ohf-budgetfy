@@ -142,38 +142,47 @@
                             <label class="text-right middle"></label>
                         </div>
                         <div class="small-6 small-centered columns">
-                            <a class="button success expanded" data-toggle="expense-form-add"><i class="fa fa-list-ol" aria-hidden="true"></i> Add Particulars</a>
+                            <a class="button success expanded" data-toggle="add-expense-form"><i class="fa fa-list-ol" aria-hidden="true"></i> Add Particulars</a>
                         </div>
                         <div class="small-3 columns">
                             <label class="text-right middle"></label>
                         </div>
                     </div>
-                    <div data-toggler data-animate="slide-in-down slide-out-up" class="row callout secondary ease" id="expense-form-add" style="display: none">
+                    <div data-toggler data-animate="slide-in-down slide-out-up" class="callout secondary ease" id="add-expense-form" style="display: none">
                         <div class="row">
                             <div class="small-1 columns">
                                 <label class="text-right middle">Particular</label>
                             </div>
-                            <div class="small-4 columns">
+                            <div class="small-5 columns">
                                 <input type="text" ng-model="addParticular.description" placeholder="">
                             </div>
                             <div class="small-2 columns">
-                                <selectize config='programConfig' options='programList' ng-model="addParticular.addParticularProgramModel"></selectize>
+                                <label class="text-right middle">Expense Amount</label>
                             </div>
-                            <div class="small-2 columns">
-                                <selectize config='programActivityConfig' options='programActivities' ng-model="addParticular.addParticularActivityModel"></selectize>
-                            </div>
-                            <div class="small-3 columns end">
+                            <div class="small-4 columns end">
                                 <input type="text" ng-model="addParticular.expense">
                             </div>
                         </div>
                         <div class="row">
-                            <div class="columns small-12">
-                                <form action="/budgetfy/file/upload" method="POST" enctype="multipart/form-data" class="dropzone" id="dropZone"/>
+                            <div class="small-1 columns">
+                                <label class="text-right middle">Program</label>
+                            </div>
+                            <div class="small-5 columns">
+                                <selectize config='programConfig' options='programList' ng-model="addParticular.addParticularProgramModel"></selectize>
+                            </div>
+                            <div class="small-2 columns">
+                                <label class="text-right middle">Activity</label>
+                            </div>
+                            <div class="small-4 columns">
+                                <selectize config='programActivityConfig' options='programActivities' ng-model="addParticular.addParticularActivityModel"></selectize>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="small-12 small-centered columns">
-                                <a class="button success" ng-click="addNewParticular()">Save <i class="fa fa-plus"></i></a>
+                            <div class="small-8 columns">
+                                <form action="/budgetfy/file/upload" method="POST" enctype="multipart/form-data" class="dropzone" id="dropZone"/>
+                            </div>
+                            <div class="small-4 columns end">
+                                <a class="button success expanded" ng-click="addNewParticular()">Save <i class="fa fa-plus"></i></a>
                             </div>
                         </div>
                     </div>
@@ -343,34 +352,90 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="small-1 columns">
-                            <label for="particular-update" class="text-right middle">Particular</label>
+                        <div class="small-3 columns">
+                            <label class="text-right middle"></label>
                         </div>
-                        <div class="small-4 columns">
-                            <input type="text" id="particular-update" placeholder="">
-                        </div>
-                        <div class="small-2 columns">
-                            <selectize config='programConfig' options='programList' ng-model="selectedParticular.programId"></selectize>
-                        </div>
-                        <div class="small-2 columns">
-                            <selectize config='programActivityConfig' options='programActivities' ng-model="addParticular.addParticularActivityModel"></selectize>
-                        </div>
-                        <div class="small-3 columns end">
-                            <input type="text" id="particular-amount-update">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="small-1 columns">
-                            <a class="button success"><i class="fa fa-file-image-o" aria-hidden="true"></i></a>
-                        </div>
-                        <div class="small-2 columns">
-                            <a class="button success">Attach Receipt</a>
-                        </div>
-                        <div class="small-6 columns">
-                            <label class="text-right middle "></label>
+                        <div class="small-6 small-centered columns">
+                            <a class="button success expanded" data-toggle="add-exist-expense-form"><i class="fa fa-list-ol" aria-hidden="true"></i> Add Particulars</a>
                         </div>
                         <div class="small-3 columns">
-                            <a class="button success">Add Particular</a>
+                            <label class="text-right middle"></label>
+                        </div>
+                    </div>
+                    <div data-toggler data-animate="slide-in-down slide-out-up" class="callout secondary ease" id="add-exist-expense-form" style="display: none">
+                        <div class="row">
+                            <div class="small-1 columns">
+                                <label class="text-right middle">Particular</label>
+                            </div>
+                            <div class="small-5 columns">
+                                <input type="text" ng-model="addParticular.description" placeholder="">
+                            </div>
+                            <div class="small-2 columns">
+                                <label class="text-right middle">Expense Amount</label>
+                            </div>
+                            <div class="small-4 columns end">
+                                <input type="text" ng-model="addParticular.expense">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="small-1 columns">
+                                <label class="text-right middle">Program</label>
+                            </div>
+                            <div class="small-5 columns">
+                                <selectize config='programConfig' options='programList' ng-model="addParticular.addParticularProgramModel"></selectize>
+                            </div>
+                            <div class="small-2 columns">
+                                <label class="text-right middle">Activity</label>
+                            </div>
+                            <div class="small-4 columns">
+                                <selectize config='programActivityConfig' options='programActivities' ng-model="addParticular.addParticularActivityModel"></selectize>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="small-8 columns">
+                                <form action="/budgetfy/file/upload" method="POST" enctype="multipart/form-data" class="dropzone" id="dropZone-add-exist"/>
+                            </div>
+                            <div class="small-4 columns end">
+                                <a class="button success expanded" ng-click="addNewParticular()">Save <i class="fa fa-plus"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div data-toggler data-animate="slide-in-down slide-out-up" class="callout secondary ease" id="update-expense-form" style="display: none">
+                        <div class="row">
+                            <div class="small-1 columns">
+                                <label for="particular-update" class="text-right middle">Particular</label>
+                            </div>
+                            <div class="small-5 columns">
+                                <input type="text" id="particular-update" placeholder="">
+                            </div>
+                            <div class="small-2 columns">
+                                <label class="text-right middle">Expense Amount</label>
+                            </div>
+                            <div class="small-4 columns end">
+                                <input type="text" id="particular-amount-update">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="small-1 columns">
+                                <label class="text-right middle">Program</label>
+                            </div>
+                            <div class="small-5 columns">
+                                <selectize config='programConfig' options='programList' ng-model="selectedParticular.programId"></selectize>
+                            </div>
+                            <div class="small-2 columns">
+                                <label class="text-right middle">Activity</label>
+                            </div>
+                            <div class="small-4 columns end">
+                                <selectize config='programActivityConfig' options='programActivities' ng-model="addParticular.addParticularActivityModel"></selectize>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="small-8 columns">
+                                <form action="/budgetfy/file/upload" method="POST" enctype="multipart/form-data" class="dropzone" id="dropZone-update"/>
+                            </div>
+                            <div class="small-4 columns end">
+                                <a class="button success expanded" ng-click="addNewParticular()">Update Particular <i class="fa fa-pencil"></i></a>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
@@ -388,12 +453,20 @@
                                 </thead>
                                 <tbody>
                                 <tr dir-paginate="particular in selectedVoucher.particulars | itemsPerPage: 5" pagination-id="view-voucher-particular">
-                                    <td>{{particular.description}}</td>
-                                    <td>{{particular.program.programName}}</td>
-                                    <td>{{particular.activity.activityName}}</td>
-                                    <td>{{particular.expense}}</td>
-                                    <td ng-click="downloadAttachment(particular.receiptId)"><a class="button success" ng-if="particular.receiptId != null"><i class="fa fa-file-image-o" aria-hidden="true"></i></a></td>
-                                    <td ng-click="removeParticular(particular.id)"><a class="button alert"><i class="fa fa-minus"></i></a></td>
+                                    <td data-toggle="update-expense-form">{{particular.description}}</td>
+                                    <td data-toggle="update-expense-form">{{particular.program.programName}}</td>
+                                    <td data-toggle="update-expense-form">{{particular.activity.activityName}}</td>
+                                    <td data-toggle="update-expense-form">{{particular.expense}}</td>
+                                    <td data-toggle="update-expense-form" ng-click="downloadAttachment(particular.receiptId)"><a class="button success" ng-if="particular.receiptId != null"><i class="fa fa-file-image-o" aria-hidden="true"></i></a></td>
+                                    <td data-toggle="update-expense-form" ng-click="removeParticular(particular.id)"><a class="button alert"><i class="fa fa-minus"></i></a></td>
+                                </tr>
+                                <tr>
+                                    <td data-toggle="update-expense-form">Test1</td>
+                                    <td data-toggle="update-expense-form">Test2</td>
+                                    <td data-toggle="update-expense-form">Test3</td>
+                                    <td data-toggle="update-expense-form">Test4</td>
+                                    <td data-toggle="update-expense-form">Test5</td>
+                                    <td data-toggle="update-expense-form">Test6</td>
                                 </tr>
                                 </tbody>
                             </table>
