@@ -93,6 +93,11 @@ a.active-page {
   background-color: #ccc;
 }
 
+#expense-main {
+  overflow-y:scroll;
+  overflow-x:hidden;
+  height:90vh;
+}
 
 #expense-add-container {
   position: absolute;
