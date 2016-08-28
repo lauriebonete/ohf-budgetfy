@@ -138,30 +138,43 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="small-1 columns">
-                            <label class="text-right middle">Particular</label>
+                        <div class="small-3 columns">
+                            <label class="text-right middle"></label>
                         </div>
-                        <div class="small-4 columns">
-                            <input type="text" ng-model="addParticular.description" placeholder="">
+                        <div class="small-6 small-centered columns">
+                            <a class="button success expanded" data-toggle="expense-form-add"><i class="fa fa-list-ol" aria-hidden="true"></i> Add Particulars</a>
                         </div>
-                        <div class="small-2 columns">
-                            <selectize config='programConfig' options='programList' ng-model="addParticular.addParticularProgramModel"></selectize>
-                        </div>
-                        <div class="small-2 columns">
-                            <selectize config='programActivityConfig' options='programActivities' ng-model="addParticular.addParticularActivityModel"></selectize>
-                        </div>
-                        <div class="small-3 columns end">
-                            <input type="text" ng-model="addParticular.expense">
+                        <div class="small-3 columns">
+                            <label class="text-right middle"></label>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="columns small-12">
-                            <form action="/budgetfy/file/upload" method="POST" enctype="multipart/form-data" class="dropzone" id="dropZone"/>
+                    <div data-toggler data-animate="slide-in-down slide-out-up" class="row callout secondary ease" id="expense-form-add" style="display: none">
+                        <div class="row">
+                            <div class="small-1 columns">
+                                <label class="text-right middle">Particular</label>
+                            </div>
+                            <div class="small-4 columns">
+                                <input type="text" ng-model="addParticular.description" placeholder="">
+                            </div>
+                            <div class="small-2 columns">
+                                <selectize config='programConfig' options='programList' ng-model="addParticular.addParticularProgramModel"></selectize>
+                            </div>
+                            <div class="small-2 columns">
+                                <selectize config='programActivityConfig' options='programActivities' ng-model="addParticular.addParticularActivityModel"></selectize>
+                            </div>
+                            <div class="small-3 columns end">
+                                <input type="text" ng-model="addParticular.expense">
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="small-12 columns">
-                            <a class="button success" ng-click="addNewParticular()">Add Particular</a>
+                        <div class="row">
+                            <div class="columns small-12">
+                                <form action="/budgetfy/file/upload" method="POST" enctype="multipart/form-data" class="dropzone" id="dropZone"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="small-12 small-centered columns">
+                                <a class="button success" ng-click="addNewParticular()">Add Particular <i class="fa fa-plus"></i></a>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
