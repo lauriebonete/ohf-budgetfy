@@ -150,6 +150,9 @@
                     </div>
                     <div data-toggler data-animate="slide-in-down slide-out-up" class="callout secondary ease" id="add-expense-form" style="display: none">
                         <div class="row">
+                            <h5 class="text-left"><strong>Add Particular</strong></h5>
+                        </div>
+                        <div class="row">
                             <div class="small-1 columns">
                                 <label class="text-right middle">Particular</label>
                             </div>
@@ -182,7 +185,7 @@
                                 <form action="/budgetfy/file/upload" method="POST" enctype="multipart/form-data" class="dropzone" id="dropZone"/>
                             </div>
                             <div class="small-4 columns end">
-                                <a class="button success expanded" ng-click="addNewParticular()">Save <i class="fa fa-plus"></i></a>
+                                <a class="button success expanded" ng-click="addNewParticular()">Add Particular <i class="fa fa-plus"></i></a>
                             </div>
                         </div>
                     </div>
@@ -217,10 +220,10 @@
                     </ul>
                     <div class="row">
                         <div class="small-3 columns">
-                            <a class="button alert float-right cancel-btn">Cancel</a>
+                            <a class="button alert float-right cancel-btn"><i class="fa fa-arrow-left" aria-hidden="true"></i> Cancel</a>
                         </div>
                         <div class="small-7 columns end">
-                            <a class="button success float-right add-expense-nav-next" id="submit-form" ng-click="prepareNewVoucher()">Next</a>
+                            <a class="button success float-right add-expense-nav-next" id="submit-form" ng-click="prepareNewVoucher()">Next <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                         </div>
                     </div>
                 </div>
@@ -295,10 +298,10 @@
 
                     <div class="row">
                         <div class="small-6 columns text-center">
-                            <a class="button alert add-summary-nav-prev">Back</a>
+                            <a class="button alert add-summary-nav-prev"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</a>
                         </div>
                         <div class="small-6 columns text-center">
-                            <a class="button success add-summary-nav-next" ng-click="createVoucher()">Finish</a>
+                            <a class="button success add-summary-nav-next" ng-click="createVoucher()">Finish <i class="fa fa-check" aria-hidden="true"></i></a>
                         </div>
                     </div>
                 </div>
@@ -364,6 +367,9 @@
                     </div>
                     <div data-toggler data-animate="slide-in-down slide-out-up" class="callout secondary ease" id="add-exist-expense-form" style="display: none">
                         <div class="row">
+                            <h5 class="text-left"><strong>Add Particular</strong></h5>
+                        </div>
+                        <div class="row">
                             <div class="small-1 columns">
                                 <label class="text-right middle">Particular</label>
                             </div>
@@ -396,11 +402,14 @@
                                 <form action="/budgetfy/file/upload" method="POST" enctype="multipart/form-data" class="dropzone" id="dropZone-add-exist"/>
                             </div>
                             <div class="small-4 columns end">
-                                <a class="button success expanded" ng-click="addNewParticular()">Save <i class="fa fa-plus"></i></a>
+                                <a class="button success expanded" ng-click="addNewParticular()">Add Particular <i class="fa fa-plus"></i></a>
                             </div>
                         </div>
                     </div>
                     <div data-toggler data-animate="slide-in-down slide-out-up" class="callout secondary ease" id="update-expense-form" style="display: none">
+                        <div class="row">
+                            <h5 class="text-left"><strong>Update Particular</strong></h5>
+                        </div>
                         <div class="row">
                             <div class="small-1 columns">
                                 <label for="particular-update" class="text-right middle">Particular</label>
@@ -477,10 +486,10 @@
                     </ul>
                     <div class="row">
                         <div class="small-3 columns">
-                            <a class="button alert float-right cancel-btn">Cancel</a>
+                            <a class="button alert float-right cancel-btn"><i class="fa fa-arrow-left" aria-hidden="true"></i> Cancel</a>
                         </div>
                         <div class="small-7 columns end">
-                            <a class="button success float-right update-expense-nav-next" id="submit-update-form">Next</a>
+                            <a class="button success float-right update-expense-nav-next" id="submit-update-form">Next <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                         </div>
                     </div>
                 </div>
@@ -549,10 +558,10 @@
 
                     <div class="row">
                         <div class="small-3 columns">
-                            <a class="button alert float-right update-summary-nav-prev">Back</a>
+                            <a class="button alert float-right update-summary-nav-prev"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</a>
                         </div>
                         <div class="small-7 columns end">
-                            <a class="button success float-right update-summary-nav-next" id="" ng-click="">Finish</a>
+                            <a class="button success float-right update-summary-nav-next" id="" ng-click="">Finish <i class="fa fa-check" aria-hidden="true"></i></a>
                         </div>
                     </div>
                 </div>
