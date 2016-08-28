@@ -96,7 +96,7 @@ public class FileDetailController extends BaseCrudController<FileDetail> {
         Map<String, String> contentTypes = new HashMap<>();
         contentTypes.put("pdf", "application/pdf");
         contentTypes.put("doc", "application/msword");
-        contentTypes.put("docs","application/msword");
+        contentTypes.put("docx","application/msword");
         contentTypes.put("odt", "application/vnd.oasis.opendocument.text");
         contentTypes.put("xls", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         contentTypes.put("xlsx","application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
