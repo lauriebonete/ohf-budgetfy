@@ -13,10 +13,10 @@ body {
 }
 
 /*Site-content CSS Style*/
-#site-content {
-  /*overflow-y:scroll;
+#site-content-program {
+  overflow-y:scroll;
   overflow-x:hidden;
-  height:90vh;*/
+  height:90vh;
 }
 
 /*Create project specific CSS*/
@@ -92,6 +92,7 @@ a.active-page {
 #progressbar .ui-progressbar-value {
   background-color: #ccc;
 }
+
 
 #expense-add-container {
   position: absolute;
