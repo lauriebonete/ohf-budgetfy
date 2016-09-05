@@ -17,7 +17,13 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
         };
 
         $scope.viewVoucher = function(voucherId){
-            $scope.selectedVoucher = voucherService.findVoucherInList($scope.voucherList,voucherId);
+            var foundVoucher = voucherService.findVoucherInList($scope.voucherList,voucherId);
+            $scope.selectedVoucher = foundVoucher;
+            if ($.type(foundVoucher.date) === "string") {
+                var date = foundVoucher.date.split("-");
+                $scope.selectedVoucher.date = new Date(date[0], date[1]-1, date[2]);
+            }
+
             particularService.findParticularsOfVoucher(voucherId).then(function(results){
                 $scope.selectedVoucher.particulars = results.results
             });
@@ -25,11 +31,16 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
 
         $scope.prepareNewVoucher = function(){
             $scope.createVoucher.particulars = $scope.newParticularList;
-            /!*voucherService.saveVoucher($scope.createVoucher);*!/
         };
 
-        $scope.createVoucher = function(){
-            voucherService.saveVoucher($scope.createVoucher);
+        $scope.createVoucherObj = function(){
+            voucherService.saveVoucher($scope.createVoucher).then(function (result){
+                if(result.data.success){
+                    $("#expense-main").removeClass("hide");
+                    $("#expense-add-container").addClass("hide");
+                    $("#expense-update-container").addClass("hide");
+                }
+            });
         };
 
         $scope.newParticularList = [];
@@ -51,6 +62,8 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
                 fileId!=undefined){
                 particular.receipt = {"id":fileId}
             }
+
+            MotionUI.animateOut($('#add-expense-form'), 'slide-out-up');
             $scope.newParticularList.push(particular);
         };
 
@@ -417,6 +430,7 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
                 program: {id:$scope.selectedProgram.id}
             };
             activityService.addUpdateActivity(activityObject).then(function(data){
+                MotionUI.animateOut($('#activity-form'), 'slide-out-up');
                 $scope.selectedProgram.activities.unshift(data.data.result);
             });
         };
@@ -518,11 +532,7 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
         this.saveVoucher = function(voucher){
             return $http.post("/budgetfy/expense/",voucher)
                 .then(function successCallback(response){
-                    if(response.data.status){
-                        return true;
-                    } else {
-                        console.log("error");
-                    }
+                    return response
                 }, function errorCallback(error) {
                     console.log(error);
                 });

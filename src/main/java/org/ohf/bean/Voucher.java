@@ -6,10 +6,11 @@ import org.evey.bean.BaseEntity;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Created by Laurie on 7/2/2016.
@@ -41,6 +42,10 @@ public class Voucher extends BaseEntity {
     @OneToMany(mappedBy = "voucher")
     @JsonManagedReference(value = "VOUCHER")
     private List<Particular> particulars;
+
+    private transient String displayDate;
+
+    private transient String displaytotalAmount;
 
     public String getVcNumber() {
         return vcNumber;
@@ -96,6 +101,23 @@ public class Voucher extends BaseEntity {
 
     public void setParticulars(List<Particular> particulars) {
         this.particulars = particulars;
+    }
+
+    public String getDisplayDate() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM d, yyyy");
+        if (this.date!=null){
+            return dateFormat.format(this.date);
+        }
+        return "";
+    }
+
+    public String getDisplaytotalAmount() {
+        DecimalFormat formatter = (DecimalFormat) NumberFormat.getInstance(Locale.US);
+        DecimalFormatSymbols symbols = formatter.getDecimalFormatSymbols();
+
+        symbols.setGroupingSeparator(',');
+        formatter.setDecimalFormatSymbols(symbols);
+        return formatter.format(this.totalAmount)+"php";
     }
 
     @Override
