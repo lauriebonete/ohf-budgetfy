@@ -463,6 +463,11 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
             });
         };
 
+        $scope.removeAddedActivity = function(id){
+            $scope.addedActivityList = $filter('filter')($scope.addedActivityList , { activityTypeId: ('!' + id) });
+        };
+
+
     }])
     .service("userService", function($http){
         this.getAllUsers = function(){
