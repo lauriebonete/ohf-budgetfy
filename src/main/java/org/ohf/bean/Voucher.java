@@ -117,7 +117,7 @@ public class Voucher extends BaseEntity {
 
         symbols.setGroupingSeparator(',');
         formatter.setDecimalFormatSymbols(symbols);
-        return formatter.format(this.totalAmount)+"php";
+        return "P"+formatter.format(this.totalAmount);
     }
 
     @Override

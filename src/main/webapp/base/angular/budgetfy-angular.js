@@ -222,6 +222,10 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
             $scope.addedUserList.push(user);
         };
 
+        $scope.removeUserFromList = function(id){
+            $scope.addedUserList = $filter('filter')($scope.addedUserList , { id: ('!' + id) });
+        };
+
         $scope.showSummary = function(){
             var programName = $("#program-name").val();
             var totalBudget = $("#total-budget").val();

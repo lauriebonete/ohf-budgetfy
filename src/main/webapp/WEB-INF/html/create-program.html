@@ -141,7 +141,7 @@
                     <div class="small-1 columns text-center"><input class="write-program-access" type="checkbox" ng-model="user.writeAccess"><label></label></div>
                     <div class="small-1 columns text-center"><input class="update-program-access" type="checkbox" ng-model="user.updateAccess"><label></label></div>
                     <div class="small-1 columns text-center"><input class="delete-program-access" type="checkbox" ng-model="user.deleteAccess"><label></label></div>
-                    <div class="small-1 columns end"><a class="button alert float-right"><i class="fa fa-minus"></i></a></div>
+                    <div class="small-1 columns end" ng-click="removeUserFromList(user.id)"><a class="button alert float-right"><i class="fa fa-minus"></i></a></div>
                 </div>
             </div>
             <div class="row">

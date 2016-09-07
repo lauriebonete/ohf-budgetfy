@@ -465,17 +465,9 @@
                                     <td data-toggle="update-expense-form">{{particular.description}}</td>
                                     <td data-toggle="update-expense-form">{{particular.program.programName}}</td>
                                     <td data-toggle="update-expense-form">{{particular.activity.activityName}}</td>
-                                    <td data-toggle="update-expense-form">{{particular.expense}}</td>
+                                    <td data-toggle="update-expense-form">{{particular.displayExpense}}</td>
                                     <td data-toggle="update-expense-form" ng-click="downloadAttachment(particular.receiptId)"><a class="button success" ng-if="particular.receiptId != null"><i class="fa fa-file-image-o" aria-hidden="true"></i></a></td>
                                     <td data-toggle="update-expense-form" ng-click="removeParticular(particular.id)"><a class="button alert"><i class="fa fa-minus"></i></a></td>
-                                </tr>
-                                <tr>
-                                    <td data-toggle="update-expense-form">Test1</td>
-                                    <td data-toggle="update-expense-form">Test2</td>
-                                    <td data-toggle="update-expense-form">Test3</td>
-                                    <td data-toggle="update-expense-form">Test4</td>
-                                    <td data-toggle="update-expense-form">Test5</td>
-                                    <td data-toggle="update-expense-form">Test6</td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -506,23 +498,23 @@
                                 <td>
                                     <div class="row">
                                         <div class="small-6 columns">Payee</div>
-                                        <div class="small-6 columns end"><span id="update-payee-summary">PayeeTest1</span></div>
+                                        <div class="small-6 columns end"><span id="update-payee-summary">{{selectedVoucher.payee}}</span></div>
                                     </div>
                                     <div class="row">
                                         <div class="small-6 columns">Check/Ref#</div>
-                                        <div class="small-6 columns end"><span id="update-check-ref-summary">298844</span></div>
+                                        <div class="small-6 columns end"><span id="update-check-ref-summary">{{selectedVoucher.reference}}</span></div>
                                     </div>
                                     <div class="row">
                                         <div class="small-6 columns">VC#</div>
-                                        <div class="small-6 columns end"><span id="update-vc-summary">100009</span></div>
+                                        <div class="small-6 columns end"><span id="update-vc-summary">{{selectedVoucher.vcNumber}}</span></div>
                                     </div>
                                     <div class="row">
                                         <div class="small-6 columns">Date</div>
-                                        <div class="small-6 columns end"><span id="update-date-summary">08/20/2016</span></div>
+                                        <div class="small-6 columns end"><span id="update-date-summary">{{selectedVoucher.date}}</span></div>
                                     </div>
                                     <div class="row">
                                         <div class="small-6 columns">Total Amount</div>
-                                        <div class="small-6 columns end"><span id="update-total-amount-summary">100,000.00PHP</span></div>
+                                        <div class="small-6 columns end"><span id="update-total-amount-summary">{{selectedVoucher.totalAmount}}</span></div>
                                     </div>
                                 </td>
                             </tr>
@@ -532,23 +524,23 @@
                         <strong>Particulars</strong>
                         <table>
                             <tbody id="particular-update-summary">
-                            <tr>
+                            <tr ng-repeat="particular in selectedVoucher.particulars">
                                 <td>
                                     <div class="row">
                                         <div class="small-6 columns">Name</div>
-                                        <div class="small-6 columns end"><span>ParticularName1</span></div>
+                                        <div class="small-6 columns end"><span>{{particular.description}}</span></div>
                                     </div>
                                     <div class="row">
                                         <div class="small-6 columns">Program</div>
-                                        <div class="small-6 columns end"><span>ProgramTest1</span></div>
+                                        <div class="small-6 columns end"><span>{{particular.program.programName}}</span></div>
                                     </div>
                                     <div class="row">
                                         <div class="small-6 columns">Activity</div>
-                                        <div class="small-6 columns end"><span>ActivityTest1</span></div>
+                                        <div class="small-6 columns end"><span>{{particular.activity.activityName}}</span></div>
                                     </div>
                                     <div class="row">
                                         <div class="small-6 columns">Expense</div>
-                                        <div class="small-6 columns end"><span>10,000.00PHP</span></div>
+                                        <div class="small-6 columns end"><span>{{particular.displayExpense}}</span></div>
                                     </div>
                                 </td>
                             </tr>

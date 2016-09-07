@@ -6,6 +6,10 @@ import org.evey.bean.FileDetail;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 /**
  * Created by Laurie on 7/2/2016.
@@ -42,6 +46,8 @@ public class Particular extends BaseEntity {
 
     @Column(name = "RECEIPT_ID", insertable = false, updatable = false)
     private Long receiptId;
+
+    private transient String displayExpense;
 
     public String getDescription() {
         return description;
@@ -105,5 +111,14 @@ public class Particular extends BaseEntity {
 
     public void setActivityId(Long activityId) {
         this.activityId = activityId;
+    }
+
+    public String getDisplayExpense() {
+        DecimalFormat formatter = (DecimalFormat) NumberFormat.getInstance(Locale.US);
+        DecimalFormatSymbols symbols = formatter.getDecimalFormatSymbols();
+
+        symbols.setGroupingSeparator(',');
+        formatter.setDecimalFormatSymbols(symbols);
+        return "P"+formatter.format(this.expense);
     }
 }

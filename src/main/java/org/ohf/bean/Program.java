@@ -130,7 +130,7 @@ public class Program extends BaseEntity {
 
         symbols.setGroupingSeparator(',');
         formatter.setDecimalFormatSymbols(symbols);
-        return formatter.format(this.totalBudget)+"php";
+        return "P"+formatter.format(this.totalBudget);
     }
 
     @Override
