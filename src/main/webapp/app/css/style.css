@@ -159,3 +159,8 @@ a.active-page {
   margin: 100px 0;
   padding: 40px 20px 0 20px;
 }
+
+/*
+.selectize-dropdown, .selectize-input, .selectize-input {
+  line-height: 14px;
+}*/
