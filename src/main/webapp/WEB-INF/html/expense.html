@@ -27,7 +27,7 @@
                     <a class="button" href="/budgetfy/overview">Overview</a>
                     <a class="button" href="/budgetfy/program">Programs</a>
                     <a class="button active-page" href="/budgetfy/expense">Expense</a>
-                    <a class="button">Reports</a>
+                    <a class="button" href="/budgetfy/reports">Reports</a>
                 </div>
                 <div class="small-6 columns text-right">
                     <a class="button"><i class="fa fa-cog"></i></a>
@@ -37,7 +37,7 @@
             </div>
         </section>
 
-        <section id="site-content" ng-controller="voucherController">
+        <section id="site-content" ng-controller="voucherController"  ng-init="loadInitData()">
             <div id="expense-main">
                 <div class="row">
                     <div class="small-5 columns text-left">
@@ -73,7 +73,7 @@
                                 <th>Total Amount</th>
                             </tr>
                             </thead>
-                            <tbody ng-init="loadVoucher()">
+                            <tbody>
                             <tr class="row-onclick" dir-paginate="voucher in voucherList | filter : voucherFilter | itemsPerPage: voucherMaxSize" pagination-id="voucher-list" ng-click="viewVoucher(voucher.id)">
                                 <td>{{voucher.vcNumber}}</td>
                                 <td>{{voucher.reference}}</td>
@@ -206,7 +206,7 @@
                                 <tbody>
                                     <tr dir-paginate="particular in newParticularList | itemsPerPage: 5" pagination-id="add-voucher-particular">
                                         <td>{{particular.description}}</td>
-                                        <td>{{particular.program.programName}}</td>
+                                        <td>{{particular.activity.program.programName}}</td>
                                         <td>{{particular.activity.activityName}}</td>
                                         <td>{{particular.expense}}</td>
                                         <td ng-click="downloadAttachment(particular.receipt.id)"><a class="button success" ng-if="particular.receipt != null"><i class="fa fa-file-image-o" aria-hidden="true"></i></a></td>
@@ -464,7 +464,7 @@
                                 <tbody>
                                 <tr dir-paginate="particular in selectedVoucher.particulars | itemsPerPage: 5" pagination-id="view-voucher-particular">
                                     <td data-toggle="update-expense-form">{{particular.description}}</td>
-                                    <td data-toggle="update-expense-form">{{particular.program.programName}}</td>
+                                    <td data-toggle="update-expense-form">{{particular.activity.program.programName}}</td>
                                     <td data-toggle="update-expense-form">{{particular.activity.activityName}}</td>
                                     <td data-toggle="update-expense-form">{{particular.displayExpense}}</td>
                                     <td data-toggle="update-expense-form" ng-click="downloadAttachment(particular.receiptId)"><a class="button success" ng-if="particular.receiptId != null"><i class="fa fa-file-image-o" aria-hidden="true"></i></a></td>

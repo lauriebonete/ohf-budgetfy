@@ -143,6 +143,6 @@ public class Activity extends BaseEntity {
 
         symbols.setGroupingSeparator(',');
         formatter.setDecimalFormatSymbols(symbols);
-        return formatter.format(this.amount)+"php";
+        return "P"+formatter.format(this.amount);
     }
 }
