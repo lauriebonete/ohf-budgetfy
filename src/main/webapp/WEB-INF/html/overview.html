@@ -38,16 +38,86 @@
             <div class="row">
                 <h2>CYP Program</h2>
             </div>
+            <div class="row">
+                <div class="small-6 columns end" id="pie-exp-canvas" style="width:50%">
+                    <canvas id="pie-exp-chart"></canvas>
+                </div>
+            </div>
         </section>
 
         <script src="js/vendor/what-input.js"></script>
         <script src="js/vendor/foundation.min.js"></script>
         <script src="js/evey-1.0.js"></script>
+        <script src="js/Chart.min.js"></script>
         <script>
             $(document).foundation();
 
             $(document).ready(function(){
+                var pieChartData = {
+                    labels: ["Expense", "Remaining Budget"],
+                    datasets: [{
+                        backgroundColor: ["#F7464A","#00e600"],
+                        data: [1000000,100000000]
+                    }]
 
+                };
+                /*var barChartData = {
+                    labels: ["Laguna Teaching Program", "Fairview Teaching Program"],
+                    datasets: [{
+                        label: 'forecast',
+                        backgroundColor: "rgba(220,220,220,0.5)",
+                        data: [20000,70000]
+                    }, {
+                        label: 'actuals',
+                        backgroundColor: "rgba(151,187,205,0.5)",
+                        data: [40000,50000]
+                    }]
+
+                };*/
+
+                window.onload = function() {
+                    var ctxPie = document.getElementById("pie-exp-chart").getContext("2d");
+                    window.myPie = new Chart(ctxPie, {
+                        type: 'pie',
+                        data: pieChartData,
+                        options: {
+                            responsive: true,
+                            legend: {
+                                position: 'right',
+                            },
+                            title: {
+                                display: true,
+                                position: 'left',
+                                text: 'Expense Chart'
+                            }
+                        }
+                    });
+                    /*var ctxBar = document.getElementById("bar-chart").getContext("2d");
+                    window.myBar = new Chart(ctxBar, {
+                        type: 'bar',
+                        data: barChartData,
+                        options: {
+                            // Elements options apply to all of the options unless overridden in a dataset
+                            // In this case, we are setting the border of each bar to be 2px wide and green
+                            elements: {
+                                rectangle: {
+                                    borderWidth: 2,
+                                    borderColor: 'rgb(0, 255, 0)',
+                                    borderSkipped: 'bottom'
+                                }
+                            },
+                            responsive: true,
+                            legend: {
+                                position: 'right',
+                            },
+                            title: {
+                                display: true,
+                                text: 'Expense Chart'
+                            }
+                        }
+                    });*/
+
+                };
             });
         </script>
   </body>
