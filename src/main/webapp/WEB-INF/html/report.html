@@ -60,7 +60,7 @@
     </div>
 </section>
 
-<section id="site-content" ng-controller="voucherController">
+<section id="site-content-overview" ng-controller="voucherController">
     <div class="row">
         <div class="small-3 columns">
             <h2 class="middle">Overview</h2>
@@ -82,11 +82,40 @@
         </div>
     </div>
     <div class="row">
-        <div class="small-6 columns end" id="pie-all-prog" style="width:50%">
+        <div class="small-1 columns">
+            <label class="text-right middle"></label>
+        </div>
+        <div class="small-6 columns" id="pie-all-prog" style="width:75%">
             <canvas id="pie-all-prog-chart"></canvas>
         </div>
-        <div class="small-6 columns end" id="pie-prog-breakdown" style="width:50%">
-            <canvas id="pie-exp-chart"></canvas>
+        <div class="small-5 columns end">
+            <label class="text-right middle"></label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="small-7 columns">
+            <label class="text-right middle"></label>
+        </div>
+        <div class="small-2 columns">
+            <label class="text-right middle">Select A Program</label>
+        </div>
+        <div class="small-3 columns text-right">
+            <select>
+                <option value="Admin">Admin</option>
+                <option value="CYP">CYP</option>
+                <option value="TestProg">TestProg</option>
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="small-1 columns">
+            <label class="text-right middle"></label>
+        </div>
+        <div class="small-6 columns end" id="pie-prog-breakdown" style="width:75%">
+            <canvas id="pie-prog-breakdown-chart"></canvas>
+        </div>
+        <div class="small-5 columns end">
+            <label class="text-right middle"></label>
         </div>
     </div>
 </section>
@@ -104,6 +133,14 @@
             datasets: [{
                 backgroundColor: ["#F7464A","#00e600","#1a1aff"],
                 data: [3000,1000,5000]
+            }]
+
+        };
+        var pieChartData2 = {
+            labels: ["Activity1", "Activity2", "Activity3", "Activity4", "Activity5"],
+            datasets: [{
+                backgroundColor: ["#F7464A","#00e600","#1a1aff","#ffff00","#ff4da6"],
+                data: [3000,1000,5000,999,10000]
             }]
 
         };
@@ -129,12 +166,44 @@
                 options: {
                     responsive: true,
                     legend: {
-                        position: 'right',
+                        position: 'right'
                     },
                     title: {
                         display: true,
                         position: 'top',
                         text: 'Budget (All Programs)'
+                    },
+                    tooltips: {
+                        callbacks: {
+                            label: function(tooltipItem, data) {
+                                var allData = data.datasets[tooltipItem.datasetIndex].data;
+                                var tooltipLabel = data.labels[tooltipItem.index];
+                                var tooltipData = allData[tooltipItem.index];
+                                var total = 0;
+                                for (var i in allData) {
+                                    total += allData[i];
+                                }
+                                var tooltipPercentage = Math.round((tooltipData / total) * 100);
+                                return tooltipLabel + ': ' + tooltipData + ' (' + tooltipPercentage + '%)';
+                            }
+                        }
+                    }
+                }
+            });
+
+            var ctxPie2 = document.getElementById("pie-prog-breakdown-chart").getContext("2d");
+            window.myPie = new Chart(ctxPie2, {
+                type: 'pie',
+                data: pieChartData2,
+                options: {
+                    responsive: true,
+                    legend: {
+                        position: 'right'
+                    },
+                    title: {
+                        display: true,
+                        position: 'top',
+                        text: 'Activities Breakdown'
                     },
                     tooltips: {
                         callbacks: {
