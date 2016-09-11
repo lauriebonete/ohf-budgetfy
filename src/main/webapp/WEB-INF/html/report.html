@@ -62,20 +62,18 @@
 
 <section id="site-content" ng-controller="voucherController">
     <div class="row">
-        <div class="small-4 columns">
-            <h2 class="middle">CYP Program</h2>
-        </div>
-        <div class="small-1 columns">
-            <label for="from-date" class="text-right middle">From</label>
-        </div>
         <div class="small-3 columns">
-            <input type="date" id="from-date" placeholder="">
+            <h2 class="middle">Overview</h2>
         </div>
-        <div class="small-1 columns">
-            <label for="to-date" class="text-right middle">To</label>
+        <div class="small-7 columns">
+            <label class="text-right middle"></label>
         </div>
-        <div class="small-3 columns end">
-            <input type="date" id="to-date" placeholder="">
+        <div class="small-2 columns text-right">
+            <select>
+                <option value="2016">2016</option>
+                <option value="2015">2015</option>
+                <option value="2014">2014</option>
+            </select>
         </div>
     </div>
     <div class="row">
@@ -84,14 +82,11 @@
         </div>
     </div>
     <div class="row">
-        <div class="small-3 columns">
-            <label class="text-right middle"></label>
+        <div class="small-6 columns end" id="pie-all-prog" style="width:50%">
+            <canvas id="pie-all-prog-chart"></canvas>
         </div>
-        <div class="small-6 columns end" id="pie-exp-canvas" style="width:50%">
+        <div class="small-6 columns end" id="pie-prog-breakdown" style="width:50%">
             <canvas id="pie-exp-chart"></canvas>
-        </div>
-        <div class="small-3 columns">
-            <label class="text-right middle"></label>
         </div>
     </div>
 </section>
@@ -105,10 +100,10 @@
 
     $(document).ready(function(){
         var pieChartData = {
-            labels: ["Expense", "Remaining Budget"],
+            labels: ["Admin", "CYP", "TestProg"],
             datasets: [{
-                backgroundColor: ["#F7464A","#00e600"],
-                data: [1000000,100000000]
+                backgroundColor: ["#F7464A","#00e600","#1a1aff"],
+                data: [3000,1000,5000]
             }]
 
         };
@@ -127,7 +122,7 @@
          };*/
 
         window.onload = function() {
-            var ctxPie = document.getElementById("pie-exp-chart").getContext("2d");
+            var ctxPie = document.getElementById("pie-all-prog-chart").getContext("2d");
             window.myPie = new Chart(ctxPie, {
                 type: 'pie',
                 data: pieChartData,
@@ -138,8 +133,23 @@
                     },
                     title: {
                         display: true,
-                        position: 'left',
-                        text: 'Expense Chart'
+                        position: 'top',
+                        text: 'Budget (All Programs)'
+                    },
+                    tooltips: {
+                        callbacks: {
+                            label: function(tooltipItem, data) {
+                                var allData = data.datasets[tooltipItem.datasetIndex].data;
+                                var tooltipLabel = data.labels[tooltipItem.index];
+                                var tooltipData = allData[tooltipItem.index];
+                                var total = 0;
+                                for (var i in allData) {
+                                    total += allData[i];
+                                }
+                                var tooltipPercentage = Math.round((tooltipData / total) * 100);
+                                return tooltipLabel + ': ' + tooltipData + ' (' + tooltipPercentage + '%)';
+                            }
+                        }
                     }
                 }
             });
