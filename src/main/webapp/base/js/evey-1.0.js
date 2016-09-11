@@ -25,6 +25,10 @@ var evey = (function(){
             );
         },
 
+        formatDisplayMoney : function(input){
+            return "P" + this.addThousandsSeparator(input);
+        },
+
         getUrlParams : function(){
             var path = window.location.search;
             if(path.indexOf("?")>=0){
