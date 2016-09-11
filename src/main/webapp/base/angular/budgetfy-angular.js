@@ -50,7 +50,6 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
                 $.each($scope.selectedVoucher.particulars,function(i, particular){
                     particular.activity = activityService.findActivityInList($scope.activityList, particular.activityId);
                     particular.activity.program = programService.findProgramInList($scope.programList, particular.activity.programId);
-                    console.log(particular);
                 });
             });
         };
@@ -61,7 +60,7 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
 
         $scope.createVoucherObj = function(){
             voucherService.saveVoucher($scope.createVoucher).then(function (result){
-                if(result.data.success){
+                if(result.data.status){
                     $("#expense-main").removeClass("hide");
                     $("#expense-add-container").addClass("hide");
                     $("#expense-update-container").addClass("hide");
@@ -70,9 +69,12 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
         };
 
         $scope.newParticularList = [];
-        $scope.addNewParticular =function(){
-            var fileId = $("#dropZone .dz-preview").attr("data-file");
-
+        $scope.addNewParticular = function(attachmentContainer){
+            var fileId = null;
+            var preview = $("div#"+attachmentContainer).parent(".columns").find("img.ajax-file-upload-preview");
+            if(preview.length>0){
+                fileId = $(preview[0]).attr("data-upload-id");
+            }
             var program = programService.findProgramInList($scope.programList,$scope.addParticular.addParticularProgramModel);
             var activity = activityService.findActivityInList($scope.programActivities,$scope.addParticular.addParticularActivityModel);
 
@@ -83,14 +85,66 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
                 "program": program
             };
 
-            if(fileId!="" &&
-                fileId!=null &&
-                fileId!=undefined){
-                particular.receipt = {"id":fileId}
+            if(fileId!=null){
+                particular.receipt = {"id":fileId};
             }
 
             MotionUI.animateOut($('#add-expense-form'), 'slide-out-up');
             $scope.newParticularList.push(particular);
+        };
+
+        $scope.addNewParticularSelectedVoucher = function(attachmentContainer){
+            var fileId = null;
+            var preview = $("div#"+attachmentContainer).parent(".columns").find("img.ajax-file-upload-preview");
+            if(preview.length>0){
+                fileId = $(preview[0]).attr("data-upload-id");
+            }
+            var program = programService.findProgramInList($scope.programList,$scope.addParticular.addParticularProgramModel);
+            var activity = activityService.findActivityInList($scope.programActivities,$scope.addParticular.addParticularActivityModel);
+            activity.program = program;
+
+            var particular = {
+                "description": $scope.addParticular.description,
+                "expense": $scope.addParticular.expense,
+                "displayExpense": evey.formatDisplayMoney($scope.addParticular.expense),
+                "activity": activity
+            };
+
+            if(fileId!=null){
+                particular.receipt = {"id":fileId};
+                particular.receiptId = fileId;
+            }
+
+            MotionUI.animateOut($('div#add-exist-expense-form'), 'slide-out-up');
+            $scope.selectedVoucher.particulars.unshift(particular);
+        };
+
+        $scope.viewSelectedParticular = function(particularId){
+            $scope.selectedParticular = particularService.findParticularFromList($scope.selectedVoucher.particulars,particularId);
+
+            if($scope.selectedParticular.activity!=null &&
+                ($scope.selectedParticular.activityId==null ||
+                $scope.selectedParticular.activityId=="" ||
+                $scope.selectedParticular.activityId==undefined ||
+                $scope.selectedParticular.activityId==0)){
+                $scope.selectedParticular.activityId =$scope.selectedParticular.activity.id;
+            }
+
+            if($scope.selectedParticular.activity.program!=null &&
+                ($scope.selectedParticular.activity.programId==null ||
+                $scope.selectedParticular.activity.programId=="" ||
+                $scope.selectedParticular.activity.programId==undefined ||
+                $scope.selectedParticular.activity.programId==0)){
+                $scope.selectedParticular.activity.programId =$scope.selectedParticular.program.id;
+            }
+
+            if($scope.selectedParticular.activity.programId!=null){
+                activityService.getProgramActivities($scope.selectedParticular.activity.programId).then(function(results){
+                    $scope.programActivities = results.results;
+                },function(error){
+
+                });
+            }
         };
 
         $scope.programConfig =
@@ -628,6 +682,16 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
             }, function errorCallback(response){
 
             });
+        };
+
+        this.findParticularFromList = function(particularList, particularId){
+            var foundParticular = particularList.filter(function(particular){
+                return (particular.id == particularId);
+            });
+            if(foundParticular.length>0){
+                return foundParticular[0];
+            }
+            return null;
         };
 
     }).service("fileDetailService", function($http){

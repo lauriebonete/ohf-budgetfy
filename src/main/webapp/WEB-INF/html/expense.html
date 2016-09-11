@@ -186,7 +186,7 @@
                                 <div id="add-particular-receipt">Upload</div>
                             </div>
                             <div class="small-4 columns end">
-                                <a class="button success expanded" ng-click="addNewParticular()">Add Particular <i class="fa fa-plus"></i></a>
+                                <a class="button success expanded" ng-click="addNewParticular('add-particular-receipt')">Add Particular <i class="fa fa-plus"></i></a>
                             </div>
                         </div>
                     </div>
@@ -206,7 +206,7 @@
                                 <tbody>
                                     <tr dir-paginate="particular in newParticularList | itemsPerPage: 5" pagination-id="add-voucher-particular">
                                         <td>{{particular.description}}</td>
-                                        <td>{{particular.activity.program.programName}}</td>
+                                        <td>{{particular.program.programName}}</td>
                                         <td>{{particular.activity.activityName}}</td>
                                         <td>{{particular.expense}}</td>
                                         <td ng-click="downloadAttachment(particular.receipt.id)"><a class="button success" ng-if="particular.receipt != null"><i class="fa fa-file-image-o" aria-hidden="true"></i></a></td>
@@ -400,10 +400,10 @@
                         </div>
                         <div class="row">
                             <div class="small-8 columns">
-                                <form action="/budgetfy/file/upload" method="POST" enctype="multipart/form-data" class="dropzone" id="dropZone-add-exist"/>
+                                <div id="add-particular-receipt-update">Upload</div>
                             </div>
                             <div class="small-4 columns end">
-                                <a class="button success expanded" ng-click="addNewParticular()">Add Particular <i class="fa fa-plus"></i></a>
+                                <a class="button success expanded" ng-click="addNewParticularSelectedVoucher('add-particular-receipt-update')">Add Particular <i class="fa fa-plus"></i></a>
                             </div>
                         </div>
                     </div>
@@ -416,13 +416,13 @@
                                 <label for="particular-update" class="text-right middle">Particular</label>
                             </div>
                             <div class="small-5 columns">
-                                <input type="text" id="particular-update" placeholder="">
+                                <input type="text" ng-model="selectedParticular.description">
                             </div>
                             <div class="small-2 columns">
                                 <label class="text-right middle">Expense Amount</label>
                             </div>
                             <div class="small-4 columns end">
-                                <input type="text" id="particular-amount-update">
+                                <input type="text" ng-model="selectedParticular.expense"/>
                             </div>
                         </div>
                         <div class="row">
@@ -430,18 +430,18 @@
                                 <label class="text-right middle">Program</label>
                             </div>
                             <div class="small-5 columns">
-                                <selectize config='programConfig' options='programList' ng-model="selectedParticular.programId"></selectize>
+                                <selectize config='programConfig' options='programList' ng-model="selectedParticular.activity.programId"></selectize>
                             </div>
                             <div class="small-2 columns">
                                 <label class="text-right middle">Activity</label>
                             </div>
                             <div class="small-4 columns end">
-                                <selectize config='programActivityConfig' options='programActivities' ng-model="addParticular.addParticularActivityModel"></selectize>
+                                <selectize config='programActivityConfig' options='programActivities' ng-model="selectedParticular.activityId"></selectize>
                             </div>
                         </div>
                         <div class="row">
                             <div class="small-8 columns">
-                                <form action="/budgetfy/file/upload" method="POST" enctype="multipart/form-data" class="dropzone" id="dropZone-update"/>
+                                <div id="update-particular-receipt">Upload</div>
                             </div>
                             <div class="small-4 columns end">
                                 <a class="button success expanded" ng-click="addNewParticular()">Update Particular <i class="fa fa-pencil"></i></a>
@@ -462,12 +462,12 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr dir-paginate="particular in selectedVoucher.particulars | itemsPerPage: 5" pagination-id="view-voucher-particular">
+                                <tr dir-paginate="particular in selectedVoucher.particulars | itemsPerPage: 5" pagination-id="view-voucher-particular" ng-click="viewSelectedParticular(particular.id)">
                                     <td data-toggle="update-expense-form">{{particular.description}}</td>
                                     <td data-toggle="update-expense-form">{{particular.activity.program.programName}}</td>
                                     <td data-toggle="update-expense-form">{{particular.activity.activityName}}</td>
                                     <td data-toggle="update-expense-form">{{particular.displayExpense}}</td>
-                                    <td data-toggle="update-expense-form" ng-click="downloadAttachment(particular.receiptId)"><a class="button success" ng-if="particular.receiptId != null"><i class="fa fa-file-image-o" aria-hidden="true"></i></a></td>
+                                    <td ng-click="downloadAttachment(particular.receiptId)"><a class="button success" ng-if="particular.receiptId != null"><i class="fa fa-file-image-o" aria-hidden="true"></i></a></td>
                                     <td data-toggle="update-expense-form" ng-click="removeParticular(particular.id)"><a class="button alert"><i class="fa fa-minus"></i></a></td>
                                 </tr>
                                 </tbody>
@@ -533,7 +533,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="small-6 columns">Program</div>
-                                        <div class="small-6 columns end"><span>{{particular.program.programName}}</span></div>
+                                        <div class="small-6 columns end"><span>{{particular.activity.program.programName}}</span></div>
                                     </div>
                                     <div class="row">
                                         <div class="small-6 columns">Activity</div>
@@ -566,12 +566,13 @@
         <script src="js/vendor/foundation.min.js"></script>
         <script src="js/evey-1.0.js"></script>
         <script src="js/motion-ui.min.js"></script>
+        <script src="js/jquery.form.js"></script>
         <script src="js/jquery.uploadfile.min.js"></script>
         <script>
             $(document).foundation();
 
             $(document).ready(function(){
-                $("#add-particular-receipt").uploadFile({
+                $("div#add-particular-receipt").uploadFile({
                     url:"/budgetfy/file/upload",
                     multiple:false,
                     dragDrop:false,
@@ -581,7 +582,44 @@
                     previewWidth: "100px",
                     showDelete: true,
                     statusBarWidth:600,
+                    onSuccess:function(files,data,xhr,pd){
+                        var preview = $("div#add-particular-receipt").parent(".columns").find("img.ajax-file-upload-preview");
+                        $(preview).attr("data-upload-id",data[0].id);
+                    }
                 });
+
+                $("div#add-particular-receipt-update").uploadFile({
+                    url:"/budgetfy/file/upload",
+                    multiple:false,
+                    dragDrop:false,
+                    maxFileCount:1,
+                    showPreview:true,
+                    previewHeight: "100px",
+                    previewWidth: "100px",
+                    showDelete: true,
+                    statusBarWidth:600,
+                    onSuccess:function(files,data,xhr,pd){
+                        var preview = $("div#add-particular-receipt-update").parent(".columns").find("img.ajax-file-upload-preview");
+                        $(preview).attr("data-upload-id",data[0].id);
+                    }
+                });
+
+                $("div#update-particular-receipt").uploadFile({
+                    url:"/budgetfy/file/upload",
+                    multiple:false,
+                    dragDrop:false,
+                    maxFileCount:1,
+                    showPreview:true,
+                    previewHeight: "100px",
+                    previewWidth: "100px",
+                    showDelete: true,
+                    statusBarWidth:600,
+                    onSuccess:function(files,data,xhr,pd){
+                        var preview = $("div#update-particular-receipt").parent(".columns").find("img.ajax-file-upload-preview");
+                        $(preview).attr("data-upload-id",data[0].id);
+                    }
+                });
+
             }).on("click",".button-press",function(){
                 $("#expense-main").addClass("hide");
                 $("#expense-add-container").removeClass("hide");
