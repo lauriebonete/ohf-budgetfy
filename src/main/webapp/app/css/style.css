@@ -8,22 +8,25 @@ body {
 /*Header CSS style*/
 #header {
   width: 100%;
+  height:6.3vh;
   background-color: #2199e8;
   margin-bottom: 1em;
 }
+
 
 /*Site-content CSS Style*/
 #site-content-program, #site-content-overview {
   overflow-y:scroll;
   overflow-x:hidden;
-  height:90vh;
+  height:92vh;
 }
 
 /*Create project specific CSS*/
 #create-program-form-container {
   position: absolute;
   width: 100%;
-  height: 87vh;
+  height: 90vh;
+  margin-top: 1em;
   /*overflow: hidden;*/
   overflow-y:scroll;
   overflow-x:hidden;
@@ -45,6 +48,7 @@ body {
   -moz-transition: all 300ms ease-in 300ms;
   -o-transition: all 300ms ease-in 300ms;
   transition: all 300ms ease-in 300ms;
+  margin-top: 0;
 }
 
 #program-details {
@@ -96,13 +100,13 @@ a.active-page {
 #expense-main {
   overflow-y:scroll;
   overflow-x:hidden;
-  height:90vh;
+  height:92vh;
 }
 
 #expense-add-container {
   position: absolute;
   width: 100%;
-  height: 88vh;
+  height: 90vh;
   /*overflow: hidden;*/
   overflow-y:scroll;
   overflow-x:hidden;
@@ -129,7 +133,7 @@ a.active-page {
 #expense-update-container {
   position: absolute;
   width: 100%;
-  height: 88vh;
+  height: 90vh;
   /*overflow: hidden;*/
   overflow-y:scroll;
   overflow-x:hidden;
