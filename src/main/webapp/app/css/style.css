@@ -15,7 +15,7 @@ body {
 
 
 /*Site-content CSS Style*/
-#site-content-program, #site-content-overview, #site-content-user, #site-content-reference {
+#site-content-program, #site-content-overview, #site-content-user, #site-content-reference, #site-content-sys-maintenance {
   overflow-y:scroll;
   overflow-x:hidden;
   height:92vh;
