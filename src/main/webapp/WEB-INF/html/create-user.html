@@ -18,21 +18,22 @@
     <script src="angular/dirPagination.js"></script>
 </head>
 <body ng-app="budgetfyApp">
-<section id="header">
-    <div class="row">
-        <div class="small-6 columns text-left">
-            <a class="button" href="/budgetfy/overview">Overview</a>
-            <a class="button" href="/budgetfy/program">Programs</a>
-            <a class="button" href="/budgetfy/expense">Expense</a>
-            <a class="button">Reports</a>
+    <section id="header">
+        <div class="row">
+            <div class="small-6 columns text-left">
+                <a class="button" href="/budgetfy/overview">Overview</a>
+                <a class="button" href="/budgetfy/program">Programs</a>
+                <a class="button" href="/budgetfy/expense">Expense</a>
+                <a class="button" href="/budgetfy/reports">Reports</a>
+            </div>
+            <div class="small-6 columns text-right">
+                <a class="button active-page" href="/budgetfy/reference"><i class="fa fa-cog"></i></a>
+                <a class="button"><i class="fa fa-exclamation"></i></a>
+                <a class="button"><i class="fa fa-user"></i></a>
+                <a class="button"><i class="fa fa-users"></i></a>
+            </div>
         </div>
-        <div class="small-6 columns text-right">
-            <a class="button"><i class="fa fa-cog"></i></a>
-            <a class="button"><i class="fa fa-exclamation"></i></a>
-            <a class="button active-page"><i class="fa fa-user"></i></a>
-        </div>
-    </div>
-</section>
+    </section>
 
 <section id="site-content-overview" ng-controller="voucherController">
     <div class="row">
