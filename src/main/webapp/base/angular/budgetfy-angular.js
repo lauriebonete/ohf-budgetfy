@@ -587,6 +587,14 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
 
             });
         };
+
+        this.getAllReference = function(){
+            return $http.get("/budgetfy/reference/findAll").then(function successCallback(response){
+                return response.data;
+            }, function errorCallback(response){
+
+            });
+        };
     })
     .service("programService",function($http){
         this.createNewProgram = function(program){
@@ -696,15 +704,6 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
     }).service("fileDetailService", function($http){
         this.downloadFile = function(fileId){
             window.location.href = evey.getHome()+"/budgetfy/file/download/"+fileId;
-        };
-    })
-    .service("referenceLookUpService", function($http){
-        this.getAllReference = function(){
-            return $http.get("/budgetfy/reference/findAll").then(function successCallback(response){
-                return response.data;
-            }, function errorCallback(response){
-
-            });
         };
     })
     .service("activityService",function($http){
