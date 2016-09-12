@@ -30,6 +30,7 @@
             <a class="button"><i class="fa fa-cog"></i></a>
             <a class="button"><i class="fa fa-exclamation"></i></a>
             <a class="button"><i class="fa fa-user"></i></a>
+            <a class="button"><i class="fa fa-users"></i></a>
         </div>
     </div>
 </section>
@@ -93,98 +94,99 @@
         </div>
     </div>
 </section>
-
-<script src="js/vendor/what-input.js"></script>
-<script src="js/vendor/foundation.min.js"></script>
-<script src="js/evey-1.0.js"></script>
-<script src="js/Chart.min.js"></script>
-<script>
-    $(document).foundation();
-
-    $(document).ready(function(){
-        var pieChartData = {
-            labels: ["Admin", "CYP", "TestProg"],
-            datasets: [{
-                backgroundColor: ["#F7464A","#00e600","#1a1aff"],
-                data: [3000,1000,5000]
-            }]
-
-        };
-        var pieChartData2 = {
-            labels: ["Activity1", "Activity2", "Activity3", "Activity4", "Activity5"],
-            datasets: [{
-                backgroundColor: ["#F7464A","#00e600","#1a1aff","#ffff00","#ff4da6"],
-                data: [3000,1000,5000,999,10000]
-            }]
-
-        };
-
-        window.onload = function() {
-            var ctxPie = document.getElementById("pie-all-prog-chart").getContext("2d");
-            window.myPie = new Chart(ctxPie, {
-                type: 'pie',
-                data: pieChartData,
-                options: {
-                    responsive: true,
-                    legend: {
-                        position: 'right'
-                    },
-                    title: {
-                        display: true,
-                        position: 'top',
-                        text: 'Budget (All Programs)'
-                    },
-                    tooltips: {
-                        callbacks: {
-                            label: function(tooltipItem, data) {
-                                var allData = data.datasets[tooltipItem.datasetIndex].data;
-                                var tooltipLabel = data.labels[tooltipItem.index];
-                                var tooltipData = allData[tooltipItem.index];
-                                var total = 0;
-                                for (var i in allData) {
-                                    total += allData[i];
-                                }
-                                var tooltipPercentage = Math.round((tooltipData / total) * 100);
-                                return tooltipLabel + ': ' + tooltipData + ' (' + tooltipPercentage + '%)';
-                            }
-                        }
-                    }
-                }
-            });
-
-            var ctxPie2 = document.getElementById("pie-prog-breakdown-chart").getContext("2d");
-            window.myPie = new Chart(ctxPie2, {
-                type: 'pie',
-                data: pieChartData2,
-                options: {
-                    responsive: true,
-                    legend: {
-                        position: 'right'
-                    },
-                    title: {
-                        display: true,
-                        position: 'top',
-                        text: 'Activities Breakdown'
-                    },
-                    tooltips: {
-                        callbacks: {
-                            label: function(tooltipItem, data) {
-                                var allData = data.datasets[tooltipItem.datasetIndex].data;
-                                var tooltipLabel = data.labels[tooltipItem.index];
-                                var tooltipData = allData[tooltipItem.index];
-                                var total = 0;
-                                for (var i in allData) {
-                                    total += allData[i];
-                                }
-                                var tooltipPercentage = Math.round((tooltipData / total) * 100);
-                                return tooltipLabel + ': ' + tooltipData + ' (' + tooltipPercentage + '%)';
-                            }
-                        }
-                    }
-                }
-            });
-        };
-    });
-</script>
 </body>
+<footer>
+    <script src="js/vendor/what-input.js"></script>
+    <script src="js/vendor/foundation.min.js"></script>
+    <script src="js/evey-1.0.js"></script>
+    <script src="js/Chart.min.js"></script>
+    <script>
+        $(document).foundation();
+
+        $(document).ready(function(){
+            var pieChartData = {
+                labels: ["Admin", "CYP", "TestProg"],
+                datasets: [{
+                    backgroundColor: ["#F7464A","#00e600","#1a1aff"],
+                    data: [3000,1000,5000]
+                }]
+
+            };
+            var pieChartData2 = {
+                labels: ["Activity1", "Activity2", "Activity3", "Activity4", "Activity5"],
+                datasets: [{
+                    backgroundColor: ["#F7464A","#00e600","#1a1aff","#ffff00","#ff4da6"],
+                    data: [3000,1000,5000,999,10000]
+                }]
+
+            };
+
+            window.onload = function() {
+                var ctxPie = document.getElementById("pie-all-prog-chart").getContext("2d");
+                window.myPie = new Chart(ctxPie, {
+                    type: 'pie',
+                    data: pieChartData,
+                    options: {
+                        responsive: true,
+                        legend: {
+                            position: 'right'
+                        },
+                        title: {
+                            display: true,
+                            position: 'top',
+                            text: 'Budget (All Programs)'
+                        },
+                        tooltips: {
+                            callbacks: {
+                                label: function(tooltipItem, data) {
+                                    var allData = data.datasets[tooltipItem.datasetIndex].data;
+                                    var tooltipLabel = data.labels[tooltipItem.index];
+                                    var tooltipData = allData[tooltipItem.index];
+                                    var total = 0;
+                                    for (var i in allData) {
+                                        total += allData[i];
+                                    }
+                                    var tooltipPercentage = Math.round((tooltipData / total) * 100);
+                                    return tooltipLabel + ': ' + tooltipData + ' (' + tooltipPercentage + '%)';
+                                }
+                            }
+                        }
+                    }
+                });
+
+                var ctxPie2 = document.getElementById("pie-prog-breakdown-chart").getContext("2d");
+                window.myPie = new Chart(ctxPie2, {
+                    type: 'pie',
+                    data: pieChartData2,
+                    options: {
+                        responsive: true,
+                        legend: {
+                            position: 'right'
+                        },
+                        title: {
+                            display: true,
+                            position: 'top',
+                            text: 'Activities Breakdown'
+                        },
+                        tooltips: {
+                            callbacks: {
+                                label: function(tooltipItem, data) {
+                                    var allData = data.datasets[tooltipItem.datasetIndex].data;
+                                    var tooltipLabel = data.labels[tooltipItem.index];
+                                    var tooltipData = allData[tooltipItem.index];
+                                    var total = 0;
+                                    for (var i in allData) {
+                                        total += allData[i];
+                                    }
+                                    var tooltipPercentage = Math.round((tooltipData / total) * 100);
+                                    return tooltipLabel + ': ' + tooltipData + ' (' + tooltipPercentage + '%)';
+                                }
+                            }
+                        }
+                    }
+                });
+            };
+        });
+    </script>
+</footer>
 </html>

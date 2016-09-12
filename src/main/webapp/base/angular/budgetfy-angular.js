@@ -6,6 +6,14 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
         $httpProvider.defaults.headers.post['Content-Type'] =  "application/json";
         paginationTemplateProvider.setPath('css/dirPagination.tpl.html');
     })
+    .controller("referenceLookUpController", ["$scope", "$http", "$filter", "referenceLookUpService", function($scope, $http, $filter, referenceLookUpService){
+        $scope.loadInitData = function(){
+            referenceLookUpService.getAllReference().then(function(results){
+                $scope.referenceLookUpMaxSize = results.listSize;
+                $scope.referenceLookUpList = results.results;
+            });
+        };
+    }])
     .controller("voucherController", ["$scope","$http", "$filter","voucherService","programService","activityService","particularService","fileDetailService",function($scope,$http,$filter,voucherService,programService,activityService,particularService,fileDetailService){
 
         $scope.loadInitData = function(){
@@ -24,15 +32,6 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
 
             activityService.getAllActivities().then(function(results){
                 $scope.activityList = results.results;
-            });
-        };
-
-        $scope.loadVoucher = function(){
-            voucherService.getAllVouchers().then(function(results){
-                $scope.voucherMaxSize = results.listSize;
-                $scope.voucherList = results.results;
-            },function(error){
-
             });
         };
 
@@ -697,6 +696,15 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
     }).service("fileDetailService", function($http){
         this.downloadFile = function(fileId){
             window.location.href = evey.getHome()+"/budgetfy/file/download/"+fileId;
+        };
+    })
+    .service("referenceLookUpService", function($http){
+        this.getAllReference = function(){
+            return $http.get("/budgetfy/reference/findAll").then(function successCallback(response){
+                return response.data;
+            }, function errorCallback(response){
+
+            });
         };
     })
     .service("activityService",function($http){

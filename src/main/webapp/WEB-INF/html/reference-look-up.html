@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker</title>
+
+    <link rel="stylesheet" href="css/foundation.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+
+    <script src="js/jquery3.min.js"></script>
+    <script src="js/angular.js"></script>
+    <script src="js/selectize.min.js"></script>
+    <script src="js/angular-selectize.js"></script>
+    <script src="angular/budgetfy-angular.js"></script>
+    <script src="angular/dirPagination.js"></script>
+</head>
+<body ng-app="budgetfyApp" ng-controller="referenceLookUpController">
+    <section id="header">
+        <div class="row">
+            <div class="small-6 columns text-left">
+                <a class="button" href="/budgetfy/overview">Overview</a>
+                <a class="button" href="/budgetfy/program">Programs</a>
+                <a class="button" href="/budgetfy/expense">Expense</a>
+                <a class="button" href="/budgetfy/reports">Reports</a>
+            </div>
+            <div class="small-6 columns text-right">
+                <a class="button active-page"><i class="fa fa-cog"></i></a>
+                <a class="button"><i class="fa fa-exclamation"></i></a>
+                <a class="button"><i class="fa fa-user"></i></a>
+                <a class="button"><i class="fa fa-users"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <section id="site-content" ng-init="loadInitData()">
+        <div class="row">
+            <div class="small-5 columns text-left">
+                <a class="button success" href="/budgetfy/program/create-program">Create Reference <i class="fa fa-plus"></i></a>
+            </div>
+            <div class="small-2 columns text-right">
+                <label class="text-right middle"></label>
+            </div>
+            <div class="small-5 columns text-right">
+                <div class="input-group">
+                    <input class="input-group-field" type="text" ng-model="referenceFilter">
+                    <div class="input-group-button">
+                        <input type="submit" class="button" value="Search">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="small-12 columns">
+                <table id="programs-result" class="hover">
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Key</th>
+                            <th>Value</th>
+                            <th>Number Value</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="row-onclick" dir-paginate="reference in referenceLookUpList | filter : referenceFilter | itemsPerPage: referenceLookUpMaxSize" pagination-id="reference-list">
+                            <td>{{reference.category}}</td>
+                            <td>{{reference.key}}</td>
+                            <td>{{reference.value}}</td>
+                            <td>{{reference.numberValue}}</td>
+                            <td><a class="button alert"><i class="fa fa-minus"></i></a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <ul class="pagination text-center" role="navigation" aria-label="Pagination">
+            <dir-pagination-controls pagination-id="reference-list" boundary-links="true"></dir-pagination-controls>
+        </ul>
+        </div>
+    </section>
+</body>
+<footer>
+    <script src="js/vendor/what-input.js"></script>
+    <script src="js/vendor/foundation.min.js"></script>
+    <script src="js/evey-1.0.js"></script>
+    <script src="js/Chart.min.js"></script>
+    <script>
+        $(document).foundation();
+
+        $(document).ready(function(){
+
+        });
+    </script>
+</footer>
+</html>

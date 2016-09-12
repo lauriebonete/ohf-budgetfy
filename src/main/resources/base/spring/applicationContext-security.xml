@@ -15,7 +15,7 @@
         <sec:intercept-url pattern="/userRole" access="isAuthenticated()" />
         <sec:intercept-url pattern="/product" access="isAuthenticated()" />
         <sec:intercept-url pattern="/productGroup" access="isAuthenticated()" />
-        <sec:intercept-url pattern="/reference" access="isAuthenticated()" />
+        <!--<sec:intercept-url pattern="/reference" access="isAuthenticated()" />-->
         <sec:intercept-url pattern="/branch" access="isAuthenticated()" />
         <sec:intercept-url pattern="/price" access="isAuthenticated()" />
         <sec:intercept-url pattern="/priceSet" access="isAuthenticated()" />
