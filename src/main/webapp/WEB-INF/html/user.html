@@ -29,59 +29,378 @@
             <div class="small-6 columns text-right">
                 <a class="button" href="/budgetfy/reference"><i class="fa fa-cog"></i></a>
                 <a class="button"><i class="fa fa-exclamation"></i></a>
-                <a class="button active-page"><i class="fa fa-user"></i></a>
-                <a class="button"><i class="fa fa-users"></i></a>
+                <a class="button active-page" href="/budgetfy/user"><i class="fa fa-user"></i></a>
+                <a class="button" href="#"><i class="fa fa-users"></i></a>
             </div>
         </div>
     </section>
 
-<section id="site-content">
-    <div class="row">
-        <div class="small-5 columns text-left">
-            <a class="button success" href="/budgetfy/program/create-program">Create User <i class="fa fa-plus"></i></a>
-        </div>
-        <div class="small-2 columns text-right">
-            <label class="text-right middle"></label>
-        </div>
-        <div class="small-5 columns text-right">
-            <div class="input-group">
-                <input class="input-group-field" type="text" ng-model="programFilter">
-                <div class="input-group-button">
-                    <input type="submit" class="button" value="Search">
+<section id="site-content-user">
+    <div id="user-main">
+        <div class="row">
+            <div class="small-5 columns text-left">
+                <a class="button success button-press" href="">Create User <i class="fa fa-plus"></i></a>
+            </div>
+            <div class="small-2 columns text-right">
+                <label class="text-right middle"></label>
+            </div>
+            <div class="small-5 columns text-right">
+                <div class="input-group">
+                    <input class="input-group-field" type="text" ng-model="programFilter">
+                    <div class="input-group-button">
+                        <input type="submit" class="button" value="Search">
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="small-12 columns">
-            <table id="programs-result" class="hover">
-                <thead>
-                <tr>
-                    <th>Last Name</th>
-                    <th>First Name</th>
-                    <th>Middle Initial</th>
-                    <th>Username</th>
-                    <th>Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr class="row-onclick">
-                    <td>Tolentino</td>
-                    <td>Reese</td>
-                    <td>L.</td>
-                    <td>reeseypeasy</td>
-                    <td>
-                        <a class="button success"><i class="fa fa-pencil"></i></a>
-                        <a class="button alert"><i class="fa fa-minus"></i></a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+        <div class="row">
+            <div class="small-12 columns">
+                <table class="hover">
+                    <thead>
+                    <tr>
+                        <th>Last Name</th>
+                        <th>First Name</th>
+                        <th>Middle Initial</th>
+                        <th>Username</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class="row-onclick">Tolentino</td>
+                        <td class="row-onclick">Reese</td>
+                        <td class="row-onclick">L.</td>
+                        <td class="row-onclick">reeseypeasy</td>
+                        <td>
+                            <a class="button success update-btn"><i class="fa fa-pencil"></i></a>
+                            <a class="button alert" data-open="delete-user"><i class="fa fa-minus"></i></a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="tiny reveal" id="delete-user" data-reveal>
+                    <h5 class="middle">Are you sure you want to delete user?</h5>
+                    <button class="close-button" data-close aria-label="Close modal" type="button">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="row">
+                        <div class="small-3 columns">
+                            <label class="text-right middle"></label>
+                        </div>
+                        <div class="small-3 columns">
+                            <a class="button success expanded" data-close>Yes</a>
+                        </div>
+                        <div class="small-3 columns">
+                            <a class="button alert expanded" data-close>No</a>
+                        </div>
+                        <div class="small-3 columns">
+                            <label class="text-right middle"></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+        <ul class="pagination text-center" role="navigation" aria-label="Pagination">
+            <dir-pagination-controls pagination-id="" boundary-links="true"></dir-pagination-controls>
+        </ul>
     </div>
-    <ul class="pagination text-center" role="navigation" aria-label="Pagination">
-        <dir-pagination-controls pagination-id="program-list" boundary-links="true"></dir-pagination-controls>
-    </ul>
+    <div id="user-create" class="hide">
+        <div class="row">
+            <div class="medium-3 columns">
+                <h3 class="middle">User Details</h3>
+            </div>
+            <div class="medium-9 columns">
+                <label class="text-right middle"></label>
+            </div>
+        </div>
+        <form>
+            <div class="row">
+                <div class="medium-5 columns">
+                    <label>First Name
+                        <input type="text" placeholder="First Name">
+                    </label>
+                </div>
+                <div class="medium-2 columns">
+                    <label>Middle Initial
+                        <input type="text" placeholder="Middle Initial">
+                    </label>
+                </div>
+                <div class="medium-5 columns">
+                    <label>Last Name
+                        <input type="text" placeholder="Last Name">
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="medium-12 columns">
+                    <label>Address
+                        <input type="text" placeholder="Address">
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="medium-5 columns">
+                    <label>Contact Number
+                        <input type="text" placeholder="Contact Number">
+                    </label>
+                </div>
+                <div class="medium-4 columns">
+                    <label>Birthday
+                        <input type="date" id="birthday-create" placeholder="">
+                    </label>
+                </div>
+                <div class="medium-3 columns">
+                    <label class="text-right middle"></label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="medium-5 columns">
+                    <label>Username
+                        <input type="text" placeholder="Username">
+                    </label>
+                </div>
+                <div class="medium-7 columns">
+                    <label class="text-right middle"></label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="medium-5 columns">
+                    <label>Password
+                        <input type="text" placeholder="Password">
+                    </label>
+                </div>
+                <div class="medium-7 columns">
+                    <label class="text-right middle"></label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="medium-5 columns">
+                    <label>Confirm Password
+                        <input type="text" placeholder="Confirm Password">
+                    </label>
+                </div>
+                <div class="medium-7 columns">
+                    <label class="text-right middle"></label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="medium-5 columns">
+                    <label>Roles
+                        <select>
+                            <option value="User">User</option>
+                            <option value="SuperAdmin">Super Admin</option>
+                            <option value="Read Only">Read Only</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="medium-12 columns">
+                    <label class="text-right middle"></label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="medium-3 columns">
+                    <a class="button success expanded">Save</a>
+                </div>
+                <div class="medium-3 columns">
+                    <a class="button alert expanded cancel-btn">Cancel</a>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div id="user-view" class="hide">
+        <div class="row">
+            <div class="medium-3 columns">
+                <h3 class="middle">User Details</h3>
+            </div>
+            <div class="medium-9 columns">
+                <label class="text-right middle"></label>
+            </div>
+        </div>
+        <form>
+            <div class="row">
+                <div class="medium-3 columns">
+                    <a class="button success expanded update-btn">Update<i class="fa fa-pencil"></i></a>
+                </div>
+                <div class="medium-3 columns">
+                    <a class="button alert expanded cancel-btn">Back</a>
+                </div>
+                <div class="medium-6 columns">
+                    <label class="text-right middle"></label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="medium-5 columns">
+                    <label>First Name
+                        <input type="text" placeholder="First Name" disabled>
+                    </label>
+                </div>
+                <div class="medium-2 columns">
+                    <label>Middle Initial
+                        <input type="text" placeholder="Middle Initial" disabled>
+                    </label>
+                </div>
+                <div class="medium-5 columns">
+                    <label>Last Name
+                        <input type="text" placeholder="Last Name" disabled>
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="medium-12 columns">
+                    <label>Address
+                        <input type="text" placeholder="Address" disabled>
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="medium-5 columns">
+                    <label>Contact Number
+                        <input type="text" placeholder="Contact Number" disabled>
+                    </label>
+                </div>
+                <div class="medium-4 columns">
+                    <label>Birthday
+                        <input type="date" id="birthday-view" placeholder="" disabled>
+                    </label>
+                </div>
+                <div class="medium-3 columns">
+                    <label class="text-right middle"></label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="medium-5 columns">
+                    <label>Username
+                        <input type="text" placeholder="Username" disabled>
+                    </label>
+                </div>
+                <div class="medium-7 columns">
+                    <label class="text-right middle"></label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="medium-5 columns">
+                    <label>Roles
+                        <select disabled>
+                            <option value="User">User</option>
+                            <option value="SuperAdmin">Super Admin</option>
+                            <option value="Read Only">Read Only</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="medium-12 columns">
+                    <label class="text-right middle"></label>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div id="user-update" class="hide">
+        <div class="row">
+            <div class="medium-3 columns">
+                <h3 class="middle">User Details</h3>
+            </div>
+            <div class="medium-9 columns">
+                <label class="text-right middle"></label>
+            </div>
+        </div>
+        <form>
+            <div class="row">
+                <div class="medium-5 columns">
+                    <label>First Name
+                        <input type="text" placeholder="First Name">
+                    </label>
+                </div>
+                <div class="medium-2 columns">
+                    <label>Middle Initial
+                        <input type="text" placeholder="Middle Initial">
+                    </label>
+                </div>
+                <div class="medium-5 columns">
+                    <label>Last Name
+                        <input type="text" placeholder="Last Name">
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="medium-12 columns">
+                    <label>Address
+                        <input type="text" placeholder="Address">
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="medium-5 columns">
+                    <label>Contact Number
+                        <input type="text" placeholder="Contact Number">
+                    </label>
+                </div>
+                <div class="medium-4 columns">
+                    <label>Birthday
+                        <input type="date" id="birthday-update" placeholder="">
+                    </label>
+                </div>
+                <div class="medium-3 columns">
+                    <label class="text-right middle"></label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="medium-5 columns">
+                    <label>Username
+                        <input type="text" placeholder="Username">
+                    </label>
+                </div>
+                <div class="medium-7 columns">
+                    <label class="text-right middle"></label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="medium-5 columns">
+                    <label>Password
+                        <input type="text" placeholder="Password">
+                    </label>
+                </div>
+                <div class="medium-7 columns">
+                    <label class="text-right middle"></label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="medium-5 columns">
+                    <label>Confirm Password
+                        <input type="text" placeholder="Confirm Password">
+                    </label>
+                </div>
+                <div class="medium-7 columns">
+                    <label class="text-right middle"></label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="medium-5 columns">
+                    <label>Roles
+                        <select>
+                            <option value="User">User</option>
+                            <option value="SuperAdmin">Super Admin</option>
+                            <option value="Read Only">Read Only</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="medium-12 columns">
+                    <label class="text-right middle"></label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="medium-3 columns">
+                    <a class="button success expanded">Save</a>
+                </div>
+                <div class="medium-3 columns">
+                    <a class="button alert expanded cancel-btn">Cancel</a>
+                </div>
+            </div>
+        </form>
     </div>
 </section>
 
@@ -94,6 +413,21 @@
 
     $(document).ready(function(){
 
+    }).on("click",".button-press",function(){
+        $("#user-main").addClass("hide");
+        $("#user-create").removeClass("hide");
+    }).on("click",".cancel-btn",function(){
+        $("#user-main").removeClass("hide");
+        $("#user-create").addClass("hide");
+        $("#user-view").addClass("hide");
+        $("#user-update").addClass("hide");
+    }).on("click",".row-onclick",function(){
+        $("#user-view").removeClass("hide");
+        $("#user-main").addClass("hide");
+    }).on("click",".update-btn",function(){
+        $("#user-update").removeClass("hide");
+        $("#user-main").addClass("hide");
+        $("#user-view").addClass("hide");
     });
 </script>
 </body>
