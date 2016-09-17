@@ -29,7 +29,12 @@
             <div class="small-6 columns text-right">
                 <a class="button"><i class="fa fa-cog"></i></a>
                 <a class="button"><i class="fa fa-exclamation"></i></a>
-                <a class="button"><i class="fa fa-user"></i></a>
+                <a class="button" data-toggle="user-dropdown"><i class="fa fa-user"></i></a>
+                <div class="dropdown-pane bottom" id="user-dropdown" data-dropdown data-close-on-click="true" data-auto-focus="true">
+                    <label class="text-left">Logged In:</label>
+                    <label class="middle">reeseypeasy</label>
+                    <a class="button alert text-left">Logout <i class="fa fa-sign-out" aria-hidden="true"></i></a>
+                </div>
                 <a class="button"><i class="fa fa-users"></i></a>
             </div>
         </div>

@@ -18,9 +18,13 @@ body {
   margin-bottom: 0;
 }
 
+.dropdown-pane {
+  width: 10%;
+}
+
 
 /*Site-content CSS Style*/
-#site-content-program, #site-content-overview, #site-content-user, #site-content-reference, #site-content-sys-maintenance {
+#site-content-program, #site-content-overview, #site-content-user, #site-content-reference, #site-content-sys-maintenance, #site-content-reports {
   overflow-y:scroll;
   overflow-x:hidden;
   height:92vh;

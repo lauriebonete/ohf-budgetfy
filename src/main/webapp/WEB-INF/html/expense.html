@@ -32,7 +32,12 @@
                 <div class="small-6 columns text-right">
                     <a class="button"><i class="fa fa-cog"></i></a>
                     <a class="button"><i class="fa fa-exclamation"></i></a>
-                    <a class="button"><i class="fa fa-user"></i></a>
+                    <a class="button" data-toggle="user-dropdown"><i class="fa fa-user"></i></a>
+                    <div class="dropdown-pane bottom" id="user-dropdown" data-dropdown data-close-on-click="true" data-auto-focus="true">
+                        <label class="text-left">Logged In:</label>
+                        <label class="middle">reeseypeasy</label>
+                        <a class="button alert text-left">Logout <i class="fa fa-sign-out" aria-hidden="true"></i></a>
+                    </div>
                     <a class="button"><i class="fa fa-users"></i></a>
                 </div>
             </div>
@@ -89,6 +94,17 @@
                 <ul class="pagination text-center" role="navigation" aria-label="Pagination">
                     <dir-pagination-controls pagination-id="voucher-list" boundary-links="true"></dir-pagination-controls>
                 </ul>
+                <div class="row">
+                    <div class="small-5 columns">
+                        <label class="text-right middle"></label>
+                    </div>
+                    <div class="small-3 columns">
+                        <label class="text-right middle">Total Expense</label>
+                    </div>
+                    <div class="small-4 columns">
+                        <input type="text" disabled>
+                    </div>
+                </div>
             </div>
             <!-- Expense Table List: End -->
             <div id="expense-add-container" class="hide">
