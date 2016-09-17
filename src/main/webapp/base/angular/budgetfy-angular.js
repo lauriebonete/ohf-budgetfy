@@ -6,7 +6,15 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
         $httpProvider.defaults.headers.post['Content-Type'] =  "application/json";
         paginationTemplateProvider.setPath('css/dirPagination.tpl.html');
     })
-    .controller("referenceLookUpController", ["$scope", "$http", "$filter", "referenceLookUpService", function($scope, $http, $filter, referenceLookUpService){
+    .controller("userRoleController", ["$scope", "$filter", "userRoleService", function($scope, $filter, userRoleService){
+        $scope.loadInitData = function(){
+            userRoleService.getAllUserRole().then(function(results){
+                $scope.userRoleMaxSize = results.listSize;
+                $scope.userRoleList = results.results;
+            });
+        };
+    }])
+    .controller("referenceLookUpController", ["$scope", "$filter", "referenceLookUpService", function($scope, $filter, referenceLookUpService){
         $scope.loadInitData = function(){
             referenceLookUpService.getAllReference().then(function(results){
                 $scope.referenceLookUpMaxSize = results.listSize;
@@ -775,5 +783,14 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
             });
         };
 
+    })
+    .service("userRoleService", function($http){
+        this.getAllUserRole = function(){
+            return $http.get("/budgetfy/userRole/findAll").then(function successCallback(response){
+                return response.data;
+            }, function errorCallback(response){
+
+            });
+        };
     });
 
