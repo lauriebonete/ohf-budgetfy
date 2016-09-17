@@ -165,11 +165,19 @@ a.active-page {
   left: +100%;
 }
 
+#body-login {
+  background: #2199e8;
+}
+
 #login-box {
   background: #fff;
   border: 1px solid #ddd;
-  margin: 100px 0;
-  padding: 40px 20px 0 20px;
+  margin: 90px 0;
+  padding: 40px 20px 20px 20px;
+}
+
+#center-box-login{
+  font-size: 25px;
 }
 
 /*
