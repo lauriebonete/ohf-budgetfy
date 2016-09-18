@@ -25,7 +25,7 @@
         <module name="budgetfy" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
+    <bytecodeTargetLevel target="1.7">
       <module name="budgetfy" target="1.7" />
     </bytecodeTargetLevel>
   </component>

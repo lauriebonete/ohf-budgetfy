@@ -12,6 +12,15 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
                 $scope.userRoleMaxSize = results.listSize;
                 $scope.userRoleList = results.results;
             });
+
+            userRoleService.getAllAuthorities().then(function(results){
+                createTreeRole(results);
+                $('#role-tree').bonsai('update');
+            });
+        };
+
+        var createTreeRole = function(data){
+
         };
     }])
     .controller("userController", ["$scope","userService", "referenceLookUpService", function($scope, userService, referenceLookUpService){
