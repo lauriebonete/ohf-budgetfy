@@ -20,30 +20,36 @@
     <script src="angular/budgetfy-angular.js"></script>
     <script src="angular/dirPagination.js"></script>
 </head>
-<body ng-app="budgetfyApp" ng-controller="loginController">
+<body id="body-login" ng-app="budgetfyApp" ng-controller="loginController">
 
 <section id="site-content">
-    <div class="large-3 large-centered columns">
-        <div id="login-box">
-            <div class="row">
-                <div class="large-12 columns">
-                    <form>
-                        <div class="row">
-                            <div class="large-12 columns">
-                                <input type="text" name="username" placeholder="Username" />
+    <div class="row">
+        <div class="large-5 large-centered columns">
+            <div id="login-box">
+                <div class="row">
+                    <div class="large-12 columns">
+                        <form>
+                            <div class="row">
+                                <label class="text-center" id="center-box-login"><strong>Login to Expense Tracker</strong></label>
+                                <br/>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="large-12 columns">
-                                <input type="password" name="password" placeholder="Password" />
+                            <div class="row">
+                                <div class="large-12 columns">
+                                    <input type="text" name="username" placeholder="Username" />
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="large-12 large-centered columns">
-                                <input type="submit" class="button expand" value="Log In"/>
+                            <div class="row">
+                                <div class="large-12 columns">
+                                    <input type="password" name="password" placeholder="Password" />
+                                </div>
                             </div>
-                        </div>
-                    </form>
+                            <div class="row">
+                                <div class="large-12 large-centered columns">
+                                    <input type="submit" class="button expanded" value="Log In"/>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

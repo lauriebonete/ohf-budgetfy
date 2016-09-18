@@ -1,31 +1,5 @@
-<!--<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title></title>
-    <link rel="stylesheet" href="css/foundation.min.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/font-awesome.min.css">
-</head>
-<body>
-    <a class="button success add-summary-nav-next">Finish</a>
-</body>
-<footer>
-    <script src="js/jquery3.min.js"></script>
-    <script src="js/vendor/foundation.min.js"></script>
-    <script src="js/evey-1.0.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function(){
-
-        }).on("click",".add-summary-nav-next",function(){
-            window.location.href = evey.getHome()+"/budgetfy/reports/create-disbursement";
-        });
-    </script>
-</footer>
-</html>-->
-
-<!doctype html>
-<html class="no-js" lang="en" dir="ltr">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -50,478 +24,175 @@
             <a class="button" href="/budgetfy/overview">Overview</a>
             <a class="button" href="/budgetfy/program">Programs</a>
             <a class="button" href="/budgetfy/expense">Expense</a>
-            <a class="button" href="/budgetfy/reports">Reports</a>
+            <a class="button active-page" href="/budgetfy/reports">Reports</a>
         </div>
         <div class="small-6 columns text-right">
-            <a class="button active-page" href="/budgetfy/system-maintenance"><i class="fa fa-cog"></i></a>
+            <a class="button" href="/budgetfy/system-maintenance"><i class="fa fa-cog"></i></a>
             <a class="button"><i class="fa fa-exclamation"></i></a>
-            <a class="button"><i class="fa fa-user"></i></a>
+            <a class="button" data-toggle="user-dropdown"><i class="fa fa-user"></i></a>
+            <div class="dropdown-pane bottom" id="user-dropdown" data-dropdown data-close-on-click="true" data-auto-focus="true">
+                <label class="text-left">Logged In:</label>
+                <label class="middle">reeseypeasy</label>
+                <a class="button alert text-left">Logout <i class="fa fa-sign-out" aria-hidden="true"></i></a>
+             </div>
             <a class="button"><i class="fa fa-users"></i></a>
         </div>
     </div>
 </section>
-
-<section id="site-content-sys-maintenance">
-    <div id="view-sys-main" class="row collapse">
+<section id="site-content-reports">
+    <div class="row">
+        <h3>Generate Reports</h3>
+    </div>
+    <!-- Monthly per year -->
+    <div class="row">
+        <h5>Report per Month:</h5>
+    </div>
+    <div class="row">
         <div class="medium-2 columns">
-            <ul class="tabs vertical" id="sys-main-tabs" data-tabs>
-                <li class="tabs-title is-active"><a class="button" href="#users" aria-selected="true"><strong><i class="fa fa-user"></i> Users</strong></a></li>
-                <li class="tabs-title"><a class="button" href="#user-roles"><strong><i class="fa fa-users"></i> User Roles</strong></a></li>
-                <li class="tabs-title"><a class="button" href="#reference-look-up"><strong><i class="fa fa-book" aria-hidden="true"></i> Reference Lookup</strong></a></li>
-            </ul>
+            <label class="text-right middle">Select Year:</label>
         </div>
-        <div class="medium-10 columns">
-            <div class="tabs-content" data-tabs-content="sys-main-tabs">
-                <!-- Users -->
-                <div class="tabs-panel is-active" id="users">
-                    <div id="user-main">
-                        <div class="row">
-                            <div class="small-5 columns text-left">
-                                <a class="button success button-press" href="">Create User <i class="fa fa-plus"></i></a>
-                            </div>
-                            <div class="small-2 columns text-right">
-                                <label class="text-right middle"></label>
-                            </div>
-                            <div class="small-5 columns text-right">
-                                <div class="input-group">
-                                    <input class="input-group-field" type="text" ng-model="programFilter">
-                                    <div class="input-group-button">
-                                        <input type="submit" class="button" value="Search">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="small-12 columns">
-                                <table class="hover">
-                                    <thead>
-                                    <tr>
-                                        <th>Last Name</th>
-                                        <th>First Name</th>
-                                        <th>Middle Initial</th>
-                                        <th>Username</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td class="row-onclick">Tolentino</td>
-                                        <td class="row-onclick">Reese</td>
-                                        <td class="row-onclick">L.</td>
-                                        <td class="row-onclick">reeseypeasy</td>
-                                        <td>
-                                            <a class="button success update-btn"><i class="fa fa-pencil"></i></a>
-                                            <a class="button alert" data-open="delete-user"><i class="fa fa-minus"></i></a>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                                <div class="tiny reveal" id="delete-user" data-reveal>
-                                    <h5 class="middle">Are you sure you want to delete user?</h5>
-                                    <button class="close-button" data-close aria-label="Close modal" type="button">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                    <div class="row">
-                                        <div class="small-3 columns">
-                                            <label class="text-right middle"></label>
-                                        </div>
-                                        <div class="small-3 columns">
-                                            <a class="button success expanded" data-close>Yes</a>
-                                        </div>
-                                        <div class="small-3 columns">
-                                            <a class="button alert expanded" data-close>No</a>
-                                        </div>
-                                        <div class="small-3 columns">
-                                            <label class="text-right middle"></label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <ul class="pagination text-center" role="navigation" aria-label="Pagination">
-                            <dir-pagination-controls pagination-id="" boundary-links="true"></dir-pagination-controls>
-                        </ul>
-                    </div>
-                    <div id="user-create" class="hide">
-                        <div class="row">
-                            <div class="medium-5 columns">
-                                <h4 class="middle">Create User</h4>
-                            </div>
-                            <div class="medium-7 columns">
-                                <label class="text-right middle"></label>
-                            </div>
-                        </div>
-                        <form>
-                            <div class="row">
-                                <div class="medium-5 columns">
-                                    <label>First Name
-                                        <input type="text" placeholder="First Name">
-                                    </label>
-                                </div>
-                                <div class="medium-2 columns">
-                                    <label>Middle Initial
-                                        <input type="text" placeholder="Middle Initial">
-                                    </label>
-                                </div>
-                                <div class="medium-5 columns">
-                                    <label>Last Name
-                                        <input type="text" placeholder="Last Name">
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="medium-12 columns">
-                                    <label>Address
-                                        <input type="text" placeholder="Address">
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="medium-5 columns">
-                                    <label>Contact Number
-                                        <input type="text" placeholder="Contact Number">
-                                    </label>
-                                </div>
-                                <div class="medium-4 columns">
-                                    <label>Birthday
-                                        <input type="date" id="birthday-create" placeholder="">
-                                    </label>
-                                </div>
-                                <div class="medium-3 columns">
-                                    <label class="text-right middle"></label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="medium-5 columns">
-                                    <label>Username
-                                        <input type="text" placeholder="Username">
-                                    </label>
-                                </div>
-                                <div class="medium-7 columns">
-                                    <label class="text-right middle"></label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="medium-5 columns">
-                                    <label>Password
-                                        <input type="text" placeholder="Password">
-                                    </label>
-                                </div>
-                                <div class="medium-7 columns">
-                                    <label class="text-right middle"></label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="medium-5 columns">
-                                    <label>Confirm Password
-                                        <input type="text" placeholder="Confirm Password">
-                                    </label>
-                                </div>
-                                <div class="medium-7 columns">
-                                    <label class="text-right middle"></label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="medium-5 columns">
-                                    <label>Roles
-                                        <select>
-                                            <option value="User">User</option>
-                                            <option value="SuperAdmin">Super Admin</option>
-                                            <option value="Read Only">Read Only</option>
-                                        </select>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="medium-12 columns">
-                                    <label class="text-right middle"></label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="medium-3 columns">
-                                    <a class="button success expanded">Save</a>
-                                </div>
-                                <div class="medium-3 columns">
-                                    <a class="button alert expanded cancel-btn">Cancel</a>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div id="user-view" class="hide">
-                        <div class="row">
-                            <div class="medium-5 columns">
-                                <h4 class="middle">View User Details</h4>
-                            </div>
-                            <div class="medium-7 columns">
-                                <label class="text-right middle"></label>
-                            </div>
-                        </div>
-                        <form>
-                            <div class="row">
-                                <div class="medium-3 columns">
-                                    <a class="button success expanded update-btn">Update<i class="fa fa-pencil"></i></a>
-                                </div>
-                                <div class="medium-3 columns">
-                                    <a class="button alert expanded cancel-btn">Back</a>
-                                </div>
-                                <div class="medium-6 columns">
-                                    <label class="text-right middle"></label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="medium-5 columns">
-                                    <label>First Name
-                                        <input type="text" placeholder="First Name" disabled>
-                                    </label>
-                                </div>
-                                <div class="medium-2 columns">
-                                    <label>Middle Initial
-                                        <input type="text" placeholder="Middle Initial" disabled>
-                                    </label>
-                                </div>
-                                <div class="medium-5 columns">
-                                    <label>Last Name
-                                        <input type="text" placeholder="Last Name" disabled>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="medium-12 columns">
-                                    <label>Address
-                                        <input type="text" placeholder="Address" disabled>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="medium-5 columns">
-                                    <label>Contact Number
-                                        <input type="text" placeholder="Contact Number" disabled>
-                                    </label>
-                                </div>
-                                <div class="medium-4 columns">
-                                    <label>Birthday
-                                        <input type="date" id="birthday-view" placeholder="" disabled>
-                                    </label>
-                                </div>
-                                <div class="medium-3 columns">
-                                    <label class="text-right middle"></label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="medium-5 columns">
-                                    <label>Username
-                                        <input type="text" placeholder="Username" disabled>
-                                    </label>
-                                </div>
-                                <div class="medium-7 columns">
-                                    <label class="text-right middle"></label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="medium-5 columns">
-                                    <label>Roles
-                                        <select disabled>
-                                            <option value="User">User</option>
-                                            <option value="SuperAdmin">Super Admin</option>
-                                            <option value="Read Only">Read Only</option>
-                                        </select>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="medium-12 columns">
-                                    <label class="text-right middle"></label>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div id="user-update" class="hide">
-                        <div class="row">
-                            <div class="medium-5 columns">
-                                <h4 class="middle">Update User Details</h4>
-                            </div>
-                            <div class="medium-7 columns">
-                                <label class="text-right middle"></label>
-                            </div>
-                        </div>
-                        <form>
-                            <div class="row">
-                                <div class="medium-5 columns">
-                                    <label>First Name
-                                        <input type="text" placeholder="First Name">
-                                    </label>
-                                </div>
-                                <div class="medium-2 columns">
-                                    <label>Middle Initial
-                                        <input type="text" placeholder="Middle Initial">
-                                    </label>
-                                </div>
-                                <div class="medium-5 columns">
-                                    <label>Last Name
-                                        <input type="text" placeholder="Last Name">
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="medium-12 columns">
-                                    <label>Address
-                                        <input type="text" placeholder="Address">
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="medium-5 columns">
-                                    <label>Contact Number
-                                        <input type="text" placeholder="Contact Number">
-                                    </label>
-                                </div>
-                                <div class="medium-4 columns">
-                                    <label>Birthday
-                                        <input type="date" id="birthday-update" placeholder="">
-                                    </label>
-                                </div>
-                                <div class="medium-3 columns">
-                                    <label class="text-right middle"></label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="medium-5 columns">
-                                    <label>Username
-                                        <input type="text" placeholder="Username">
-                                    </label>
-                                </div>
-                                <div class="medium-7 columns">
-                                    <label class="text-right middle"></label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="medium-5 columns">
-                                    <label>Password
-                                        <input type="text" placeholder="Password">
-                                    </label>
-                                </div>
-                                <div class="medium-7 columns">
-                                    <label class="text-right middle"></label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="medium-5 columns">
-                                    <label>Confirm Password
-                                        <input type="text" placeholder="Confirm Password">
-                                    </label>
-                                </div>
-                                <div class="medium-7 columns">
-                                    <label class="text-right middle"></label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="medium-5 columns">
-                                    <label>Roles
-                                        <select>
-                                            <option value="User">User</option>
-                                            <option value="SuperAdmin">Super Admin</option>
-                                            <option value="Read Only">Read Only</option>
-                                        </select>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="medium-12 columns">
-                                    <label class="text-right middle"></label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="medium-3 columns">
-                                    <a class="button success expanded">Save</a>
-                                </div>
-                                <div class="medium-3 columns">
-                                    <a class="button alert expanded cancel-btn">Cancel</a>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                <!-- User Roles -->
-                <div class="tabs-panel" id="user-roles">
-
-                </div>
-
-                <!-- Reference Lookup -->
-                <div class="tabs-panel" id="reference-look-up">
-                    <div class="row">
-                        <div class="small-5 columns text-left">
-                            <a class="button success" href="/budgetfy/program/create-program">Create Reference <i class="fa fa-plus"></i></a>
-                        </div>
-                        <div class="small-2 columns text-right">
-                            <label class="text-right middle"></label>
-                        </div>
-                        <div class="small-5 columns text-right">
-                            <div class="input-group">
-                                <input class="input-group-field" type="text" ng-model="referenceFilter">
-                                <div class="input-group-button">
-                                    <input type="submit" class="button" value="Search">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="small-12 columns">
-                            <table id="programs-result" class="hover">
-                                <thead>
-                                <tr>
-                                    <th>Category</th>
-                                    <th>Key</th>
-                                    <th>Value</th>
-                                    <th>Number Value</th>
-                                    <th>Actions</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr class="row-onclick" dir-paginate="reference in referenceLookUpList | filter : referenceFilter | itemsPerPage: referenceLookUpMaxSize" pagination-id="reference-list">
-                                    <td>{{reference.category}}</td>
-                                    <td>{{reference.key}}</td>
-                                    <td>{{reference.value}}</td>
-                                    <td>{{reference.numberValue}}</td>
-                                    <td><a class="button alert"><i class="fa fa-minus"></i></a></td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <ul class="pagination text-center" role="navigation" aria-label="Pagination">
-                        <dir-pagination-controls pagination-id="reference-list" boundary-links="true"></dir-pagination-controls>
-                    </ul>
-                </div>
-            </div>
+        <div class="medium-2 columns">
+            <select>
+                <option value="2016">2016</option>
+                <option value="2015">2015</option>
+                <option value="2014">2014</option>
+            </select>
+        </div>
+        <div class="medium-2 columns">
+            <label class="text-right middle">Select Month:</label>
+        </div>
+        <div class="medium-2 columns">
+            <select>
+                <option value="January">January</option>
+                <option value="February">February</option>
+                <option value="March">March</option>
+                <option value="April">April</option>
+                <option value="May">May</option>
+                <option value="June">June</option>
+                <option value="July">July</option>
+                <option value="August">August</option>
+                <option value="September">September</option>
+                <option value="October">October</option>
+                <option value="November">November</option>
+                <option value="December">December</option>
+            </select>
+        </div>
+        <div class="medium-4 columns end">
+            <a class="button success add-summary-nav-next">Generate Cash Disbursement <i class="fa fa-file-excel-o" aria-hidden="true"></i></a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="medium-12 columns">
+            <label class="text-right middle"></label>
+        </div>
+    </div>
+    <!-- Annual-->
+    <div class="row">
+        <h5>Report per Year:</h5>
+    </div>
+    <div class="row">
+        <div class="medium-2 columns">
+            <label class="text-right middle">Select Year:</label>
+        </div>
+        <div class="medium-2 columns">
+            <select>
+                <option value="2016">2016</option>
+                <option value="2015">2015</option>
+                <option value="2014">2014</option>
+            </select>
+        </div>
+        <div class="medium-4 columns">
+            <a class="button success add-summary-nav-next">Generate Cash Disbursement <i class="fa fa-file-excel-o" aria-hidden="true"></i></a>
+        </div>
+        <div class="medium-4 columns">
+            <label class="text-right middle"></label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="medium-12 columns">
+            <label class="text-right middle"></label>
+        </div>
+    </div>
+    <!-- Annual per Program-->
+    <div class="row">
+        <h5>Report per Program (Annual):</h5>
+    </div>
+    <div class="row">
+        <div class="medium-2 columns">
+            <label class="text-right middle">Select Year:</label>
+        </div>
+        <div class="medium-2 columns">
+            <select>
+                <option value="2016">2016</option>
+                <option value="2015">2015</option>
+                <option value="2014">2014</option>
+            </select>
+        </div>
+        <div class="medium-2 columns">
+            <label class="text-right middle">Select Program:</label>
+        </div>
+        <div class="medium-2 columns">
+            <select>
+                <option value="CYP Program">CYP Program</option>
+                <option value="Program 2">Program 2</option>
+                <option value="Program 3">Program 3</option>
+            </select>
+        </div>
+        <div class="medium-4 columns end">
+            <a class="button success add-summary-nav-next">Generate Cash Disbursement <i class="fa fa-file-excel-o" aria-hidden="true"></i></a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="medium-12 columns">
+            <label class="text-right middle"></label>
+        </div>
+    </div>
+    <!-- Per Voucher Code-->
+    <div class="row">
+        <h5>Report per Voucher Code:</h5>
+    </div>
+    <div class="row">
+        <div class="medium-2 columns">
+            <label class="text-right middle">Select Voucher Code:</label>
+        </div>
+        <div class="medium-3 columns">
+            <select>
+                <option value="Voucher1">Voucher1</option>
+                <option value="Voucher2">Voucher2</option>
+                <option value="Voucher3">Voucher3</option>
+                <option value="Voucher4">Voucher4</option>
+                <option value="Voucher5">Voucher5</option>
+                <option value="Voucher6">Voucher6</option>
+                <option value="Voucher7">Voucher7</option>
+            </select>
+        </div>
+        <div class="medium-4 columns">
+            <a class="button success add-summary-nav-next">Generate Report <i class="fa fa-file-excel-o" aria-hidden="true"></i></a>
+        </div>
+        <div class="medium-3 columns end">
+            <label class="text-right middle"></label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="medium-12 columns">
+            <label class="text-right middle"></label>
         </div>
     </div>
 </section>
-
 <script src="js/vendor/what-input.js"></script>
 <script src="js/vendor/foundation.min.js"></script>
 <script src="js/evey-1.0.js"></script>
-<script src="js/Chart.min.js"></script>
-<script>
+<script src="js/jquery-ui.min.js"></script>
+<script type="text/javascript">
     $(document).foundation();
 
     $(document).ready(function(){
 
-    }).on("click",".button-press",function(){
-        $("#user-main").addClass("hide");
-        $("#user-create").removeClass("hide");
-    }).on("click",".cancel-btn",function(){
-        $("#user-main").removeClass("hide");
-        $("#user-create").addClass("hide");
-        $("#user-view").addClass("hide");
-        $("#user-update").addClass("hide");
-    }).on("click",".row-onclick",function(){
-        $("#user-view").removeClass("hide");
-        $("#user-main").addClass("hide");
-    }).on("click",".update-btn",function(){
-        $("#user-update").removeClass("hide");
-        $("#user-main").addClass("hide");
-        $("#user-view").addClass("hide");
+    }).on("click",".add-summary-nav-next",function(){
+        window.location.href = evey.getHome()+"/budgetfy/reports/create-disbursement";
     });
 </script>
+
 </body>
 </html>
+

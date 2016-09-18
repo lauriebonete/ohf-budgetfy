@@ -18,9 +18,13 @@ body {
   margin-bottom: 0;
 }
 
+.dropdown-pane {
+  width: 10%;
+}
+
 
 /*Site-content CSS Style*/
-#site-content-program, #site-content-overview, #site-content-user, #site-content-reference, #site-content-sys-maintenance {
+#site-content-program, #site-content-overview, #site-content-user, #site-content-reference, #site-content-sys-maintenance, #site-content-reports {
   overflow-y:scroll;
   overflow-x:hidden;
   height:92vh;
@@ -161,11 +165,19 @@ a.active-page {
   left: +100%;
 }
 
+#body-login {
+  background: #2199e8;
+}
+
 #login-box {
   background: #fff;
   border: 1px solid #ddd;
-  margin: 100px 0;
-  padding: 40px 20px 0 20px;
+  margin: 90px 0;
+  padding: 40px 20px 20px 20px;
+}
+
+#center-box-login{
+  font-size: 25px;
 }
 
 /*
