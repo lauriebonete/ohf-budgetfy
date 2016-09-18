@@ -17,7 +17,7 @@
     <script src="angular/budgetfy-angular.js"></script>
     <script src="angular/dirPagination.js"></script>
 </head>
-<body ng-app="budgetfyApp">
+<body>
 <section id="header">
     <div class="row">
         <div class="small-6 columns text-left">
@@ -35,7 +35,7 @@
     </div>
 </section>
 
-<section id="site-content-sys-maintenance">
+<section id="site-content-sys-maintenance" ng-app="budgetfyApp">
     <div id="view-sys-main" class="row collapse">
         <div class="medium-2 columns">
             <ul class="tabs vertical" id="sys-main-tabs" data-tabs>
@@ -47,18 +47,18 @@
         <div class="medium-10 columns">
             <div class="tabs-content" data-tabs-content="sys-main-tabs">
                 <!-- Users -->
-                <div class="tabs-panel is-active" id="users">
+                <div class="tabs-panel is-active" id="users" ng-controller="userController" ng-init="loadInitData()">
                     <div id="user-main">
                         <div class="row">
                             <div class="small-5 columns text-left">
-                                <a class="button success button-press" href="">Create User <i class="fa fa-plus"></i></a>
+                                <a class="button success create-user-btn">Create User <i class="fa fa-plus"></i></a>
                             </div>
                             <div class="small-2 columns text-right">
                                 <label class="text-right middle"></label>
                             </div>
                             <div class="small-5 columns text-right">
                                 <div class="input-group">
-                                    <input class="input-group-field" type="text" ng-model="programFilter">
+                                    <input class="input-group-field" type="text" ng-model="userFilter">
                                     <div class="input-group-button">
                                         <input type="submit" class="button" value="Search">
                                     </div>
@@ -78,42 +78,21 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
-                                        <td class="row-onclick">Tolentino</td>
-                                        <td class="row-onclick">Reese</td>
-                                        <td class="row-onclick">L.</td>
-                                        <td class="row-onclick">reeseypeasy</td>
+                                    <tr dir-paginate="user in userList | filter : userFilter | itemsPerPage: userMaxSize" pagination-id="user-list">
+                                        <td ng-click="viewUser(user.id)">{{user.lastName}}</td>
+                                        <td ng-click="viewUser(user.id)">{{user.firstName}}</td>
+                                        <td ng-click="viewUser(user.id)">{{user.middleName}}</td>
+                                        <td ng-click="viewUser(user.id)">{{user.username}}</td>
                                         <td>
-                                            <a class="button success update-btn"><i class="fa fa-pencil"></i></a>
-                                            <a class="button alert" data-open="delete-user"><i class="fa fa-minus"></i></a>
+                                            <a class="button alert"><i class="fa fa-minus"></i></a>
                                         </td>
                                     </tr>
                                     </tbody>
                                 </table>
-                                <div class="tiny reveal" id="delete-user" data-reveal>
-                                    <h5 class="middle">Are you sure you want to delete user?</h5>
-                                    <button class="close-button" data-close aria-label="Close modal" type="button">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                    <div class="row">
-                                        <div class="small-3 columns">
-                                            <label class="text-right middle"></label>
-                                        </div>
-                                        <div class="small-3 columns">
-                                            <a class="button success expanded" data-close>Yes</a>
-                                        </div>
-                                        <div class="small-3 columns">
-                                            <a class="button alert expanded" data-close>No</a>
-                                        </div>
-                                        <div class="small-3 columns">
-                                            <label class="text-right middle"></label>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                         <ul class="pagination text-center" role="navigation" aria-label="Pagination">
-                            <dir-pagination-controls pagination-id="" boundary-links="true"></dir-pagination-controls>
+                            <dir-pagination-controls pagination-id="user-list" boundary-links="true"></dir-pagination-controls>
                         </ul>
                     </div>
                     <div id="user-create" class="hide">
@@ -125,74 +104,64 @@
                                 <label class="text-right middle"></label>
                             </div>
                         </div>
-                        <form>
+                        <form data-abide novalidate id="create-user-form">
+                            <div data-abide-error class="alert callout" style="display: none;">
+                                <p><i class="fi-alert"></i> There are some errors in your form.</p>
+                            </div>
                             <div class="row">
                                 <div class="medium-5 columns">
                                     <label>First Name
-                                        <input type="text" placeholder="First Name">
+                                        <input type="text" placeholder="First Name" ng-model="createUser.firstName" required>
+                                        <span class="form-error">
+                                          Yo, you had better fill this out, it's required.
+                                        </span>
                                     </label>
                                 </div>
                                 <div class="medium-2 columns">
-                                    <label>Middle Initial
-                                        <input type="text" placeholder="Middle Initial">
+                                    <label>Middle Name
+                                        <input type="text" placeholder="Middle Name" ng-model="createUser.middleName">
+                                        <span class="form-error">
+                                          Yo, you had better fill this out, it's required.
+                                        </span>
                                     </label>
                                 </div>
                                 <div class="medium-5 columns">
                                     <label>Last Name
-                                        <input type="text" placeholder="Last Name">
+                                        <input type="text" placeholder="Last Name" ng-model="createUser.lastName" required>
+                                        <span class="form-error">
+                                          Yo, you had better fill this out, it's required.
+                                        </span>
                                     </label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="medium-12 columns">
-                                    <label>Address
-                                        <input type="text" placeholder="Address">
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="medium-5 columns">
-                                    <label>Contact Number
-                                        <input type="text" placeholder="Contact Number">
-                                    </label>
-                                </div>
-                                <div class="medium-4 columns">
-                                    <label>Birthday
-                                        <input type="date" id="birthday-create" placeholder="">
-                                    </label>
-                                </div>
-                                <div class="medium-3 columns">
-                                    <label class="text-right middle"></label>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="medium-5 columns">
                                     <label>Username
-                                        <input type="text" placeholder="Username">
+                                        <input type="text" placeholder="Username" ng-model="createUser.username" required>
+                                        <span class="form-error">
+                                          Yo, you had better fill this out, it's required.
+                                        </span>
                                     </label>
-                                </div>
-                                <div class="medium-7 columns">
-                                    <label class="text-right middle"></label>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="medium-5 columns">
                                     <label>Password
-                                        <input type="text" placeholder="Password">
+                                        <input type="password" placeholder="Password" ng-model="createUser.password" required id="pass">
+                                        <span class="form-error">
+                                          Yo, you had better fill this out, it's required.
+                                        </span>
                                     </label>
-                                </div>
-                                <div class="medium-7 columns">
-                                    <label class="text-right middle"></label>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="medium-5 columns">
                                     <label>Confirm Password
-                                        <input type="text" placeholder="Confirm Password">
+                                        <input type="password" placeholder="Confirm Password" ng-model="createUser.confirmPassword" required data-equalto="pass">
+                                        <span class="form-error">
+                                          Hey, passwords are supposed to match!
+                                        </span>
                                     </label>
-                                </div>
-                                <div class="medium-7 columns">
-                                    <label class="text-right middle"></label>
                                 </div>
                             </div>
                             <div class="row">
@@ -207,104 +176,11 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="medium-12 columns">
-                                    <label class="text-right middle"></label>
-                                </div>
-                            </div>
-                            <div class="row">
                                 <div class="medium-3 columns">
-                                    <a class="button success expanded">Save</a>
+                                    <button type="submit" class="button success expanded">Save</button>
                                 </div>
                                 <div class="medium-3 columns">
                                     <a class="button alert expanded cancel-btn">Cancel</a>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div id="user-view" class="hide">
-                        <div class="row">
-                            <div class="medium-5 columns">
-                                <h4 class="middle">View User Details</h4>
-                            </div>
-                            <div class="medium-7 columns">
-                                <label class="text-right middle"></label>
-                            </div>
-                        </div>
-                        <form>
-                            <div class="row">
-                                <div class="medium-3 columns">
-                                    <a class="button success expanded update-btn">Update<i class="fa fa-pencil"></i></a>
-                                </div>
-                                <div class="medium-3 columns">
-                                    <a class="button alert expanded cancel-btn">Back</a>
-                                </div>
-                                <div class="medium-6 columns">
-                                    <label class="text-right middle"></label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="medium-5 columns">
-                                    <label>First Name
-                                        <input type="text" placeholder="First Name" disabled>
-                                    </label>
-                                </div>
-                                <div class="medium-2 columns">
-                                    <label>Middle Initial
-                                        <input type="text" placeholder="Middle Initial" disabled>
-                                    </label>
-                                </div>
-                                <div class="medium-5 columns">
-                                    <label>Last Name
-                                        <input type="text" placeholder="Last Name" disabled>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="medium-12 columns">
-                                    <label>Address
-                                        <input type="text" placeholder="Address" disabled>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="medium-5 columns">
-                                    <label>Contact Number
-                                        <input type="text" placeholder="Contact Number" disabled>
-                                    </label>
-                                </div>
-                                <div class="medium-4 columns">
-                                    <label>Birthday
-                                        <input type="date" id="birthday-view" placeholder="" disabled>
-                                    </label>
-                                </div>
-                                <div class="medium-3 columns">
-                                    <label class="text-right middle"></label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="medium-5 columns">
-                                    <label>Username
-                                        <input type="text" placeholder="Username" disabled>
-                                    </label>
-                                </div>
-                                <div class="medium-7 columns">
-                                    <label class="text-right middle"></label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="medium-5 columns">
-                                    <label>Roles
-                                        <select disabled>
-                                            <option value="User">User</option>
-                                            <option value="SuperAdmin">Super Admin</option>
-                                            <option value="Read Only">Read Only</option>
-                                        </select>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="medium-12 columns">
-                                    <label class="text-right middle"></label>
                                 </div>
                             </div>
                         </form>
@@ -312,80 +188,70 @@
                     <div id="user-update" class="hide">
                         <div class="row">
                             <div class="medium-5 columns">
-                                <h4 class="middle">Update User Details</h4>
+                                <h4 class="middle">Update User</h4>
                             </div>
                             <div class="medium-7 columns">
                                 <label class="text-right middle"></label>
                             </div>
                         </div>
-                        <form>
+                        <form data-abide novalidate id="update-user-form">
+                            <div data-abide-error class="alert callout" style="display: none;">
+                                <p><i class="fi-alert"></i> There are some errors in your form.</p>
+                            </div>
                             <div class="row">
                                 <div class="medium-5 columns">
                                     <label>First Name
-                                        <input type="text" placeholder="First Name">
+                                        <input type="text" placeholder="First Name" ng-model="selectedUser.firstName" required>
+                                        <span class="form-error">
+                                          Yo, you had better fill this out, it's required.
+                                        </span>
                                     </label>
                                 </div>
                                 <div class="medium-2 columns">
-                                    <label>Middle Initial
-                                        <input type="text" placeholder="Middle Initial">
+                                    <label>Middle Name
+                                        <input type="text" placeholder="Middle Name" ng-model="selectedUser.middleName">
+                                        <span class="form-error">
+                                          Yo, you had better fill this out, it's required.
+                                        </span>
                                     </label>
                                 </div>
                                 <div class="medium-5 columns">
                                     <label>Last Name
-                                        <input type="text" placeholder="Last Name">
+                                        <input type="text" placeholder="Last Name" ng-model="selectedUser.lastName" required>
+                                        <span class="form-error">
+                                          Yo, you had better fill this out, it's required.
+                                        </span>
                                     </label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="medium-12 columns">
-                                    <label>Address
-                                        <input type="text" placeholder="Address">
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="medium-5 columns">
-                                    <label>Contact Number
-                                        <input type="text" placeholder="Contact Number">
-                                    </label>
-                                </div>
-                                <div class="medium-4 columns">
-                                    <label>Birthday
-                                        <input type="date" id="birthday-update" placeholder="">
-                                    </label>
-                                </div>
-                                <div class="medium-3 columns">
-                                    <label class="text-right middle"></label>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="medium-5 columns">
                                     <label>Username
-                                        <input type="text" placeholder="Username">
+                                        <input type="text" placeholder="Username" ng-model="selectedUser.username" required>
+                                        <span class="form-error">
+                                          Yo, you had better fill this out, it's required.
+                                        </span>
                                     </label>
-                                </div>
-                                <div class="medium-7 columns">
-                                    <label class="text-right middle"></label>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="medium-5 columns">
                                     <label>Password
-                                        <input type="text" placeholder="Password">
+                                        <input type="password" placeholder="Password" ng-model="selectedUser.password" required id="update-pass">
+                                        <span class="form-error">
+                                          Yo, you had better fill this out, it's required.
+                                        </span>
                                     </label>
-                                </div>
-                                <div class="medium-7 columns">
-                                    <label class="text-right middle"></label>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="medium-5 columns">
                                     <label>Confirm Password
-                                        <input type="text" placeholder="Confirm Password">
+                                        <input type="password" placeholder="Confirm Password" ng-model="selectedUser.confirmPassword" required data-equalto="update-pass">
+                                        <span class="form-error">
+                                          Hey, passwords are supposed to match!
+                                        </span>
                                     </label>
-                                </div>
-                                <div class="medium-7 columns">
-                                    <label class="text-right middle"></label>
                                 </div>
                             </div>
                             <div class="row">
@@ -400,13 +266,8 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="medium-12 columns">
-                                    <label class="text-right middle"></label>
-                                </div>
-                            </div>
-                            <div class="row">
                                 <div class="medium-3 columns">
-                                    <a class="button success expanded">Save</a>
+                                    <button type="submit" class="button success expanded">Save</button>
                                 </div>
                                 <div class="medium-3 columns">
                                     <a class="button alert expanded cancel-btn">Cancel</a>
@@ -414,57 +275,179 @@
                             </div>
                         </form>
                     </div>
-                </div>
                 <!-- User Roles -->
                 <div class="tabs-panel" id="user-roles">
 
                 </div>
 
                 <!-- Reference Lookup -->
-                <div class="tabs-panel" id="reference-look-up">
-                    <div class="row">
-                        <div class="small-5 columns text-left">
-                            <a class="button success" href="/budgetfy/program/create-program">Create Reference <i class="fa fa-plus"></i></a>
-                        </div>
-                        <div class="small-2 columns text-right">
-                            <label class="text-right middle"></label>
-                        </div>
-                        <div class="small-5 columns text-right">
-                            <div class="input-group">
-                                <input class="input-group-field" type="text" ng-model="referenceFilter">
-                                <div class="input-group-button">
-                                    <input type="submit" class="button" value="Search">
+                <div class="tabs-panel" id="reference-look-up" ng-controller="referenceLookUpController" ng-init="loadInitData()">
+                    <div id="reference-look-up-main">
+                        <div class="row">
+                            <div class="small-5 columns text-left">
+                                <a class="button success" id="create-reference-btn">Create Reference <i class="fa fa-plus"></i></a>
+                            </div>
+                            <div class="small-2 columns text-right">
+                                <label class="text-right middle"></label>
+                            </div>
+                            <div class="small-5 columns text-right">
+                                <div class="input-group">
+                                    <input class="input-group-field" type="text" ng-model="referenceFilter">
+                                    <div class="input-group-button">
+                                        <input type="submit" class="button" value="Search">
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="small-12 columns">
-                            <table id="programs-result" class="hover">
-                                <thead>
-                                <tr>
-                                    <th>Category</th>
-                                    <th>Key</th>
-                                    <th>Value</th>
-                                    <th>Number Value</th>
-                                    <th>Actions</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr class="row-onclick" dir-paginate="reference in referenceLookUpList | filter : referenceFilter | itemsPerPage: referenceLookUpMaxSize" pagination-id="reference-list">
-                                    <td>{{reference.category}}</td>
-                                    <td>{{reference.key}}</td>
-                                    <td>{{reference.value}}</td>
-                                    <td>{{reference.numberValue}}</td>
-                                    <td><a class="button alert"><i class="fa fa-minus"></i></a></td>
-                                </tr>
-                                </tbody>
-                            </table>
+                        <div class="row">
+                            <div class="small-12 columns">
+                                <table id="programs-result" class="hover">
+                                    <thead>
+                                    <tr>
+                                        <th>Category</th>
+                                        <th>Key</th>
+                                        <th>Value</th>
+                                        <th>Number Value</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr dir-paginate="reference in referenceLookUpList | filter : referenceFilter | itemsPerPage: referenceLookUpMaxSize" pagination-id="reference-list">
+                                        <td ng-click="viewReference(reference.id)">{{reference.category}}</td>
+                                        <td ng-click="viewReference(reference.id)">{{reference.key}}</td>
+                                        <td ng-click="viewReference(reference.id)">{{reference.value}}</td>
+                                        <td ng-click="viewReference(reference.id)">{{reference.numberValue}}</td>
+                                        <td ng-click="deleteReference(reference.id)"><a class="button alert"><i class="fa fa-minus"></i></a></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
+                        <ul class="pagination text-center" role="navigation" aria-label="Pagination">
+                            <dir-pagination-controls pagination-id="reference-list" boundary-links="true"></dir-pagination-controls>
+                        </ul>
                     </div>
-                    <ul class="pagination text-center" role="navigation" aria-label="Pagination">
-                        <dir-pagination-controls pagination-id="reference-list" boundary-links="true"></dir-pagination-controls>
-                    </ul>
+                    <div id="reference-look-up-create" class="hide">
+                        <div class="row">
+                            <div class="medium-5 columns">
+                                <h4 class="middle">Create Reference Look Up</h4>
+                            </div>
+                            <div class="medium-7 columns">
+                                <label class="text-right middle"></label>
+                            </div>
+                        </div>
+                        <form data-abide novalidate id="create-reference-form">
+                            <div data-abide-error class="alert callout" style="display: none;">
+                                <p><i class="fi-alert"></i> There are some errors in your form.</p>
+                            </div>
+                            <div class="row">
+                                <div class="medium-12 columns">
+                                    <label>Category
+                                        <select name="category" ng-model="createReference.category">
+                                            <option  ng-repeat="value in categoryList" value="{{value}}">{{value}}</option>
+                                        </select>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="medium-12 columns">
+                                    <label>Key
+                                        <input type="text" placeholder="Key" ng-model="createReference.key" required></label>
+                                        <span class="form-error">
+                                          Yo, you had better fill this out, it's required.
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="medium-12 columns">
+                                    <label>Value
+                                        <input type="text" placeholder="Key" ng-model="createReference.value" required></label>
+                                        <span class="form-error">
+                                          Yo, you had better fill this out, it's required.
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="medium-12 columns">
+                                    <label>Number Value
+                                        <input type="number" placeholder="Number Value" ng-model="createReference.numberValue"></label>
+                                        <span class="form-error">
+                                          Yo, you had better fill this out, it's required.
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="medium-3 columns">
+                                    <button type="submit" class="button success expanded">Save</button>
+                                </div>
+                                <div class="medium-3 columns">
+                                    <a class="button alert expanded cancel-ref-btn">Cancel</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div id="reference-look-up-update" class="hide">
+                        <div class="row">
+                            <div class="medium-5 columns">
+                                <h4 class="middle">Update Reference Look Up</h4>
+                            </div>
+                        </div>
+                        <form data-abide novalidate id="update-reference-form">
+                            <div data-abide-error class="alert callout" style="display: none;">
+                                <p><i class="fi-alert"></i> There are some errors in your form.</p>
+                            </div>
+                            <div class="row">
+                                <div class="medium-12 columns">
+                                    <label>Category
+                                        <select name="category" ng-model="selectedReference.category">
+                                            <option  ng-repeat="value in categoryList" value="{{value}}">{{value}}</option>
+                                        </select>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="medium-12 columns">
+                                    <label>Key
+                                        <input type="text" placeholder="Key" ng-model="selectedReference.key" required></label>
+                                        <span class="form-error">
+                                          Yo, you had better fill this out, it's required.
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="medium-12 columns">
+                                    <label>Value
+                                        <input type="text" placeholder="Key" ng-model="selectedReference.value" required></label>
+                                        <span class="form-error">
+                                          Yo, you had better fill this out, it's required.
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="medium-12 columns">
+                                    <label>Number Value
+                                        <input type="number" placeholder="Number Value" ng-model="selectedReference.numberValue"></label>
+                                        <span class="form-error">
+                                          Yo, you had better fill this out, it's required.
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="medium-3 columns">
+                                    <button type="submit" class="button success expanded">Save</button>
+                                </div>
+                                <div class="medium-3 columns">
+                                    <a class="button alert expanded cancel-ref-btn">Cancel</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -474,13 +457,12 @@
 <script src="js/vendor/what-input.js"></script>
 <script src="js/vendor/foundation.min.js"></script>
 <script src="js/evey-1.0.js"></script>
-<script src="js/Chart.min.js"></script>
 <script>
     $(document).foundation();
 
     $(document).ready(function(){
 
-    }).on("click",".button-press",function(){
+    }).on("click",".create-user-btn",function(){
         $("#user-main").addClass("hide");
         $("#user-create").removeClass("hide");
     }).on("click",".cancel-btn",function(){
@@ -495,6 +477,12 @@
         $("#user-update").removeClass("hide");
         $("#user-main").addClass("hide");
         $("#user-view").addClass("hide");
+    }).on("click","a#create-reference-btn", function(){
+        $("div#reference-look-up-main").addClass("hide");
+        $("div#reference-look-up-create").removeClass("hide");
+    }).on("click", ".cancel-ref-btn", function(){
+        $("div#reference-look-up-main").removeClass("hide");
+        $("div#reference-look-up-create").addClass("hide");
     });
 </script>
 </body>

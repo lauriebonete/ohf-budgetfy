@@ -2,6 +2,7 @@ package org.evey.utility;
 
 import org.apache.log4j.Logger;
 import org.evey.security.SessionUser;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -12,7 +13,7 @@ public class SecurityUtil {
 
     private static Logger _log = Logger.getLogger(SecurityUtil.class);
 
-    private static BCryptPasswordEncoder passwordEncoder;
+    private static BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public static SessionUser getSessionUser(){
         try {

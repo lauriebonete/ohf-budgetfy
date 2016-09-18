@@ -14,13 +14,86 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
             });
         };
     }])
+    .controller("userController", ["$scope","userService", "referenceLookUpService", function($scope, userService, referenceLookUpService){
+        $scope.loadInitData = function(){
+            userService.getAllUsers().then(function(results){
+                $scope.userMaxSize = results.listSize;
+                $scope.userList = results.results;
+            });
+        };
+
+        $scope.viewUser = function(id){
+            $scope.selectedUser = userService.findUserInList($scope.userList, id);
+            $("div#user-main").addClass("hide");
+            $("div#user-update").removeClass("hide");
+        };
+
+        $('form#create-user-form').on('formvalid.zf.abide', function () {
+            userService.createNewUser($scope.createUser).then(function successCallback(response){
+                if(response.status){
+                    $("#user-main").removeClass("hide");
+                    $("#user-create").addClass("hide");
+                    $("#user-view").addClass("hide");
+                    $("#user-update").addClass("hide");
+                } else {
+
+                }
+            }, function errorCallback(error){
+
+            });
+        });
+
+
+    }])
     .controller("referenceLookUpController", ["$scope", "$filter", "referenceLookUpService", function($scope, $filter, referenceLookUpService){
         $scope.loadInitData = function(){
             referenceLookUpService.getAllReference().then(function(results){
                 $scope.referenceLookUpMaxSize = results.listSize;
                 $scope.referenceLookUpList = results.results;
             });
+
+            referenceLookUpService.getAllCategory().then(function(results){
+                $scope.categoryList = results
+            });
         };
+
+        $scope.viewReference = function(id){
+            $scope.selectedReference = referenceLookUpService.findReferenceInList($scope.referenceLookUpList, id);
+            $("div#reference-look-up-main").addClass("hide");
+            $("div#reference-look-up-update").removeClass("hide");
+        };
+
+        $scope.deleteReference = function(id) {
+            referenceLookUpService.deleteReference(id).then(function(result){
+                console.log(result);
+            });
+        };
+
+        $('form#create-reference-form').on('formvalid.zf.abide', function () {
+            referenceLookUpService.saveReference($scope.createReference).then(function successCallback(response){
+                if(response.status){
+                    $("div#reference-look-up-main").removeClass("hide");
+                    $("div#reference-look-up-create").addClass("hide");
+                } else {
+
+                }
+            }, function errorCallback(error){
+
+            });
+        });
+
+        $('form#update-reference-form').on('formvalid.zf.abide', function () {
+            referenceLookUpService.saveReference($scope.selectedReference).then(function successCallback(response){
+                if(response.status){
+                    $("div#reference-look-up-main").removeClass("hide");
+                    $("div#reference-look-up-update").addClass("hide");
+                } else {
+
+                }
+            }, function errorCallback(error){
+
+            });
+        });
     }])
     .controller("voucherController", ["$scope","$http", "$filter","voucherService","programService","activityService","particularService","fileDetailService",function($scope,$http,$filter,voucherService,programService,activityService,particularService,fileDetailService){
 
@@ -248,7 +321,7 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
         };
 
         userService.getAllUsers().then(function(result){
-            $scope.allUsersList = result;
+            $scope.allUsersList = result.results;
         },function(error){
             console.log(error);
         });
@@ -581,10 +654,30 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
     .service("userService", function($http){
         this.getAllUsers = function(){
             return $http.get("/budgetfy/user/findAll").then(function successCallback(response){
-                return response.data.results;
+                return response.data;
             }, function errorCallback(response){
 
             });
+        };
+
+        this.createNewUser = function(user){
+            console.log(user);
+            return $http.post("/budgetfy/user/",user)
+                .then(function(response){
+                    return response.data;
+                }, function(error) {
+                    console.log(error);
+                });
+        };
+
+        this.findUserInList = function(userList, id){
+            var foundUser = userList.filter(function(user){
+                return (user.id == id);
+            });
+            if(foundUser.length>0){
+                return foundUser[0];
+            }
+            return null;
         };
     })
     .service("referenceLookUpService",function($http){
@@ -602,6 +695,43 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
             }, function errorCallback(response){
 
             });
+        };
+
+        this.getAllCategory = function(){
+            return $http.get("/budgetfy/reference/findAllCategory").then(function successCallback(response){
+                return response.data;
+            }, function errorCallback(response){
+
+            });
+        };
+
+        this.saveReference = function(reference){
+            return $http.post("/budgetfy/reference/",reference)
+                .then(function(response){
+                    return response.data;
+                }, function(error) {
+                    console.log(error);
+                });
+        };
+
+        this.deleteReference = function(id){
+            console.log("performing delete ", id);
+            return $http.delete("/budgetfy/reference/"+id)
+                .then(function(response){
+                    return response.data;
+                }, function(error) {
+                    console.log(error);
+                });
+        };
+
+        this.findReferenceInList = function(referenceList,id){
+            var foundReference = referenceList.filter(function(reference){
+                return (reference.id == id);
+            });
+            if(foundReference.length>0){
+                return foundReference[0];
+            }
+            return null;
         };
     })
     .service("programService",function($http){
