@@ -69,7 +69,7 @@
                 <label for="total-budget" class="text-right middle">Total Budget</label>
               </div>
               <div class="small-7 columns end">
-                  <input type="text" min="0" id="total-budget" placeholder="Total Budget" name="totalBudget" required>
+                  <input type="text" min="0" class="numeric" id="total-budget" placeholder="Total Budget" name="totalBudget" required>
                   <span class="form-error">Please provide a valid Total Budget.</span>
               </div>
             </div>
@@ -398,6 +398,8 @@
                     || e.keyCode == 8)) {
                 return false;
             }
+        }).on("input", ".numeric", function() {
+            this.value = this.value.replace(/[^\d\.\-]/g,'');
         });
 
       function addThousandsSeparator(input) {
