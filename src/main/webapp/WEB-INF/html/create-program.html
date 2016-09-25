@@ -69,7 +69,7 @@
                 <label for="total-budget" class="text-right middle">Total Budget</label>
               </div>
               <div class="small-7 columns end">
-                  <input type="text" id="total-budget" placeholder="Total Budget" name="totalBudget" required>
+                  <input type="text" min="0" class="numeric" id="total-budget" placeholder="Total Budget" name="totalBudget" required>
                   <span class="form-error">Please provide a valid Total Budget.</span>
               </div>
             </div>
@@ -77,10 +77,10 @@
               <div class="small-3 columns">
                 <label for="percentage" class="text-right middle">Critical Level %</label>
               </div>
-              <div class="small-1 columns">
-                <input type="number" id="percentage" name="percentage" placeholder="%">
+              <div class="small-2 columns">
+                <input type="number" id="percentage" name="percentage" placeholder="%" min="0" max="100">
               </div>
-              <div class="small-6 columns end">
+              <div class="small-5 columns end">
                 <input type="text" id="threshold" name="threshold" disabled>
               </div>
             </div>
@@ -253,7 +253,7 @@
                                 <td><a class="button alert" ng-click="removeAddedActivity(activity.activityTypeId)"><i class="fa fa-minus"></i></a></td>
                             </tr>
                         </tbody>
-                </table>      
+                </table>
               </div>
             </div>
             <ul class="pagination text-center" role="navigation" aria-label="Pagination">
@@ -367,6 +367,11 @@
 
         var addedActivityList = null;
         $(document).ready(function(){
+            $('#percentage').blur(function(){
+                var num = parseFloat($(this).val());
+                var cleanNum = num.toFixed(2);
+                $(this).val(cleanNum);
+            });
         }).on("change", "#percentage, #total-budget", function(){
         var percentage = $("#percentage").val();
         var totalBudget = $("#total-budget").val().replace(/,/g, '');
@@ -387,7 +392,15 @@
                 $("#program-team").css("left", "0");
                 $(".progress-meter").css("width", "50%");
             }
-      });
+      }).on("keydown","#percentage",function(e){
+            if(!((e.keyCode > 95 && e.keyCode < 106)
+                    || (e.keyCode > 47 && e.keyCode < 58)
+                    || e.keyCode == 8)) {
+                return false;
+            }
+        }).on("input", ".numeric", function() {
+            this.value = this.value.replace(/[^\d\.\-]/g,'');
+        });
 
       function addThousandsSeparator(input) {
         var output = input.toString().replace(/,/g, '');
@@ -403,6 +416,7 @@
                 }
         );
       }
+
     </script>
   </footer>
 </html>
