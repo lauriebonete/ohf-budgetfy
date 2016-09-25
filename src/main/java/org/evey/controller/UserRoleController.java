@@ -37,6 +37,8 @@ public class UserRoleController extends BaseCrudController<UserRole> {
     @RequestMapping(value = "/save-access", method = RequestMethod.POST, produces = "application/json")
     public @ResponseBody Map<String,Object> saveAccessCodes(@RequestBody UserRole userRole){
 
+        userRoleService.save(userRole);
+
         Map<String,Object> params = new HashMap<>();
         params.put("userRoleId",userRole.getId());
         authorityService.executeUpdateByNamedQuery("jpql.authority.delete-old-access", params);

@@ -200,6 +200,7 @@ public abstract class BaseCrudController<T extends BaseEntity> {
         transactionTemplate.execute(new TransactionCallbackWithoutResult() {
             @Override
             protected void doInTransactionWithoutResult(TransactionStatus transactionStatus) {
+                preCreate(command);
                 baseCrudService.save(command);
                 postCreate(command);
             }
@@ -226,6 +227,11 @@ public abstract class BaseCrudController<T extends BaseEntity> {
     }
 
     protected void postCreate(T command){
+
+    }
+
+
+    protected void preCreate(T command){
 
     }
 

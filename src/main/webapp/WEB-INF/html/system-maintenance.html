@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js" lang="en" dir="ltr">
+<html>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="css/foundation.min.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/jquery.bonsai.css"/>
 
     <script src="js/jquery3.min.js"></script>
     <script src="js/angular.js"></script>
@@ -152,7 +153,7 @@
                             <div class="row">
                                 <div class="medium-5 columns">
                                     <label>Password
-                                        <input type="password" placeholder="Password" ng-model="createUser.password" required id="pass">
+                                        <input type="password" placeholder="Password" ng-model="createUser.newPassword" required id="pass">
                                         <span class="form-error">
                                           Yo, you had better fill this out, it's required.
                                         </span>
@@ -242,7 +243,7 @@
                             <div class="row">
                                 <div class="medium-5 columns">
                                     <label>Password
-                                        <input type="password" placeholder="Password" ng-model="selectedUser.password" required id="update-pass">
+                                        <input type="password" placeholder="Password" ng-model="selectedUser.newPassword" required id="update-pass">
                                         <span class="form-error">
                                           Yo, you had better fill this out, it's required.
                                         </span>
@@ -272,7 +273,7 @@
                             </div>
                             <div class="row">
                                 <div class="medium-3 columns">
-                                    <button type="submit" class="button success expanded">Save</button>
+                                    <button type="submit" class="button success expanded" ng-click="updateUser()">Save</button>
                                 </div>
                                 <div class="medium-3 columns">
                                     <a class="button alert expanded cancel-btn">Cancel</a>
@@ -309,8 +310,8 @@
                                     </thead>
                                     <tbody>
                                     <tr dir-paginate="userRole in userRoleList | filter : userRoleFilter | itemsPerPage: userRoleMaxSize" pagination-id="user-role-list">
-                                        <td>{{userRole.roleName}}</td>
-                                        <td>{{userRole.description}}</td>
+                                        <td ng-click="viewUserRole(userRole.id)">{{userRole.roleName}}</td>
+                                        <td ng-click="viewUserRole(userRole.id)">{{userRole.description}}</td>
                                         <td><a class="button alert"><i class="fa fa-minus"></i></a></td>
                                     </tr>
                                     </tbody>
@@ -337,7 +338,7 @@
                             <div class="row">
                                 <div class="small-12 columns">
                                     <label>Role Name
-                                        <input type="text" placeholder="First Name" ng-model="createUser.firstName" required>
+                                        <input type="text" placeholder="Role Name" ng-model="createUserRole.roleName" required>
                                         <span class="form-error">
                                           Yo, you had better fill this out, it's required.
                                         </span>
@@ -347,20 +348,7 @@
                             <div class="row">
                                 <div class="small-12 columns">
                                     <label>Role Description
-                                        <input type="text" placeholder="Middle Name" ng-model="createUser.middleName">
-                                        <span class="form-error">
-                                          Yo, you had better fill this out, it's required.
-                                        </span>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="medium-5 columns">
-                                    <label>Confirm Password
-                                        <input type="password" placeholder="Confirm Password" ng-model="createUser.confirmPassword" required data-equalto="pass">
-                                        <span class="form-error">
-                                          Hey, passwords are supposed to match!
-                                        </span>
+                                        <input type="text" placeholder="Description" ng-model="createUserRole.description">
                                     </label>
                                 </div>
                             </div>
@@ -375,7 +363,53 @@
                                     <button type="submit" class="button success expanded">Save</button>
                                 </div>
                                 <div class="medium-3 columns">
-                                    <a class="button alert expanded cancel-btn">Cancel</a>
+                                    <a class="button alert expanded cancel-user-role-btn">Cancel</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div id="user-role-update" class="hide">
+                        <div class="row">
+                            <div class="medium-5 columns">
+                                <h4 class="middle">Update User Role</h4>
+                            </div>
+                            <div class="medium-7 columns">
+                                <label class="text-right middle"></label>
+                            </div>
+                        </div>
+                        <form data-abide novalidate id="update-user-role-form">
+                            <div data-abide-error class="alert callout" style="display: none;">
+                                <p><i class="fi-alert"></i> There are some errors in your form.</p>
+                            </div>
+                            <div class="row">
+                                <div class="small-12 columns">
+                                    <label>Role Name
+                                        <input type="text" placeholder="Role Name" ng-model="selectedUserRole.roleName" required>
+                                        <span class="form-error">
+                                          Yo, you had better fill this out, it's required.
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="small-12 columns">
+                                    <label>Role Description
+                                        <input type="text" placeholder="Description" ng-model="selectedUserRole.description">
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="small-12 columns">
+                                    <ul id="role-tree-update" class="level-1">
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="medium-3 columns">
+                                    <button type="submit" class="button success expanded">Save</button>
+                                </div>
+                                <div class="medium-3 columns">
+                                    <a class="button alert expanded cancel-user-role-btn">Cancel</a>
                                 </div>
                             </div>
                         </form>
@@ -555,37 +589,56 @@
         </div>
     </div>
 </section>
-
-<script src="js/vendor/what-input.js"></script>
-<script src="js/vendor/foundation.min.js"></script>
-<script src="js/evey-1.0.js"></script>
-<script>
-    $(document).foundation();
-
-    $(document).ready(function(){
-
-    }).on("click",".create-user-btn",function(){
-        $("#user-main").addClass("hide");
-        $("#user-create").removeClass("hide");
-    }).on("click",".cancel-btn",function(){
-        $("#user-main").removeClass("hide");
-        $("#user-create").addClass("hide");
-        $("#user-view").addClass("hide");
-        $("#user-update").addClass("hide");
-    }).on("click",".row-onclick",function(){
-        $("#user-view").removeClass("hide");
-        $("#user-main").addClass("hide");
-    }).on("click",".update-btn",function(){
-        $("#user-update").removeClass("hide");
-        $("#user-main").addClass("hide");
-        $("#user-view").addClass("hide");
-    }).on("click","a#create-reference-btn", function(){
-        $("div#reference-look-up-main").addClass("hide");
-        $("div#reference-look-up-create").removeClass("hide");
-    }).on("click", ".cancel-ref-btn", function(){
-        $("div#reference-look-up-main").removeClass("hide");
-        $("div#reference-look-up-create").addClass("hide");
-    });
-</script>
 </body>
+<footer>
+    <script src="js/vendor/what-input.js"></script>
+    <script src="js/vendor/foundation.min.js"></script>
+    <script src="js/evey-1.0.js"></script>
+    <script src="js/jquery.bonsai.js"></script>
+    <script src="js/jquery.qubit.js"></script>
+    <script>
+        $(document).foundation();
+
+        $(document).ready(function(){
+            $('#role-tree-update').bonsai({
+                expandAll: false,
+                checkboxes: false, // depends on jquery.qubit plugin
+                createInputs: 'checkbox', // takes values from data-name and data-value, and data-name is inherited
+            });
+            $('#role-tree').bonsai({
+                expandAll: false,
+                checkboxes: false, // depends on jquery.qubit plugin
+                createInputs: 'checkbox', // takes values from data-name and data-value, and data-name is inherited
+            });
+        }).on("click",".create-user-btn",function(){
+            $("#user-main").addClass("hide");
+            $("#user-create").removeClass("hide");
+        }).on("click",".cancel-btn",function(){
+            $("#user-main").removeClass("hide");
+            $("#user-create").addClass("hide");
+            $("#user-view").addClass("hide");
+            $("#user-update").addClass("hide");
+        }).on("click",".row-onclick",function(){
+            $("#user-view").removeClass("hide");
+            $("#user-main").addClass("hide");
+        }).on("click",".update-btn",function(){
+            $("#user-update").removeClass("hide");
+            $("#user-main").addClass("hide");
+            $("#user-view").addClass("hide");
+        }).on("click","a#create-reference-btn", function(){
+            $("div#reference-look-up-main").addClass("hide");
+            $("div#reference-look-up-create").removeClass("hide");
+        }).on("click", ".cancel-ref-btn", function(){
+            $("div#reference-look-up-main").removeClass("hide");
+            $("div#reference-look-up-create").addClass("hide");
+        }).on("click", "#create-user-role-btn", function(){
+            $("#user-role-main").addClass("hide");
+            $("#user-role-create").removeClass("hide");
+        }).on("click", ".cancel-user-role-btn", function(){
+            $("#user-role-main").removeClass("hide");
+            $("#user-role-create").addClass("hide");
+            $("#user-role-update").addClass("hide");
+        });
+    </script>
+</footer>
 </html>

@@ -22,9 +22,9 @@
         <sec:intercept-url pattern="/sale" access="isAuthenticated()" />
         <sec:intercept-url pattern="/about" access="isAuthenticated()" />
         <sec:form-login  login-page="/login"
-                     username-parameter="pinDigit"
+                     username-parameter="username"
                      authentication-failure-url="/login/access-denied"
-                     default-target-url="/dashboard"/>
+                     default-target-url="/overview"/>
         <sec:csrf disabled="true"/>
         <sec:logout logout-url="/logout" logout-success-url="/login?login_response=success_logout&amp;error=false"></sec:logout>
     </sec:http>

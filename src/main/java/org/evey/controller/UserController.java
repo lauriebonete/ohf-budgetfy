@@ -57,4 +57,9 @@ public class UserController extends BaseCrudController<User> {
 
         return  returnMap;
     }
+
+    @Override
+    protected void preCreate(User command) {
+        command.setPassword(command.getNewPassword());
+    }
 }

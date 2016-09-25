@@ -7,6 +7,7 @@ import org.evey.bean.User;
  */
 public interface UserService extends BaseCrudService<User> {
     public User getCurrentUser();
+    public User getUserByUsername(String userName);
 
     public Boolean checkIfPinIsUnique(String pin);
     public Boolean checkIfUsernameIsUnique(String username);

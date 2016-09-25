@@ -68,6 +68,7 @@ public class User extends BaseEntity{
 	private transient String userDisplay;
 	private transient String completeName;
 	private transient String fullName;
+	private transient String newPassword;
 //	private Role role;
 //	private Schedule schedule;
 
@@ -83,7 +84,7 @@ public class User extends BaseEntity{
 	}
 
 	public void setPassword(String password) {
-		this.password = SecurityUtil.encryptPassword(password);
+        this.password = password;
 	}
 	public Date getHiredDate() {
 		return hiredDate;
@@ -218,5 +219,13 @@ public class User extends BaseEntity{
 
 	public Boolean isMatchPassword(String password){
 		return SecurityUtil.isMatchPassword(this.password,password);
+	}
+
+	public String getNewPassword() {
+		return newPassword;
+	}
+
+	public void setNewPassword(String newPassword) {
+		this.newPassword = SecurityUtil.encryptPassword(newPassword);
 	}
 }

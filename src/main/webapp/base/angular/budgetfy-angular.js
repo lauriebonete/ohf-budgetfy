@@ -14,13 +14,120 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
             });
 
             userRoleService.getAllAuthorities().then(function(results){
-                createTreeRole(results);
-                $('#role-tree').bonsai('update');
+                $scope.authorities = results;
+                createTreeRole(results,"role-tree-update");
+                $("#role-tree-update").bonsai("update");
+                createTreeRole(results,"role-tree");
+                $("#role-tree").bonsai('update');
+
             });
         };
 
-        var createTreeRole = function(data){
+        $scope.viewUserRole = function(id){
+            $scope.selectedUserRole = userRoleService.findUserRoleInList($scope.userRoleList, id);
+            createTreeRole($scope.authorities,"role-tree-update");
+            $("#role-tree-update").bonsai("update");
+            checkAccessRights($scope.selectedUserRole.authorities);
+            $("#user-role-main").addClass("hide");
+            $("#user-role-update").removeClass("hide");
+        };
 
+        $('form#create-user-role-form').on('formvalid.zf.abide', function () {
+            var authorities = [];
+            $("#role-tree input:checkbox:checked").each(function(i,checkbox){
+                var authority = {"access": $(checkbox).attr("id")};
+                authorities.push(authority);
+            });
+
+            $scope.createUserRole.authorityList = authorities;
+
+            userRoleService.saveUserRole($scope.createUserRole).then(function(response){
+                if(response.status){
+                    $("#user-role-main").removeClass("hide");
+                    $("#user-role-create").addClass("hide");
+                    $scope.userRoleList.push(response.result);
+                }
+            });
+        });
+
+        $('form#update-user-role-form').on('formvalid.zf.abide', function () {
+            var authorities = [];
+            $("#role-tree-update input:checkbox:checked").each(function(i,checkbox){
+                var authority = {"access": $(checkbox).attr("id")};
+                authorities.push(authority);
+            });
+
+            $scope.selectedUserRole.authorityList = authorities;
+
+            userRoleService.saveUserRole($scope.selectedUserRole).then(function(response){
+                if(response.status){
+                    $("#user-role-main").removeClass("hide");
+                    $("#user-role-create").addClass("hide");
+                    $("#user-role-update").addClass("hide");
+                }
+            });
+        });
+
+        var checkAccessRights = function(data){
+            console.log(data);
+            $.each(data, function(i,val){
+                console.log($("#role-tree-update #"+val.access));
+                $("#role-tree-update #"+val.access).click();
+            });
+        };
+
+        var createTreeRole = function(data, tree){
+            $("#"+tree+".level-1").children().remove();
+            $.each(data, function(key, value){
+                var listAndName = value.split("@");
+                var list = listAndName[0].split(".");
+
+                if($("#"+tree+".level-1").children("li#"+list[0]).length>0){
+
+                    var firstLevelNode = $("#"+tree+".level-1").children("li#"+list[0]);
+                    if($(firstLevelNode).children("ul").length<=0){
+                        $(firstLevelNode).append($("<ul>").addClass("level-2"));
+                    }
+
+                    var level2Node = $(firstLevelNode).find("ul.level-2").children("li#"+list[1]);
+                    if($(level2Node).length>0){
+                        if($(level2Node).find("ul").length<=0){
+                            $(level2Node).append($("<ul>").addClass("level-3"));
+                        }
+
+                        var level3Node = $(level2Node).find("ul.level-3").children("li#"+list[2]);
+                        if($(level3Node).length>0){
+                            if($(level3Node).find("ul").length<=0){
+                                $(level3Node).append($("<ul>").addClass("level-4"));
+                            }
+
+                            var level4Node = $(level3Node).find("ul.level-4").children("li#"+list[3]);
+                            if($(level4Node).length>0){
+                                if($(level4Node).find("ul").length<=0){
+                                    $(level4Node).append($("<ul>").addClass("level-5"));
+                                }
+
+                                var level5Node = $(level4Node).find("ul.level-5").children("li#"+list[4]);
+                                if($(level5Node).length>0) {
+                                    if ($(level5Node).find("ul").length <= 0) {
+                                        $(level5Node).append($("<ul>").addClass("level-6"));
+                                    }
+                                } else {
+                                    $(level4Node).find("ul.level-5").append($("<li>").attr("id",list[4]).attr("data-id",key).append(listAndName[1]));
+                                }
+                            } else {
+                                $(level3Node).find("ul.level-4").append($("<li>").attr("id",list[3]).attr("data-id",key).append(listAndName[1]));
+                            }
+                        } else {
+                            $(level2Node).find("ul.level-3").append($("<li>").attr("id",list[2]).attr("data-id",key).append(listAndName[1]));
+                        }
+                    } else {
+                        $(firstLevelNode).find("ul.level-2").append($("<li>").attr("id",list[1]).attr("data-id",key).append(listAndName[1]));
+                    }
+                } else {
+                    $("#"+tree+".level-1").append($("<li>").attr("id",list[0]).attr("data-id",key).append(listAndName[1]));
+                }
+            });
         };
     }])
     .controller("userController", ["$scope","userService", "referenceLookUpService", function($scope, userService, referenceLookUpService){
@@ -39,6 +146,22 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
 
         $('form#create-user-form').on('formvalid.zf.abide', function () {
             userService.createNewUser($scope.createUser).then(function successCallback(response){
+                if(response.status){
+                    $("#user-main").removeClass("hide");
+                    $("#user-create").addClass("hide");
+                    $("#user-view").addClass("hide");
+                    $("#user-update").addClass("hide");
+                    $scope.userList.push(response.result);
+                } else {
+
+                }
+            }, function errorCallback(error){
+
+            });
+        });
+
+        $('form#update-user-form').on('formvalid.zf.abide', function () {
+            userService.createNewUser($scope.selectedUser).then(function successCallback(response){
                 if(response.status){
                     $("#user-main").removeClass("hide");
                     $("#user-create").addClass("hide");
@@ -930,6 +1053,33 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
             }, function errorCallback(response){
 
             });
+        };
+
+        this.getAllAuthorities  = function(){
+            return $http.get("/budgetfy/userRole/get-all-authorities").then(function successCallback(response){
+                return response.data;
+            }, function errorCallback(response){
+
+            });
+        };
+
+        this.saveUserRole = function(userRole){
+            return $http.post("/budgetfy/userRole/save-access",userRole)
+                .then(function(response){
+                    return response.data;
+                }, function(error) {
+                    console.log(error);
+                });
+        }
+
+        this.findUserRoleInList = function(userRoleList,id){
+            var foundUserRole = userRoleList.filter(function(userRole){
+                return (userRole.id == id);
+            });
+            if(foundUserRole.length>0){
+                return foundUserRole[0];
+            }
+            return null;
         };
     });
 
