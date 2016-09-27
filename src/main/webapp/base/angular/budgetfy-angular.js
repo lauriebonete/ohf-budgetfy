@@ -130,11 +130,15 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
             });
         };
     }])
-    .controller("userController", ["$scope","userService", "referenceLookUpService", function($scope, userService, referenceLookUpService){
+    .controller("userController", ["$scope","userService", "referenceLookUpService", "userRoleService", function($scope, userService, referenceLookUpService, userRoleService){
         $scope.loadInitData = function(){
             userService.getAllUsers().then(function(results){
                 $scope.userMaxSize = results.listSize;
                 $scope.userList = results.results;
+            });
+
+            userRoleService.getAllUserRole().then(function(results){
+                $scope.userRoleList = results.results;
             });
         };
 
@@ -144,7 +148,29 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
             $("div#user-update").removeClass("hide");
         };
 
+        $scope.userRoleConfig =
+        {
+            valueField : 'id',
+            labelField : 'roleName',
+            searchField: ['roleName'],
+            delimiter : '|',
+            placeholder : 'Pick something',
+            plugins: ['remove_button'],
+            onInitialize : function (selectize) {
+                // receives the selectize object as an argument
+            }
+        };
+
         $('form#create-user-form').on('formvalid.zf.abide', function () {
+            var userRoleList = [];
+            $.each($scope.createUser.userRole, function(i, role){
+                var userRole = {
+                    "id": role
+                }
+                userRoleList.push(userRole);
+            });
+
+            $scope.createUser.userRole = userRoleList;
             userService.createNewUser($scope.createUser).then(function successCallback(response){
                 if(response.status){
                     $("#user-main").removeClass("hide");
@@ -161,6 +187,16 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
         });
 
         $('form#update-user-form').on('formvalid.zf.abide', function () {
+            var userRoleList = [];
+            $.each($scope.selectedUser.userRoleList, function(i, role){
+                var userRole = {
+                    "id": role
+                }
+                userRoleList.push(userRole);
+            });
+
+            $scope.selectedUser.userRole = userRoleList;
+
             userService.createNewUser($scope.selectedUser).then(function successCallback(response){
                 if(response.status){
                     $("#user-main").removeClass("hide");

@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <link rel="stylesheet" href="css/jquery.bonsai.css"/>
+    <link rel="stylesheet" href="css/selectize.default.css">
 
     <script src="js/jquery3.min.js"></script>
     <script src="js/angular.js"></script>
@@ -155,7 +156,7 @@
                                     <label>Password
                                         <input type="password" placeholder="Password" ng-model="createUser.newPassword" required id="pass">
                                         <span class="form-error">
-                                          Yo, you had better fill this out, it's required.
+                                            Yo, you had better fill this out, it's required.
                                         </span>
                                     </label>
                                 </div>
@@ -173,12 +174,11 @@
                             <div class="row">
                                 <div class="medium-5 columns">
                                     <label>Roles
-                                        <select>
-                                            <option value="User">User</option>
-                                            <option value="SuperAdmin">Super Admin</option>
-                                            <option value="Read Only">Read Only</option>
-                                        </select>
+                                        <selectize config='userRoleConfig' options='userRoleList' ng-model="createUser.userRole" ng-required="true"></selectize>
                                     </label>
+                                    <span class="form-error">
+                                          Yo, you had better fill this out, it's required.
+                                    </span>
                                 </div>
                             </div>
                             <div class="row">
@@ -242,8 +242,8 @@
                             </div>
                             <div class="row">
                                 <div class="medium-5 columns">
-                                    <label>Password
-                                        <input type="password" placeholder="Password" ng-model="selectedUser.newPassword" required id="update-pass">
+                                    <label>New Password
+                                        <input type="password" placeholder="Password" ng-model="selectedUser.newPassword" id="update-pass">
                                         <span class="form-error">
                                           Yo, you had better fill this out, it's required.
                                         </span>
@@ -253,7 +253,7 @@
                             <div class="row">
                                 <div class="medium-5 columns">
                                     <label>Confirm Password
-                                        <input type="password" placeholder="Confirm Password" ng-model="selectedUser.confirmPassword" required data-equalto="update-pass">
+                                        <input type="password" placeholder="Confirm Password" ng-model="selectedUser.confirmPassword" data-equalto="update-pass">
                                         <span class="form-error">
                                           Hey, passwords are supposed to match!
                                         </span>
@@ -262,14 +262,11 @@
                             </div>
                             <div class="row">
                                 <div class="medium-5 columns">
-                                    <label>Roles
-                                        <select>
-                                            <option value="User">User</option>
-                                            <option value="SuperAdmin">Super Admin</option>
-                                            <option value="Read Only">Read Only</option>
-                                        </select>
-                                    </label>
+                                    <selectize config='userRoleConfig' name="userRole" options='userRoleList' ng-model="selectedUser.userRoleList" ng-required="true"></selectize>
                                 </div>
+                                <span class="form-error">
+                                    Yo, you had better fill this out, it's required.
+                                </span>
                             </div>
                             <div class="row">
                                 <div class="medium-3 columns">

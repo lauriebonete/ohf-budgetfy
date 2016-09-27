@@ -46,6 +46,9 @@ public class Program extends BaseEntity {
     @JsonManagedReference
     private List<Activity> activities;
 
+    @Column(name = "YEAR")
+    private String year;
+
     private transient String displayProgramDuration;
 
     private transient String displayProgramBudget;
@@ -114,6 +117,14 @@ public class Program extends BaseEntity {
         this.percentage = percentage;
     }
 
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+
     public String getDisplayProgramDuration() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("MMM d, yyyy");
         StringBuilder displayBuilder = new StringBuilder();
@@ -138,5 +149,13 @@ public class Program extends BaseEntity {
         Map<String, String> orderMap = new HashMap<>();
         orderMap.put("id","DESC");
         return orderMap;
+    }
+
+    @Override
+    protected void prePersist() {
+        super.prePersist();
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy");
+        this.year = dateFormat.format(this.programStart);
     }
 }

@@ -36,8 +36,9 @@ public class UserValidator extends BaseValidator {
             errors.rejectValue("lastName", "lastName", "Please provide a Last name");
         }
 
-        if(user.getNewPassword()==null ||
-                user.getNewPassword().length()<=0){
+        if(user.isNew() &&
+                (user.getNewPassword()==null ||
+                user.getNewPassword().length()<=0)){
             errors.rejectValue("password", "password", "Please provide a Password");
         }
     }

@@ -226,6 +226,9 @@ public class User extends BaseEntity{
 	}
 
 	public void setNewPassword(String newPassword) {
-		this.newPassword = SecurityUtil.encryptPassword(newPassword);
+		if(newPassword!=null){
+			this.newPassword = SecurityUtil.encryptPassword(newPassword);
+		}
+		this.newPassword = newPassword;
 	}
 }
