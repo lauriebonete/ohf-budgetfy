@@ -31,14 +31,18 @@
                 </div>
                 <div class="small-6 columns text-right">
                     <a class="button" href="/budgetfy/system-maintenance"><i class="fa fa-cog"></i></a>
-                    <a class="button"><i class="fa fa-exclamation"></i></a>
+                    <a class="button" data-toggle="notif-dropdown"><i class="fa fa-exclamation"></i></a>
+                    <div class="dropdown-pane bottom" id="notif-dropdown" data-dropdown data-close-on-click="true" data-auto-focus="true">
+                        <label class="text-left"><strong>Notifications:</strong></label>
+                        <a href="#">Program Test1213231231231231231 is in Critical Level!</a>
+                        <a href="#">Program Test5 is in Critical Level!</a>
+                    </div>
                     <a class="button" data-toggle="user-dropdown"><i class="fa fa-user"></i></a>
                     <div class="dropdown-pane bottom" id="user-dropdown" data-dropdown data-close-on-click="true" data-auto-focus="true">
                         <label class="text-left">Logged In:</label>
                         <label class="middle">reeseypeasy</label>
                         <a class="button alert text-left">Logout <i class="fa fa-sign-out" aria-hidden="true"></i></a>
                     </div>
-                    <a class="button"><i class="fa fa-users"></i></a>
                 </div>
             </div>
         </section>
@@ -76,6 +80,7 @@
                                 <th>Program Name</th>
                                 <th>Total Budget</th>
                                 <th>Duration</th>
+                                <th>Actions</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -83,6 +88,9 @@
                                 <td>{{program.programName}}</td>
                                 <td>{{program.displayProgramBudget}}</td>
                                 <td>{{program.displayProgramDuration}}</td>
+                                <td>
+                                    <a class="button alert"><i class="fa fa-minus"></i></a>
+                                </td>
                             </tr>
                           </tbody>
                       </table>

@@ -18,8 +18,14 @@ body {
   margin-bottom: 0;
 }
 
-.dropdown-pane {
+.dropdown-pane#user-dropdown {
   width: 10%;
+}
+
+.dropdown-pane#notif-dropdown {
+  /*width: 17%;*/
+  width:auto!important;
+  font-size: 10pt;
 }
 
 
