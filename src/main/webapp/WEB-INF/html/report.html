@@ -44,40 +44,23 @@
     </div>
     <!-- Monthly per year -->
     <div class="row">
-        <h5>Report per Month:</h5>
+        <h5>Cash Disbursement by Date</h5>
     </div>
     <div class="row">
-        <div class="medium-2 columns">
-            <label class="text-right middle">Select Year:</label>
+        <div class="medium-1 columns">
+            <label for="from-date" class="text-right middle">From</label>
         </div>
-        <div class="medium-2 columns">
-            <select>
-                <option value="2016">2016</option>
-                <option value="2015">2015</option>
-                <option value="2014">2014</option>
-            </select>
+        <div class="medium-3 columns">
+            <input type="date" id="from-date" placeholder="">
         </div>
-        <div class="medium-2 columns">
-            <label class="text-right middle">Select Month:</label>
+        <div class="medium-1 columns">
+            <label for="to-date" class="text-right middle">To</label>
         </div>
-        <div class="medium-2 columns">
-            <select>
-                <option value="January">January</option>
-                <option value="February">February</option>
-                <option value="March">March</option>
-                <option value="April">April</option>
-                <option value="May">May</option>
-                <option value="June">June</option>
-                <option value="July">July</option>
-                <option value="August">August</option>
-                <option value="September">September</option>
-                <option value="October">October</option>
-                <option value="November">November</option>
-                <option value="December">December</option>
-            </select>
+        <div class="medium-3 columns end">
+            <input type="date" id="to-date" placeholder="">
         </div>
         <div class="medium-4 columns end">
-            <a class="button success add-summary-nav-next">Generate Cash Disbursement <i class="fa fa-file-excel-o" aria-hidden="true"></i></a>
+            <a class="button success add-summary-nav-next">Generate <i class="fa fa-file-excel-o" aria-hidden="true"></i></a>
         </div>
     </div>
     <div class="row">
@@ -87,58 +70,31 @@
     </div>
     <!-- Annual-->
     <div class="row">
-        <h5>Report per Year:</h5>
+        <h5>Cash Disbursement Annual</h5>
     </div>
     <div class="row">
-        <div class="medium-2 columns">
-            <label class="text-right middle">Select Year:</label>
+        <div class="medium-1 columns">
+            <label class="text-right middle">Year</label>
         </div>
-        <div class="medium-2 columns">
+        <div class="medium-3 columns">
             <select>
                 <option value="2016">2016</option>
                 <option value="2015">2015</option>
                 <option value="2014">2014</option>
             </select>
         </div>
-        <div class="medium-4 columns">
-            <a class="button success add-summary-nav-next">Generate Cash Disbursement <i class="fa fa-file-excel-o" aria-hidden="true"></i></a>
+        <div class="medium-1 columns">
+            <label class="text-right middle">Program</label>
         </div>
-        <div class="medium-4 columns">
-            <label class="text-right middle"></label>
-        </div>
-    </div>
-    <div class="row">
-        <div class="medium-12 columns">
-            <label class="text-right middle"></label>
-        </div>
-    </div>
-    <!-- Annual per Program-->
-    <div class="row">
-        <h5>Report per Program (Annual):</h5>
-    </div>
-    <div class="row">
-        <div class="medium-2 columns">
-            <label class="text-right middle">Select Year:</label>
-        </div>
-        <div class="medium-2 columns">
+        <div class="medium-3 columns">
             <select>
-                <option value="2016">2016</option>
-                <option value="2015">2015</option>
-                <option value="2014">2014</option>
+                <option value="All">All</option>
+                <option value="Program1">Program1</option>
+                <option value="Program2">Program2</option>
             </select>
         </div>
-        <div class="medium-2 columns">
-            <label class="text-right middle">Select Program:</label>
-        </div>
-        <div class="medium-2 columns">
-            <select>
-                <option value="CYP Program">CYP Program</option>
-                <option value="Program 2">Program 2</option>
-                <option value="Program 3">Program 3</option>
-            </select>
-        </div>
-        <div class="medium-4 columns end">
-            <a class="button success add-summary-nav-next">Generate Cash Disbursement <i class="fa fa-file-excel-o" aria-hidden="true"></i></a>
+        <div class="medium-4 columns">
+            <a class="button success add-summary-nav-next">Generate <i class="fa fa-file-excel-o" aria-hidden="true"></i></a>
         </div>
     </div>
     <div class="row">
@@ -148,13 +104,13 @@
     </div>
     <!-- Per Voucher Code-->
     <div class="row">
-        <h5>Report per Voucher Code:</h5>
+        <h5>Voucher Code Report</h5>
     </div>
     <div class="row">
         <div class="medium-2 columns">
-            <label class="text-right middle">Select Voucher Code:</label>
+            <label class="text-right middle">Voucher Code</label>
         </div>
-        <div class="medium-3 columns">
+        <div class="medium-6 columns">
             <select>
                 <option value="Voucher1">Voucher1</option>
                 <option value="Voucher2">Voucher2</option>
@@ -166,10 +122,7 @@
             </select>
         </div>
         <div class="medium-4 columns">
-            <a class="button success add-summary-nav-next">Generate Report <i class="fa fa-file-excel-o" aria-hidden="true"></i></a>
-        </div>
-        <div class="medium-3 columns end">
-            <label class="text-right middle"></label>
+            <a class="button success add-summary-nav-next">Generate <i class="fa fa-file-excel-o" aria-hidden="true"></i></a>
         </div>
     </div>
     <div class="row">
