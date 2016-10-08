@@ -31,14 +31,20 @@
                 </div>
                 <div class="small-6 columns text-right">
                     <a class="button" href="/budgetfy/system-maintenance"><i class="fa fa-cog"></i></a>
-                    <a class="button"><i class="fa fa-exclamation"></i></a>
+                    <a class="button" data-toggle="notif-dropdown"><i class="fa fa-exclamation"></i></a>
+                    <ul class="dropdown-pane bottom" id="notif-dropdown" data-dropdown data-close-on-click="true">
+                        <label class="text-left"><strong>Notifications:</strong></label>
+                        <ul class="stacked button-group" id="stacked-btn-grp">
+                            <li><a class="button notify" href="#">Program Test1213 is in Critical Level<i class="fa fa-exclamation"></i></a></li>
+                            <li><a class="button notify" href="#">Program Test5 is in Critical Level<i class="fa fa-exclamation"></i></a></li>
+                        </ul>
+                    </ul>
                     <a class="button" data-toggle="user-dropdown"><i class="fa fa-user"></i></a>
                     <div class="dropdown-pane bottom" id="user-dropdown" data-dropdown data-close-on-click="true" data-auto-focus="true">
-                        <label class="text-left">Logged In:</label>
-                        <label class="middle">reeseypeasy</label>
+                        <label class="text-left"><strong>Logged In:</strong></label>
+                        <label class="text-center middle">USER1</label>
                         <a class="button alert text-left">Logout <i class="fa fa-sign-out" aria-hidden="true"></i></a>
                     </div>
-                    <a class="button"><i class="fa fa-users"></i></a>
                 </div>
             </div>
         </section>
@@ -76,6 +82,7 @@
                                 <th>Program Name</th>
                                 <th>Total Budget</th>
                                 <th>Duration</th>
+                                <th>Actions</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -83,6 +90,9 @@
                                 <td>{{program.programName}}</td>
                                 <td>{{program.displayProgramBudget}}</td>
                                 <td>{{program.displayProgramDuration}}</td>
+                                <td>
+                                    <a class="button alert"><i class="fa fa-minus"></i></a>
+                                </td>
                             </tr>
                           </tbody>
                       </table>

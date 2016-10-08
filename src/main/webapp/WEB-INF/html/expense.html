@@ -38,7 +38,6 @@
                         <label class="middle">reeseypeasy</label>
                         <a class="button alert text-left">Logout <i class="fa fa-sign-out" aria-hidden="true"></i></a>
                     </div>
-                    <a class="button"><i class="fa fa-users"></i></a>
                 </div>
             </div>
         </section>
@@ -74,6 +73,7 @@
                             <tr>
                                 <th>Voucher Number</th>
                                 <th>Check Reference</th>
+                                <th>Status</th>
                                 <th>Payee</th>
                                 <th>Date</th>
                                 <th>Total Amount</th>
@@ -83,6 +83,7 @@
                             <tr class="row-onclick" dir-paginate="voucher in voucherList | filter : voucherFilter | itemsPerPage: voucherMaxSize" pagination-id="voucher-list" ng-click="viewVoucher(voucher.id)">
                                 <td>{{voucher.vcNumber}}</td>
                                 <td>{{voucher.reference}}</td>
+                                <td>New</td>
                                 <td>{{voucher.payee}}</td>
                                 <td>{{voucher.displayDate}}</td>
                                 <td>{{voucher.displaytotalAmount}}</td>
@@ -95,11 +96,14 @@
                     <dir-pagination-controls pagination-id="voucher-list" boundary-links="true"></dir-pagination-controls>
                 </ul>
                 <div class="row">
-                    <div class="small-5 columns">
-                        <label class="text-right middle"></label>
+                    <div class="small-2 columns">
+                        <label class="text-center middle"><strong>Total Expense</strong></label>
                     </div>
-                    <div class="small-3 columns">
-                        <label class="text-right middle">Total Expense</label>
+                    <div class="small-5 columns">
+                        <input type="text" disabled>
+                    </div>
+                    <div class="small-1 columns">
+                        <label class="text-right middle"><strong>Variance</strong></label>
                     </div>
                     <div class="small-4 columns">
                         <input type="text" disabled>
@@ -110,6 +114,21 @@
             <div id="expense-add-container" class="hide">
                 <!-- Add Expense-->
                 <div id="expense-add">
+                    <div class="row">
+                        <div class="small-8 columns">
+                            <label class="text-right middle"></label>
+                        </div>
+                        <div class="small-1 columns">
+                            <label class="text-right middle">Status</label>
+                        </div>
+                        <div class="small-3 columns">
+                            <select>
+                                <option value="New">New</option>
+                                <option value="Open">Open</option>
+                                <option value="Closed">Closed</option>
+                            </select>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="small-1 columns">
                             <label class="text-right middle">Payee</label>
@@ -333,6 +352,21 @@
             </div>
             <div id="expense-update-container" class="hide">
                 <div id="expense-update">
+                    <div class="row">
+                        <div class="small-8 columns">
+                            <label class="text-right middle"></label>
+                        </div>
+                        <div class="small-1 columns">
+                            <label class="text-right middle">Status</label>
+                        </div>
+                        <div class="small-3 columns">
+                            <select>
+                                <option value="New">New</option>
+                                <option value="Open">Open</option>
+                                <option value="Closed">Closed</option>
+                            </select>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="small-1 columns">
                             <label class="text-right middle">Payee</label>
