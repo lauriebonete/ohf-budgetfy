@@ -19,6 +19,7 @@
         <script src="js/angular-selectize.js"></script>
         <script src="angular/budgetfy-angular.js"></script>
         <script src="angular/dirPagination.js"></script>
+        <script src="angular/ngStorage.min.js"></script>
     </head>
     <body ng-app="budgetfyApp" ng-controller="programController">
         <section id="header">
@@ -64,10 +65,8 @@
                         </div>
                     </div>
                     <div class="small-2 columns text-right">
-                        <select>
-                            <option value="2016">2016</option>
-                            <option value="2015">2015</option>
-                            <option value="2014">2014</option>
+                        <select ng-model="currentYear" ng-options="year as year for year in years">
+                            <option></option>
                         </select>
                     </div>
                 </div>
@@ -86,7 +85,7 @@
                             </tr>
                           </thead>
                           <tbody>
-                            <tr class="row-onclick" dir-paginate="program in programList | filter : programFilter | itemsPerPage: programMaxSize" pagination-id="program-list" data-program="{{program.id}}" ng-click="viewProgram(program.id)">
+                            <tr class="row-onclick" dir-paginate="program in programList | filter : programFilter | filter: yearFilter | itemsPerPage: programMaxSize" pagination-id="program-list" data-program="{{program.id}}" ng-click="viewProgram(program.id)">
                                 <td>{{program.programName}}</td>
                                 <td>{{program.displayProgramBudget}}</td>
                                 <td>{{program.displayProgramDuration}}</td>

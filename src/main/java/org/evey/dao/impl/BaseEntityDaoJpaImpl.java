@@ -138,6 +138,14 @@ public class BaseEntityDaoJpaImpl<T extends BaseEntity, Id extends Serializable>
     }
 
     @Override
+    public List<?> findEntityByNamedQuery(String queryName, Class classType) {
+        String queryString = getNamedQuery(queryName);
+        Query query = getEntityManager().createQuery(queryString, classType);
+
+        return query.getResultList();
+    }
+
+    @Override
     public List<T> findEntityByNamedQuery(String name, Map<String, Object> parameters) {
         String queryString = getNamedQuery(name);
         Query query = getEntityManager().createQuery(queryString);
