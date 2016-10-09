@@ -34,8 +34,8 @@
                     <a class="button"><i class="fa fa-exclamation"></i></a>
                     <a class="button" data-toggle="user-dropdown"><i class="fa fa-user"></i></a>
                     <div class="dropdown-pane bottom" id="user-dropdown" data-dropdown data-close-on-click="true" data-auto-focus="true">
-                        <label class="text-left">Logged In:</label>
-                        <label class="middle">reeseypeasy</label>
+                        <label class="text-left"><strong>Logged In:</strong></label>
+                        <label class="text-center middle">USER1</label>
                         <a class="button alert text-left">Logout <i class="fa fa-sign-out" aria-hidden="true"></i></a>
                     </div>
                 </div>
@@ -142,7 +142,7 @@
                         <div class="small-1 columns">
                             <label class="text-right middle">Check/Ref#</label>
                         </div>
-                        <div class="small-3 columns end">
+                        <div class="small-3 columns">
                             <input type="text" ng-model="createVoucher.reference">
                         </div>
                     </div>
@@ -159,7 +159,7 @@
                         <div class="small-1 columns">
                             <label class="text-right middle">VC#</label>
                         </div>
-                        <div class="small-3 columns end">
+                        <div class="small-3 columns">
                             <input type="text" ng-model="createVoucher.vcNumber">
                         </div>
                     </div>
@@ -176,7 +176,7 @@
                         <div class="small-2 columns">
                             <label class="text-right middle">Total Amount</label>
                         </div>
-                        <div class="small-3 columns end">
+                        <div class="small-3 columns">
                             <input type="text" ng-model="createVoucher.totalAmount">
                         </div>
                     </div>
@@ -205,7 +205,7 @@
                             <div class="small-2 columns">
                                 <label class="text-right middle">Expense Amount</label>
                             </div>
-                            <div class="small-4 columns end">
+                            <div class="small-4 columns">
                                 <input type="text" ng-model="addParticular.expense">
                             </div>
                         </div>
@@ -227,7 +227,7 @@
                             <div class="small-8 columns">
                                 <div id="add-particular-receipt">Upload</div>
                             </div>
-                            <div class="small-4 columns end">
+                            <div class="small-4 columns">
                                 <a class="button success expanded" ng-click="addNewParticular('add-particular-receipt')">Add Particular <i class="fa fa-plus"></i></a>
                             </div>
                         </div>
@@ -286,23 +286,23 @@
                                     <td>
                                         <div class="row">
                                             <div class="small-6 columns">Payee</div>
-                                            <div class="small-6 columns end"><span id="payee-summary">{{createVoucher.payee}}</span></div>
+                                            <div class="small-6 columns"><span id="payee-summary">{{createVoucher.payee}}</span></div>
                                         </div>
                                         <div class="row">
                                             <div class="small-6 columns">Check/Ref#</div>
-                                            <div class="small-6 columns end"><span id="check-ref-summary">{{createVoucher.reference}}</span></div>
+                                            <div class="small-6 columns"><span id="check-ref-summary">{{createVoucher.reference}}</span></div>
                                         </div>
                                         <div class="row">
                                             <div class="small-6 columns">VC#</div>
-                                            <div class="small-6 columns end"><span id="vc-summary">{{createVoucher.vcNumber}}</span></div>
+                                            <div class="small-6 columns"><span id="vc-summary">{{createVoucher.vcNumber}}</span></div>
                                         </div>
                                         <div class="row">
                                             <div class="small-6 columns">Date</div>
-                                            <div class="small-6 columns end"><span id="date-summary">{{createVoucher.date}}</span></div>
+                                            <div class="small-6 columns"><span id="date-summary">{{createVoucher.date}}</span></div>
                                         </div>
                                         <div class="row">
                                             <div class="small-6 columns">Total Amount</div>
-                                            <div class="small-6 columns end"><span id="total-amount-summary">{{createVoucher.totalAmount}}</span></div>
+                                            <div class="small-6 columns"><span id="total-amount-summary">{{createVoucher.totalAmount}}</span></div>
                                         </div>
                                     </td>
                                 </tr>
@@ -318,19 +318,19 @@
                                     <td>
                                         <div class="row">
                                             <div class="small-6 columns">Name</div>
-                                            <div class="small-6 columns end"><span>{{particular.description}}</span></div>
+                                            <div class="small-6 columns"><span>{{particular.description}}</span></div>
                                         </div>
                                         <div class="row">
                                             <div class="small-6 columns">Program</div>
-                                            <div class="small-6 columns end"><span>{{particular.program.programName}}</span></div>
+                                            <div class="small-6 columns"><span>{{particular.program.programName}}</span></div>
                                         </div>
                                         <div class="row">
                                             <div class="small-6 columns">Activity</div>
-                                            <div class="small-6 columns end"><span>{{particular.activity.activityName}}</span></div>
+                                            <div class="small-6 columns"><span>{{particular.activity.activityName}}</span></div>
                                         </div>
                                         <div class="row">
                                             <div class="small-6 columns">Expense</div>
-                                            <div class="small-6 columns end"><span>{{particular.expense}}</span></div>
+                                            <div class="small-6 columns"><span>{{particular.expense}}</span></div>
                                         </div>
                                     </td>
                                 </tr>
@@ -380,7 +380,7 @@
                         <div class="small-1 columns">
                             <label class="text-right middle">Check/Ref#</label>
                         </div>
-                        <div class="small-3 columns end">
+                        <div class="small-3 columns">
                             <input type="text" ng-model="selectedVoucher.reference">
                         </div>
                     </div>
@@ -397,7 +397,7 @@
                         <div class="small-1 columns">
                             <label class="text-right middle">VC#</label>
                         </div>
-                        <div class="small-3 columns end">
+                        <div class="small-3 columns">
                             <input type="text" ng-model="selectedVoucher.vcNumber">
                         </div>
                     </div>
@@ -414,7 +414,7 @@
                         <div class="small-2 columns">
                             <label class="text-right middle">Total Amount</label>
                         </div>
-                        <div class="small-3 columns end">
+                        <div class="small-3 columns">
                             <input type="text" ng-model="selectedVoucher.totalAmount">
                         </div>
                     </div>
@@ -443,7 +443,7 @@
                             <div class="small-2 columns">
                                 <label class="text-right middle">Expense Amount</label>
                             </div>
-                            <div class="small-4 columns end">
+                            <div class="small-4 columns">
                                 <input type="text" ng-model="addParticular.expense">
                             </div>
                         </div>
@@ -465,7 +465,7 @@
                             <div class="small-8 columns">
                                 <div id="add-particular-receipt-update">Upload</div>
                             </div>
-                            <div class="small-4 columns end">
+                            <div class="small-4 columns">
                                 <a class="button success expanded" ng-click="addNewParticularSelectedVoucher('add-particular-receipt-update')">Add Particular <i class="fa fa-plus"></i></a>
                             </div>
                         </div>
@@ -484,7 +484,7 @@
                             <div class="small-2 columns">
                                 <label class="text-right middle">Expense Amount</label>
                             </div>
-                            <div class="small-4 columns end">
+                            <div class="small-4 columns">
                                 <input type="text" ng-model="selectedParticular.expense"/>
                             </div>
                         </div>
@@ -498,7 +498,7 @@
                             <div class="small-2 columns">
                                 <label class="text-right middle">Activity</label>
                             </div>
-                            <div class="small-4 columns end">
+                            <div class="small-4 columns">
                                 <selectize config='programActivityConfig' options='programActivities' ng-model="selectedParticular.activityId"></selectize>
                             </div>
                         </div>
@@ -506,7 +506,7 @@
                             <div class="small-8 columns">
                                 <div id="update-particular-receipt">Upload</div>
                             </div>
-                            <div class="small-4 columns end">
+                            <div class="small-4 columns">
                                 <a class="button success expanded" ng-click="addNewParticular()">Update Particular <i class="fa fa-pencil"></i></a>
                             </div>
                         </div>
@@ -562,23 +562,23 @@
                                 <td>
                                     <div class="row">
                                         <div class="small-6 columns">Payee</div>
-                                        <div class="small-6 columns end"><span id="update-payee-summary">{{selectedVoucher.payee}}</span></div>
+                                        <div class="small-6 columns"><span id="update-payee-summary">{{selectedVoucher.payee}}</span></div>
                                     </div>
                                     <div class="row">
                                         <div class="small-6 columns">Check/Ref#</div>
-                                        <div class="small-6 columns end"><span id="update-check-ref-summary">{{selectedVoucher.reference}}</span></div>
+                                        <div class="small-6 columns"><span id="update-check-ref-summary">{{selectedVoucher.reference}}</span></div>
                                     </div>
                                     <div class="row">
                                         <div class="small-6 columns">VC#</div>
-                                        <div class="small-6 columns end"><span id="update-vc-summary">{{selectedVoucher.vcNumber}}</span></div>
+                                        <div class="small-6 columns"><span id="update-vc-summary">{{selectedVoucher.vcNumber}}</span></div>
                                     </div>
                                     <div class="row">
                                         <div class="small-6 columns">Date</div>
-                                        <div class="small-6 columns end"><span id="update-date-summary">{{selectedVoucher.date}}</span></div>
+                                        <div class="small-6 columns"><span id="update-date-summary">{{selectedVoucher.date}}</span></div>
                                     </div>
                                     <div class="row">
                                         <div class="small-6 columns">Total Amount</div>
-                                        <div class="small-6 columns end"><span id="update-total-amount-summary">{{selectedVoucher.totalAmount}}</span></div>
+                                        <div class="small-6 columns"><span id="update-total-amount-summary">{{selectedVoucher.totalAmount}}</span></div>
                                     </div>
                                 </td>
                             </tr>
@@ -592,19 +592,19 @@
                                 <td>
                                     <div class="row">
                                         <div class="small-6 columns">Name</div>
-                                        <div class="small-6 columns end"><span>{{particular.description}}</span></div>
+                                        <div class="small-6 columns"><span>{{particular.description}}</span></div>
                                     </div>
                                     <div class="row">
                                         <div class="small-6 columns">Program</div>
-                                        <div class="small-6 columns end"><span>{{particular.activity.program.programName}}</span></div>
+                                        <div class="small-6 columns"><span>{{particular.activity.program.programName}}</span></div>
                                     </div>
                                     <div class="row">
                                         <div class="small-6 columns">Activity</div>
-                                        <div class="small-6 columns end"><span>{{particular.activity.activityName}}</span></div>
+                                        <div class="small-6 columns"><span>{{particular.activity.activityName}}</span></div>
                                     </div>
                                     <div class="row">
                                         <div class="small-6 columns">Expense</div>
-                                        <div class="small-6 columns end"><span>{{particular.displayExpense}}</span></div>
+                                        <div class="small-6 columns"><span>{{particular.displayExpense}}</span></div>
                                     </div>
                                 </td>
                             </tr>
