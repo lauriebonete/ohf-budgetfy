@@ -23,6 +23,7 @@ public interface BaseCrudService<T extends BaseEntity> extends BaseService {
     public Set<Object> findBySetOfIds(Set<Long> ids);
     public T load(Long id);
     public List<T> findEntityByNamedQuery(String queryName);
+    public List<? extends Object> findEntityByNamedQuery(String queryName, Class classType);
     public List<T> findEntityByNamedQuery(String queryName, Map<String, Object> parameters);
     public void executeUpdateByNamedQuery(String queryName, Map<String, Object> parameters);
 

@@ -1,11 +1,38 @@
 /**
  * Created by Laurie on 7/4/2016.
  */
-angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPagination"])
-    .config(function ($httpProvider,paginationTemplateProvider) {
+angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directives.dirPagination"])
+    .config(function ($httpProvider, paginationTemplateProvider, yearServiceProvider) {
         $httpProvider.defaults.headers.post['Content-Type'] =  "application/json";
         paginationTemplateProvider.setPath('css/dirPagination.tpl.html');
+
+        yearServiceProvider.$get().getYears();
     })
+    .controller("reportController", ["$scope", "voucherService", function($scope, voucherService){
+        $scope.voucherConfig =
+        {
+            valueField : 'id',
+            labelField : 'vcNumber',
+            searchField: ['vcNumber'],
+            delimiter : '|',
+            placeholder : 'Pick something',
+            plugins: ['remove_button'],
+            onInitialize : function (selectize) {
+                // receives the selectize object as an argument
+            },
+            maxItems: 1
+        };
+
+        $scope.loadInitData = function(){
+            voucherService.getAllVouchers().then(function(results){
+                $scope.voucherList = results.results;
+            });
+        };
+
+        $scope.generateVoucherReport = function(){
+            window.location.href = evey.getHome()+"/budgetfy/reports/create-disbursement/"+$scope.selectedVoucherReport;
+        };
+    }])
     .controller("userRoleController", ["$scope", "$filter", "userRoleService", function($scope, $filter, userRoleService){
         $scope.loadInitData = function(){
             userRoleService.getAllUserRole().then(function(results){
@@ -457,7 +484,7 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
         };
 
     }])
-    .controller("programController",["$scope","$http","$filter","userService","referenceLookUpService","programService","activityService", "particularService", "voucherService",function($scope, $http,$filter,userService,referenceLookUpService,programService,activityService, particularService, voucherService){
+    .controller("programController",["$scope","$http","$filter","userService","referenceLookUpService","programService","activityService", "particularService", "voucherService", "$sessionStorage" ,function($scope, $http,$filter,userService,referenceLookUpService,programService,activityService, particularService, voucherService, $sessionStorage){
         $scope.userSelectizeModel = 0;
         $scope.activityTypeSelectizeModel = 0;
         $scope.userSelectConfig =
@@ -488,12 +515,6 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
             maxItems:1
         };
 
-        userService.getAllUsers().then(function(result){
-            $scope.allUsersList = result.results;
-        },function(error){
-            console.log(error);
-        });
-
         referenceLookUpService.getReferenceLookUpByCategory("ACTIVITY_TYPE").then(function(results){
             $scope.activityTypeList = results;
         },function(error){
@@ -504,6 +525,12 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
             $scope.activityCodeList = results;
         },function(error){
 
+        });
+
+        userService.getAllUsers().then(function(result){
+            $scope.allUsersList = result.results;
+        },function(error){
+            console.log(error);
         });
 
         $scope.loadInitData = function(){
@@ -521,6 +548,9 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
             activityService.getAllActivities().then(function successCallbck(results){
                 $scope.activityList = results.results;
             });
+
+            $scope.years = $sessionStorage.years;
+            $scope.currentYear = new Date().getFullYear().toString();
         };
 
         $scope.loadPrograms = function(){
@@ -530,6 +560,16 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
             },function errorCallback(error){
 
             });
+        };
+
+        $scope.yearFilter = function(program){
+            if($scope.currentYear != null &&
+                $scope.currentYear != "" &&
+                $scope.currentYear != undefined){
+                return (program.year == $scope.currentYear);
+            } else {
+                return program;
+            }
         };
 
         $scope.removeActivityProgram = function(activityId){
@@ -933,6 +973,16 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
 
             });
         };
+
+        this.getYears = function(){
+            return $http.get("/budgetfy/program/getYears")
+                .then(function(response){
+                    if(response.data.status){
+                        return response.data.results;
+                    }
+                    return {"status": "false"};
+                });
+        };
     })
     .service("voucherService",function($http){
         this.getAllVouchers = function(){
@@ -1116,6 +1166,15 @@ angular.module("budgetfyApp", ["selectize","angularUtils.directives.dirPaginatio
                 return foundUserRole[0];
             }
             return null;
+        };
+    }).service("yearService", function($http, $sessionStorage){
+        this.getYears = function(){
+            $http.get("/budgetfy/program/getYears")
+                .then(function(response){
+                    if(response.data.status){
+                        $sessionStorage.years =  response.data.results;
+                    }
+                });
         };
     });
 

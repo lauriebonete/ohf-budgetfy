@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="css/foundation.min.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/selectize.default.css">
 
     <script src="js/jquery3.min.js"></script>
     <script src="js/angular.js"></script>
@@ -16,6 +17,7 @@
     <script src="js/angular-selectize.js"></script>
     <script src="angular/budgetfy-angular.js"></script>
     <script src="angular/dirPagination.js"></script>
+    <script src="angular/ngStorage.min.js"></script>
 </head>
 <body ng-app="budgetfyApp">
 <section id="header">
@@ -31,14 +33,14 @@
             <a class="button"><i class="fa fa-exclamation"></i></a>
             <a class="button" data-toggle="user-dropdown"><i class="fa fa-user"></i></a>
             <div class="dropdown-pane bottom" id="user-dropdown" data-dropdown data-close-on-click="true" data-auto-focus="true">
-                <label class="text-left"><strong>Logged In:</strong></label>
-                <label class="text-center middle">USER1</label>
+                <label class="text-left">Logged In:</label>
+                <label class="middle">reeseypeasy</label>
                 <a class="button alert text-left">Logout <i class="fa fa-sign-out" aria-hidden="true"></i></a>
-            </div>
+             </div>
         </div>
     </div>
 </section>
-<section id="site-content-reports">
+<section id="site-content-reports" ng-controller="reportController" ng-init="loadInitData()">
     <div class="row">
         <h3>Generate Reports</h3>
     </div>
@@ -47,24 +49,24 @@
         <h5>Cash Disbursement by Date</h5>
     </div>
     <div class="row">
-        <div class="small-1 columns">
-            <label for="from-date" class="text-center middle">From</label>
+        <div class="medium-1 columns">
+            <label for="from-date" class="text-right middle">From</label>
         </div>
-        <div class="small-3 columns">
+        <div class="medium-3 columns">
             <input type="date" id="from-date" placeholder="">
         </div>
-        <div class="small-1 columns">
+        <div class="medium-1 columns">
             <label for="to-date" class="text-right middle">To</label>
         </div>
-        <div class="small-3 columns">
+        <div class="medium-3 columns end">
             <input type="date" id="to-date" placeholder="">
         </div>
-        <div class="small-4 columns">
+        <div class="medium-4 columns end">
             <a class="button success add-summary-nav-next">Generate <i class="fa fa-file-excel-o" aria-hidden="true"></i></a>
         </div>
     </div>
     <div class="row">
-        <div class="small-12 columns">
+        <div class="medium-12 columns">
             <label class="text-right middle"></label>
         </div>
     </div>
@@ -73,32 +75,32 @@
         <h5>Cash Disbursement Annual</h5>
     </div>
     <div class="row">
-        <div class="small-1 columns">
-            <label class="text-center middle">Year</label>
+        <div class="medium-1 columns">
+            <label class="text-right middle">Year</label>
         </div>
-        <div class="small-3 columns">
+        <div class="medium-3 columns">
             <select>
                 <option value="2016">2016</option>
                 <option value="2015">2015</option>
                 <option value="2014">2014</option>
             </select>
         </div>
-        <div class="small-1 columns">
+        <div class="medium-1 columns">
             <label class="text-right middle">Program</label>
         </div>
-        <div class="small-3 columns">
+        <div class="medium-3 columns">
             <select>
                 <option value="All">All</option>
                 <option value="Program1">Program1</option>
                 <option value="Program2">Program2</option>
             </select>
         </div>
-        <div class="small-4 columns">
+        <div class="medium-4 columns">
             <a class="button success add-summary-nav-next">Generate <i class="fa fa-file-excel-o" aria-hidden="true"></i></a>
         </div>
     </div>
     <div class="row">
-        <div class="small-12 columns">
+        <div class="medium-12 columns">
             <label class="text-right middle"></label>
         </div>
     </div>
@@ -107,26 +109,18 @@
         <h5>Voucher Code Report</h5>
     </div>
     <div class="row">
-        <div class="small-1 columns">
-            <label class="middle">Voucher #</label>
+        <div class="medium-2 columns">
+            <label class="text-right middle">Voucher Code</label>
         </div>
-        <div class="small-7 columns">
-            <select>
-                <option value="Voucher1">Voucher1</option>
-                <option value="Voucher2">Voucher2</option>
-                <option value="Voucher3">Voucher3</option>
-                <option value="Voucher4">Voucher4</option>
-                <option value="Voucher5">Voucher5</option>
-                <option value="Voucher6">Voucher6</option>
-                <option value="Voucher7">Voucher7</option>
-            </select>
+        <div class="medium-6 columns">
+            <selectize config='voucherConfig' options='voucherList' ng-model="selectedVoucherReport"></selectize>
         </div>
-        <div class="small-4 columns">
-            <a class="button success add-summary-nav-next">Generate <i class="fa fa-file-excel-o" aria-hidden="true"></i></a>
+        <div class="medium-4 columns">
+            <a class="button success" ng-click="generateVoucherReport()">Generate <i class="fa fa-file-excel-o" aria-hidden="true"></i></a>
         </div>
     </div>
     <div class="row">
-        <div class="small-12 columns">
+        <div class="medium-12 columns">
             <label class="text-right middle"></label>
         </div>
     </div>

@@ -38,6 +38,14 @@ public class ProgramController extends BaseCrudController<Program> {
     @Autowired
     private ProgramAccessService programAccessService;
 
+    @RequestMapping(value = "/getYears", method = RequestMethod.GET, produces = "application/json")
+    public @ResponseBody Map<String, Object> getYears(){
+        Map<String, Object> returnMap = new HashMap<>();
+        returnMap.put("results", getService().findEntityByNamedQuery("jpql.program.get-years", String.class));
+        returnMap.put("status", true);
+        return  returnMap;
+    }
+
     @RequestMapping(value = "/create-program/create", method = RequestMethod.POST, produces = "application/json")
     public @ResponseBody
     Map<String,Object> createProgram(@RequestBody Program program){
