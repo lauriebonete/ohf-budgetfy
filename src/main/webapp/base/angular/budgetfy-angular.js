@@ -30,7 +30,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
         };
 
         $scope.generateVoucherReport = function(){
-            window.location.href = evey.getHome()+"/budgetfy/reports/create-disbursement/"+$scope.selectedVoucherReport;
+            window.location.href = evey.getHome()+"/budgetfy/reports/create-voucher/"+$scope.selectedVoucherReport;
         };
     }])
     .controller("userRoleController", ["$scope", "$filter", "userRoleService", function($scope, $filter, userRoleService){
@@ -366,6 +366,15 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
 
             MotionUI.animateOut($('#add-expense-form'), 'slide-out-up');
             $scope.newParticularList.push(particular);
+
+            $scope.computeVariance();
+        };
+
+        $scope.computeVariance = function(){
+            $scope.createVoucher.variance = $scope.createVoucher.totalAmount;
+            $.each($scope.newParticularList, function(i, particular){
+                $scope.createVoucher.variance -= particular.expense
+            });
         };
 
         $scope.addNewParticularSelectedVoucher = function(attachmentContainer){
@@ -471,6 +480,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
 
         $scope.removeParticularOnAdd = function(particular){
             $scope.newParticularList = $filter('filter')($scope.newParticularList, { description: ('!' + particular.description)/*, activity: {id: ("!"+particular.activity.id)}, program: {id: ("!"+particular.program.id)}  */});
+            $scope.computeVariance();
         };
 
         $scope.removeParticular = function(particularId){

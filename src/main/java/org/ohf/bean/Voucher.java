@@ -3,6 +3,7 @@ package org.ohf.bean;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.evey.bean.BaseEntity;
+import org.evey.bean.ReferenceLookUp;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -42,6 +43,13 @@ public class Voucher extends BaseEntity {
     @OneToMany(mappedBy = "voucher")
     @JsonManagedReference(value = "VOUCHER")
     private List<Particular> particulars;
+
+    @ManyToOne
+    @JoinColumn(name = "STATUS_ID", referencedColumnName = "ID")
+    private ReferenceLookUp status;
+
+    @Column(name = "STATUS_ID", insertable = false, updatable = false)
+    private Long statusId;
 
     private transient String displayDate;
 
@@ -101,6 +109,14 @@ public class Voucher extends BaseEntity {
 
     public void setParticulars(List<Particular> particulars) {
         this.particulars = particulars;
+    }
+
+    public ReferenceLookUp getStatus() {
+        return status;
+    }
+
+    public void setStatus(ReferenceLookUp status) {
+        this.status = status;
     }
 
     public String getDisplayDate() {
