@@ -169,7 +169,7 @@
                             <label class="text-right middle">Variance</label>
                         </div>
                         <div class="small-3 columns">
-                            <input type="text" ng-model="createVoucher.variance" disabled>
+                            <input type="text" id="variance-add" disabled>
                         </div>
                         <div class="small-3 columns">
                             <label class="text-right middle"></label>
@@ -177,9 +177,8 @@
                         <div class="small-2 columns">
                             <label class="text-right middle">Total Amount</label>
                         </div>
-                        <div class="small-3 columns end">
-                            <input type="text" ng-model="createVoucher.totalAmount" ng-change="computeVariance()">
-                        </div>
+                        <div class="small-3 columns">
+                            <input type="text" ng-model="createVoucher.totalAmount">
                     </div>
                     <div class="row">
                         <div class="small-3 columns">

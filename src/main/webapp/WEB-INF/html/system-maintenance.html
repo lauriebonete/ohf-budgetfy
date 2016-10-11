@@ -34,8 +34,8 @@
             <a class="button"><i class="fa fa-exclamation"></i></a>
             <a class="button" data-toggle="user-dropdown"><i class="fa fa-user"></i></a>
             <div class="dropdown-pane bottom" id="user-dropdown" data-dropdown data-close-on-click="true" data-auto-focus="true">
-                <label class="text-left">Logged In:</label>
-                <label class="middle">reeseypeasy</label>
+                <label class="text-left"><strong>Logged In:</strong></label>
+                <label class="text-center middle">USER1</label>
                 <a class="button alert text-left">Logout <i class="fa fa-sign-out" aria-hidden="true"></i></a>
             </div>
         </div>
@@ -44,14 +44,14 @@
 
 <section id="site-content-sys-maintenance" ng-app="budgetfyApp">
     <div id="view-sys-main" class="row collapse">
-        <div class="medium-2 columns">
+        <div class="small-2 columns">
             <ul class="tabs vertical" id="sys-main-tabs" data-tabs>
                 <li class="tabs-title is-active"><a class="button" href="#users" aria-selected="true"><strong><i class="fa fa-user"></i> Users</strong></a></li>
                 <li class="tabs-title"><a class="button" href="#user-roles"><strong><i class="fa fa-users"></i> User Roles</strong></a></li>
                 <li class="tabs-title"><a class="button" href="#reference-look-up"><strong><i class="fa fa-book" aria-hidden="true"></i> Reference Lookup</strong></a></li>
             </ul>
         </div>
-        <div class="medium-10 columns">
+        <div class="small-10 columns">
             <div class="tabs-content" data-tabs-content="sys-main-tabs">
                 <!-- Users -->
                 <div class="tabs-panel is-active" id="users" ng-controller="userController" ng-init="loadInitData()">
@@ -104,10 +104,10 @@
                     </div>
                     <div id="user-create" class="hide">
                         <div class="row">
-                            <div class="medium-5 columns">
+                            <div class="small-5 columns">
                                 <h4 class="middle">Create User</h4>
                             </div>
-                            <div class="medium-7 columns">
+                            <div class="small-7 columns">
                                 <label class="text-right middle"></label>
                             </div>
                         </div>
@@ -116,7 +116,7 @@
                                 <p><i class="fi-alert"></i> There are some errors in your form.</p>
                             </div>
                             <div class="row">
-                                <div class="medium-5 columns">
+                                <div class="small-5 columns">
                                     <label>First Name
                                         <input type="text" placeholder="First Name" ng-model="createUser.firstName" required>
                                         <span class="form-error">
@@ -124,7 +124,7 @@
                                         </span>
                                     </label>
                                 </div>
-                                <div class="medium-2 columns">
+                                <div class="small-2 columns">
                                     <label>Middle Name
                                         <input type="text" placeholder="Middle Name" ng-model="createUser.middleName">
                                         <span class="form-error">
@@ -132,7 +132,7 @@
                                         </span>
                                     </label>
                                 </div>
-                                <div class="medium-5 columns">
+                                <div class="small-5 columns">
                                     <label>Last Name
                                         <input type="text" placeholder="Last Name" ng-model="createUser.lastName" required>
                                         <span class="form-error">
@@ -142,7 +142,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="medium-5 columns">
+                                <div class="small-5 columns">
                                     <label>Username
                                         <input type="text" placeholder="Username" ng-model="createUser.username" required>
                                         <span class="form-error">
@@ -152,7 +152,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="medium-5 columns">
+                                <div class="small-5 columns">
                                     <label>Password
                                         <input type="password" placeholder="Password" ng-model="createUser.newPassword" required id="pass">
                                         <span class="form-error">
@@ -162,7 +162,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="medium-5 columns">
+                                <div class="small-5 columns">
                                     <label>Confirm Password
                                         <input type="password" placeholder="Confirm Password" ng-model="createUser.confirmPassword" required data-equalto="pass">
                                         <span class="form-error">
@@ -172,7 +172,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="medium-5 columns">
+                                <div class="small-5 columns">
                                     <label>Roles
                                         <selectize config='userRoleConfig' options='userRoleList' ng-model="createUser.userRole" ng-required="true"></selectize>
                                     </label>
@@ -182,10 +182,10 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="medium-3 columns">
+                                <div class="small-3 columns">
                                     <button type="submit" class="button success expanded">Save</button>
                                 </div>
-                                <div class="medium-3 columns">
+                                <div class="small-3 columns">
                                     <a class="button alert expanded cancel-btn">Cancel</a>
                                 </div>
                             </div>
@@ -193,10 +193,10 @@
                     </div>
                     <div id="user-update" class="hide">
                         <div class="row">
-                            <div class="medium-5 columns">
+                            <div class="small-5 columns">
                                 <h4 class="middle">Update User</h4>
                             </div>
-                            <div class="medium-7 columns">
+                            <div class="small-7 columns">
                                 <label class="text-right middle"></label>
                             </div>
                         </div>
@@ -205,7 +205,7 @@
                                 <p><i class="fi-alert"></i> There are some errors in your form.</p>
                             </div>
                             <div class="row">
-                                <div class="medium-5 columns">
+                                <div class="small-5 columns">
                                     <label>First Name
                                         <input type="text" placeholder="First Name" ng-model="selectedUser.firstName" required>
                                         <span class="form-error">
@@ -213,7 +213,7 @@
                                         </span>
                                     </label>
                                 </div>
-                                <div class="medium-2 columns">
+                                <div class="small-2 columns">
                                     <label>Middle Name
                                         <input type="text" placeholder="Middle Name" ng-model="selectedUser.middleName">
                                         <span class="form-error">
@@ -221,7 +221,7 @@
                                         </span>
                                     </label>
                                 </div>
-                                <div class="medium-5 columns">
+                                <div class="small-5 columns">
                                     <label>Last Name
                                         <input type="text" placeholder="Last Name" ng-model="selectedUser.lastName" required>
                                         <span class="form-error">
@@ -231,7 +231,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="medium-5 columns">
+                                <div class="small-5 columns">
                                     <label>Username
                                         <input type="text" placeholder="Username" ng-model="selectedUser.username" required>
                                         <span class="form-error">
@@ -241,7 +241,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="medium-5 columns">
+                                <div class="small-5 columns">
                                     <label>New Password
                                         <input type="password" placeholder="Password" ng-model="selectedUser.newPassword" id="update-pass">
                                         <span class="form-error">
@@ -251,7 +251,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="medium-5 columns">
+                                <div class="small-5 columns">
                                     <label>Confirm Password
                                         <input type="password" placeholder="Confirm Password" ng-model="selectedUser.confirmPassword" data-equalto="update-pass">
                                         <span class="form-error">
@@ -261,7 +261,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="medium-5 columns">
+                                <div class="small-5 columns">
                                     <selectize config='userRoleConfig' name="userRole" options='userRoleList' ng-model="selectedUser.userRoleList" ng-required="true"></selectize>
                                 </div>
                                 <span class="form-error">
@@ -269,10 +269,10 @@
                                 </span>
                             </div>
                             <div class="row">
-                                <div class="medium-3 columns">
+                                <div class="small-3 columns">
                                     <button type="submit" class="button success expanded" ng-click="updateUser()">Save</button>
                                 </div>
-                                <div class="medium-3 columns">
+                                <div class="small-3 columns">
                                     <a class="button alert expanded cancel-btn">Cancel</a>
                                 </div>
                             </div>
@@ -321,10 +321,10 @@
                     </div>
                     <div id="user-role-create" class="hide">
                         <div class="row">
-                            <div class="medium-5 columns">
+                            <div class="small-5 columns">
                                 <h4 class="middle">Create User Role</h4>
                             </div>
-                            <div class="medium-7 columns">
+                            <div class="small-7 columns">
                                 <label class="text-right middle"></label>
                             </div>
                         </div>
@@ -356,10 +356,10 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="medium-3 columns">
+                                <div class="small-3 columns">
                                     <button type="submit" class="button success expanded">Save</button>
                                 </div>
-                                <div class="medium-3 columns">
+                                <div class="small-3 columns">
                                     <a class="button alert expanded cancel-user-role-btn">Cancel</a>
                                 </div>
                             </div>
@@ -367,10 +367,10 @@
                     </div>
                     <div id="user-role-update" class="hide">
                         <div class="row">
-                            <div class="medium-5 columns">
+                            <div class="small-5 columns">
                                 <h4 class="middle">Update User Role</h4>
                             </div>
-                            <div class="medium-7 columns">
+                            <div class="small-7 columns">
                                 <label class="text-right middle"></label>
                             </div>
                         </div>
@@ -402,10 +402,10 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="medium-3 columns">
+                                <div class="small-3 columns">
                                     <button type="submit" class="button success expanded">Save</button>
                                 </div>
-                                <div class="medium-3 columns">
+                                <div class="small-3 columns">
                                     <a class="button alert expanded cancel-user-role-btn">Cancel</a>
                                 </div>
                             </div>
@@ -462,10 +462,10 @@
                     </div>
                     <div id="reference-look-up-create" class="hide">
                         <div class="row">
-                            <div class="medium-5 columns">
+                            <div class="small-5 columns">
                                 <h4 class="middle">Create Reference Look Up</h4>
                             </div>
-                            <div class="medium-7 columns">
+                            <div class="small-7 columns">
                                 <label class="text-right middle"></label>
                             </div>
                         </div>
@@ -474,7 +474,7 @@
                                 <p><i class="fi-alert"></i> There are some errors in your form.</p>
                             </div>
                             <div class="row">
-                                <div class="medium-12 columns">
+                                <div class="small-12 columns">
                                     <label>Category
                                         <select name="category" ng-model="createReference.category">
                                             <option  ng-repeat="value in categoryList" value="{{value}}">{{value}}</option>
@@ -483,7 +483,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="medium-12 columns">
+                                <div class="small-12 columns">
                                     <label>Key
                                         <input type="text" placeholder="Key" ng-model="createReference.key" required></label>
                                         <span class="form-error">
@@ -493,7 +493,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="medium-12 columns">
+                                <div class="small-12 columns">
                                     <label>Value
                                         <input type="text" placeholder="Key" ng-model="createReference.value" required></label>
                                         <span class="form-error">
@@ -503,7 +503,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="medium-12 columns">
+                                <div class="small-12 columns">
                                     <label>Number Value
                                         <input type="number" placeholder="Number Value" ng-model="createReference.numberValue"></label>
                                         <span class="form-error">
@@ -513,10 +513,10 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="medium-3 columns">
+                                <div class="small-3 columns">
                                     <button type="submit" class="button success expanded">Save</button>
                                 </div>
-                                <div class="medium-3 columns">
+                                <div class="small-3 columns">
                                     <a class="button alert expanded cancel-ref-btn">Cancel</a>
                                 </div>
                             </div>
@@ -524,7 +524,7 @@
                     </div>
                     <div id="reference-look-up-update" class="hide">
                         <div class="row">
-                            <div class="medium-5 columns">
+                            <div class="small-5 columns">
                                 <h4 class="middle">Update Reference Look Up</h4>
                             </div>
                         </div>
@@ -533,7 +533,7 @@
                                 <p><i class="fi-alert"></i> There are some errors in your form.</p>
                             </div>
                             <div class="row">
-                                <div class="medium-12 columns">
+                                <div class="small-12 columns">
                                     <label>Category
                                         <select name="category" ng-model="selectedReference.category">
                                             <option  ng-repeat="value in categoryList" value="{{value}}">{{value}}</option>
@@ -542,7 +542,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="medium-12 columns">
+                                <div class="small-12 columns">
                                     <label>Key
                                         <input type="text" placeholder="Key" ng-model="selectedReference.key" required></label>
                                         <span class="form-error">
@@ -552,7 +552,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="medium-12 columns">
+                                <div class="small-12 columns">
                                     <label>Value
                                         <input type="text" placeholder="Key" ng-model="selectedReference.value" required></label>
                                         <span class="form-error">
@@ -562,7 +562,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="medium-12 columns">
+                                <div class="small-12 columns">
                                     <label>Number Value
                                         <input type="number" placeholder="Number Value" ng-model="selectedReference.numberValue"></label>
                                         <span class="form-error">
@@ -572,10 +572,10 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="medium-3 columns">
+                                <div class="small-3 columns">
                                     <button type="submit" class="button success expanded">Save</button>
                                 </div>
-                                <div class="medium-3 columns">
+                                <div class="small-3 columns">
                                     <a class="button alert expanded cancel-ref-btn">Cancel</a>
                                 </div>
                             </div>

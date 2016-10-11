@@ -108,7 +108,7 @@
                 <div class="row">
                     <h1>{{selectedProgram.programName}}</h1>
                 </div>
-                <div class="medium-2 columns">
+                <div class="small-2 columns">
                     <ul class="tabs vertical" id="program-tabs" data-tabs>
                         <li class="tabs-title is-active"><a class="button" href="#dashboard" aria-selected="true"><strong><i class="fa fa-bar-chart" aria-hidden="true"></i> Dashboard</strong></a></li>
                         <li class="tabs-title"><a class="button" href="#budget"><strong><i class="fa fa-calendar" aria-hidden="true"></i> Budget</strong></a></li>
@@ -117,7 +117,7 @@
                     <label for="return-btn" class="middle"></label>
                     <a class="button alert return-click middle" id="return-btn"><i class="fa fa-arrow-left" aria-hidden="true"></i> Return</a>
                 </div>
-                <div class="medium-10 columns">
+                <div class="small-10 columns">
                     <div class="tabs-content vertical" data-tabs-content="program-tabs">
                         <!-- Dashboard -->
                         <div class="tabs-panel is-active" id="dashboard">
@@ -126,15 +126,15 @@
                                     <div class="small-5 columns">
                                         <label for="allocate-budget" class="text-left middle"><strong>{{unallocatedBudget}}PHP (Not allocated)</strong></label>
                                     </div>
-                                    <div class="small-7 columns end">
+                                    <div class="small-7 columns">
                                         <a class="button success hide" href="#" id="allocate-budget">Allocate Budget <i class="fa fa-calculator" aria-hidden="true"></i></a>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="medium-5 columns">
+                                    <div class="small-5 columns">
                                         <label for="review" class="text-left middle"><strong>Laguna Teaching Program is over expending!</strong></label>
                                     </div>
-                                    <div class="medium-7 columns end">
+                                    <div class="small-7 columns">
                                         <a class="button success hide" href="#" id="review">Review <i class="fa fa-book" aria-hidden="true"></i></a>
                                     </div>
                                 </div>
@@ -151,7 +151,7 @@
                                     <div class="small-1 columns">
                                         <label for="to-date" class="text-right middle">To</label>
                                     </div>
-                                    <div class="small-3 columns end">
+                                    <div class="small-3 columns">
                                         <input type="date" id="to-date" placeholder="">
                                     </div>
                                 </div>
@@ -162,7 +162,7 @@
                                     <div class="small-1 columns">
                                         <label class="text-right middle"></label>
                                     </div>
-                                    <div class="small-10 columns end">
+                                    <div class="small-10 columns">
                                         <div id="progressbar" class="progress-bar"></div>
                                     </div>
                                     <div class="small-1 columns">
@@ -205,7 +205,7 @@
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                                 <div class="row">
-                                    <div class="small-12 columns end">
+                                    <div class="small-12 columns">
                                         <h5 class="text-left"><strong>Manage Activities</strong></h5>
                                     </div>
                                 </div>
@@ -255,7 +255,7 @@
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                                 <div class="row">
-                                    <div class="small-12 columns end">
+                                    <div class="small-12 columns">
                                         <h5 class="text-left"><strong>Manage Activities</strong></h5>
                                     </div>
                                 </div>
@@ -429,7 +429,7 @@
         $(document).ready(function(){
 
 
-        }).on("click",".row-onclick",function(){
+        }).on("click","tr.row-onclick > td:not(:nth-of-type(4))",function(){
             $("#home-page").addClass("hide");
             $("#view-program").removeClass("hide");
         }).on("click", ".program-expense-row", function(){
