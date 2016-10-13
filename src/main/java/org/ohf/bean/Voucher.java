@@ -37,6 +37,9 @@ public class Voucher extends BaseEntity {
     @Column(name = "TOTAL_AMOUNT")
     private BigDecimal totalAmount;
 
+    @Column(name = "TOTAL_EXPENSE")
+    private BigDecimal totalExpense;
+
     @Column(name = "DESCREPANCY")
     private BigDecimal descrepancy;
 
@@ -113,6 +116,20 @@ public class Voucher extends BaseEntity {
 
     public ReferenceLookUp getStatus() {
         return status;
+    }
+
+    public BigDecimal getTotalExpense() {
+        return totalExpense;
+    }
+
+    public void setTotalExpense(BigDecimal totalExpense) {
+        if (totalExpense==null){
+            for (Particular particular : particulars) {
+                this.totalExpense = this.totalExpense.add(particular.getExpense());
+            }
+        } else {
+            this.totalExpense = totalExpense;
+        }
     }
 
     public void setStatus(ReferenceLookUp status) {
