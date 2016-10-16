@@ -114,6 +114,14 @@ table.hover tbody tr:nth-of-type(even):hover{
   background-color:#b7cddb
 }
 
+tr.total-footer{
+  background-color:#a3d4f5
+}
+
+tr.total-footer:last-child:hover{
+  background-color:#46aaec
+}
+
 a.active-page {
   background-color:#1583cc
 }

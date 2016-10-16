@@ -81,14 +81,22 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr class="row-onclick" dir-paginate="voucher in voucherList | filter : voucherFilter | itemsPerPage: voucherMaxSize" pagination-id="voucher-list" ng-click="viewVoucher(voucher.id)">
-                                <td>{{voucher.vcNumber}}</td>
-                                <td>{{voucher.reference}}</td>
-                                <td>New</td>
-                                <td>{{voucher.payee}}</td>
-                                <td>{{voucher.displayDate}}</td>
-                                <td>{{voucher.displaytotalAmount}}</td>
-                            </tr>
+                                <tr class="row-onclick" dir-paginate="voucher in voucherList | filter : voucherFilter | itemsPerPage: voucherMaxSize" pagination-id="voucher-list" ng-click="viewVoucher(voucher.id)">
+                                    <td>{{voucher.vcNumber}}</td>
+                                    <td>{{voucher.reference}}</td>
+                                    <td>New</td>
+                                    <td>{{voucher.payee}}</td>
+                                    <td>{{voucher.displayDate}}</td>
+                                    <td>{{voucher.displaytotalAmount}}</td>
+                                </tr>
+                                <tr class="total-footer">
+                                    <td><strong>Total Expense</strong></td>
+                                    <td>30,000,000,000</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td><strong>Total Amount</strong></td>
+                                    <td>40,000,000,000,000,000,000,000,000</td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -96,7 +104,7 @@
                 <ul class="pagination text-center" role="navigation" aria-label="Pagination">
                     <dir-pagination-controls pagination-id="voucher-list" boundary-links="true"></dir-pagination-controls>
                 </ul>
-                <div class="row">
+                <!--<div class="row">
                     <div class="small-2 columns">
                         <label class="text-center middle"><strong>Total Expense</strong></label>
                     </div>
@@ -109,7 +117,7 @@
                     <div class="small-4 columns">
                         <input type="text" disabled>
                     </div>
-                </div>
+                </div>-->
             </div>
             <!-- Expense Table List: End -->
             <div id="expense-add-container" class="hide">
@@ -192,7 +200,10 @@
                             <label class="text-right middle"></label>
                         </div>
                     </div>
-                    <div data-toggler data-animate="slide-in-down slide-out-up" class="callout secondary ease" id="add-expense-form" style="display: none">
+                    <div data-toggler data-animate="slide-in-down slide-out-up" class="callout secondary ease" id="add-expense-form" style="display: none" data-closable>
+                        <button class="close-button" aria-label="Close alert" type="button" data-close>
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                         <div class="row">
                             <h5 class="text-left"><strong>Add Particular</strong></h5>
                         </div>
@@ -253,10 +264,30 @@
                                         <td>{{particular.activity.activityName}}</td>
                                         <td>{{particular.expense}}</td>
                                         <td ng-click="downloadAttachment(particular.receipt.id)"><a class="button success" ng-if="particular.receipt != null"><i class="fa fa-file-image-o" aria-hidden="true"></i></a></td>
-                                        <td ng-click="removeParticularOnAdd(particular)"><a class="button alert"><i class="fa fa-minus"></i></a></td>
+                                        <td data-open="delete-particular" ng-click="removeParticularOnAdd(particular)"><a class="button alert"><i class="fa fa-minus"></i></a></td>
                                     </tr>
                                 </tbody>
                             </table>
+                            <div class="tiny reveal" id="delete-particular" data-reveal>
+                                <h5 class="middle">Are you sure you want to delete user?</h5>
+                                <button class="close-button" data-close aria-label="Close modal" type="button">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <div class="row">
+                                    <div class="small-3 columns">
+                                        <label class="text-right middle"></label>
+                                    </div>
+                                    <div class="small-3 columns">
+                                        <a class="button success expanded" data-close>Yes</a>
+                                    </div>
+                                    <div class="small-3 columns">
+                                        <a class="button alert expanded" data-close>No</a>
+                                    </div>
+                                    <div class="small-3 columns">
+                                        <label class="text-right middle"></label>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <ul class="pagination text-center" role="navigation" aria-label="Pagination">
@@ -431,7 +462,10 @@
                             <label class="text-right middle"></label>
                         </div>
                     </div>
-                    <div data-toggler data-animate="slide-in-down slide-out-up" class="callout secondary ease" id="add-exist-expense-form" style="display: none">
+                    <div data-toggler data-animate="slide-in-down slide-out-up" class="callout secondary ease" id="add-exist-expense-form" style="display: none" data-closable>
+                        <button class="close-button" aria-label="Close alert" type="button" data-close>
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                         <div class="row">
                             <h5 class="text-left"><strong>Add Particular</strong></h5>
                         </div>
@@ -472,7 +506,10 @@
                             </div>
                         </div>
                     </div>
-                    <div data-toggler data-animate="slide-in-down slide-out-up" class="callout secondary ease" id="update-expense-form" style="display: none">
+                    <div data-toggler data-animate="slide-in-down slide-out-up" class="callout secondary ease" id="update-expense-form" style="display: none" data-closable>
+                        <button class="close-button" aria-label="Close alert" type="button" data-close>
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                         <div class="row">
                             <h5 class="text-left"><strong>Update Particular</strong></h5>
                         </div>
