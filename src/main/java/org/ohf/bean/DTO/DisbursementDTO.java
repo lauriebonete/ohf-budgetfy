@@ -7,14 +7,18 @@ import java.math.BigDecimal;
  */
 public class DisbursementDTO {
 
-    private Integer row;
     private Long voucherId;
     private String voucherDate;
     private String payee;
-    private String particulars;
     private String reference;
     private String vcNumber;
-    private BigDecimal totalAmount;
+    private BigDecimal totalExpense;
+    private BigDecimal expense;
+    private Long activityId;
+    private String activityName;
+    private Long programId;
+    private String programName;
+
 
     public Long getVoucherId() {
         return voucherId;
@@ -40,14 +44,6 @@ public class DisbursementDTO {
         this.payee = payee;
     }
 
-    public String getParticulars() {
-        return particulars;
-    }
-
-    public void setParticulars(String particulars) {
-        this.particulars = particulars;
-    }
-
     public String getReference() {
         return reference;
     }
@@ -64,19 +60,51 @@ public class DisbursementDTO {
         this.vcNumber = vcNumber;
     }
 
-    public BigDecimal getTotalAmount() {
-        return totalAmount;
+    public BigDecimal getTotalExpense() {
+        return totalExpense;
     }
 
-    public void setTotalAmount(BigDecimal totalAmount) {
-        this.totalAmount = totalAmount;
+    public void setTotalExpense(BigDecimal totalExpense) {
+        this.totalExpense = totalExpense;
     }
 
-    public Integer getRow() {
-        return row;
+    public BigDecimal getExpense() {
+        return expense;
     }
 
-    public void setRow(Integer row) {
-        this.row = row;
+    public void setExpense(BigDecimal expense) {
+        this.expense = expense;
+    }
+
+    public Long getActivityId() {
+        return activityId;
+    }
+
+    public void setActivityId(Long activityId) {
+        this.activityId = activityId;
+    }
+
+    public String getActivityName() {
+        return activityName;
+    }
+
+    public void setActivityName(String activityName) {
+        this.activityName = activityName;
+    }
+
+    public Long getProgramId() {
+        return programId;
+    }
+
+    public void setProgramId(Long programId) {
+        this.programId = programId;
+    }
+
+    public String getProgramName() {
+        return programName;
+    }
+
+    public void setProgramName(String programName) {
+        this.programName = programName;
     }
 }

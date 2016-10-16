@@ -68,7 +68,7 @@ public class DisbursementReportPoi extends Report {
     @Override
     protected void publishData() {
         int index = 4;
-        for(DisbursementDTO disbursementDTO: disbursementDTOList){
+       /* for(DisbursementDTO disbursementDTO: disbursementDTOList){
             XSSFRow row = sheet.createRow(index);
             XSSFCell cell = null;
             cell = row.createCell(0);
@@ -87,6 +87,6 @@ public class DisbursementReportPoi extends Report {
             cell.setCellValue(disbursementDTO.getTotalAmount().doubleValue());
 
             index++;
-        }
+        }*/
     }
 }

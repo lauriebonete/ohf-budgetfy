@@ -43,14 +43,14 @@ public class ReportDaoJdbcImpl implements ReportDao {
             @Override
             public DisbursementDTO mapRow(ResultSet resultSet, int i) throws SQLException {
                 final DisbursementDTO disbursementDTO = new DisbursementDTO();
-                disbursementDTO.setRow(i++);
+                /*disbursementDTO.setRow(i++);
                 disbursementDTO.setVoucherId(resultSet.getLong("VOUCHER_ID"));
                 disbursementDTO.setVoucherDate(resultSet.getString("VC_DATE"));
                 disbursementDTO.setPayee(resultSet.getString("PAYEE"));
                 disbursementDTO.setParticulars(resultSet.getString("PARTICULARS"));
                 disbursementDTO.setReference(resultSet.getString("REFERENCE"));
                 disbursementDTO.setVcNumber(resultSet.getString("VC_NUMBER"));
-                disbursementDTO.setTotalAmount(resultSet.getBigDecimal("TOTAL_AMOUNT"));
+                disbursementDTO.setTotalAmount(resultSet.getBigDecimal("TOTAL_AMOUNT"));*/
                 return disbursementDTO;
             }
         });

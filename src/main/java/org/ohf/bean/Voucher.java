@@ -58,6 +58,8 @@ public class Voucher extends BaseEntity {
 
     private transient String displaytotalAmount;
 
+    private transient BigDecimal displayTotalExpense;
+
     public String getVcNumber() {
         return vcNumber;
     }
@@ -118,18 +120,19 @@ public class Voucher extends BaseEntity {
         return status;
     }
 
+    public BigDecimal getDisplayTotalExpense() {
+        if (getTotalExpense()!=null){
+            return totalAmount.subtract(getTotalExpense());
+        }
+        return totalAmount;
+    }
+
     public BigDecimal getTotalExpense() {
         return totalExpense;
     }
 
     public void setTotalExpense(BigDecimal totalExpense) {
-        if (totalExpense==null){
-            for (Particular particular : particulars) {
-                this.totalExpense = this.totalExpense.add(particular.getExpense());
-            }
-        } else {
-            this.totalExpense = totalExpense;
-        }
+        this.totalExpense = totalExpense;
     }
 
     public void setStatus(ReferenceLookUp status) {
@@ -158,6 +161,20 @@ public class Voucher extends BaseEntity {
         Map<String, String> orderMap = new HashMap<>();
         orderMap.put("id","DESC");
         return orderMap;
+    }
+
+    @Override
+    @PrePersist
+    protected void prePersist() {
+        super.prePersist();
+        if(this.particulars!=null &&
+                this.particulars.size()>0){
+            BigDecimal total = new BigDecimal(0);
+            for (Particular particular: particulars){
+                total = total.add(particular.getExpense());
+            }
+            this.setTotalExpense(total);
+        }
     }
 }
 

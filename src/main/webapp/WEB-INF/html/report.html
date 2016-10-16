@@ -62,7 +62,7 @@
             <input type="date" id="to-date" placeholder="">
         </div>
         <div class="small-4 columns">
-            <a class="button success add-summary-nav-next">Generate <i class="fa fa-file-excel-o" aria-hidden="true"></i></a>
+            <a class="button success" ng-click="generateDisbursementByDate()" >Generate <i class="fa fa-file-excel-o" aria-hidden="true"></i></a>
         </div>
     </div>
     <div class="row">
@@ -136,6 +136,9 @@
 
     }).on("click",".add-summary-nav-next",function(){
         window.location.href = evey.getHome()+"/budgetfy/reports/create-disbursement";
+    }).on("click", "#cash-disbursement",function(){
+        var fromDate = $("#from-date").val();
+        var toDate = $("#to-date").val();
     });
 </script>
 

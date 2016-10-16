@@ -7,6 +7,7 @@ import org.ohf.bean.poi.DisbursementReportPoi;
 import org.ohf.bean.poi.VoucherReportPoi;
 import org.ohf.service.ParticularService;
 import org.ohf.service.ReportService;
+import org.ohf.service.VoucherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -36,21 +38,30 @@ public class ReportController {
     @Autowired
     private ParticularService particularService;
 
+    @Autowired
+    private VoucherService voucherService;
+
     @RequestMapping
     public ModelAndView loadHtml() {
         return new ModelAndView("html/report.html");
     }
 
     @RequestMapping(value = "/create-disbursement", method = RequestMethod.GET)
-    public void createDisbursementReport(HttpServletRequest request, HttpServletResponse response) throws Exception{
+    public void createDisbursementReport(HttpServletRequest request, HttpServletResponse response/*,
+                                         @PathVariable("fromDate") Date fromDate,
+                                         @PathVariable("toDate") Date toDate*/) throws Exception{
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date fromDate = dateFormat.parse(request.getParameter("fromDate"));
+        Date toDate = dateFormat.parse(request.getParameter("toDate"));
         String fileName = "Cash_Disbursement";
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         response.setHeader("Content-Disposition", "attachment; filename="+fileName+".xlsx");
 
-        List<DisbursementDTO> disbursementDTOList = reportService.generateDisbursementReport();
+        List<DisbursementDTO> disbursementDTOList = voucherService.getDisbursementReportDetails(fromDate, toDate);
+
         disbursementDTOList.size();
 
-        ServletOutputStream out = null;
+        /*ServletOutputStream out = null;
         try {
             out = response.getOutputStream();
             new DisbursementReportPoi(disbursementDTOList).publishReport(out);
@@ -58,7 +69,7 @@ public class ReportController {
         } finally {
             if(out != null)
                 out.close();
-        }
+        }*/
     }
 
     @RequestMapping(value = "/create-voucher/{id}", method = RequestMethod.GET)
@@ -68,10 +79,6 @@ public class ReportController {
         response.setHeader("Content-Disposition", "attachment; filename="+fileName+".xlsx");
 
         List<ParticularDTO> results = particularService.getParticularByVoucherId(voucherId);
-
-        /*List<DisbursementDTO> disbursementDTOList = reportService.generateDisbursementReport();
-        disbursementDTOList.size();*/
-
         ServletOutputStream out = null;
         try {
             out = response.getOutputStream();

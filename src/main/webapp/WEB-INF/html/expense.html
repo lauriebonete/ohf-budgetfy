@@ -84,7 +84,7 @@
                             <tr class="row-onclick" dir-paginate="voucher in voucherList | filter : voucherFilter | itemsPerPage: voucherMaxSize" pagination-id="voucher-list" ng-click="viewVoucher(voucher.id)">
                                 <td>{{voucher.vcNumber}}</td>
                                 <td>{{voucher.reference}}</td>
-                                <td>New</td>
+                                <td>{{voucher.status.value}}</td>
                                 <td>{{voucher.payee}}</td>
                                 <td>{{voucher.displayDate}}</td>
                                 <td>{{voucher.displaytotalAmount}}</td>
@@ -123,10 +123,8 @@
                             <label class="text-right middle">Status</label>
                         </div>
                         <div class="small-3 columns">
-                            <select>
-                                <option value="New">New</option>
-                                <option value="Open">Open</option>
-                                <option value="Closed">Closed</option>
+                            <select id="create-voucher-status">
+                                <option ng-repeat="status in voucherStatusList" value="{{status.id}}">{{status.value}}</option>
                             </select>
                         </div>
                     </div>
@@ -169,7 +167,7 @@
                             <label class="text-right middle">Variance</label>
                         </div>
                         <div class="small-3 columns">
-                            <input type="text" id="variance-add" disabled>
+                            <input type="text" ng-model="createVoucher.variance" disabled>
                         </div>
                         <div class="small-3 columns">
                             <label class="text-right middle"></label>
@@ -367,6 +365,8 @@
                                 <option value="Open">Open</option>
                                 <option value="Closed">Closed</option>
                             </select>
+                            <select ng-model="selectedVoucher.statusId" ng-options="status.id as status.value for status in voucherStatusList">
+                            </select>
                         </div>
                     </div>
                     <div class="row">
@@ -408,7 +408,7 @@
                             <label class="text-right middle">Variance</label>
                         </div>
                         <div class="small-3 columns">
-                            <input type="text" id="variance-update" disabled>
+                            <input type="text" ng-model="selectedVoucher.displayTotalExpense" disabled>
                         </div>
                         <div class="small-3 columns">
                             <label class="text-right middle"></label>

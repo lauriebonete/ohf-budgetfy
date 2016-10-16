@@ -32,6 +32,12 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
         $scope.generateVoucherReport = function(){
             window.location.href = evey.getHome()+"/budgetfy/reports/create-voucher/"+$scope.selectedVoucherReport;
         };
+
+        $scope.generateDisbursementByDate = function(){
+            var fromDate = $("#from-date").val();
+            var toDate = $("#to-date").val();
+            window.location.href = evey.getHome()+"/budgetfy/reports/create-disbursement?fromDate="+fromDate+"&toDate="+toDate;
+        };
     }])
     .controller("userRoleController", ["$scope", "$filter", "userRoleService", function($scope, $filter, userRoleService){
         $scope.loadInitData = function(){
@@ -290,7 +296,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             });
         });
     }])
-    .controller("voucherController", ["$scope","$http", "$filter","voucherService","programService","activityService","particularService","fileDetailService",function($scope,$http,$filter,voucherService,programService,activityService,particularService,fileDetailService){
+    .controller("voucherController", ["$scope","$http", "$filter","voucherService","programService","activityService","particularService","fileDetailService", "referenceLookUpService",function($scope,$http,$filter,voucherService,programService,activityService,particularService,fileDetailService, referenceLookUpService){
 
         $scope.loadInitData = function(){
             voucherService.getAllVouchers().then(function(results){
@@ -308,6 +314,10 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
 
             activityService.getAllActivities().then(function(results){
                 $scope.activityList = results.results;
+            });
+
+            referenceLookUpService.getReferenceLookUpByCategory("VOUCHER_STATUS").then(function(results){
+                $scope.voucherStatusList = results;
             });
         };
 
@@ -334,8 +344,10 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
         };
 
         $scope.createVoucherObj = function(){
+            $scope.createVoucher.status = {"id": $("#create-voucher-status").val()};
             voucherService.saveVoucher($scope.createVoucher).then(function (result){
                 if(result.data.status){
+                    $scope.voucherList.unshift(result.data.result);
                     $("#expense-main").removeClass("hide");
                     $("#expense-add-container").addClass("hide");
                     $("#expense-update-container").addClass("hide");
@@ -401,6 +413,14 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
 
             MotionUI.animateOut($('div#add-exist-expense-form'), 'slide-out-up');
             $scope.selectedVoucher.particulars.unshift(particular);
+            $scope.computeVarianceUpdate();
+        };
+
+        $scope.computeVarianceUpdate = function(){
+            $scope.selectedVoucher.displayTotalExpense = $scope.selectedVoucher.totalAmount;
+            $.each($scope.selectedVoucher.particulars, function(i, particular){
+                $scope.selectedVoucher.displayTotalExpense -= particular.expense
+            });
         };
 
         $scope.viewSelectedParticular = function(particularId){
@@ -487,6 +507,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             particularService.deleteParticular(particularId).then(function(results){
                 if(results.status){
                     $scope.selectedVoucher.particulars = $filter('filter')($scope.selectedVoucher.particulars, { id: ('!' +particularId)});
+                    $scope.computeVarianceUpdate();
                 }
             },function(error){
 
