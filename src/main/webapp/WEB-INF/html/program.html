@@ -90,11 +90,37 @@
                                 <td>{{program.displayProgramBudget}}</td>
                                 <td>{{program.displayProgramDuration}}</td>
                                 <td>
-                                    <a class="button alert"><i class="fa fa-minus"></i></a>
+                                    <a class="button alert" data-open="delete-program"><i class="fa fa-minus"></i></a>
                                 </td>
+                            </tr>
+                            <tr class="total-footer">
+                                <td><strong>Total</strong></td>
+                                <td>30,000,000,000,000,000</td>
+                                <td></td>
+                                <td></td>
                             </tr>
                           </tbody>
                       </table>
+                      <div class="tiny reveal" id="delete-program" data-reveal>
+                          <h5 class="middle">Are you sure you want to delete user?</h5>
+                          <button class="close-button" data-close aria-label="Close modal" type="button">
+                              <span aria-hidden="true">&times;</span>
+                          </button>
+                          <div class="row">
+                              <div class="small-3 columns">
+                                  <label class="text-right middle"></label>
+                              </div>
+                              <div class="small-3 columns">
+                                  <a class="button success expanded" data-close>Yes</a>
+                              </div>
+                              <div class="small-3 columns">
+                                  <a class="button alert expanded" data-close>No</a>
+                              </div>
+                              <div class="small-3 columns">
+                                  <label class="text-right middle"></label>
+                              </div>
+                          </div>
+                      </div>
                   </div>
               </div>
               <ul class="pagination text-center" role="navigation" aria-label="Pagination">
@@ -315,10 +341,36 @@
                                                 <td data-toggle="update-activity-form" >{{activity.activityName}}</td>
                                                 <td data-toggle="update-activity-form" >{{activity.activityCodeName}}</td>
                                                 <td data-toggle="update-activity-form" >{{activity.displayAmount}}</td>
-                                                <td><a class="button alert" ng-click="removeActivityProgram(activity.id)"><i class="fa fa-minus"></i></a></td>
+                                                <td><a class="button alert" data-open="delete-activity" ng-click="removeActivityProgram(activity.id)"><i class="fa fa-minus"></i></a></td>
+                                            </tr>
+                                            <tr class="total-footer">
+                                                <td><strong>Total</strong></td>
+                                                <td></td>
+                                                <td>30,000,000,000</td>
+                                                <td></td>
                                             </tr>
                                         </tbody>
                                     </table>
+                                    <div class="tiny reveal" id="delete-activity" data-reveal>
+                                        <h5 class="middle">Are you sure you want to delete user?</h5>
+                                        <button class="close-button" data-close aria-label="Close modal" type="button">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <div class="row">
+                                            <div class="small-3 columns">
+                                                <label class="text-right middle"></label>
+                                            </div>
+                                            <div class="small-3 columns">
+                                                <a class="button success expanded" data-close>Yes</a>
+                                            </div>
+                                            <div class="small-3 columns">
+                                                <a class="button alert expanded" data-close>No</a>
+                                            </div>
+                                            <div class="small-3 columns">
+                                                <label class="text-right middle"></label>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <ul class="pagination text-center" role="navigation" aria-label="Pagination">
@@ -356,6 +408,11 @@
                                                     <td>{{activity.activity.activityName}}</td>
                                                     <td>{{activity.activity.activityCodeName}}</td>
                                                     <td>{{activity.expense}}</td>
+                                                </tr>
+                                                <tr class="total-footer">
+                                                    <td><strong>Total</strong></td>
+                                                    <td></td>
+                                                    <td>30,000,000,000</td>
                                                 </tr>
                                             </tbody>
                                         </table>
