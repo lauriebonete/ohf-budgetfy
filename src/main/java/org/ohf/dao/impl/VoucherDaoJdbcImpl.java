@@ -34,6 +34,7 @@ public class VoucherDaoJdbcImpl implements VoucherDaoJdbc {
                 .append("       v.REFERENCE     AS REFERENCE, ")
                 .append("       v.VC_NUMBER     AS VC_NUMBER, ")
                 .append("       v.TOTAL_EXPENSE AS TOTAL_EXPENSE, ")
+                .append("       p.DESCRIPTION   AS PARTICULAR, ")
                 .append("       p.EXPENSE       AS EXPENSE, ")
                 .append("       a.ID            AS ACTIVITY_ID, ")
                 .append("       a.ACTIVITY_NAME AS ACTIVITY_NAME, ")
@@ -67,6 +68,7 @@ public class VoucherDaoJdbcImpl implements VoucherDaoJdbc {
                     disbursementDTO.setReference(resultSet.getString("REFERENCE"));
                     disbursementDTO.setVcNumber(resultSet.getString("VC_NUMBER"));
                     disbursementDTO.setTotalExpense(resultSet.getBigDecimal("TOTAL_EXPENSE"));
+                    disbursementDTO.setParticulars(resultSet.getString("PARTICULAR"));
                     disbursementDTO.setExpense(resultSet.getBigDecimal("EXPENSE"));
                     disbursementDTO.setActivityId(resultSet.getLong("ACTIVITY_ID"));
                     disbursementDTO.setActivityName(resultSet.getString("ACTIVITY_NAME"));

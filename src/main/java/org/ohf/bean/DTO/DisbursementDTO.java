@@ -12,6 +12,7 @@ public class DisbursementDTO {
     private String payee;
     private String reference;
     private String vcNumber;
+    private String particulars;
     private BigDecimal totalExpense;
     private BigDecimal expense;
     private Long activityId;
@@ -106,5 +107,13 @@ public class DisbursementDTO {
 
     public void setProgramName(String programName) {
         this.programName = programName;
+    }
+
+    public String getParticulars() {
+        return particulars;
+    }
+
+    public void setParticulars(String particulars) {
+        this.particulars = particulars;
     }
 }

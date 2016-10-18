@@ -3,6 +3,7 @@ package org.ohf.controller;
 import org.evey.utility.DateUtil;
 import org.ohf.bean.DTO.DisbursementDTO;
 import org.ohf.bean.DTO.ParticularDTO;
+import org.ohf.bean.DTO.PeriodHelper;
 import org.ohf.bean.poi.DisbursementReportPoi;
 import org.ohf.bean.poi.VoucherReportPoi;
 import org.ohf.service.ParticularService;
@@ -23,6 +24,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 /**
@@ -58,8 +60,9 @@ public class ReportController {
         response.setHeader("Content-Disposition", "attachment; filename="+fileName+".xlsx");
 
         List<DisbursementDTO> disbursementDTOList = voucherService.getDisbursementReportDetails(fromDate, toDate);
+        Map<String, List<PeriodHelper>> periodHelperMap =reportService.prepareHelpers(disbursementDTOList);
 
-        disbursementDTOList.size();
+        reportService.createDisbursementByDateRange(response, periodHelperMap);
 
         /*ServletOutputStream out = null;
         try {
