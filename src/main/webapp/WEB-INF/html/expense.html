@@ -82,13 +82,13 @@
                             </tr>
                             </thead>
                             <tbody>
-                                <tr class="row-onclick" dir-paginate="voucher in voucherList | filter : voucherFilter | itemsPerPage: voucherMaxSize" pagination-id="voucher-list" ng-click="viewVoucher(voucher.id)">
+                                <tr class="row-onclick" dir-paginate="voucher in result = (voucherList | filter : voucherFilter) | itemsPerPage: voucherMaxSize" pagination-id="voucher-list" ng-click="viewVoucher(voucher.id)">
                                     <td>{{voucher.vcNumber}}</td>
                                     <td>{{voucher.reference}}</td>
                                     <td>{{voucher.status.value}}</td>
                                     <td>{{voucher.payee}}</td>
                                     <td>{{voucher.displayDate}}</td>
-                                    <td>{{voucher.displayDate}}</td>
+                                    <td>{{voucher.displayTotalExpensePage}}</td>
                                     <td>{{voucher.displaytotalAmount}}</td>
                                 </tr>
                                 <tr class="total-footer">
@@ -97,8 +97,8 @@
                                     <td></td>
                                     <td></td>
                                     <td></td>
-                                    <td>30,000,000,000</td>
-                                    <td>40,000,000,000,000,000,000,000,000</td>
+                                    <td>{{result | sumOfValue: 'totalExpense'}}</td>
+                                    <td>{{result | sumOfValue: 'totalAmount'}}</td>
                                 </tr>
                             </tbody>
                         </table>

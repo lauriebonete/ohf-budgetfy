@@ -58,6 +58,8 @@ public class Voucher extends BaseEntity {
 
     private transient String displaytotalAmount;
 
+    private transient String displayTotalExpensePage;
+
     private transient BigDecimal displayTotalExpense;
 
     public String getVcNumber() {
@@ -120,6 +122,14 @@ public class Voucher extends BaseEntity {
         return status;
     }
 
+    public Long getStatusId() {
+        return statusId;
+    }
+
+    public void setStatusId(Long statusId) {
+        this.statusId = statusId;
+    }
+
     public BigDecimal getDisplayTotalExpense() {
         if (getTotalExpense()!=null){
             return totalAmount.subtract(getTotalExpense());
@@ -154,6 +164,23 @@ public class Voucher extends BaseEntity {
         symbols.setGroupingSeparator(',');
         formatter.setDecimalFormatSymbols(symbols);
         return "P"+formatter.format(this.totalAmount);
+    }
+
+    public String getDisplayTotalExpensePage() {
+        DecimalFormat formatter = (DecimalFormat) NumberFormat.getInstance(Locale.US);
+        DecimalFormatSymbols symbols = formatter.getDecimalFormatSymbols();
+
+        symbols.setGroupingSeparator(',');
+        formatter.setDecimalFormatSymbols(symbols);
+        return "P"+formatter.format(this.totalExpense);
+    }
+
+    public void setDisplayTotalExpensePage(String displayTotalExpensePage) {
+        this.displayTotalExpensePage = displayTotalExpensePage;
+    }
+
+    public void setDisplayDate(String displayDate) {
+        this.displayDate = displayDate;
     }
 
     @Override

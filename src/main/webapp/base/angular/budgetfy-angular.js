@@ -1207,5 +1207,16 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                     }
                 });
         };
+    }).filter('sumOfValue', function () {
+        return function (data, key) {
+            if (angular.isUndefined(data) && angular.isUndefined(key)) {
+                return 0;
+            }
+            var sum = 0;
+            angular.forEach(data,function(value){
+                sum = sum + parseFloat(value[key]);
+            });
+            return evey.formatDisplayMoney(sum);
+        }
     });
 
