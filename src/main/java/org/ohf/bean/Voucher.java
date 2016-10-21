@@ -34,6 +34,9 @@ public class Voucher extends BaseEntity {
     @Column(name = "VC_DATE")
     private Date date;
 
+    @Column(name="VOUCHER_YEAR")
+    private String voucherYear;
+
     @Column(name = "TOTAL_AMOUNT")
     private BigDecimal totalAmount;
 
@@ -122,6 +125,14 @@ public class Voucher extends BaseEntity {
         return status;
     }
 
+    public String getVoucherYear() {
+        return voucherYear;
+    }
+
+    public void setVoucherYear(String voucherYear) {
+        this.voucherYear = voucherYear;
+    }
+
     public Long getStatusId() {
         return statusId;
     }
@@ -202,6 +213,9 @@ public class Voucher extends BaseEntity {
             }
             this.setTotalExpense(total);
         }
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy");
+        this.voucherYear = dateFormat.format(this.date);
     }
 }
 

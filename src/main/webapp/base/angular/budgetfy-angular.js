@@ -296,7 +296,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             });
         });
     }])
-    .controller("voucherController", ["$scope","$http", "$filter","voucherService","programService","activityService","particularService","fileDetailService", "referenceLookUpService",function($scope,$http,$filter,voucherService,programService,activityService,particularService,fileDetailService, referenceLookUpService){
+    .controller("voucherController", ["$scope","$http", "$filter","voucherService","programService","activityService","particularService","fileDetailService", "referenceLookUpService", "$sessionStorage", function($scope,$http,$filter,voucherService,programService,activityService,particularService,fileDetailService, referenceLookUpService, $sessionStorage){
 
         $scope.loadInitData = function(){
             voucherService.getAllVouchers().then(function(results){
@@ -319,6 +319,9 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             referenceLookUpService.getReferenceLookUpByCategory("VOUCHER_STATUS").then(function(results){
                 $scope.voucherStatusList = results;
             });
+
+            $scope.years = $sessionStorage.years;
+            $scope.currentYear = new Date().getFullYear().toString();
         };
 
         $scope.viewVoucher = function(voucherId){
@@ -514,6 +517,27 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             });
         };
 
+        $scope.yearFilter = function(voucher){
+            if($scope.currentYear != null &&
+                $scope.currentYear != "" &&
+                $scope.currentYear != undefined){
+                return (voucher.voucherYear == $scope.currentYear);
+            } else {
+                return voucher;
+            }
+        };
+
+        $scope.updateVoucher = function(){
+            voucherService.saveVoucher($scope.selectedVoucher).then(function(result){
+                if(result.data.status){
+                    $scope.voucherList.unshift(result.data.result);
+                    $("#expense-main").removeClass("hide");
+                    $("#expense-add-container").addClass("hide");
+                    $("#expense-update-container").addClass("hide");
+                }
+            });
+        };
+
     }])
     .controller("programController",["$scope","$http","$filter","userService","referenceLookUpService","programService","activityService", "particularService", "voucherService", "$sessionStorage" ,function($scope, $http,$filter,userService,referenceLookUpService,programService,activityService, particularService, voucherService, $sessionStorage){
         $scope.userSelectizeModel = 0;
@@ -699,6 +723,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
         };
 
         $scope.createProgram = function(){
+            $scope.isDisabled = true;
             programService.createNewProgram($scope.programObject).then(function(results){
                 if(results!=null && results){
                     $scope.programObject = null;
