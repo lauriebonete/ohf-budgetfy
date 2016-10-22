@@ -34,6 +34,9 @@ public class Voucher extends BaseEntity {
     @Column(name = "VC_DATE")
     private Date date;
 
+    @Column(name="VOUCHER_YEAR")
+    private String voucherYear;
+
     @Column(name = "TOTAL_AMOUNT")
     private BigDecimal totalAmount;
 
@@ -57,6 +60,8 @@ public class Voucher extends BaseEntity {
     private transient String displayDate;
 
     private transient String displaytotalAmount;
+
+    private transient String displayTotalExpensePage;
 
     private transient BigDecimal displayTotalExpense;
 
@@ -120,6 +125,22 @@ public class Voucher extends BaseEntity {
         return status;
     }
 
+    public String getVoucherYear() {
+        return voucherYear;
+    }
+
+    public void setVoucherYear(String voucherYear) {
+        this.voucherYear = voucherYear;
+    }
+
+    public Long getStatusId() {
+        return statusId;
+    }
+
+    public void setStatusId(Long statusId) {
+        this.statusId = statusId;
+    }
+
     public BigDecimal getDisplayTotalExpense() {
         if (getTotalExpense()!=null){
             return totalAmount.subtract(getTotalExpense());
@@ -156,6 +177,23 @@ public class Voucher extends BaseEntity {
         return "P"+formatter.format(this.totalAmount);
     }
 
+    public String getDisplayTotalExpensePage() {
+        DecimalFormat formatter = (DecimalFormat) NumberFormat.getInstance(Locale.US);
+        DecimalFormatSymbols symbols = formatter.getDecimalFormatSymbols();
+
+        symbols.setGroupingSeparator(',');
+        formatter.setDecimalFormatSymbols(symbols);
+        return "P"+formatter.format(this.totalExpense);
+    }
+
+    public void setDisplayTotalExpensePage(String displayTotalExpensePage) {
+        this.displayTotalExpensePage = displayTotalExpensePage;
+    }
+
+    public void setDisplayDate(String displayDate) {
+        this.displayDate = displayDate;
+    }
+
     @Override
     public Map<String, String> getOrderBy() {
         Map<String, String> orderMap = new HashMap<>();
@@ -175,6 +213,9 @@ public class Voucher extends BaseEntity {
             }
             this.setTotalExpense(total);
         }
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy");
+        this.voucherYear = dateFormat.format(this.date);
     }
 }
 

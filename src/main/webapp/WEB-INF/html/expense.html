@@ -58,10 +58,8 @@
                         </div>
                     </div>
                     <div class="small-2 columns text-right">
-                        <select>
-                            <option value="2016">2016</option>
-                            <option value="2015">2015</option>
-                            <option value="2014">2014</option>
+                        <select ng-model="currentYear" ng-options="year as year for year in years">
+                            <option></option>
                         </select>
                     </div>
                 </div>
@@ -82,13 +80,13 @@
                             </tr>
                             </thead>
                             <tbody>
-                                <tr class="row-onclick" dir-paginate="voucher in voucherList | filter : voucherFilter | itemsPerPage: voucherMaxSize" pagination-id="voucher-list" ng-click="viewVoucher(voucher.id)">
+                                <tr class="row-onclick" dir-paginate="voucher in result = (voucherList | filter : voucherFilter | filter: yearFilter) | itemsPerPage: voucherMaxSize" pagination-id="voucher-list" ng-click="viewVoucher(voucher.id)">
                                     <td>{{voucher.vcNumber}}</td>
                                     <td>{{voucher.reference}}</td>
                                     <td>{{voucher.status.value}}</td>
                                     <td>{{voucher.payee}}</td>
                                     <td>{{voucher.displayDate}}</td>
-                                    <td>{{voucher.displayDate}}</td>
+                                    <td>{{voucher.displayTotalExpensePage}}</td>
                                     <td>{{voucher.displaytotalAmount}}</td>
                                 </tr>
                                 <tr class="total-footer">
@@ -97,8 +95,8 @@
                                     <td></td>
                                     <td></td>
                                     <td></td>
-                                    <td>30,000,000,000</td>
-                                    <td>40,000,000,000,000,000,000,000,000</td>
+                                    <td>{{result | sumOfValue: 'totalExpense'}}</td>
+                                    <td>{{result | sumOfValue: 'totalAmount'}}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -394,11 +392,6 @@
                             <label class="text-right middle">Status</label>
                         </div>
                         <div class="small-3 columns">
-                            <select>
-                                <option value="New">New</option>
-                                <option value="Open">Open</option>
-                                <option value="Closed">Closed</option>
-                            </select>
                             <select ng-model="selectedVoucher.statusId" ng-options="status.id as status.value for status in voucherStatusList">
                             </select>
                         </div>
@@ -573,7 +566,7 @@
                                     <td data-toggle="update-expense-form">{{particular.activity.activityName}}</td>
                                     <td data-toggle="update-expense-form">{{particular.displayExpense}}</td>
                                     <td ng-click="downloadAttachment(particular.receiptId)"><a class="button success" ng-if="particular.receiptId != null"><i class="fa fa-file-image-o" aria-hidden="true"></i></a></td>
-                                    <td data-toggle="update-expense-form" ng-click="removeParticular(particular.id)"><a class="button alert"><i class="fa fa-minus"></i></a></td>
+                                    <td ng-click="removeParticular(particular.id)"><a class="button alert"><i class="fa fa-minus"></i></a></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -656,10 +649,10 @@
 
                     <div class="row">
                         <div class="small-3 columns">
-                            <a class="button alert float-right update-summary-nav-prev"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</a>
+                            <a class="button alert float-right"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</a>
                         </div>
                         <div class="small-7 columns end">
-                            <a class="button success float-right update-summary-nav-next" id="" ng-click="">Finish <i class="fa fa-check" aria-hidden="true"></i></a>
+                            <a class="button success float-right" ng-click="updateVoucher()">Finish <i class="fa fa-check" aria-hidden="true"></i></a>
                         </div>
                     </div>
                 </div>

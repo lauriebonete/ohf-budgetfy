@@ -85,7 +85,7 @@
                             </tr>
                           </thead>
                           <tbody>
-                            <tr class="row-onclick" dir-paginate="program in programList | filter : programFilter | filter: yearFilter | itemsPerPage: programMaxSize" pagination-id="program-list" data-program="{{program.id}}" ng-click="viewProgram(program.id)">
+                            <tr class="row-onclick" dir-paginate="program in result = (programList | filter : programFilter | filter: yearFilter) | itemsPerPage: programMaxSize" pagination-id="program-list" data-program="{{program.id}}" ng-click="viewProgram(program.id)">
                                 <td>{{program.programName}}</td>
                                 <td>{{program.displayProgramBudget}}</td>
                                 <td>{{program.displayProgramDuration}}</td>
@@ -95,7 +95,7 @@
                             </tr>
                             <tr class="total-footer">
                                 <td><strong>Total</strong></td>
-                                <td>30,000,000,000,000,000</td>
+                                <td>{{result | sumOfValue: 'totalBudget'}}</td>
                                 <td></td>
                                 <td></td>
                             </tr>
@@ -337,7 +337,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr dir-paginate="activity in selectedProgram.activities | filter:programBudgetFilter | itemsPerPage: 5" pagination-id="program-activity" data-activity-id="{{activity.id}}" ng-click="selectActivityProgram(activity.id)">
+                                            <tr dir-paginate="activity in result = (selectedProgram.activities | filter:programBudgetFilter) | itemsPerPage: 5" pagination-id="program-activity" data-activity-id="{{activity.id}}" ng-click="selectActivityProgram(activity.id)">
                                                 <td data-toggle="update-activity-form" >{{activity.activityName}}</td>
                                                 <td data-toggle="update-activity-form" >{{activity.activityCodeName}}</td>
                                                 <td data-toggle="update-activity-form" >{{activity.displayAmount}}</td>
@@ -346,7 +346,7 @@
                                             <tr class="total-footer">
                                                 <td><strong>Total</strong></td>
                                                 <td></td>
-                                                <td>30,000,000,000</td>
+                                                <td>{{result | sumOfValue: 'amount'}}</td>
                                                 <td></td>
                                             </tr>
                                         </tbody>
@@ -404,15 +404,15 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr ng-click="viewActivityExpense(activity.activity.id)" dir-paginate="activity in selectedProgram.activityExpense | filter:activityExpenseFilter | itemsPerPage: 5" pagination-id="activity-expense" class="program-expense-row">
+                                                <tr ng-click="viewActivityExpense(activity.activity.id)" dir-paginate="activity in result = (selectedProgram.activityExpense | filter:activityExpenseFilter) | itemsPerPage: 5" pagination-id="activity-expense" class="program-expense-row">
                                                     <td>{{activity.activity.activityName}}</td>
                                                     <td>{{activity.activity.activityCodeName}}</td>
-                                                    <td>{{activity.expense}}</td>
+                                                    <td>{{activity.displayExpense}}</td>
                                                 </tr>
                                                 <tr class="total-footer">
                                                     <td><strong>Total</strong></td>
                                                     <td></td>
-                                                    <td>30,000,000,000</td>
+                                                    <td>{{result | sumOfValue: 'expense'}}</td>
                                                 </tr>
                                             </tbody>
                                         </table>

@@ -246,7 +246,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr dir-paginate="activity in addedActivityList | itemsPerPage: 2" pagination-id="added-activity">
+                            <tr dir-paginate="activity in addedActivityList | itemsPerPage: 10" pagination-id="added-activity">
                                 <td>{{activity.activityName}}</td>
                                 <td>{{activity.activityCodeName}}</td>
                                 <td>{{activity.amount}}</td>
@@ -347,7 +347,7 @@
                 <a class="button alert float-right program-summary-nav-prev"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</a>
               </div>
               <div class="small-7 columns end">
-                <a class="button success float-right program-summary-nav-next" id="create-program" ng-click="createProgram()">Finish <i class="fa fa-check" aria-hidden="true"></i></a>
+                <button type="submit" class="button success float-right program-summary-nav-next" id="create-program" ng-click="createProgram()" ng-disabled="isDisabled">Finish <i class="fa fa-check" aria-hidden="true"></i></button>
               </div>
             </div>
           </div>

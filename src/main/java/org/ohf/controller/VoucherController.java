@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.math.BigDecimal;
 import java.util.Map;
 
 /**
@@ -30,6 +31,18 @@ public class VoucherController extends BaseCrudController<Voucher> {
     protected void postCreate(Voucher command) {
         for(Particular particular : command.getParticulars()){
             particularService.save(particular);
+        }
+    }
+
+    @Override
+    protected void preCreate(Voucher command) {
+
+        if(command.getParticulars()!=null){
+            BigDecimal sum = new BigDecimal(0);
+            for(Particular particular: command.getParticulars()){
+                sum = sum.add(particular.getExpense());
+            }
+            command.setTotalExpense(sum);
         }
     }
 }
