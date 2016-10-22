@@ -187,7 +187,7 @@
                             <label class="text-right middle">Total Amount</label>
                         </div>
                         <div class="small-3 columns">
-                            <input type="text" ng-model="createVoucher.totalAmount">
+                            <input id="add-total-amount" type="text" ng-model="createVoucher.totalAmount">
                         </div>
                     </div>
                     <div class="row">
@@ -219,7 +219,7 @@
                                 <label class="text-right middle">Expense Amount</label>
                             </div>
                             <div class="small-4 columns end">
-                                <input type="text" ng-model="addParticular.expense">
+                                <input type="text" id="add-particular-expense-amount" class="clear-after" ng-model="addParticular.expense">
                             </div>
                         </div>
                         <div class="row">
@@ -241,7 +241,7 @@
                                 <div id="add-particular-receipt">Upload</div>
                             </div>
                             <div class="small-4 columns end">
-                                <a class="button success expanded" ng-click="addNewParticular('add-particular-receipt')">Add Particular <i class="fa fa-plus"></i></a>
+                                <a class="button success expanded" id="add-particular-btn" ng-click="addNewParticular('add-particular-receipt')">Add Particular <i class="fa fa-plus"></i></a>
                             </div>
                         </div>
                     </div>
@@ -483,7 +483,7 @@
                                 <label class="text-right middle">Expense Amount</label>
                             </div>
                             <div class="small-4 columns end">
-                                <input type="text" ng-model="addParticular.expense">
+                                <input type="text" id="update-particular-expense-amount" ng-model="addParticular.expense">
                             </div>
                         </div>
                         <div class="row">
@@ -527,7 +527,7 @@
                                 <label class="text-right middle">Expense Amount</label>
                             </div>
                             <div class="small-4 columns end">
-                                <input type="text" ng-model="selectedParticular.expense"/>
+                                <input type="text" id="selected-particular-expense-amount" ng-model="selectedParticular.expense"/>
                             </div>
                         </div>
                         <div class="row">
@@ -747,8 +747,30 @@
             }).on("click",".update-summary-nav-prev",function() {
                 $("#expense-update").css("left","0");
                 $("#expense-update-summary").css("left", "+100%");
+            }).on("click","#add-particular-btn",function() {
+                $('input.clear-after').val('');
+            }).on("keyup", "#add-total-amount","#add-particular-expense-amount", function(){
+                $(this).val(addThousandsSeparator($(this).val()));
+                $(this).trigger("change");
+            }).on("keyup", "#update-particular-expense-amount","#selected-particular-expense-amount", function(){
+                $(this).val(addThousandsSeparator($(this).val()));
+                $(this).trigger("change");
             });
 
+            function addThousandsSeparator(input) {
+                var output = input.toString().replace(/,/g, '');
+                return (output.toString()).replace(
+                        /^([-+]?)(0?)(\d+)(.?)(\d+)$/g, function(match, sign, zeros, before, decimal, after) {
+                            var reverseString = function(string) { return string.split('').reverse().join(''); };
+                            var insertCommas  = function(string) {
+                                var reversed = reverseString(string);
+                                var reversedWithCommas = reversed.match(/.{1,3}/g).join(',');
+                                return reverseString(reversedWithCommas);
+                            };
+                            return sign + (decimal ? insertCommas(before) + decimal + after : insertCommas(before + after));
+                        }
+                );
+            }
 
         </script>
   </body>

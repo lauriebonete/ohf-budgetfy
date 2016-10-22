@@ -380,6 +380,8 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             $scope.newParticularList.push(particular);
 
             $scope.computeVariance();
+            $scope.addParticular.addParticularProgramModel = 0;
+            $scope.addParticular.addParticularActivityModel = 0;
         };
 
         $scope.computeVariance = function(){
@@ -850,7 +852,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                 activityName:activityType,
                 activityCodeId:activityCodeId,
                 activityCode:{id:activityCodeId},
-                amount: activityBudget,
+                amount:Number(activityBudget.replace(/,/g, '')),
                 activityCodeName:activityCodeDisplay,
                 program: {id:$scope.selectedProgram.id}
             };
@@ -872,7 +874,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                 activityTypeId:activityId,
                 activityName:activityType,
                 activityCodeId:activityCodeId,
-                amount: activityBudget,
+                amount:Number(activityBudget.replace(/,/g, '')),
                 activityCodeName:activityCodeDisplay
             };
 
