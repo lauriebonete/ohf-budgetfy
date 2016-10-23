@@ -2,13 +2,9 @@ package org.ohf.service.impl;
 
 import org.apache.log4j.Logger;
 import org.apache.poi.ss.util.CellRangeAddress;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.ohf.bean.DTO.DisbursementDTO;
-import org.ohf.bean.DTO.PeriodHelper;
-import org.ohf.bean.DTO.SheetHelper;
+import org.apache.poi.xssf.usermodel.*;
+import org.ohf.bean.Activity;
+import org.ohf.bean.DTO.*;
 import org.ohf.dao.ReportDao;
 import org.ohf.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +42,18 @@ public class ReportServiceImpl implements ReportService {
                     periodHelper.setParticulars(periodHelper.getParticulars()+", "+disbursementDTO.getParticulars());
                     periodHelper.setTotalExpense(periodHelper.getTotalExpense().add(disbursementDTO.getExpense()));
                     periodHelper.getDisbursementDTOList().add(disbursementDTO);
+                } else {
+                    PeriodHelper periodHelper = new PeriodHelper();
+                    periodHelper.setVcId(disbursementDTO.getVoucherId());
+                    periodHelper.setVcDate(disbursementDTO.getVoucherDate());
+                    periodHelper.setPayee(disbursementDTO.getPayee());
+                    periodHelper.setParticulars(disbursementDTO.getParticulars());
+                    periodHelper.setReference(disbursementDTO.getReference());
+                    periodHelper.setVcNumber(disbursementDTO.getVcNumber());
+                    periodHelper.setTotalExpense(disbursementDTO.getExpense());
+                    periodHelper.setDisbursementDTOList(new ArrayList<DisbursementDTO>());
+                    periodHelper.getDisbursementDTOList().add(disbursementDTO);
+                    periodHelpers.add(periodHelper);
                 }
             } else {
                 periodHelperMap.put(month, new ArrayList<PeriodHelper>());
@@ -67,20 +75,69 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
-    public void createDisbursementByDateRange(HttpServletResponse response, Map<String, List<PeriodHelper>> periodHelperMap) throws Exception{
+    public List<ProgramHelper> prepareProgramHelper(List<ProgramActivityDTO> programActivityDTOs) throws Exception {
+        List<ProgramHelper> programHelpers = new ArrayList<>();
+
+        for(ProgramActivityDTO programActivityDTO: programActivityDTOs){
+            ProgramHelper test = new ProgramHelper();
+            test.setProgramId(programActivityDTO.getProgramId());
+
+            if(programHelpers.contains(test)){
+                ProgramHelper programHelper = programHelpers.get(programHelpers.indexOf(test));
+
+                Activity activity = new Activity();
+                activity.setId(programActivityDTO.getActivityId());
+                activity.setActivityName(programActivityDTO.getActivityName());
+
+                programHelper.getActivityList().add(activity);
+            } else {
+                ProgramHelper programHelper = new ProgramHelper();
+                programHelper.setProgramId(programActivityDTO.getProgramId());
+                programHelper.setProgramName(programActivityDTO.getProgramName());
+                programHelper.setActivityList(new ArrayList<Activity>());
+
+                Activity activity = new Activity();
+                activity.setId(programActivityDTO.getActivityId());
+                activity.setActivityName(programActivityDTO.getActivityName());
+
+                programHelper.getActivityList().add(activity);
+                programHelpers.add(programHelper);
+            }
+        }
+
+        return programHelpers;
+    }
+
+    @Override
+    public void createDisbursementByDateRange(HttpServletResponse response, Map<String, List<PeriodHelper>> periodHelperMap, List<ProgramHelper> programHelperList) throws Exception{
         XSSFWorkbook workbook = new XSSFWorkbook();
+        XSSFCellStyle thousandSeparator = workbook.createCellStyle();
+        thousandSeparator.setDataFormat(workbook.getCreationHelper().createDataFormat().getFormat("#,##0.00"));
         for (Map.Entry<String, List<PeriodHelper>> map : periodHelperMap.entrySet()) {
             XSSFSheet sheet = workbook.createSheet(map.getKey());
             createSheetHeader(sheet, map.getKey());
-            createColumnHeader(sheet);
+            createColumnHeader(sheet, programHelperList);
 
-            int row = 5;
+            int rowIndex = 5;
             int sequence = 1;
             for(PeriodHelper periodHelper:map.getValue()){
-                createDataRows(sheet, periodHelper, row, sequence);
-                row++;
+                createDataRows(sheet, periodHelper, rowIndex, sequence, thousandSeparator);
+                rowIndex++;
                 sequence++;
             }
+
+            StringBuilder formulaBuilder = new StringBuilder();
+            formulaBuilder.append("SUM(G"+6)
+                    .append(":E")
+                    .append(rowIndex + ")");
+
+            XSSFRow row = sheet.createRow(rowIndex);
+            XSSFCell cell = row.createCell(6);
+            cell.setCellType(XSSFCell.CELL_TYPE_FORMULA);
+            cell.setCellFormula(formulaBuilder.toString());
+            cell.setCellStyle(thousandSeparator);
+
+            sheet.createFreezePane(7,0);
         }
 
         ServletOutputStream out = null;
@@ -112,7 +169,7 @@ public class ReportServiceImpl implements ReportService {
         sheet.addMergedRegion(new CellRangeAddress(2,2,0,6));
     }
 
-    private void createColumnHeader(XSSFSheet sheet){
+    private void createColumnHeader(XSSFSheet sheet, List<ProgramHelper> programHelperList){
         XSSFRow row = sheet.createRow(4);
         XSSFCell cell = null;
         cell = row.createCell(0);
@@ -135,9 +192,30 @@ public class ReportServiceImpl implements ReportService {
 
         cell = row.createCell(6);
         cell.setCellValue("Amount");
+
+        sheet.setColumnWidth(0, 1500);
+        sheet.setColumnWidth(1, 3000);
+        sheet.setColumnWidth(2, 4500);
+        sheet.setColumnWidth(3, 6500);
+        sheet.setColumnWidth(4, 4500);
+        sheet.setColumnWidth(5, 4500);
+        sheet.setColumnWidth(6, 5000);
+
+        int columnIndex = 7;
+        for(ProgramHelper programHelper: programHelperList){
+            cell = row.createCell(columnIndex);
+            cell.setCellValue(programHelper.getProgramName());
+            columnIndex++;
+
+            for(Activity activity:programHelper.getActivityList()){
+                cell = row.createCell(columnIndex);
+                cell.setCellValue(activity.getActivityName());
+                columnIndex++;
+            }
+        }
     }
 
-    private void createDataRows(XSSFSheet sheet, PeriodHelper periodHelper, int rowNumber, int seq){
+    private void createDataRows(XSSFSheet sheet, PeriodHelper periodHelper, int rowNumber, int seq, XSSFCellStyle thousandSeparator){
         XSSFRow row = sheet.createRow(rowNumber);
         XSSFCell cell = null;
         cell = row.createCell(0);
@@ -159,6 +237,7 @@ public class ReportServiceImpl implements ReportService {
         cell.setCellValue(periodHelper.getVcNumber());
 
         cell = row.createCell(6);
-        cell.setCellValue(periodHelper.getTotalExpense().doubleValue());
+        cell.setCellValue(periodHelper.getTotalExpense()!=null ? periodHelper.getTotalExpense().doubleValue():0);
+        cell.setCellStyle(thousandSeparator);
     }
 }
