@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <link rel="stylesheet" href="css/jquery.bonsai.css"/>
     <link rel="stylesheet" href="css/selectize.default.css">
+    <link rel="stylesheet" href="css/toastr.css"/>
 
     <script src="js/jquery3.min.js"></script>
     <script src="js/angular.js"></script>
@@ -183,10 +184,10 @@
                             </div>
                             <div class="row">
                                 <div class="small-3 columns">
-                                    <button type="submit" class="button success expanded">Save</button>
+                                    <a class="button alert expanded cancel-btn">Cancel</a>
                                 </div>
                                 <div class="small-3 columns">
-                                    <a class="button alert expanded cancel-btn">Cancel</a>
+                                    <button type="submit" class="button success expanded">Save</button>
                                 </div>
                             </div>
                         </form>
@@ -270,10 +271,10 @@
                             </div>
                             <div class="row">
                                 <div class="small-3 columns">
-                                    <button type="submit" class="button success expanded" ng-click="updateUser()">Save</button>
+                                    <a class="button alert expanded cancel-btn">Cancel</a>
                                 </div>
                                 <div class="small-3 columns">
-                                    <a class="button alert expanded cancel-btn">Cancel</a>
+                                    <button type="submit" class="button success expanded" ng-click="updateUser()">Save</button>
                                 </div>
                             </div>
                         </form>
@@ -357,10 +358,10 @@
                             </div>
                             <div class="row">
                                 <div class="small-3 columns">
-                                    <button type="submit" class="button success expanded">Save</button>
+                                    <a class="button alert expanded cancel-user-role-btn">Cancel</a>
                                 </div>
                                 <div class="small-3 columns">
-                                    <a class="button alert expanded cancel-user-role-btn">Cancel</a>
+                                    <button type="submit" class="button success expanded">Save</button>
                                 </div>
                             </div>
                         </form>
@@ -403,10 +404,10 @@
                             </div>
                             <div class="row">
                                 <div class="small-3 columns">
-                                    <button type="submit" class="button success expanded">Save</button>
+                                    <a class="button alert expanded cancel-user-role-btn">Cancel</a>
                                 </div>
                                 <div class="small-3 columns">
-                                    <a class="button alert expanded cancel-user-role-btn">Cancel</a>
+                                    <button type="submit" class="button success expanded">Save</button>
                                 </div>
                             </div>
                         </form>
@@ -463,7 +464,7 @@
                     <div id="reference-look-up-create" class="hide">
                         <div class="row">
                             <div class="small-5 columns">
-                                <h4 class="middle">Create Reference Look Up</h4>
+                                <h4 class="middle">Create Reference Lookup</h4>
                             </div>
                             <div class="small-7 columns">
                                 <label class="text-right middle"></label>
@@ -514,10 +515,10 @@
                             </div>
                             <div class="row">
                                 <div class="small-3 columns">
-                                    <button type="submit" class="button success expanded">Save</button>
+                                    <a class="button alert expanded cancel-ref-btn">Cancel</a>
                                 </div>
                                 <div class="small-3 columns">
-                                    <a class="button alert expanded cancel-ref-btn">Cancel</a>
+                                    <button type="submit" class="button success expanded">Save</button>
                                 </div>
                             </div>
                         </form>
@@ -525,7 +526,7 @@
                     <div id="reference-look-up-update" class="hide">
                         <div class="row">
                             <div class="small-5 columns">
-                                <h4 class="middle">Update Reference Look Up</h4>
+                                <h4 class="middle">Update Reference Lookup</h4>
                             </div>
                         </div>
                         <form data-abide novalidate id="update-reference-form">
@@ -573,10 +574,10 @@
                             </div>
                             <div class="row">
                                 <div class="small-3 columns">
-                                    <button type="submit" class="button success expanded">Save</button>
+                                    <a class="button alert expanded cancel-ref-btn">Cancel</a>
                                 </div>
                                 <div class="small-3 columns">
-                                    <a class="button alert expanded cancel-ref-btn">Cancel</a>
+                                    <button type="submit" class="button success expanded">Save</button>
                                 </div>
                             </div>
                         </form>
@@ -593,6 +594,7 @@
     <script src="js/evey-1.0.js"></script>
     <script src="js/jquery.bonsai.js"></script>
     <script src="js/jquery.qubit.js"></script>
+    <script src="js/toastr.js"></script>
     <script>
         $(document).foundation();
 

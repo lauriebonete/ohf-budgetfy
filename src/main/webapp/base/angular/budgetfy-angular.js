@@ -79,7 +79,11 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                     $("#user-role-main").removeClass("hide");
                     $("#user-role-create").addClass("hide");
                     $scope.userRoleList.push(response.result);
-                }
+                    console.log('test');
+                    evey.promptSuccess(response.message);
+                } else{
+                    evey.promptAlert(response.message);
+               }
             });
         });
 
@@ -97,6 +101,10 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                     $("#user-role-main").removeClass("hide");
                     $("#user-role-create").addClass("hide");
                     $("#user-role-update").addClass("hide");
+                    console.log('test');
+                    evey.promptSuccess(response.message);
+                } else{
+                    evey.promptAlert(response.message);
                 }
             });
         });
@@ -212,7 +220,9 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                     $("#user-view").addClass("hide");
                     $("#user-update").addClass("hide");
                     $scope.userList.push(response.result);
+                    evey.promptSuccess(response.message);
                 } else {
+                    evey.promptAlert(response.message);
                 }
             }, function errorCallback(error){
 
@@ -236,8 +246,9 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                     $("#user-create").addClass("hide");
                     $("#user-view").addClass("hide");
                     $("#user-update").addClass("hide");
+                    evey.promptSuccess(response.message);
                 } else {
-
+                    evey.promptAlert(response.message);
                 }
             }, function errorCallback(error){
 
@@ -275,8 +286,10 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                 if(response.status){
                     $("div#reference-look-up-main").removeClass("hide");
                     $("div#reference-look-up-create").addClass("hide");
+                    $scope.referenceLookUpList.unshift(response.result);
+                    evey.promptSuccess(response.message);
                 } else {
-
+                    evey.promptAlert(response.message);
                 }
             }, function errorCallback(error){
 
@@ -288,8 +301,9 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                 if(response.status){
                     $("div#reference-look-up-main").removeClass("hide");
                     $("div#reference-look-up-update").addClass("hide");
+                    evey.promptSuccess(response.message);
                 } else {
-
+                    evey.promptAlert(response.message);
                 }
             }, function errorCallback(error){
 
