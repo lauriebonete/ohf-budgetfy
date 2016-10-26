@@ -1,12 +1,14 @@
 package org.ohf.controller;
 
+import org.evey.bean.ReferenceLookUp;
+import org.evey.service.ReferenceLookUpService;
 import org.evey.utility.DateUtil;
-import org.ohf.bean.DTO.DisbursementDTO;
-import org.ohf.bean.DTO.ParticularDTO;
-import org.ohf.bean.DTO.PeriodHelper;
+import org.ohf.bean.DTO.*;
+import org.ohf.bean.Voucher;
 import org.ohf.bean.poi.DisbursementReportPoi;
 import org.ohf.bean.poi.VoucherReportPoi;
 import org.ohf.service.ParticularService;
+import org.ohf.service.ProgramService;
 import org.ohf.service.ReportService;
 import org.ohf.service.VoucherService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +45,12 @@ public class ReportController {
     @Autowired
     private VoucherService voucherService;
 
+    @Autowired
+    private ReferenceLookUpService referenceLookUpService;
+
+    @Autowired
+    private ProgramService programService;
+
     @RequestMapping
     public ModelAndView loadHtml() {
         return new ModelAndView("html/report.html");
@@ -60,9 +68,16 @@ public class ReportController {
         response.setHeader("Content-Disposition", "attachment; filename="+fileName+".xlsx");
 
         List<DisbursementDTO> disbursementDTOList = voucherService.getDisbursementReportDetails(fromDate, toDate);
+        List<ProgramActivityDTO> programActivityDTOList = programService.getProgramActivityByRange(fromDate, toDate);
         Map<String, List<PeriodHelper>> periodHelperMap =reportService.prepareHelpers(disbursementDTOList);
+        List<ProgramHelper> programHelperList = reportService.prepareProgramHelper(programActivityDTOList);
 
-        reportService.createDisbursementByDateRange(response, periodHelperMap);
+        try {
+            reportService.createDisbursementByDateRange(response, periodHelperMap, programHelperList);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
 
         /*ServletOutputStream out = null;
         try {
@@ -82,10 +97,12 @@ public class ReportController {
         response.setHeader("Content-Disposition", "attachment; filename="+fileName+".xlsx");
 
         List<ParticularDTO> results = particularService.getParticularByVoucherId(voucherId);
+        Voucher voucher = voucherService.load(voucherId);
+        ReferenceLookUp status = referenceLookUpService.load(voucher.getStatusId());
         ServletOutputStream out = null;
         try {
             out = response.getOutputStream();
-            new VoucherReportPoi(results).publishReport(out);
+            new VoucherReportPoi(results, voucher, status).publishReport(out);
             out.flush();
         } finally {
             if(out != null)

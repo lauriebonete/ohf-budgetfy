@@ -4,9 +4,12 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.evey.bean.ReferenceLookUp;
 import org.evey.bean.report.Report;
 import org.ohf.bean.DTO.ParticularDTO;
+import org.ohf.bean.Voucher;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -15,9 +18,13 @@ import java.util.List;
 public class VoucherReportPoi extends Report {
 
     private List<ParticularDTO> particularDTOList;
+    private Voucher voucher;
+    private ReferenceLookUp status;
 
-    public VoucherReportPoi(List<ParticularDTO> particularDTOList) {
+    public VoucherReportPoi(List<ParticularDTO> particularDTOList, Voucher voucher, ReferenceLookUp referenceLookUp) {
         this.particularDTOList = particularDTOList;
+        this.voucher = voucher;
+        this.status = referenceLookUp;
     }
 
     @Override
@@ -28,24 +35,76 @@ public class VoucherReportPoi extends Report {
         alignStyle.setAlignment(XSSFCellStyle.ALIGN_CENTER);
         alignStyle.setFont(boldFont);
 
+        XSSFCellStyle thousandSeparator = workbook.createCellStyle();
+        thousandSeparator.setDataFormat(workbook.getCreationHelper().createDataFormat().getFormat("#,##0.00"));
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+
         sheet = workbook.createSheet("Particulars");
         XSSFCell cell = null;
 
+
         XSSFRow row = sheet.createRow(0);
+        cell = row.createCell(1);
+        cell.setCellValue("Status:");
+        cell.setCellStyle(alignStyle);
+        cell = row.createCell(2);
+        cell.setCellValue(status.getValue());
+
+        row = sheet.createRow(1);
+        cell = row.createCell(1);
+        cell.setCellValue("Payee:");
+        cell.setCellStyle(alignStyle);
+        cell = row.createCell(2);
+        cell.setCellValue(voucher.getPayee());
+        cell = row.createCell(3);
+        cell.setCellValue("Check/Ref#:");
+        cell.setCellStyle(alignStyle);
+        cell = row.createCell(4);
+        cell.setCellValue(voucher.getReference());
+
+        row = sheet.createRow(2);
+        cell = row.createCell(1);
+        cell.setCellValue("Date:");
+        cell.setCellStyle(alignStyle);
+        cell = row.createCell(2);
+        cell.setCellValue(dateFormat.format(voucher.getDate()));
+        cell = row.createCell(3);
+        cell.setCellValue("VC#:");
+        cell.setCellStyle(alignStyle);
+        cell = row.createCell(4);
+        cell.setCellValue(voucher.getVcNumber());
+
+        row = sheet.createRow(3);
+        cell = row.createCell(1);
+        cell.setCellValue("Total Amount:");
+        cell.setCellStyle(alignStyle);
+        cell = row.createCell(2);
+        cell.setCellValue(voucher.getTotalAmount().doubleValue());
+        cell.setCellStyle(thousandSeparator);
+        cell = row.createCell(3);
+        cell.setCellValue("Variance:");
+        cell.setCellStyle(alignStyle);
+        cell = row.createCell(4);
+        cell.setCellValue(voucher.getTotalAmount().doubleValue() - voucher.getTotalExpense().doubleValue());
+        cell.setCellStyle(thousandSeparator);
+
+
+        row = sheet.createRow(5);
         cell = row.createCell(0);
         cell.setCellValue("#");
         cell.setCellStyle(alignStyle);
 
         cell = row.createCell(1);
-        cell.setCellValue("Particular Name");
-        cell.setCellStyle(alignStyle);
-
-        cell = row.createCell(2);
         cell.setCellValue("Program");
         cell.setCellStyle(alignStyle);
 
-        cell = row.createCell(3);
+        cell = row.createCell(2);
         cell.setCellValue("Activity");
+        cell.setCellStyle(alignStyle);
+
+        cell = row.createCell(3);
+        cell.setCellValue("Particular Name");
         cell.setCellStyle(alignStyle);
 
         cell = row.createCell(4);
@@ -59,23 +118,24 @@ public class VoucherReportPoi extends Report {
         XSSFCellStyle thousandSeparator = workbook.createCellStyle();
         thousandSeparator.setDataFormat(workbook.getCreationHelper().createDataFormat().getFormat("#,##0.00"));
 
-        int indexRow = 1;
+        int indexRow = 6;
+        int initial = indexRow;
         for(int i=0; i<particularDTOList.size();i++){
             ParticularDTO particularDTO = particularDTOList.get(i);
-            XSSFRow row = sheet.createRow(i+1);
+            XSSFRow row = sheet.createRow(indexRow);
             XSSFCell cell = null;
 
             cell = row.createCell(0);
             cell.setCellValue(i+1);
 
             cell = row.createCell(1);
-            cell.setCellValue(particularDTO.getParticularName());
-
-            cell = row.createCell(2);
             cell.setCellValue(particularDTO.getProgramName());
 
-            cell = row.createCell(3);
+            cell = row.createCell(2);
             cell.setCellValue(particularDTO.getActivityName());
+
+            cell = row.createCell(3);
+            cell.setCellValue(particularDTO.getParticularName());
 
             cell = row.createCell(4);
             cell.setCellValue(particularDTO.getExpense().doubleValue());
@@ -98,9 +158,9 @@ public class VoucherReportPoi extends Report {
         cell.setCellStyle(alignStyle);
 
         StringBuilder formulaBuilder = new StringBuilder();
-        formulaBuilder.append("SUM(E")
-                .append("2:E")
-                .append(indexRow+")");
+        formulaBuilder.append("SUM(E"+(initial+1))
+                .append(":E")
+                .append(indexRow + ")");
 
         cell = row.createCell(4);
         cell.setCellType(XSSFCell.CELL_TYPE_FORMULA);

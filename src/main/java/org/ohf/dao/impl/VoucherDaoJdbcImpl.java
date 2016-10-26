@@ -46,7 +46,7 @@ public class VoucherDaoJdbcImpl implements VoucherDaoJdbc {
                 .append("       LEFT JOIN PROGRAM p_ ON a.PROGRAM_ID = p_.ID ")
                 .append("WHERE  VC_DATE >= :fromDate ")
                 .append("       AND VC_DATE <= :toDate ")
-                .append("ORDER  BY 1   ");
+                .append("ORDER  BY 2, 1   ");
     }
 
     @Override
