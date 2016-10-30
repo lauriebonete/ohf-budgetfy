@@ -129,7 +129,7 @@ public class Program extends BaseEntity {
         SimpleDateFormat dateFormat = new SimpleDateFormat("MMM d, yyyy");
         StringBuilder displayBuilder = new StringBuilder();
         displayBuilder.append(dateFormat.format(this.programStart))
-                .append(" TO ")
+                .append(" - ")
                 .append(dateFormat.format(this.programEnd));
 
         return displayBuilder.toString();
