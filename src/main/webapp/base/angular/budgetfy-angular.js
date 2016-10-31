@@ -78,8 +78,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                 if(response.status){
                     $("#user-role-main").removeClass("hide");
                     $("#user-role-create").addClass("hide");
-                    $scope.userRoleList.push(response.result);
-                    console.log('test');
+                    $scope.userRoleList.unshift(response.result);
                     evey.promptSuccess(response.message);
                 } else{
                     evey.promptAlert(response.message);
@@ -369,7 +368,9 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                     $("#expense-main").removeClass("hide");
                     $("#expense-add-container").addClass("hide");
                     $("#expense-update-container").addClass("hide");
-                    //evey.promptSuccess("test");
+                    evey.promptSuccess(result.data.message);
+                } else{
+                    evey.promptAlert(result.data.message);
                 }
             });
         };
@@ -552,6 +553,9 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                     $("#expense-main").removeClass("hide");
                     $("#expense-add-container").addClass("hide");
                     $("#expense-update-container").addClass("hide");
+                    evey.promptSuccess(result.data.message);
+                } else{
+                    evey.promptAlert(result.data.message);
                 }
             });
         };
@@ -748,6 +752,9 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                     $scope.addedActivityList = [];
                     $scope.addedUserList = [];
                     window.location = evey.getHome()+"/budgetfy/program";
+                    evey.promptSuccess(results.message)
+                } else{
+                    evey.promptAlert(results.message);
                 }
             },function(error){
 

@@ -9,14 +9,16 @@
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/font-awesome.min.css">
     <link rel="stylesheet" href="../css/selectize.default.css">
+    <link rel="stylesheet" href="../css/toastr.css"/>
 
     <script src="../js/jquery3.min.js"></script>
     <script src="../js/angular.js"></script>
     <script src="../js/selectize.min.js"></script>
     <script src="../js/angular-selectize.js"></script>
     <script src="../angular/budgetfy-angular.js"></script>
-      <script src="../angular/dirPagination.js"></script>
-      <script src="../angular/ngStorage.min.js"></script>
+    <script src="../angular/dirPagination.js"></script>
+    <script src="../angular/ngStorage.min.js"></script>
+    <script src="../js/toastr.js"></script>
 
   </head>
   <body ng-app="budgetfyApp" ng-controller="programController">
@@ -398,7 +400,8 @@
       }).on("keydown","#percentage",function(e){
             if(!((e.keyCode > 95 && e.keyCode < 106)
                     || (e.keyCode > 47 && e.keyCode < 58)
-                    || e.keyCode == 8 || e.keyCode == 190)) {
+                    || e.keyCode == 8 || e.keyCode == 190
+                    || e.keyCode == 9)) {
                 return false;
             }
         }).on("input", ".numeric", function() {

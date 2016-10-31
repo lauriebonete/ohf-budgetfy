@@ -79,6 +79,7 @@
                                 <th>Date</th>
                                 <th>Total Expense</th>
                                 <th>Total Amount</th>
+                                <th>Actions</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -90,6 +91,9 @@
                                     <td>{{voucher.displayDate}}</td>
                                     <td>{{voucher.displayTotalExpensePage}}</td>
                                     <td>{{voucher.displaytotalAmount}}</td>
+                                    <td>
+                                        <a class="button alert" data-open="delete-expense"><i class="fa fa-minus"></i></a>
+                                    </td>
                                 </tr>
                                 <tr class="total-footer">
                                     <td><strong>Total</strong></td>
@@ -99,9 +103,30 @@
                                     <td></td>
                                     <td>{{result | sumOfValue: 'totalExpense'}}</td>
                                     <td>{{result | sumOfValue: 'totalAmount'}}</td>
+                                    <td></td>
                                 </tr>
                             </tbody>
                         </table>
+                        <div class="tiny reveal" id="delete-expense" data-reveal>
+                            <h5 class="middle">Are you sure you want to delete this expense?</h5>
+                            <button class="close-button" data-close aria-label="Close modal" type="button">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <div class="row">
+                                <div class="small-2 columns">
+                                    <label class="text-right middle"></label>
+                                </div>
+                                <div class="small-4 columns">
+                                    <a class="button success expanded" data-close>Yes <i class="fa fa-check" aria-hidden="true"></i></a>
+                                </div>
+                                <div class="small-4 columns">
+                                    <a class="button alert expanded" data-close>No <i class="fa fa-times" aria-hidden="true"></i></a>
+                                </div>
+                                <div class="small-2 columns">
+                                    <label class="text-right middle"></label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <ul class="pagination text-center" role="navigation" aria-label="Pagination">
@@ -270,21 +295,21 @@
                                 </tbody>
                             </table>
                             <div class="tiny reveal" id="delete-particular" data-reveal>
-                                <h5 class="middle">Are you sure you want to delete user?</h5>
+                                <h5 class="middle">Are you sure you want to delete this particular?</h5>
                                 <button class="close-button" data-close aria-label="Close modal" type="button">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                                 <div class="row">
-                                    <div class="small-3 columns">
+                                    <div class="small-2 columns">
                                         <label class="text-right middle"></label>
                                     </div>
-                                    <div class="small-3 columns">
-                                        <a class="button success expanded" data-close>Yes</a>
+                                    <div class="small-4 columns">
+                                        <a class="button success expanded" data-close>Yes <i class="fa fa-check" aria-hidden="true"></i></a>
                                     </div>
-                                    <div class="small-3 columns">
-                                        <a class="button alert expanded" data-close>No</a>
+                                    <div class="small-4 columns">
+                                        <a class="button alert expanded" data-close>No <i class="fa fa-times" aria-hidden="true"></i></a>
                                     </div>
-                                    <div class="small-3 columns">
+                                    <div class="small-2 columns">
                                         <label class="text-right middle"></label>
                                     </div>
                                 </div>
@@ -727,7 +752,7 @@
                 $("#expense-main").removeClass("hide");
                 $("#expense-add-container").addClass("hide");
                 $("#expense-update-container").addClass("hide");
-            }).on("click",".row-onclick",function(){
+            }).on("click","tr.row-onclick > td:not(:nth-of-type(8))",function(){
                 $("#expense-main").addClass("hide");
                 $("#expense-update-container").removeClass("hide");
             }).on("click",".add-expense-nav-next",function() {
