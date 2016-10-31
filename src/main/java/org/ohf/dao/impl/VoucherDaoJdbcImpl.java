@@ -35,7 +35,7 @@ public class VoucherDaoJdbcImpl implements VoucherDaoJdbc {
                 .append("       v.VC_NUMBER     AS VC_NUMBER, ")
                 .append("       v.TOTAL_EXPENSE AS TOTAL_EXPENSE, ")
                 .append("       p.DESCRIPTION   AS PARTICULAR, ")
-                .append("       p.EXPENSE       AS EXPENSE, ")
+                .append("       SUM(p.EXPENSE)       AS EXPENSE, ")
                 .append("       a.ID            AS ACTIVITY_ID, ")
                 .append("       a.ACTIVITY_NAME AS ACTIVITY_NAME, ")
                 .append("       p_.ID           AS PROGRAM_ID, ")
@@ -46,6 +46,7 @@ public class VoucherDaoJdbcImpl implements VoucherDaoJdbc {
                 .append("       LEFT JOIN PROGRAM p_ ON a.PROGRAM_ID = p_.ID ")
                 .append("WHERE  VC_DATE >= :fromDate ")
                 .append("       AND VC_DATE <= :toDate ")
+                .append("GROUP BY a.ID ")
                 .append("ORDER  BY 2, 1   ");
     }
 
