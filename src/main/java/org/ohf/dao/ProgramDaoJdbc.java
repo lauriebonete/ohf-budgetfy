@@ -1,6 +1,7 @@
 package org.ohf.dao;
 
 import org.ohf.bean.DTO.ProgramActivityDTO;
+import org.ohf.bean.DTO.TotalProgramDTO;
 
 import java.util.Date;
 import java.util.List;
@@ -10,5 +11,5 @@ import java.util.List;
  */
 public interface ProgramDaoJdbc {
     public List<ProgramActivityDTO> getProgramActivity(Date fromDate, Date toDate);
-
+    public List<TotalProgramDTO> getTotalProgram(String year);
 }

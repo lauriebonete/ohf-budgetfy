@@ -4,6 +4,7 @@ import org.evey.bean.ReferenceLookUp;
 import org.evey.service.ReferenceLookUpService;
 import org.evey.utility.DateUtil;
 import org.ohf.bean.DTO.*;
+import org.ohf.bean.Program;
 import org.ohf.bean.Voucher;
 import org.ohf.bean.poi.DisbursementReportPoi;
 import org.ohf.bean.poi.VoucherReportPoi;
@@ -77,17 +78,6 @@ public class ReportController {
         } catch (Exception e){
             e.printStackTrace();
         }
-
-
-        /*ServletOutputStream out = null;
-        try {
-            out = response.getOutputStream();
-            new DisbursementReportPoi(disbursementDTOList).publishReport(out);
-            out.flush();
-        } finally {
-            if(out != null)
-                out.close();
-        }*/
     }
 
     @RequestMapping(value = "/create-voucher/{id}", method = RequestMethod.GET)
@@ -107,6 +97,39 @@ public class ReportController {
         } finally {
             if(out != null)
                 out.close();
+        }
+    }
+
+    @RequestMapping(value = "/program-total", method = RequestMethod.GET)
+    public void createTotalPerProgramReport(HttpServletRequest request, HttpServletResponse response) throws Exception{
+
+
+        String year = request.getParameter("year");
+        Long programId = !request.getParameter("programId").equals(0)  ? Long.parseLong(request.getParameter("programId")) : null;
+        String programName = request.getParameter("programName");
+
+
+        StringBuilder fileName = new StringBuilder();
+        if(programId!=null){
+            fileName.append("TOTAL_FOR_")
+                    .append(year)
+                    .append("_")
+                    .append(programName)
+                    .append(".xlsx");
+        }
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        response.setHeader("Content-Disposition", "attachment; filename="+fileName.toString());
+
+        Program lookFor = new Program();
+        lookFor.setYear(year);
+
+        List<Program> programList = programService.findEntity(lookFor);
+        List<TotalProgramDTO> totalProgramDTOList = programService.getTotalProgram(year);
+
+        try {
+           reportService.createTotalAllProgram(response, programList, totalProgramDTOList, year);
+        } catch (Exception e){
+            e.printStackTrace();
         }
     }
 }

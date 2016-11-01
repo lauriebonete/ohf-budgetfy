@@ -2,6 +2,7 @@ package org.ohf.service.impl;
 
 import org.evey.service.impl.BaseCrudServiceImpl;
 import org.ohf.bean.DTO.ProgramActivityDTO;
+import org.ohf.bean.DTO.TotalProgramDTO;
 import org.ohf.bean.Program;
 import org.ohf.dao.ProgramDaoJdbc;
 import org.ohf.service.ProgramService;
@@ -23,5 +24,10 @@ public class ProgramServiceImpl extends BaseCrudServiceImpl<Program> implements 
     @Override
     public List<ProgramActivityDTO> getProgramActivityByRange(Date fromDate, Date toDate) {
         return programDaoJdbc.getProgramActivity(fromDate, toDate);
+    }
+
+    @Override
+    public List<TotalProgramDTO> getTotalProgram(String year) {
+        return programDaoJdbc.getTotalProgram(year);
     }
 }

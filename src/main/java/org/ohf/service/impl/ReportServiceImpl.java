@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.awt.*;
 import java.io.IOException;
 import java.text.DateFormat;
+import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
@@ -166,6 +167,55 @@ public class ReportServiceImpl implements ReportService {
                 cell.setCellFormula(buldier.toString());
                 cell.setCellStyle(thousandSeparator);
                 colIndex++;
+            }
+        }
+
+        ServletOutputStream out = null;
+        try {
+            out = response.getOutputStream();
+            workbook.write(out);
+        } catch (IOException exception){
+            _log.error(exception.getMessage());
+        } finally {
+            out.close();
+        }
+    }
+
+    @Override
+    public void createTotalAllProgram(HttpServletResponse response, List<Program> programList, List<TotalProgramDTO> totalProgramDTOList, String year) throws Exception {
+        XSSFWorkbook workbook = new XSSFWorkbook();
+        XSSFSheet sheet = workbook.createSheet("Total");
+
+        XSSFRow row = sheet.createRow(0);
+        XSSFCell cell = row.createCell(0);
+        cell.setCellValue("CASH DISBURSEMENT YEAR "+ year);
+
+        row = sheet.createRow(2);
+        cell = row.createCell(0);
+        cell.setCellValue("MONTH");
+
+        Map<Long, Integer> programIndex = new HashMap<>();
+        int columnIndex = 1;
+        for(Program program: programList){
+
+            programIndex.put(program.getId(), columnIndex);
+
+            cell = row.createCell(columnIndex);
+            cell.setCellValue(program.getProgramName());
+            columnIndex++;
+        }
+
+        for(int i=0, j=3; i<12; i++, j++){
+            String monthName = new DateFormatSymbols().getMonths()[i];
+            row = sheet.createRow(j);
+            cell = row.createCell(0);
+            cell.setCellValue(monthName);
+            for(TotalProgramDTO totalProgramDTO: totalProgramDTOList){
+                if(totalProgramDTO.getMonth()==i+1){
+                    int index = programIndex.get(totalProgramDTO.getProgramId());
+                    cell = row.createCell(index);
+                    cell.setCellValue(totalProgramDTO.getExpense().doubleValue());
+                }
             }
         }
 

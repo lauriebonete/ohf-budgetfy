@@ -8,7 +8,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
 
         yearServiceProvider.$get().getYears();
     })
-    .controller("reportController", ["$scope", "voucherService", function($scope, voucherService){
+    .controller("reportController", ["$scope", "voucherService", "$sessionStorage", "programService", function($scope, voucherService, $sessionStorage, programService){
         $scope.voucherConfig =
         {
             valueField : 'id',
@@ -27,16 +27,42 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             voucherService.getAllVouchers().then(function(results){
                 $scope.voucherList = results.results;
             });
+
+            programService.getAllPrograms().then(function(results){
+                console.log(results.results);
+                $scope.programList = results.results;
+            });
+            $scope.years = $sessionStorage.years;
+            $scope.currentYear = new Date().getFullYear().toString();
         };
 
         $scope.generateVoucherReport = function(){
             window.location.href = evey.getHome()+"/budgetfy/reports/create-voucher/"+$scope.selectedVoucherReport;
         };
 
+        $scope.generateTotalPerProgram = function(){
+
+            var year = $scope.currentYear;
+            var programId = $scope.selectedProgram != undefined ? $scope.selectedProgram : 0;
+            var programName = $("#selected-program").val() != "" ? $("#selected-program").val() : "ALL_PROGRAM";
+
+            window.location.href = evey.getHome()+"/budgetfy/reports/program-total?year="+year+"&programId="+programId+"&programName="+programName;
+        };
+
         $scope.generateDisbursementByDate = function(){
             var fromDate = $("#from-date").val();
             var toDate = $("#to-date").val();
             window.location.href = evey.getHome()+"/budgetfy/reports/create-disbursement?fromDate="+fromDate+"&toDate="+toDate;
+        };
+
+        $scope.yearFilter = function(program){
+            if($scope.currentYear != null &&
+                $scope.currentYear != "" &&
+                $scope.currentYear != undefined){
+                return (program.year == $scope.currentYear);
+            } else {
+                return program;
+            }
         };
     }])
     .controller("userRoleController", ["$scope", "$filter", "userRoleService", function($scope, $filter, userRoleService){

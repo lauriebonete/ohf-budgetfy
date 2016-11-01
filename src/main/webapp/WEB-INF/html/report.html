@@ -79,24 +79,20 @@
             <label class="text-right middle">Year</label>
         </div>
         <div class="small-3 columns">
-            <select>
-                <option value="2016">2016</option>
-                <option value="2015">2015</option>
-                <option value="2014">2014</option>
+            <select ng-model="currentYear" ng-options="year as year for year in years">
+                <option></option>
             </select>
         </div>
         <div class="small-1 columns">
             <label class="text-right middle">Program</label>
         </div>
         <div class="small-3 columns">
-            <select>
-                <option value="All">All</option>
-                <option value="Program1">Program1</option>
-                <option value="Program2">Program2</option>
+            <select id = "selected-program" ng-model="selectedProgram" ng-options="program.id as program.programName for program in result = (programList | filter : yearFilter)">
+                <option></option>
             </select>
         </div>
         <div class="small-4 columns">
-            <a class="button success add-summary-nav-next">Generate <i class="fa fa-file-excel-o" aria-hidden="true"></i></a>
+            <a class="button success" ng-click="generateTotalPerProgram()">Generate <i class="fa fa-file-excel-o" aria-hidden="true"></i></a>
         </div>
     </div>
     <div class="row">
