@@ -186,6 +186,18 @@ public class ReportServiceImpl implements ReportService {
         XSSFWorkbook workbook = new XSSFWorkbook();
         XSSFSheet sheet = workbook.createSheet("Total");
 
+        XSSFCellStyle thousandSeparator = workbook.createCellStyle();
+        thousandSeparator.setDataFormat(workbook.getCreationHelper().createDataFormat().getFormat("#,##0.00"));
+
+        XSSFCellStyle headerStyle = sheet.getWorkbook().createCellStyle();
+        XSSFFont boldFont = sheet.getWorkbook().createFont();
+        boldFont.setBold(true);
+
+        headerStyle.setFont(boldFont);
+        headerStyle.setAlignment(XSSFCellStyle.ALIGN_CENTER);
+        headerStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+        headerStyle.setWrapText(true);
+
         XSSFRow row = sheet.createRow(0);
         XSSFCell cell = row.createCell(0);
         cell.setCellValue("CASH DISBURSEMENT YEAR "+ year);
@@ -193,6 +205,9 @@ public class ReportServiceImpl implements ReportService {
         row = sheet.createRow(2);
         cell = row.createCell(0);
         cell.setCellValue("MONTH");
+        cell.setCellStyle(headerStyle);
+
+        sheet.setColumnWidth(0, 4500);
 
         Map<Long, Integer> programIndex = new HashMap<>();
         int columnIndex = 1;
@@ -202,6 +217,8 @@ public class ReportServiceImpl implements ReportService {
 
             cell = row.createCell(columnIndex);
             cell.setCellValue(program.getProgramName());
+            cell.setCellStyle(headerStyle);
+            sheet.setColumnWidth(columnIndex, 4500);
             columnIndex++;
         }
 
@@ -215,8 +232,25 @@ public class ReportServiceImpl implements ReportService {
                     int index = programIndex.get(totalProgramDTO.getProgramId());
                     cell = row.createCell(index);
                     cell.setCellValue(totalProgramDTO.getExpense().doubleValue());
+                    cell.setCellStyle(thousandSeparator);
                 }
             }
+        }
+        row = sheet.createRow(15);
+        cell = row.createCell(0);
+        cell.setCellValue("TOTAL");
+
+        for(int i=0, j=1; i<programList.size();i++,j++){
+            StringBuilder buldier = new StringBuilder();
+            buldier.append("SUM(" + CellReference.convertNumToColString(j) + 4)
+                    .append(":"+CellReference.convertNumToColString(j))
+                    .append(15 + ")");
+
+            row = sheet.getRow(15);
+            cell = row.createCell(j);
+            cell.setCellType(XSSFCell.CELL_TYPE_FORMULA);
+            cell.setCellFormula(buldier.toString());
+            cell.setCellStyle(thousandSeparator);
         }
 
         ServletOutputStream out = null;

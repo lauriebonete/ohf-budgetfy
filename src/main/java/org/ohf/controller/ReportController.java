@@ -124,10 +124,14 @@ public class ReportController {
         lookFor.setYear(year);
 
         List<Program> programList = programService.findEntity(lookFor);
-        List<TotalProgramDTO> totalProgramDTOList = programService.getTotalProgram(year);
 
         try {
-           reportService.createTotalAllProgram(response, programList, totalProgramDTOList, year);
+            if(programId==null){
+                List<TotalProgramDTO> totalProgramDTOList = programService.getTotalProgram(year);
+                reportService.createTotalAllProgram(response, programList, totalProgramDTOList, year);
+            } else {
+
+            }
         } catch (Exception e){
             e.printStackTrace();
         }
