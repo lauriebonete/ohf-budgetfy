@@ -39,7 +39,7 @@
                     <div class="dropdown-pane bottom" id="user-dropdown" data-dropdown data-close-on-click="true" data-auto-focus="true">
                         <label class="text-left">Logged In:</label>
                         <label class="middle">reeseypeasy</label>
-                        <a class="button alert text-left">Logout <i class="fa fa-sign-out" aria-hidden="true"></i></a>
+                        <a href="/budgetfy/logout" class="button alert text-left">Logout <i class="fa fa-sign-out" aria-hidden="true"></i></a>
                     </div>
                 </div>
             </div>
@@ -289,7 +289,7 @@
                                         <td>{{particular.program.programName}}</td>
                                         <td>{{particular.activity.activityName}}</td>
                                         <td>{{particular.expense}}</td>
-                                        <td ng-click="downloadAttachment(particular.receipt.id)"><a class="button success" ng-if="particular.receipt != null"><i class="fa fa-file-image-o" aria-hidden="true"></i></a></td>
+                                        <td><a class="button success" ng-if="particular.receipt != null" ng-click="downloadAttachment(particular.receipt.id)"><i class="fa fa-file-image-o" aria-hidden="true"></i></a></td>
                                         <td data-open="delete-particular" ng-click="removeParticularOnAdd(particular)"><a class="button alert"><i class="fa fa-minus"></i></a></td>
                                     </tr>
                                 </tbody>
@@ -592,7 +592,7 @@
                                     <td data-toggle="update-expense-form">{{particular.activity.program.programName}}</td>
                                     <td data-toggle="update-expense-form">{{particular.activity.activityName}}</td>
                                     <td data-toggle="update-expense-form">{{particular.displayExpense}}</td>
-                                    <td ng-click="downloadAttachment(particular.receiptId)"><a class="button success" ng-if="particular.receiptId != null"><i class="fa fa-file-image-o" aria-hidden="true"></i></a></td>
+                                    <td><a class="button success" ng-if="particular.receiptId != null" ng-click="downloadAttachment(particular.receiptId)"><i class="fa fa-file-image-o" aria-hidden="true"></i></a></td>
                                     <td ng-click="removeParticular(particular.id)"><a class="button alert"><i class="fa fa-minus"></i></a></td>
                                 </tr>
                                 </tbody>
@@ -701,14 +701,25 @@
                     url:"/budgetfy/file/upload",
                     multiple:false,
                     dragDrop:false,
-                    maxFileCount:1,
                     showPreview:true,
+                    maxFileCount:1,
                     previewHeight: "100px",
                     previewWidth: "100px",
                     showDelete: true,
                     statusBarWidth:600,
                     onSuccess:function(files,data,xhr,pd){
                         var preview = $("div#add-particular-receipt").parent(".columns").find("img.ajax-file-upload-preview");
+                        /*var files = $(preview).attr("data-upload-id");
+                         if(files == "" ||
+                         files == null ||
+                         files == undefined){
+                         files = "";
+                         files += data[0].id;
+                         } else {
+                         files += data[0].id+","
+                         }
+
+                         $(preview).attr("data-upload-id",files);*/
                         $(preview).attr("data-upload-id",data[0].id);
                     }
                 });
@@ -717,14 +728,25 @@
                     url:"/budgetfy/file/upload",
                     multiple:false,
                     dragDrop:false,
-                    maxFileCount:1,
                     showPreview:true,
+                    maxFileCount:1,
                     previewHeight: "100px",
                     previewWidth: "100px",
                     showDelete: true,
                     statusBarWidth:600,
                     onSuccess:function(files,data,xhr,pd){
                         var preview = $("div#add-particular-receipt-update").parent(".columns").find("img.ajax-file-upload-preview");
+                        /*var files = $(preview).attr("data-upload-id");
+                         if(files == "" ||
+                         files == null ||
+                         files == undefined){
+                         files = "";
+                         files += data[0].id;
+                         } else {
+                         files += data[0].id+","
+                         }
+
+                         $(preview).attr("data-upload-id",files);*/
                         $(preview).attr("data-upload-id",data[0].id);
                     }
                 });
@@ -733,14 +755,25 @@
                     url:"/budgetfy/file/upload",
                     multiple:false,
                     dragDrop:false,
-                    maxFileCount:1,
                     showPreview:true,
                     previewHeight: "100px",
                     previewWidth: "100px",
                     showDelete: true,
+                    maxFileCount:1,
                     statusBarWidth:600,
                     onSuccess:function(files,data,xhr,pd){
                         var preview = $("div#update-particular-receipt").parent(".columns").find("img.ajax-file-upload-preview");
+                        /*var files = $(preview).attr("data-upload-id");
+                         if(files == "" ||
+                         files == null ||
+                         files == undefined){
+                         files = "";
+                         files += data[0].id;
+                         } else {
+                         files += data[0].id+","
+                         }
+
+                         $(preview).attr("data-upload-id",files);*/
                         $(preview).attr("data-upload-id",data[0].id);
                     }
                 });
