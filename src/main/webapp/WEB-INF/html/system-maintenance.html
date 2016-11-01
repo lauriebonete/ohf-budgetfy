@@ -81,7 +81,7 @@
                                     <tr>
                                         <th>Last Name</th>
                                         <th>First Name</th>
-                                        <th>Middle Initial</th>
+                                        <th>Role</th>
                                         <th>Username</th>
                                         <th>Actions</th>
                                     </tr>
@@ -90,7 +90,8 @@
                                     <tr dir-paginate="user in userList | filter : userFilter | itemsPerPage: userMaxSize" pagination-id="user-list">
                                         <td ng-click="viewUser(user.id)">{{user.lastName}}</td>
                                         <td ng-click="viewUser(user.id)">{{user.firstName}}</td>
-                                        <td ng-click="viewUser(user.id)">{{user.middleName}}</td>
+                                        <!--<td ng-click="viewUser(user.id)">{{user.middleName}}</td>-->
+                                        <td></td>
                                         <td ng-click="viewUser(user.id)">{{user.username}}</td>
                                         <td>
                                             <a class="button alert"><i class="fa fa-minus"></i></a>
@@ -120,7 +121,7 @@
                             <div class="row">
                                 <div class="small-5 columns">
                                     <label>First Name
-                                        <input type="text" placeholder="First Name" ng-model="createUser.firstName" required>
+                                        <input type="text" placeholder="First Name" class="clear-after" ng-model="createUser.firstName" required>
                                         <span class="form-error">
                                           Yo, you had better fill this out, it's required.
                                         </span>
@@ -128,7 +129,7 @@
                                 </div>
                                 <div class="small-2 columns">
                                     <label>Middle Name
-                                        <input type="text" placeholder="Middle Name" ng-model="createUser.middleName">
+                                        <input type="text" placeholder="Middle Name" class="clear-after" ng-model="createUser.middleName">
                                         <span class="form-error">
                                           Yo, you had better fill this out, it's required.
                                         </span>
@@ -136,7 +137,7 @@
                                 </div>
                                 <div class="small-5 columns">
                                     <label>Last Name
-                                        <input type="text" placeholder="Last Name" ng-model="createUser.lastName" required>
+                                        <input type="text" placeholder="Last Name" class="clear-after" ng-model="createUser.lastName" required>
                                         <span class="form-error">
                                           Yo, you had better fill this out, it's required.
                                         </span>
@@ -146,7 +147,7 @@
                             <div class="row">
                                 <div class="small-5 columns">
                                     <label>Username
-                                        <input type="text" placeholder="Username" ng-model="createUser.username" required>
+                                        <input type="text" placeholder="Username" class="clear-after" ng-model="createUser.username" required>
                                         <span class="form-error">
                                           Yo, you had better fill this out, it's required.
                                         </span>
@@ -156,7 +157,7 @@
                             <div class="row">
                                 <div class="small-5 columns">
                                     <label>Password
-                                        <input type="password" placeholder="Password" ng-model="createUser.newPassword" required id="pass">
+                                        <input type="password" placeholder="Password" class="clear-after" ng-model="createUser.newPassword" required id="pass">
                                         <span class="form-error">
                                             Yo, you had better fill this out, it's required.
                                         </span>
@@ -166,7 +167,7 @@
                             <div class="row">
                                 <div class="small-5 columns">
                                     <label>Confirm Password
-                                        <input type="password" placeholder="Confirm Password" ng-model="createUser.confirmPassword" required data-equalto="pass">
+                                        <input type="password" placeholder="Confirm Password" class="clear-after" ng-model="createUser.confirmPassword" required data-equalto="pass">
                                         <span class="form-error">
                                           Hey, passwords are supposed to match!
                                         </span>
@@ -188,7 +189,7 @@
                                     <a class="button alert expanded cancel-btn">Cancel</a>
                                 </div>
                                 <div class="small-3 columns">
-                                    <button type="submit" class="button success expanded">Save</button>
+                                    <button type="submit" id="create-user-btn" class="button success expanded">Save</button>
                                 </div>
                             </div>
                         </form>
@@ -264,7 +265,9 @@
                             </div>
                             <div class="row">
                                 <div class="small-5 columns">
-                                    <selectize config='userRoleConfig' name="userRole" options='userRoleList' ng-model="selectedUser.userRoleList" ng-required="true"></selectize>
+                                    <label>Roles
+                                        <selectize config='userRoleConfig' name="userRole" options='userRoleList' ng-model="selectedUser.userRoleList" ng-required="true"></selectize>
+                                    </label>
                                 </div>
                                 <span class="form-error">
                                     Yo, you had better fill this out, it's required.

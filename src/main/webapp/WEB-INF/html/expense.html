@@ -212,7 +212,7 @@
                             <label class="text-right middle">Total Amount</label>
                         </div>
                         <div class="small-3 columns">
-                            <input class="comma-separator" type="text" ng-model="createVoucher.totalAmount">
+                            <input class="comma-separator numeric" type="text" ng-model="createVoucher.totalAmount">
                         </div>
                     </div>
                     <div class="row">
@@ -244,7 +244,7 @@
                                 <label class="text-right middle">Expense Amount</label>
                             </div>
                             <div class="small-4 columns end">
-                                <input type="text" class="clear-after comma-separator" ng-model="addParticular.expense">
+                                <input type="text" class="clear-after comma-separator numeric" ng-model="addParticular.expense">
                             </div>
                         </div>
                         <div class="row">
@@ -471,7 +471,7 @@
                             <label class="text-right middle">Total Amount</label>
                         </div>
                         <div class="small-3 columns end">
-                            <input type="text" class="comma-separator" ng-model="selectedVoucher.totalAmount">
+                            <input type="text" class="comma-separator numeric" ng-model="selectedVoucher.totalAmount">
                         </div>
                     </div>
                     <div class="row">
@@ -503,7 +503,7 @@
                                 <label class="text-right middle">Expense Amount</label>
                             </div>
                             <div class="small-4 columns end">
-                                <input type="text" class="comma-separator" ng-model="addParticular.expense">
+                                <input type="text" class="comma-separator numeric" ng-model="addParticular.expense">
                             </div>
                         </div>
                         <div class="row">
@@ -547,7 +547,7 @@
                                 <label class="text-right middle">Expense Amount</label>
                             </div>
                             <div class="small-4 columns end">
-                                <input type="text" class="comma-separator" ng-model="selectedParticular.expense"/>
+                                <input type="text" class="comma-separator numeric" ng-model="selectedParticular.expense"/>
                             </div>
                         </div>
                         <div class="row">
@@ -772,6 +772,8 @@
             }).on("keyup", ".comma-separator", function(){
                 $(this).val(evey.addThousandsSeparator($(this).val()));
                 $(this).trigger("change");
+            }).on("input", ".numeric", function() {
+                this.value = this.value.replace(/[^\d\.]/g,'');
             });
 
 

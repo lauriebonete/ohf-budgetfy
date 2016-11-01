@@ -105,6 +105,9 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                     $("#user-role-main").removeClass("hide");
                     $("#user-role-create").addClass("hide");
                     $scope.userRoleList.unshift(response.result);
+                    $('#role-tree input:checkbox:checked').removeAttr('checked'); /*Jim Nov1*/
+                    $scope.createUserRole.description = '';/*Jim Nov1*/
+                    $scope.createUserRole.roleName = ''; /*Jim Nov1*/
                     evey.promptSuccess(response.message);
                 } else{
                     evey.promptAlert(response.message);
@@ -245,6 +248,8 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                     $("#user-view").addClass("hide");
                     $("#user-update").addClass("hide");
                     $scope.userList.push(response.result);
+                    $scope.createUser.userRole = 0;  /*Jim Nov1*/
+                    $('input.clear-after').val(''); /*Jim Nov1*/
                     evey.promptSuccess(response.message);
                 } else {
                     evey.promptAlert(response.message);
@@ -312,6 +317,10 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                     $("div#reference-look-up-main").removeClass("hide");
                     $("div#reference-look-up-create").addClass("hide");
                     $scope.referenceLookUpList.unshift(response.result);
+                    $scope.createReference.category =0;
+                    $scope.createReference.key = '';
+                    $scope.createReference.value ='';
+                    $scope.createReference.numberValue ='';
                     evey.promptSuccess(response.message);
                 } else {
                     evey.promptAlert(response.message);
@@ -462,6 +471,8 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             MotionUI.animateOut($('div#add-exist-expense-form'), 'slide-out-up');
             $scope.selectedVoucher.particulars.unshift(particular);
             $scope.computeVarianceUpdate();
+            $scope.addParticular.addParticularProgramModel = 0;/*JIM nov 1*/
+            $scope.addParticular.addParticularActivityModel = 0;/*JIM nov 1*/
         };
 
         $scope.computeVarianceUpdate = function(){
@@ -679,6 +690,9 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             activityService.removeActivityFromProgram(activityId).then(function (results){
                 if(results.status){
                     $scope.selectedProgram.activities = $filter('filter')($scope.selectedProgram.activities , { id: ('!' + activityId) });
+                    evey.promptSuccess(results.message); /*JIM nov1*/
+                } else{
+                    evey.promptAlert(results.message); /*JIM nov1*/
                 }
 
                 console.log(results);
@@ -708,6 +722,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                 accessSummary:""
             };
             $scope.addedUserList.push(user);
+            $scope.userSelectizeModel = 0;
         };
 
         $scope.removeUserFromList = function(id){
@@ -888,6 +903,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
         };
 
         $scope.updateActivity = function(){
+            $scope.selectedActivity.amount = Number($scope.selectedActivity.amount.replace(/,/g, '')); /*JIM Nov1*/
             var foundType = $scope.activityTypeList.filter(function(type){
                return (type.id == $scope.selectedActivity.activityTypeId);
             });
@@ -906,8 +922,11 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             $scope.selectedActivity.program = {id:$scope.selectedActivity.programId};
             activityService.addUpdateActivity($scope.selectedActivity).then(function(data){
                 $scope.selectedProgram.activities.filter(function(activity){
+                    console.log(activity); /*JIM 20161101*/
                     if(activity.id==data.data.result.id){
                         activity == data.data.result;
+                        MotionUI.animateOut($('#update-activity-form'), 'slide-out-up'); /*JIM 20161101*/
+                        evey.promptSuccess(data.data.message); /*JIM 20161101*/
                     }
                 });
             });
@@ -930,10 +949,17 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                 activityCodeName:activityCodeDisplay,
                 program: {id:$scope.selectedProgram.id}
             };
-            activityService.addUpdateActivity(activityObject).then(function(data){
-                MotionUI.animateOut($('#activity-form'), 'slide-out-up');
-                $scope.selectedProgram.activities.unshift(data.data.result);
+            activityService.addUpdateActivity(activityObject).then(function (data){
+                console.log(data);
+                if(data.status){
+                    MotionUI.animateOut($('#activity-form'), 'slide-out-up');
+                    $scope.selectedProgram.activities.unshift(data.data.result);
+                    evey.promptSuccess(data.data.message);
+                } else {
+                    evey.promptAlert(data.data.message);
+                }
             });
+            $scope.activityTypeSelectizeModel = 0; /*JIM NOV1*/
         };
 
         $scope.addedActivityList = [];
@@ -958,6 +984,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             $.each($scope.addedActivityList, function(i, activity){
                 $scope.remainingBudget -= activity.amount;
             });
+            $scope.activityTypeSelectizeModel = 0; /*JIM nov1*/
         };
 
         $scope.removeAddedActivity = function(id){
