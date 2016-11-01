@@ -160,16 +160,16 @@
                 <selectize data-list="false" data-attr="id" config='userSelectConfig' options='allUsersList' ng-model="userSelectizeModel"></selectize>
               </div>
               <div class="small-1 columns text-center">
-                 <input id="read-access" type="checkbox"><label for="read-access"></label>
+                 <input id="read-access" class="uncheck" type="checkbox"><label for="read-access"></label>
               </div>
               <div class="small-1 columns text-center">
-                 <input id="write-access" type="checkbox"><label for="write-access"></label>
+                 <input id="write-access" class="uncheck" type="checkbox"><label for="write-access"></label>
               </div>
               <div class="small-1 columns text-center">
-                 <input id="update-access" type="checkbox"><label for="update-access"></label>
+                 <input id="update-access" class="uncheck" type="checkbox"><label for="update-access"></label>
               </div>
               <div class="small-1 columns text-center">
-                 <input id="delete-access" type="checkbox"><label for="delete-access"></label>
+                 <input id="delete-access" class="uncheck" type="checkbox"><label for="delete-access"></label>
               </div>
               <div class="small-1 columns end">
                 <a class="button success float-right" id="add-user-template" ng-click="addUser()"><i class="fa fa-plus"></i></a>
@@ -207,7 +207,7 @@
                 <label for="activity-budget" class="middle">Budget</label>
               </div>
               <div class="small-3 columns">
-                <input class="clear-after" type="text" id="activity-budget" placeholder="Budget">
+                <input class="clear-after numeric" type="text" id="activity-budget" placeholder="Budget">
               </div>
               <div class="small-2 columns">
                 <label class="text-right middle">Activity Type</label>
@@ -244,7 +244,7 @@
                                 <th>Activity Name</th>
                                 <th>Type</th>
                                 <th>Budget</th>
-                                <th>Budget</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -405,11 +405,13 @@
                 return false;
             }
         }).on("input", ".numeric", function() {
-            this.value = this.value.replace(/[^\d\.\-]/g,'');
+            this.value = this.value.replace(/[^\d\.]/g,'');
         }).on("click", "#create-program", function() {
             $("#create-program").attr('disabled', true);
         }).on("click","#add-activity-btn",function() {
             $('input.clear-after').val('');
+        }).on("click","#add-user-template",function() {
+            $('.uncheck').removeAttr('checked');
         });
 
 

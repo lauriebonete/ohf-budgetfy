@@ -21,7 +21,7 @@
         <script src="angular/budgetfy-angular.js"></script>
         <script src="angular/dirPagination.js"></script>
         <script src="angular/ngStorage.min.js"></script>
-        <script src="js/toastr.js"></script>
+
     </head>
     <body ng-app="budgetfyApp" ng-controller="programController">
         <section id="header">
@@ -233,7 +233,7 @@
                                         <label for="activity-budget" class="middle">Budget</label>
                                     </div>
                                     <div class="small-3 columns">
-                                        <input type="number" id="activity-budget" placeholder="Budget">
+                                        <input type="text" class="clear-after comma-separator numeric" id="activity-budget" placeholder="Budget">
                                     </div>
                                     <div class="small-2 columns">
                                         <label class="text-right middle">Activity Type</label>
@@ -283,7 +283,7 @@
                                         <label for="activity-budget" class="middle">Budget</label>
                                     </div>
                                     <div class="small-3 columns">
-                                        <input type="number" placeholder="Budget" ng-model="selectedActivity.amount">
+                                        <input type="text" class="comma-separator numeric" placeholder="Budget" ng-model="selectedActivity.amount">
                                     </div>
                                     <div class="small-2 columns">
                                         <label class="text-right middle">Activity Type</label>
@@ -337,21 +337,21 @@
                                         </tbody>
                                     </table>
                                     <div class="tiny reveal" id="delete-activity" data-reveal>
-                                        <h5 class="middle">Are you sure you want to delete user?</h5>
+                                        <h5 class="middle">Are you sure you want to delete activity?</h5>
                                         <button class="close-button" data-close aria-label="Close modal" type="button">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                         <div class="row">
-                                            <div class="small-3 columns">
+                                            <div class="small-2 columns">
                                                 <label class="text-right middle"></label>
                                             </div>
-                                            <div class="small-3 columns">
-                                                <a class="button success expanded" data-close>Yes</a>
+                                            <div class="small-4 columns">
+                                                <a class="button success expanded" data-close>Yes <i class="fa fa-check" aria-hidden="true"></i></a>
                                             </div>
-                                            <div class="small-3 columns">
-                                                <a class="button alert expanded" data-close>No</a>
+                                            <div class="small-4 columns">
+                                                <a class="button alert expanded" data-close>No <i class="fa fa-times" aria-hidden="true"></i></a>
                                             </div>
-                                            <div class="small-3 columns">
+                                            <div class="small-2 columns">
                                                 <label class="text-right middle"></label>
                                             </div>
                                         </div>
@@ -465,6 +465,7 @@
     <script src="js/Chart.min.js"></script>
     <script src="js/motion-ui.min.js"></script>
     <script src="js/jquery-ui.min.js"></script>
+    <script src="js/toastr.js"></script>
     <script>
         $(document).foundation();
 
@@ -477,6 +478,13 @@
         }).on("click", ".program-expense-row", function(){
             $("#particulars-table").removeClass("hide");
             $("#expense-table").addClass("hide");
+        }).on("click","#add-activity-btn",function() {
+            $('input.clear-after').val('');
+        }).on("keyup", ".comma-separator", function(){
+            $(this).val(evey.addThousandsSeparator($(this).val()));
+            $(this).trigger("change");
+        }).on("input", ".numeric", function() {
+            this.value = this.value.replace(/[^\d\.]/g,'');
         });
 
         $("#return-btn").click(function(){
