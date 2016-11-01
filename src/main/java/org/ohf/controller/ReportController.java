@@ -3,6 +3,7 @@ package org.ohf.controller;
 import org.evey.bean.ReferenceLookUp;
 import org.evey.service.ReferenceLookUpService;
 import org.evey.utility.DateUtil;
+import org.ohf.bean.Activity;
 import org.ohf.bean.DTO.*;
 import org.ohf.bean.Program;
 import org.ohf.bean.Voucher;
@@ -105,7 +106,7 @@ public class ReportController {
 
 
         String year = request.getParameter("year");
-        Long programId = !request.getParameter("programId").equals(0)  ? Long.parseLong(request.getParameter("programId")) : null;
+        Long programId = !request.getParameter("programId").equals("0")  ? Long.parseLong(request.getParameter("programId")) : null;
         String programName = request.getParameter("programName");
 
 
@@ -120,17 +121,19 @@ public class ReportController {
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         response.setHeader("Content-Disposition", "attachment; filename="+fileName.toString());
 
-        Program lookFor = new Program();
-        lookFor.setYear(year);
-
-        List<Program> programList = programService.findEntity(lookFor);
-
         try {
             if(programId==null){
+                Program lookFor = new Program();
+                lookFor.setYear(year);
+
+                List<Program> programList = programService.findEntity(lookFor);
                 List<TotalProgramDTO> totalProgramDTOList = programService.getTotalProgram(year);
                 reportService.createTotalAllProgram(response, programList, totalProgramDTOList, year);
             } else {
-
+                List<Activity> activityList = programService.getAllActivityOfProgram(programId);
+                List<TotalProgramDTO> totalProgramDTOList = programService.getTotalPerProgram(year, programId);
+                reportService.createTotalPerProgram(response, activityList, totalProgramDTOList, year, programName);
+                System.out.print("x");
             }
         } catch (Exception e){
             e.printStackTrace();

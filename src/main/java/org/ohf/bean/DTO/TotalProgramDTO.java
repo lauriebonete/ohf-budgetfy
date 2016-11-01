@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 public class TotalProgramDTO {
     private Long programId;
     private String programName;
+    private Long activityId;
     private Integer month;
     private BigDecimal expense;
 
@@ -41,6 +42,14 @@ public class TotalProgramDTO {
 
     public void setExpense(BigDecimal expense) {
         this.expense = expense;
+    }
+
+    public Long getActivityId() {
+        return activityId;
+    }
+
+    public void setActivityId(Long activityId) {
+        this.activityId = activityId;
     }
 
     @Override

@@ -23,6 +23,7 @@ public interface BaseEntityDao<T extends BaseEntity, Id extends Serializable> {
     public T load(Long id);
     public List<T> findEntityByNamedQuery(String name);
     public List<? extends Object> findEntityByNamedQuery(String queryName, Class classType);
+    public List<? extends Object> findEntityByNamedQuery(String queryName, Map<String, Object> parameters, Class classType);
     public List<T> findEntityByNamedQuery(String name, Map<String, Object> parameters);
     public void executeUpdateByNamedQuery(String name, Map<String, Object> parameters);
 

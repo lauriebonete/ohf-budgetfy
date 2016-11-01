@@ -44,7 +44,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
 
             var year = $scope.currentYear;
             var programId = $scope.selectedProgram != undefined ? $scope.selectedProgram : 0;
-            var programName = $("#selected-program").val() != "" ? $("#selected-program").val() : "ALL_PROGRAM";
+            var programName = $("#selected-program option:selected").text() != "" ? $("#selected-program option:selected").text() : "ALL_PROGRAM";
 
             window.location.href = evey.getHome()+"/budgetfy/reports/program-total?year="+year+"&programId="+programId+"&programName="+programName;
         };

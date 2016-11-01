@@ -27,6 +27,7 @@ public class ProgramDaoJdbcImpl implements ProgramDaoJdbc {
 
     private static StringBuilder GET_PROGRAM_ACTIVITY = new StringBuilder();
     private static StringBuilder GET_TOTAL_PROGRAM = new StringBuilder();
+    private static StringBuilder GET_TOTAL_PER_PROGRAM = new StringBuilder();
 
     static {
         GET_PROGRAM_ACTIVITY.append("SELECT p.ID AS PROGRAM_ID, p.PROGRAM_NAME AS PROGRAM_NAME, a.ID AS ACTIVITY_ID, a.ACTIVITY_NAME AS ACTIVITY_NAME ")
@@ -43,6 +44,19 @@ public class ProgramDaoJdbcImpl implements ProgramDaoJdbc {
                 .append("       JOIN PROGRAM p_ ON a.PROGRAM_ID = p_.ID ")
                 .append("WHERE  v.VOUCHER_YEAR = :year ")
                 .append("GROUP  BY p_.ID, Month(v.VC_DATE) ");
+
+        GET_TOTAL_PER_PROGRAM.append("SELECT Sum(p.EXPENSE)   AS EXPENSE, ")
+                .append("       a.ID             AS ACTIVITY_ID, ")
+                .append("       Month(v.VC_DATE) AS VC_DATE ")
+                .append("FROM   VOUCHER v ")
+                .append("       JOIN PARTICULAR p ON v.ID = p.VOUCHER_ID ")
+                .append("       JOIN ACTIVITY a ON p.ACTIVITY_ID = a.ID ")
+                .append("       JOIN PROGRAM p_ ON a.PROGRAM_ID = p_.ID ")
+                .append("WHERE  p_.ID = :programId ")
+                .append("       AND v.VOUCHER_YEAR = :year ")
+                .append("GROUP  BY a.ID, ")
+                .append("          Month(v.VC_DATE)  ");
+
     }
 
     @Override
@@ -66,25 +80,39 @@ public class ProgramDaoJdbcImpl implements ProgramDaoJdbc {
 
     @Override
     public List<TotalProgramDTO> getTotalProgram(String year) {
-        try {
-            final NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
-            final Map<String, Object> params = new HashMap<>();
-            params.put("year", year);
-            List<TotalProgramDTO> results = template.query(GET_TOTAL_PROGRAM.toString(), params, new RowMapper<TotalProgramDTO>() {
-                @Override
-                public TotalProgramDTO mapRow(ResultSet resultSet, int i) throws SQLException {
-                    TotalProgramDTO totalProgramDTO = new TotalProgramDTO();
-                    totalProgramDTO.setProgramId(resultSet.getLong("PROGRAM_ID"));
-                    totalProgramDTO.setProgramName(resultSet.getString("PROGRAM_NAME"));
-                    totalProgramDTO.setExpense(resultSet.getBigDecimal("EXPENSE"));
-                    totalProgramDTO.setMonth(resultSet.getInt("VC_DATE"));
-                    return totalProgramDTO;
-                }
-            });
-            return results;
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-        return null;
+        final NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
+        final Map<String, Object> params = new HashMap<>();
+        params.put("year", year);
+        List<TotalProgramDTO> results = template.query(GET_TOTAL_PROGRAM.toString(), params, new RowMapper<TotalProgramDTO>() {
+            @Override
+            public TotalProgramDTO mapRow(ResultSet resultSet, int i) throws SQLException {
+                TotalProgramDTO totalProgramDTO = new TotalProgramDTO();
+                totalProgramDTO.setProgramId(resultSet.getLong("PROGRAM_ID"));
+                totalProgramDTO.setProgramName(resultSet.getString("PROGRAM_NAME"));
+                totalProgramDTO.setExpense(resultSet.getBigDecimal("EXPENSE"));
+                totalProgramDTO.setMonth(resultSet.getInt("VC_DATE"));
+                return totalProgramDTO;
+            }
+        });
+        return results;
+    }
+
+    @Override
+    public List<TotalProgramDTO> getTotalPerProgram(String year, Long programId) {
+        final NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
+        final Map<String, Object> params = new HashMap<>();
+        params.put("year", year);
+        params.put("programId", programId);
+        List<TotalProgramDTO> results = template.query(GET_TOTAL_PER_PROGRAM.toString(), params, new RowMapper<TotalProgramDTO>() {
+            @Override
+            public TotalProgramDTO mapRow(ResultSet resultSet, int i) throws SQLException {
+                TotalProgramDTO totalProgramDTO = new TotalProgramDTO();
+                totalProgramDTO.setActivityId(resultSet.getLong("ACTIVITY_ID"));
+                totalProgramDTO.setExpense(resultSet.getBigDecimal("EXPENSE"));
+                totalProgramDTO.setMonth(resultSet.getInt("VC_DATE"));
+                return totalProgramDTO;
+            }
+        });
+        return results;
     }
 }

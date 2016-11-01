@@ -215,9 +215,19 @@ public class ReportServiceImpl implements ReportService {
 
             programIndex.put(program.getId(), columnIndex);
 
+            Random r = new Random();
+            XSSFCellStyle style = workbook.createCellStyle();
+            XSSFColor myColor = new XSSFColor(new Color(r.nextInt(128)+128, r.nextInt(128)+128,r.nextInt(128)+128));
+            style.setFillForegroundColor(myColor);
+            style.setFillPattern(CellStyle.SOLID_FOREGROUND);
+            style.setFont(boldFont);
+            style.setAlignment(XSSFCellStyle.ALIGN_CENTER);
+            style.setVerticalAlignment(VerticalAlignment.CENTER);
+            style.setWrapText(true);
+
             cell = row.createCell(columnIndex);
             cell.setCellValue(program.getProgramName());
-            cell.setCellStyle(headerStyle);
+            cell.setCellStyle(style);
             sheet.setColumnWidth(columnIndex, 4500);
             columnIndex++;
         }
@@ -261,6 +271,96 @@ public class ReportServiceImpl implements ReportService {
             _log.error(exception.getMessage());
         } finally {
             out.close();
+        }
+    }
+
+    @Override
+    public void createTotalPerProgram(HttpServletResponse response, List<Activity> activityList, List<TotalProgramDTO> totalProgramDTOList, String year, String programName) {
+        XSSFWorkbook workbook = new XSSFWorkbook();
+        XSSFSheet sheet = workbook.createSheet("Program");
+
+        XSSFCellStyle thousandSeparator = workbook.createCellStyle();
+        thousandSeparator.setDataFormat(workbook.getCreationHelper().createDataFormat().getFormat("#,##0.00"));
+
+        XSSFCellStyle headerStyle = sheet.getWorkbook().createCellStyle();
+        XSSFFont boldFont = sheet.getWorkbook().createFont();
+        boldFont.setBold(true);
+
+        headerStyle.setFont(boldFont);
+        headerStyle.setAlignment(XSSFCellStyle.ALIGN_CENTER);
+        headerStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+        headerStyle.setWrapText(true);
+
+        XSSFRow row = sheet.createRow(0);
+        XSSFCell cell = row.createCell(0);
+        cell.setCellValue(programName);
+        cell.setCellStyle(headerStyle);
+
+        sheet.setColumnWidth(0, 4500);
+
+        int columnIndex=1;
+        Map<Long, Integer> activityIndex = new HashMap<>();
+        for(Activity activity: activityList){
+            cell = row.createCell(columnIndex);
+            cell.setCellValue(activity.getActivityName());
+            cell.setCellStyle(headerStyle);
+            activityIndex.put(activity.getId(), columnIndex);
+            sheet.setColumnWidth(columnIndex, 4500);
+            columnIndex++;
+        }
+        cell = row.createCell(columnIndex);
+        cell.setCellValue("TOTAL");
+        cell.setCellStyle(headerStyle);
+        sheet.setColumnWidth(columnIndex, 4500);
+
+        for(int i=0, j=1; i<12; i++, j++){
+            String monthName = new DateFormatSymbols().getMonths()[i];
+            row = sheet.createRow(j);
+            cell = row.createCell(0);
+            cell.setCellValue(monthName);
+            cell.setCellStyle(headerStyle);
+            for(TotalProgramDTO totalProgramDTO: totalProgramDTOList){
+                if(totalProgramDTO.getMonth()==i+1){
+                    int index = activityIndex.get(totalProgramDTO.getActivityId());
+                    cell = row.createCell(index);
+                    cell.setCellValue(totalProgramDTO.getExpense().doubleValue());
+                    cell.setCellStyle(thousandSeparator);
+                }
+            }
+
+            StringBuilder buldier = new StringBuilder();
+            buldier.append("SUM(B"+ (j+1) )
+                    .append(":"+CellReference.convertNumToColString(columnIndex-1))
+                    .append((j+1) + ")");
+
+            cell = row.createCell(activityList.size()+1);
+            cell.setCellType(XSSFCell.CELL_TYPE_FORMULA);
+            cell.setCellFormula(buldier.toString());
+            cell.setCellStyle(thousandSeparator);
+        }
+
+        row = sheet.createRow(13);
+        for(int i=1; i<=activityList.size()+1;i++){
+            StringBuilder buldier = new StringBuilder();
+            buldier.append("SUM("+CellReference.convertNumToColString(i) + "2" )
+                    .append(":" + CellReference.convertNumToColString(i))
+                    .append("13)");
+
+            cell = row.createCell(i);
+            cell.setCellType(XSSFCell.CELL_TYPE_FORMULA);
+            cell.setCellFormula(buldier.toString());
+            cell.setCellStyle(thousandSeparator);
+        }
+
+
+        ServletOutputStream out = null;
+        try {
+            out = response.getOutputStream();
+            workbook.write(out);
+            out.close();
+        } catch (IOException exception){
+            _log.error(exception.getMessage());
+        } finally {
         }
     }
 

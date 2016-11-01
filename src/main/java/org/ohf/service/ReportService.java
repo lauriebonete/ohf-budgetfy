@@ -1,5 +1,6 @@
 package org.ohf.service;
 
+import org.ohf.bean.Activity;
 import org.ohf.bean.DTO.*;
 import org.ohf.bean.Program;
 
@@ -15,4 +16,5 @@ public interface ReportService {
     public List<ProgramHelper> prepareProgramHelper(List<ProgramActivityDTO> programActivityDTOs) throws Exception;
     public void createDisbursementByDateRange(HttpServletResponse response, Map<String, List<PeriodHelper>> periodHelperMap, List<ProgramHelper> programHelperList) throws Exception;
     public void createTotalAllProgram(HttpServletResponse response, List<Program> programList, List<TotalProgramDTO> totalProgramDTOList, String year) throws Exception;
+    public void createTotalPerProgram(HttpServletResponse response, List<Activity> activityList,List<TotalProgramDTO> totalProgramDTOList, String year, String programName);
 }
