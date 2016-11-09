@@ -981,10 +981,13 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             $scope.addedActivityList.unshift(activityObject);
 
             $scope.remainingBudget = parseInt($("#total-budget").val().replace(/\,/g,''));
+
             $.each($scope.addedActivityList, function(i, activity){
                 $scope.remainingBudget -= activity.amount;
+                /*$scope.remainingBudget = evey.addThousandsSeparator($scope.remainingBudget); /*JIM Nov2*/
             });
             $scope.activityTypeSelectizeModel = 0; /*JIM nov1*/
+
         };
 
         $scope.removeAddedActivity = function(id){

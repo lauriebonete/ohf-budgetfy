@@ -57,19 +57,13 @@
         </div>
     </div>
     <div class="row">
-        <div class="small-12 columns end">
+        <div class="small-12 columns">
             <label class="text-right middle"></label>
         </div>
     </div>
     <div class="row">
-        <div class="small-1 columns">
-            <label class="text-right middle"></label>
-        </div>
-        <div class="small-6 columns" id="pie-all-prog" style="width:75%">
-            <canvas id="pie-all-prog-chart"></canvas>
-        </div>
-        <div class="small-5 columns end">
-            <label class="text-right middle"></label>
+        <div class="small-12 columns">
+            <div id="pie-all-prog-chart"></div>
         </div>
     </div>
     <div class="row">
@@ -104,162 +98,280 @@
     <script src="js/vendor/what-input.js"></script>
     <script src="js/vendor/foundation.min.js"></script>
     <script src="js/evey-1.0.js"></script>
-    <script src="js/Chart.min.js"></script>
+    <!--<script src="js/Chart.min.js"></script>-->
+    <script src="js/zingchart.min.js"></script>
     <script>
         $(document).foundation();
 
         $(document).ready(function(){
-            var pieChartData = {
-                labels: ["Admin", "CYP", "TestProg"],
-                datasets: [{
-                    backgroundColor: ["#F7464A","#00e600","#1a1aff"],
-                    data: [3000,1000,5000]
-                }]
+            var myConfig = {
 
-            };
-            var pieChartData2 = {
-                labels: ["Activity1", "Activity2", "Activity3", "Activity4", "Activity5"],
-                datasets: [{
-                    backgroundColor: ["#F7464A","#00e600","#1a1aff","#ffff00","#ff4da6"],
-                    data: [3000,1000,5000,99,10000]
-                }]
+                "graphset":[
+                    {
+                        "type": "pie",
+                        "x": 0,
+                        "y": 0,
+                        "width": "50%",
 
-            };
-
-            window.onload = function() {
-                var ctxPie = document.getElementById("pie-all-prog-chart").getContext("2d");
-                /*START - for showing percentage inside pie block*/
-                Chart.pluginService.register({
-                    afterDraw: function (chart, easing) {
-                        if (chart.config.options.showPercentage || chart.config.options.showLabel) {
-                            var self = chart.config;
-                            var ctx = chart.chart.ctx;
-
-                            ctx.font = '18px Arial';
-                            ctx.textAlign = "center";
-                            ctx.fillStyle = "#fff";
-
-                            self.data.datasets.forEach(function (dataset, datasetIndex) {
-                                var total = 0, //total values to compute fraction
-                                        labelxy = [],
-                                        offset = Math.PI / 2, //start sector from top
-                                        radius,
-                                        centerx,
-                                        centery,
-                                        lastend = 0; //prev arc's end line: starting with 0
-
-                                for (var val of dataset.data) { total += parseFloat(val); }
-
-                                var i = 0;
-                                var meta = dataset._meta[i];
-                                while(!meta) {
-                                    i++;
-                                    meta = dataset._meta[i];
-                                }
-
-                                var element;
-                                for(index = 0; index < meta.data.length; index++) {
-
-                                    element = meta.data[index];
-                                    radius = 0.9 * element._view.outerRadius - element._view.innerRadius;
-                                    centerx = element._model.x;
-                                    centery = element._model.y;
-                                    var thispart = dataset.data[index],
-                                            arcsector = Math.PI * (2 * thispart / total);
-                                    if (element.hasValue() && dataset.data[index] > 0) {
-                                        labelxy.push(lastend + arcsector / 2 + Math.PI + offset);
-                                    }
-                                    else {
-                                        labelxy.push(-1);
-                                    }
-                                    lastend += arcsector;
-                                }
-
-
-                                var lradius = radius * 3 / 4;
-                                for (var idx in labelxy) {
-                                    if (labelxy[idx] === -1) continue;
-                                    var langle = labelxy[idx],
-                                            dx = centerx + lradius * Math.cos(langle),
-                                            dy = centery + lradius * Math.sin(langle),
-                                            val = Math.round(dataset.data[idx] / total * 100);
-                                    if (chart.config.options.showPercentage)
-                                        ctx.fillText(val + '%', dx, dy);
-                                    else
-                                        ctx.fillText(chart.config.data.labels[idx], dx, dy);
-                                }
-                                ctx.restore();
-                            });
-                        }
-                    }
-                });
-                /*END - for showing percentage inside pie block*/
-                window.myPie = new Chart(ctxPie, {
-                    type: 'pie',
-                    data: pieChartData,
-                    options: {
-                        responsive: true,
-                        legend: {
-                            position: 'right'
+                        "title":{
+                            "text": "Budget (All Programs)",
+                            "align": "center",
+                            "fontColor": "#616161"
                         },
-                        title: {
-                            display: true,
-                            position: 'top',
-                            text: 'Budget (All Programs)'
-                        },
-                        showPercentage: true,
-                        tooltips: {
-                            callbacks: {
-                                label: function(tooltipItem, data) {
-                                    var allData = data.datasets[tooltipItem.datasetIndex].data;
-                                    var tooltipLabel = data.labels[tooltipItem.index];
-                                    var tooltipData = allData[tooltipItem.index];
-                                    var total = 0;
-                                    for (var i in allData) {
-                                        total += allData[i];
-                                    }
-                                    var tooltipPercentage = Math.round((tooltipData / total) * 100);
-                                    return tooltipLabel + ': ' + tooltipData + ' (' + tooltipPercentage + '%)';
-                                }
+                        "legend":{
+                            "text":"%t<br>",
+                            "width": 150,
+                            "verticalAlign": "middle",
+                            "borderWidth": 0,
+                            "toggleAction": "remove",
+                            "item":{
+                                "padding": 3,
+                                "borderRadius": 3,
+                                "fontColor": "#fff",
+                                "align": "left",
+                                "width": 120
+                            },
+                            "header":{
+                                "text":"Programs",
+                                "align": "center",
+                                "fontSize": 13,
+                                "bold": true,
+                                "fontColor": "#616161"
+                            },
+                            "itemOff":{
+                                "alpha": 0.7,
+                                "textAlpha": 1,
+                                "fontColor": "#616161",
+                                "textDecoration": "line-through",
+                                "lineWidth": 2
+                            },
+                            "markerOff":{
+                                "alpha": 0.2
                             }
                         },
-
-                    }
-                });
-
-                var ctxPie2 = document.getElementById("pie-prog-breakdown-chart").getContext("2d");
-                window.myPie = new Chart(ctxPie2, {
-                    type: 'pie',
-                    data: pieChartData2,
-                    options: {
-                        responsive: true,
-                        legend: {
-                            position: 'right'
+                        "plot":{
+                            "refAngle": 270,
+                            "decimals": 2,
+                            "align": "center",
+                            "thousandsSeparator": ",",
+                            "detach": false,
+                            "valueBox":{
+                                "decimals": 2
+                            },
+                            "animation":{
+                                "effect": 3,
+                                "method": 1,
+                                "sequence": 1,
+                                "onLegendToggle": false
+                            }
                         },
-                        title: {
-                            display: true,
-                            position: 'top',
-                            text: 'Activities Breakdown'
+                        "tooltip":{
+                            "text":"%t<br>P %v",
+                            "placement": "node:out",
+                            "offsetR": 2,
+                            "width": 110,
+                            "fontColor": "#fff",
+                            "borderRadius": 3,
+                            "bold": true,
+                            "align": "right"
                         },
-                        showPercentage: true,
-                        tooltips: {
-                            callbacks: {
-                                label: function(tooltipItem, data) {
-                                    var allData = data.datasets[tooltipItem.datasetIndex].data;
-                                    var tooltipLabel = data.labels[tooltipItem.index];
-                                    var tooltipData = allData[tooltipItem.index];
-                                    var total = 0;
-                                    for (var i in allData) {
-                                        total += allData[i];
-                                    }
-                                    var tooltipPercentage = Math.round((tooltipData / total) * 100);
-                                    return tooltipLabel + ': ' + tooltipData + ' (' + tooltipPercentage + '%)';
+                        "scale":{
+                            "sizeFactor": 1
+                        },
+                        "series" : [
+                            {
+                                "values" : [119968796],
+                                "target": "graph",
+                                "text":"Admin",
+                                "backgroundColor": "#4527A0",
+                                "legendText": "%t<br><b>P %v</b>",
+                                "legendMarker":{
+                                    "type": "circle",
+                                    "size": 4,
+                                    "borderColor": "#4527A0",
+                                    "borderWidth": 4,
+                                    "backgroundColor":"#fff"
+                                },
+                                "legendItem":{
+                                    "backgroundColor": "#4527A0"
+                                },
+                                "tooltip":{
+                                    "backgroundColor": "#4527A0"
+                                }
+                            },
+                            {
+                                "values" : [97503958],
+                                "target":"graph",
+                                "text":"CYP",
+                                "backgroundColor": "#1565C0",
+                                "legendText": "%t<br><b>P %v</b>",
+                                "legendMarker":{
+                                    "type": "circle",
+                                    "size": 4,
+                                    "borderColor": "#1565C0",
+                                    "borderWidth": 4,
+                                    "backgroundColor":"#fff"
+                                },
+                                "legendItem":{
+                                    "backgroundColor": "#1565C0"
+                                }
+                            },
+                            {
+                                "values" : [85948575],
+                                "target":"graph",
+                                "text":"Program 3",
+                                "backgroundColor": "#AD1457",
+                                "legendText": "%t<br><b>P %v</b>",
+                                "legendMarker":{
+                                    "type": "circle",
+                                    "size": 4,
+                                    "borderColor": "#AD1457",
+                                    "borderWidth": 4,
+                                    "backgroundColor":"#fff"
+                                },
+                                "legendItem":{
+                                    "backgroundColor": "#AD1457"
                                 }
                             }
-                        }
+                        ]
+                    },
+                    {
+                        "type": "pie",
+                        "x": "50%",
+                        "y": 0,
+                        "width": "50%",
+
+                        "title":{
+                            "text": "Activities (Per Program)",
+                            "align": "center",
+                            "fontColor": "#616161"
+                        },
+                        "legend":{
+                            "text":"%t<br>",
+                            "width": 150,
+                            "verticalAlign": "middle",
+                            "borderWidth": 0,
+                            "toggleAction": "remove",
+                            "item":{
+                                "padding": 3,
+                                "borderRadius": 3,
+                                "fontColor": "#fff",
+                                "align": "left",
+                                "width": 120
+                            },
+                            "header":{
+                                "text":"Activities",
+                                "align": "center",
+                                "fontSize": 13,
+                                "bold": true,
+                                "fontColor": "#616161"
+                            },
+                            "itemOff":{
+                                "alpha": 0.7,
+                                "textAlpha": 1,
+                                "fontColor": "#616161",
+                                "textDecoration": "line-through",
+                                "lineWidth": 2
+                            },
+                            "markerOff":{
+                                "alpha": 0.2
+                            }
+                        },
+                        "plot":{
+                            "refAngle": 270,
+                            "decimals": 2,
+                            "align": "center",
+                            "thousandsSeparator": ",",
+                            "detach": false,
+                            "valueBox":{
+                                "decimals": 2
+                            },
+                            "animation":{
+                                "effect": 3,
+                                "method": 1,
+                                "sequence": 1,
+                                "onLegendToggle": false
+                            }
+                        },
+                        "tooltip":{
+                            "text":"%t<br>P %v",
+                            "placement": "node:out",
+                            "offsetR": 2,
+                            "width": 110,
+                            "fontColor": "#fff",
+                            "borderRadius": 3,
+                            "bold": true,
+                            "align": "right"
+                        },
+                        "scale":{
+                            "sizeFactor": 1
+                        },
+                        "series" : [
+                            {
+                                "values" : [1000],
+                                "target": "graph",
+                                "text":"Activity 1",
+                                "backgroundColor": "#4527A0",
+                                "legendText": "%t<br><b>P %v</b>",
+                                "legendMarker":{
+                                    "type": "circle",
+                                    "size": 4,
+                                    "borderColor": "#4527A0",
+                                    "borderWidth": 4,
+                                    "backgroundColor":"#fff"
+                                },
+                                "legendItem":{
+                                    "backgroundColor": "#4527A0"
+                                },
+                                "tooltip":{
+                                    "backgroundColor": "#4527A0"
+                                }
+                            },
+                            {
+                                "values" : [900],
+                                "target":"graph",
+                                "text":"Activity 2",
+                                "backgroundColor": "#1565C0",
+                                "legendText": "%t<br><b>P %v</b>",
+                                "legendMarker":{
+                                    "type": "circle",
+                                    "size": 4,
+                                    "borderColor": "#1565C0",
+                                    "borderWidth": 4,
+                                    "backgroundColor":"#fff"
+                                },
+                                "legendItem":{
+                                    "backgroundColor": "#1565C0"
+                                }
+                            },
+                            {
+                                "values" : [889],
+                                "target":"graph",
+                                "text":"Activity 3",
+                                "backgroundColor": "#AD1457",
+                                "legendText": "%t<br><b>P %v</b>",
+                                "legendMarker":{
+                                    "type": "circle",
+                                    "size": 4,
+                                    "borderColor": "#AD1457",
+                                    "borderWidth": 4,
+                                    "backgroundColor":"#fff"
+                                },
+                                "legendItem":{
+                                    "backgroundColor": "#AD1457"
+                                }
+                            }
+                        ]
                     }
-                });
+                ]
             };
+
+            zingchart.render({
+                id : 'pie-all-prog-chart',
+                data : myConfig,
+                height: 600,
+                width: "100%"
+            });
         });
     </script>
 </footer>
