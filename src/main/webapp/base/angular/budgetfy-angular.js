@@ -2,11 +2,13 @@
  * Created by Laurie on 7/4/2016.
  */
 angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directives.dirPagination"])
-    .config(function ($httpProvider, paginationTemplateProvider, yearServiceProvider) {
+    .config(function ($httpProvider, paginationTemplateProvider, yearServiceProvider, userServiceProvider) {
         $httpProvider.defaults.headers.post['Content-Type'] =  "application/json";
         paginationTemplateProvider.setPath('css/dirPagination.tpl.html');
 
         yearServiceProvider.$get().getYears();
+        userServiceProvider.$get().getCurrentUser();
+
     })
     .controller("reportController", ["$scope", "voucherService", "$sessionStorage", "programService", function($scope, voucherService, $sessionStorage, programService){
         $scope.voucherConfig =
@@ -34,6 +36,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             });
             $scope.years = $sessionStorage.years;
             $scope.currentYear = new Date().getFullYear().toString();
+            $scope.user = $sessionStorage.user;
         };
 
         $scope.generateVoucherReport = function(){
@@ -65,6 +68,11 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             }
         };
     }])
+    .controller("systemController", function($scope, $sessionStorage){
+        $scope.init = function(){
+            $scope.user = $sessionStorage.user;
+        }
+    })
     .controller("userRoleController", ["$scope", "$filter", "userRoleService", function($scope, $filter, userRoleService){
         $scope.loadInitData = function(){
             userRoleService.getAllUserRole().then(function(results){
@@ -199,7 +207,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             });
         };
     }])
-    .controller("userController", ["$scope","userService", "referenceLookUpService", "userRoleService", function($scope, userService, referenceLookUpService, userRoleService){
+    .controller("userController", ["$scope","userService", "referenceLookUpService", "userRoleService", "$sessionStorage", function($scope, userService, referenceLookUpService, userRoleService, $sessionStorage){
         $scope.loadInitData = function(){
             userService.getAllUsers().then(function(results){
                 $scope.userMaxSize = results.listSize;
@@ -297,6 +305,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             referenceLookUpService.getAllCategory().then(function(results){
                 $scope.categoryList = results
             });
+            $scope.user = $sessionStorage.user;
         };
 
         $scope.viewReference = function(id){
@@ -370,6 +379,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
 
             $scope.years = $sessionStorage.years;
             $scope.currentYear = new Date().getFullYear().toString();
+            $scope.user = $sessionStorage.user;
         };
 
         $scope.viewVoucher = function(voucherId){
@@ -482,6 +492,10 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             });
         };
 
+        $scope.updateSelectedParticular = function(){
+            $scope.selectedParticular.displayExpense = "P"+evey.addThousandsSeparator($scope.selectedParticular.expense)
+        };
+
         $scope.viewSelectedParticular = function(particularId){
             $scope.selectedParticular = particularService.findParticularFromList($scope.selectedVoucher.particulars,particularId);
 
@@ -584,6 +598,10 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
         };
 
         $scope.updateVoucher = function(){
+            $.each($scope.selectedVoucher.particulars, function(i, particular){
+                console.log(particular.expense);
+                particular.expense = Number(String(particular.expense).replace(/,/g, ''));
+            });
             voucherService.saveVoucher($scope.selectedVoucher).then(function(result){
                 if(result.data.status){
                     $scope.voucherList.unshift(result.data.result);
@@ -665,6 +683,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
 
             $scope.years = $sessionStorage.years;
             $scope.currentYear = new Date().getFullYear().toString();
+            $scope.user = $sessionStorage.user;
         };
 
         $scope.loadPrograms = function(){
@@ -996,13 +1015,22 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
 
 
     }])
-    .service("userService", function($http){
+    .service("userService", function($http, $sessionStorage){
         this.getAllUsers = function(){
             return $http.get("/budgetfy/user/findAll").then(function successCallback(response){
                 return response.data;
             }, function errorCallback(response){
 
             });
+        };
+
+        this.getCurrentUser = function(){
+            $http.get("/budgetfy/login/get-logged-user")
+                .then(function(response){
+                    if(response.data.status){
+                        $sessionStorage.user =  response.data.user;
+                    }
+                });
         };
 
         this.createNewUser = function(user){
