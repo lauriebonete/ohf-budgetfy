@@ -450,7 +450,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
         };
 
         $scope.computeVariance = function(){
-            $scope.createVoucher.variance = $scope.createVoucher.totalAmount;
+            $scope.createVoucher.variance = Number(String($scope.createVoucher.totalAmount).replace(/,/g, ''));
             $.each($scope.newParticularList, function(i, particular){
                 $scope.createVoucher.variance -= particular.expense
             });
@@ -486,7 +486,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
         };
 
         $scope.computeVarianceUpdate = function(){
-            $scope.selectedVoucher.displayTotalExpense = $scope.selectedVoucher.totalAmount;
+            $scope.selectedVoucher.displayTotalExpense = Number(String($scope.selectedVoucher.totalAmount).replace(/,/g, ''));
             $.each($scope.selectedVoucher.particulars, function(i, particular){
                 $scope.selectedVoucher.displayTotalExpense -= particular.expense
             });
