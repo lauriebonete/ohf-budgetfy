@@ -235,20 +235,6 @@
                         </div>
                         <div class="row">
                             <div class="small-1 columns">
-                                <label class="text-right middle">Particular</label>
-                            </div>
-                            <div class="small-5 columns">
-                                <input type="text" ng-model="addParticular.description" placeholder="">
-                            </div>
-                            <div class="small-2 columns">
-                                <label class="text-right middle">Expense Amount</label>
-                            </div>
-                            <div class="small-4 columns end">
-                                <input type="text" class="clear-after comma-separator numeric" ng-model="addParticular.expense">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="small-1 columns">
                                 <label class="text-right middle">Program</label>
                             </div>
                             <div class="small-5 columns">
@@ -259,6 +245,20 @@
                             </div>
                             <div class="small-4 columns">
                                 <selectize config='programActivityConfig' options='programActivities' ng-model="addParticular.addParticularActivityModel"></selectize>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="small-1 columns">
+                                <label class="text-right middle">Particular</label>
+                            </div>
+                            <div class="small-5 columns">
+                                <input type="text" ng-model="addParticular.description" placeholder="">
+                            </div>
+                            <div class="small-2 columns">
+                                <label class="text-right middle">Expense Amount</label>
+                            </div>
+                            <div class="small-4 columns end">
+                                <input type="text" class="clear-after comma-separator numeric" ng-model="addParticular.expense">
                             </div>
                         </div>
                         <div class="row">
@@ -402,7 +402,7 @@
                             <a class="button alert add-summary-nav-prev"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</a>
                         </div>
                         <div class="small-6 columns text-center">
-                            <a class="button success add-summary-nav-next" ng-click="createVoucherObj()">Finish <i class="fa fa-check" aria-hidden="true"></i></a>
+                            <a class="button success" ng-click="createVoucherObj()">Finish <i class="fa fa-check" aria-hidden="true"></i></a>
                         </div>
                     </div>
                 </div>
@@ -494,20 +494,6 @@
                         </div>
                         <div class="row">
                             <div class="small-1 columns">
-                                <label class="text-right middle">Particular</label>
-                            </div>
-                            <div class="small-5 columns">
-                                <input type="text" ng-model="addParticular.description" placeholder="">
-                            </div>
-                            <div class="small-2 columns">
-                                <label class="text-right middle">Expense Amount</label>
-                            </div>
-                            <div class="small-4 columns end">
-                                <input type="text" class="comma-separator numeric" ng-model="addParticular.expense">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="small-1 columns">
                                 <label class="text-right middle">Program</label>
                             </div>
                             <div class="small-5 columns">
@@ -518,6 +504,20 @@
                             </div>
                             <div class="small-4 columns">
                                 <selectize config='programActivityConfig' options='programActivities' ng-model="addParticular.addParticularActivityModel"></selectize>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="small-1 columns">
+                                <label class="text-right middle">Particular</label>
+                            </div>
+                            <div class="small-5 columns">
+                                <input type="text" ng-model="addParticular.description" placeholder="">
+                            </div>
+                            <div class="small-2 columns">
+                                <label class="text-right middle">Expense Amount</label>
+                            </div>
+                            <div class="small-4 columns end">
+                                <input type="text" class="comma-separator numeric" ng-model="addParticular.expense">
                             </div>
                         </div>
                         <div class="row">
@@ -676,7 +676,7 @@
 
                     <div class="row">
                         <div class="small-3 columns">
-                            <a class="button alert float-right"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</a>
+                            <a class="button alert float-right update-summary-nav-prev"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</a>
                         </div>
                         <div class="small-7 columns end">
                             <a class="button success float-right" ng-click="updateVoucher()">Finish <i class="fa fa-check" aria-hidden="true"></i></a>

@@ -251,7 +251,7 @@
                             <tr dir-paginate="activity in addedActivityList | itemsPerPage: 10" pagination-id="added-activity">
                                 <td>{{activity.activityName}}</td>
                                 <td>{{activity.activityCodeName}}</td>
-                                <td>{{activity.amount}}</td>
+                                <td>{{activity.amount}}</td> <!--JIM Nov 12-->
                                 <td><a class="button alert" ng-click="removeAddedActivity(activity.activityTypeId)"><i class="fa fa-minus"></i></a></td>
                             </tr>
                         </tbody>

@@ -707,6 +707,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
 
         $scope.removeActivityProgram = function(activityId){
             activityService.removeActivityFromProgram(activityId).then(function (results){
+                console.log(activityId);
                 if(results.status){
                     $scope.selectedProgram.activities = $filter('filter')($scope.selectedProgram.activities , { id: ('!' + activityId) });
                     evey.promptSuccess(results.message); /*JIM nov1*/
