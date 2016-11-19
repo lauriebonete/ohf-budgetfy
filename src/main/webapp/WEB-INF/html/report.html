@@ -10,14 +10,6 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <link rel="stylesheet" href="css/selectize.default.css">
-
-    <script src="js/jquery3.min.js"></script>
-    <script src="js/angular.js"></script>
-    <script src="js/selectize.min.js"></script>
-    <script src="js/angular-selectize.js"></script>
-    <script src="angular/budgetfy-angular.js"></script>
-    <script src="angular/dirPagination.js"></script>
-    <script src="angular/ngStorage.min.js"></script>
 </head>
 <body ng-app="budgetfyApp" ng-controller="reportController" >
 <section id="header">
@@ -121,23 +113,35 @@
         </div>
     </div>
 </section>
-<script src="js/vendor/what-input.js"></script>
-<script src="js/vendor/foundation.min.js"></script>
-<script src="js/evey-1.0.js"></script>
-<script src="js/jquery-ui.min.js"></script>
-<script type="text/javascript">
-    $(document).foundation();
 
-    $(document).ready(function(){
-
-    }).on("click",".add-summary-nav-next",function(){
-        window.location.href = evey.getHome()+"/budgetfy/reports/create-disbursement";
-    }).on("click", "#cash-disbursement",function(){
-        var fromDate = $("#from-date").val();
-        var toDate = $("#to-date").val();
-    });
-</script>
 
 </body>
+<footer>
+    <script src="js/jquery3.min.js"></script>
+    <script src="js/angular.js"></script>
+    <script src="js/selectize.min.js"></script>
+    <script src="js/angular-selectize.js"></script>
+    <script src="angular/budgetfy-angular.js"></script>
+    <script src="angular/dirPagination.js"></script>
+    <script src="angular/ngStorage.min.js"></script>
+    <script src="js/vendor/what-input.js"></script>
+    <script src="js/vendor/foundation.min.js"></script>
+    <script src="js/evey-1.0.js"></script>
+    <script src="js/jquery-ui.min.js"></script>
+    <script src="js/zingchart-angularjs.js"></script>
+    <script src="js/foundation-colorpicker-module.js"></script>
+    <script type="text/javascript">
+        $(document).foundation();
+
+        $(document).ready(function(){
+
+        }).on("click",".add-summary-nav-next",function(){
+            window.location.href = evey.getHome()+"/budgetfy/reports/create-disbursement";
+        }).on("click", "#cash-disbursement",function(){
+            var fromDate = $("#from-date").val();
+            var toDate = $("#to-date").val();
+        });
+    </script>
+</footer>
 </html>
 

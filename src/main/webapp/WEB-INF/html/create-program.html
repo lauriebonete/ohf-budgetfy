@@ -10,16 +10,7 @@
     <link rel="stylesheet" href="../css/font-awesome.min.css">
     <link rel="stylesheet" href="../css/selectize.default.css">
     <link rel="stylesheet" href="../css/toastr.css"/>
-
-    <script src="../js/jquery3.min.js"></script>
-    <script src="../js/angular.js"></script>
-    <script src="../js/selectize.min.js"></script>
-    <script src="../js/angular-selectize.js"></script>
-    <script src="../angular/budgetfy-angular.js"></script>
-    <script src="../angular/dirPagination.js"></script>
-    <script src="../angular/ngStorage.min.js"></script>
-    <script src="../js/toastr.js"></script>
-
+      <link rel="stylesheet" href="../css/colorpicker.css"/>
   </head>
   <body ng-app="budgetfyApp" ng-controller="programController">
     <section id="header">
@@ -82,9 +73,15 @@
               <div class="small-2 columns">
                 <input type="number" id="percentage" name="percentage" placeholder="%" min="0" max="100">
               </div>
-              <div class="small-5 columns end">
+              <div class="small-2 columns">
                 <input type="text" id="threshold" name="threshold" disabled>
               </div>
+                <div class="small-1 columns">
+                    <label for="percentage" class="text-right middle">Color</label>
+                </div>
+                <div class="small-2 columns end">
+                    <input colorpicker="hex" class="span2" type="text" ng-model="hexColor" style="background-color:{{hexColor}}" />
+                </div>
             </div>
             <div class="row">
               <div class="small-3 columns">
@@ -297,6 +294,10 @@
                         <div class="small-6 columns">Critical Level</div>
                         <div class="small-6 columns end"><span id="threshold-summary">{{programObject.threshold}}</span></div>
                      </div>
+                      <div class="row">
+                          <div class="small-6 columns">Color</div>
+                          <div class="small-6 columns end"><span style="background-color:{{programObject.hexColor}}">{{programObject.hexColor}}</span></div>
+                      </div>
                      <div class="row">
                         <div class="small-6 columns">Duration</div>
                         <div class="small-6 columns end"><span id="duration-summary">{{programObject.programStart}} to {{programObject.programEnd}}</span></div>
@@ -359,10 +360,20 @@
     </section>
   </body>
   <footer>
+      <script src="../js/jquery3.min.js"></script>
+      <script src="../js/angular.js"></script>
+      <script src="../js/selectize.min.js"></script>
+      <script src="../js/angular-selectize.js"></script>
+      <script src="../angular/budgetfy-angular.js"></script>
+      <script src="../angular/dirPagination.js"></script>
+      <script src="../angular/ngStorage.min.js"></script>
+      <script src="../js/toastr.js"></script>
       <script src="../js/vendor/what-input.js"></script>
       <script src="../js/vendor/foundation.min.js"></script>
       <script src="../js/ohf-budgetfy-js.js"></script>
       <script src="../js/evey-1.0.js"></script>
+      <script src="../js/zingchart-angularjs.js"></script>
+      <script src="../js/foundation-colorpicker-module.js"></script>
 
     <script type="text/javascript">
         $(document).foundation();

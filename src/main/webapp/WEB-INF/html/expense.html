@@ -13,15 +13,6 @@
         <link rel="stylesheet" href="css/selectize.default.css">
         <link rel="stylesheet" href="css/uploadfile.custom.css">
         <link rel="stylesheet" href="css/toastr.css"/>
-
-        <script src="js/jquery3.min.js"></script>
-        <script src="js/angular.js"></script>
-        <script src="js/selectize.min.js"></script>
-        <script src="js/angular-selectize.js"></script>
-        <script src="angular/budgetfy-angular.js"></script>
-        <script src="angular/dirPagination.js"></script>
-        <script src="angular/ngStorage.min.js"></script>
-        <script src="js/toastr.js"></script>
     </head>
     <body ng-app="budgetfyApp" ng-controller="voucherController" >
         <section id="header">
@@ -687,12 +678,25 @@
             </div>
         </section>
 
+
+  </body>
+    <footer>
+        <script src="js/jquery3.min.js"></script>
+        <script src="js/angular.js"></script>
+        <script src="js/selectize.min.js"></script>
+        <script src="js/angular-selectize.js"></script>
+        <script src="angular/budgetfy-angular.js"></script>
+        <script src="angular/dirPagination.js"></script>
+        <script src="angular/ngStorage.min.js"></script>
+        <script src="js/toastr.js"></script>
         <script src="js/vendor/what-input.js"></script>
         <script src="js/vendor/foundation.min.js"></script>
         <script src="js/evey-1.0.js"></script>
         <script src="js/motion-ui.min.js"></script>
         <script src="js/jquery.form.js"></script>
         <script src="js/jquery.uploadfile.min.js"></script>
+        <script src="js/zingchart-angularjs.js"></script>
+        <script src="js/foundation-colorpicker-module.js"></script>
         <script>
             $(document).foundation();
 
@@ -709,17 +713,6 @@
                     statusBarWidth:600,
                     onSuccess:function(files,data,xhr,pd){
                         var preview = $("div#add-particular-receipt").parent(".columns").find("img.ajax-file-upload-preview");
-                        /*var files = $(preview).attr("data-upload-id");
-                         if(files == "" ||
-                         files == null ||
-                         files == undefined){
-                         files = "";
-                         files += data[0].id;
-                         } else {
-                         files += data[0].id+","
-                         }
-
-                         $(preview).attr("data-upload-id",files);*/
                         $(preview).attr("data-upload-id",data[0].id);
                     }
                 });
@@ -736,17 +729,6 @@
                     statusBarWidth:600,
                     onSuccess:function(files,data,xhr,pd){
                         var preview = $("div#add-particular-receipt-update").parent(".columns").find("img.ajax-file-upload-preview");
-                        /*var files = $(preview).attr("data-upload-id");
-                         if(files == "" ||
-                         files == null ||
-                         files == undefined){
-                         files = "";
-                         files += data[0].id;
-                         } else {
-                         files += data[0].id+","
-                         }
-
-                         $(preview).attr("data-upload-id",files);*/
                         $(preview).attr("data-upload-id",data[0].id);
                     }
                 });
@@ -763,17 +745,6 @@
                     statusBarWidth:600,
                     onSuccess:function(files,data,xhr,pd){
                         var preview = $("div#update-particular-receipt").parent(".columns").find("img.ajax-file-upload-preview");
-                        /*var files = $(preview).attr("data-upload-id");
-                         if(files == "" ||
-                         files == null ||
-                         files == undefined){
-                         files = "";
-                         files += data[0].id;
-                         } else {
-                         files += data[0].id+","
-                         }
-
-                         $(preview).attr("data-upload-id",files);*/
                         $(preview).attr("data-upload-id",data[0].id);
                     }
                 });
@@ -808,8 +779,6 @@
             }).on("input", ".numeric", function() {
                 this.value = this.value.replace(/[^\d\.]/g,'');
             });
-
-
         </script>
-  </body>
+    </footer>
 </html>

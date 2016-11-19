@@ -49,6 +49,17 @@ public class Program extends BaseEntity {
     @Column(name = "YEAR")
     private String year;
 
+    @Column(name = "HEX_COLOR")
+    private String hexColor;
+
+    public String getHexColor() {
+        return hexColor;
+    }
+
+    public void setHexColor(String hexColor) {
+        this.hexColor = hexColor;
+    }
+
     private transient String displayProgramDuration;
 
     private transient String displayProgramBudget;
@@ -126,11 +137,15 @@ public class Program extends BaseEntity {
     }
 
     public String getDisplayProgramDuration() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM d, yyyy");
         StringBuilder displayBuilder = new StringBuilder();
-        displayBuilder.append(dateFormat.format(this.programStart))
-                .append(" - ")
-                .append(dateFormat.format(this.programEnd));
+        if(this.programStart!=null
+                && this.programEnd !=null){
+            SimpleDateFormat dateFormat = new SimpleDateFormat("MMM d, yyyy");
+            displayBuilder.append(dateFormat.format(this.programStart))
+                    .append(" - ")
+                    .append(dateFormat.format(this.programEnd));
+        }
+
 
         return displayBuilder.toString();
     }

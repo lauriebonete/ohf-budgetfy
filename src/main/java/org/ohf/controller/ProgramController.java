@@ -58,6 +58,7 @@ public class ProgramController extends BaseCrudController<Program> {
         saveThisProgram.setPercentage(program.getPercentage());
         saveThisProgram.setThreshold(program.getThreshold());
         saveThisProgram.setTotalBudget(program.getTotalBudget());
+        saveThisProgram.setHexColor(program.getHexColor());
         getService().save(saveThisProgram);
 
         for(Activity activity: program.getActivities()){

@@ -1,7 +1,7 @@
 /**
  * Created by Laurie on 7/4/2016.
  */
-angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directives.dirPagination"])
+angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directives.dirPagination",'zingchart-angularjs', 'colorpicker.module'])
     .config(function ($httpProvider, paginationTemplateProvider, yearServiceProvider, userServiceProvider) {
         $httpProvider.defaults.headers.post['Content-Type'] =  "application/json";
         paginationTemplateProvider.setPath('css/dirPagination.tpl.html');
@@ -11,8 +11,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
 
     })
     .controller("reportController", ["$scope", "voucherService", "$sessionStorage", "programService", function($scope, voucherService, $sessionStorage, programService){
-        $scope.voucherConfig =
-        {
+        $scope.voucherConfig = {
             valueField : 'id',
             labelField : 'vcNumber',
             searchField: ['vcNumber'],
@@ -31,7 +30,6 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             });
 
             programService.getAllPrograms().then(function(results){
-                console.log(results.results);
                 $scope.programList = results.results;
             });
             $scope.years = $sessionStorage.years;
@@ -68,10 +66,443 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             }
         };
     }])
-    .controller("systemController", function($scope, $sessionStorage){
+    .controller("systemController", function($scope, $sessionStorage, programService, activityService){
         $scope.init = function(){
+            $scope.years = $sessionStorage.years;
+            $scope.currentYear = new Date().getFullYear().toString();
             $scope.user = $sessionStorage.user;
-        }
+            programService.getAllPrograms().then(function(data){
+                $scope.programList = data.results;
+            });
+            $scope.changeYear($scope.currentYear);
+            $scope.selectProgram($scope.programModel);
+        };
+
+        $scope.programConfig = {
+            valueField : 'id',
+            labelField : 'programName',
+            searchField: ['programName'],
+            delimiter : '|',
+            placeholder : 'Pick something',
+            plugins: ['remove_button'],
+            onInitialize : function (selectize) {
+                // receives the selectize object as an argument
+            },
+            maxItems: 1
+        };
+        $scope.programModel = 1;
+
+        $scope.selectProgram = function(){
+            activityService.getProgramActivities($scope.programModel).then(function(data){
+                if(data.status){
+                    var holder  = {};
+                    var expectedSeries = [];
+                    $.each(data.results, function(i, val){
+                        var color = getRandColor(3);
+                        holder[val.id] = color;
+                        var expected = {
+                            "values" : [val.amount],
+                            "target": "graph",
+                            "text": val.activityName,
+                            "backgroundColor": color,
+                            "legendText": "%t<br><b>P %v</b>",
+                            "legendMarker":{
+                                "type": "circle",
+                                "size": 4,
+                                "borderColor": color,
+                                "borderWidth": 4,
+                                "backgroundColor":"#fff"
+                            },
+                            "legendItem":{
+                                "backgroundColor": color
+                            },
+                            "tooltip":{
+                                "backgroundColor": color
+                            }
+                        };
+                        expectedSeries.push(expected);
+                    });
+
+                    activityService.getActualExpensePerActivity($scope.programModel).then(function(data){
+                        var actualSeries = [];
+                        $.each(data.actual, function(i, val){
+                            color = holder[val.id];
+                            var actual = {
+                                "values" : [val.amount],
+                                "target": "graph",
+                                "text": val.activityName,
+                                "backgroundColor": color,
+                                "legendText": "%t<br><b>P %v</b>",
+                                "legendMarker":{
+                                    "type": "circle",
+                                    "size": 4,
+                                    "borderColor": color,
+                                    "borderWidth": 4,
+                                    "backgroundColor":"#fff"
+                                },
+                                "legendItem":{
+                                    "backgroundColor": color
+                                },
+                                "tooltip":{
+                                    "backgroundColor": color
+                                }
+                            };
+                            actualSeries.push(actual);
+                        });
+
+                        $scope.activityBudgetActualConfig = {
+                            "type": "pie",
+
+                            "title":{
+                                "text": "Activities (Expected)",
+                                "align": "center",
+                                "fontColor": "#616161"
+                            },
+                            "legend":{
+                                "text":"%t<br>",
+                                "width": 150,
+                                "verticalAlign": "middle",
+                                "borderWidth": 0,
+                                "toggleAction": "remove",
+                                "item":{
+                                    "padding": 3,
+                                    "borderRadius": 3,
+                                    "fontColor": "#fff",
+                                    "align": "left",
+                                    "width": 120
+                                },
+                                "header":{
+                                    "text":"Programs",
+                                    "align": "center",
+                                    "fontSize": 13,
+                                    "bold": true,
+                                    "fontColor": "#616161"
+                                },
+                                "itemOff":{
+                                    "alpha": 0.7,
+                                    "textAlpha": 1,
+                                    "fontColor": "#616161",
+                                    "textDecoration": "line-through",
+                                    "lineWidth": 2
+                                },
+                                "markerOff":{
+                                    "alpha": 0.2
+                                }
+                            },
+                            "plot":{
+                                "refAngle": 270,
+                                "decimals": 2,
+                                "align": "center",
+                                "thousandsSeparator": ",",
+                                "detach": false,
+                                "valueBox":{
+                                    "decimals": 2
+                                },
+                                "animation":{
+                                    "effect": 3,
+                                    "method": 1,
+                                    "sequence": 1,
+                                    "onLegendToggle": false
+                                }
+                            },
+                            "tooltip":{
+                                "text":"%t<br>P %v",
+                                "placement": "node:out",
+                                "offsetR": 2,
+                                "width": 110,
+                                "fontColor": "#fff",
+                                "borderRadius": 3,
+                                "bold": true,
+                                "align": "right"
+                            },
+                            "scale":{
+                                "sizeFactor": 1
+                            },
+                            "series": actualSeries
+                        };
+                    });
+
+                    $scope.activityBudgetConfig = {
+                        "type": "pie",
+
+                        "title":{
+                            "text": "Activities (Expected)",
+                            "align": "center",
+                            "fontColor": "#616161"
+                        },
+                        "legend":{
+                            "text":"%t<br>",
+                            "width": 150,
+                            "verticalAlign": "middle",
+                            "borderWidth": 0,
+                            "toggleAction": "remove",
+                            "item":{
+                                "padding": 3,
+                                "borderRadius": 3,
+                                "fontColor": "#fff",
+                                "align": "left",
+                                "width": 120
+                            },
+                            "header":{
+                                "text":"Programs",
+                                "align": "center",
+                                "fontSize": 13,
+                                "bold": true,
+                                "fontColor": "#616161"
+                            },
+                            "itemOff":{
+                                "alpha": 0.7,
+                                "textAlpha": 1,
+                                "fontColor": "#616161",
+                                "textDecoration": "line-through",
+                                "lineWidth": 2
+                            },
+                            "markerOff":{
+                                "alpha": 0.2
+                            }
+                        },
+                        "plot":{
+                            "refAngle": 270,
+                            "decimals": 2,
+                            "align": "center",
+                            "thousandsSeparator": ",",
+                            "detach": false,
+                            "valueBox":{
+                                "decimals": 2
+                            },
+                            "animation":{
+                                "effect": 3,
+                                "method": 1,
+                                "sequence": 1,
+                                "onLegendToggle": false
+                            }
+                        },
+                        "tooltip":{
+                            "text":"%t<br>P %v",
+                            "placement": "node:out",
+                            "offsetR": 2,
+                            "width": 110,
+                            "fontColor": "#fff",
+                            "borderRadius": 3,
+                            "bold": true,
+                            "align": "right"
+                        },
+                        "scale":{
+                            "sizeFactor": 1
+                        },
+                        "series": expectedSeries
+                    };
+                }
+            });
+        };
+
+        function getRandColor(brightness){
+            //6 levels of brightness from 0 to 5, 0 being the darkest
+            var rgb = [Math.random() * 256, Math.random() * 256, Math.random() * 256];
+            var mix = [brightness*51, brightness*51, brightness*51]; //51 => 255/5
+            var mixedrgb = [rgb[0] + mix[0], rgb[1] + mix[1], rgb[2] + mix[2]].map(function(x){ return Math.round(x/2.0)})
+            return "rgb(" + mixedrgb.join(",") + ")";
+        };
+
+        $scope.changeYear = function(){
+            programService.getProgramBudgetOverview($scope.currentYear)
+                .then(function(data){
+                    if(data.success){
+                        var expectedSeries = [];
+                        $.each(data.expected, function(i, val){
+                            var expected = {
+                                "values" : [val.totalBudget],
+                                "target": "graph",
+                                "text": val.programName,
+                                "backgroundColor": val.hexColor,
+                                "legendText": "%t<br><b>P %v</b>",
+                                "legendMarker":{
+                                    "type": "circle",
+                                    "size": 4,
+                                    "borderColor": val.hexColor,
+                                    "borderWidth": 4,
+                                    "backgroundColor":"#fff"
+                                },
+                                "legendItem":{
+                                    "backgroundColor": val.hexColor
+                                },
+                                "tooltip":{
+                                    "backgroundColor": val.hexColor
+                                }
+                            };
+                            expectedSeries.push(expected);
+                        });
+
+                        var actualSeries = [];
+                        $.each(data.actual, function(i, val){
+                            var actual = {
+                                "values" : [val.totalBudget],
+                                "target": "graph",
+                                "text": val.programName,
+                                "backgroundColor": val.hexColor,
+                                "legendText": "%t<br><b>P %v</b>",
+                                "legendMarker":{
+                                    "type": "circle",
+                                    "size": 4,
+                                    "borderColor": val.hexColor,
+                                    "borderWidth": 4,
+                                    "backgroundColor":"#fff"
+                                },
+                                "legendItem":{
+                                    "backgroundColor": val.hexColor
+                                },
+                                "tooltip":{
+                                    "backgroundColor": val.hexColor
+                                }
+                            };
+                            actualSeries.push(actual);
+                        });
+
+                        $scope.programActualBudgetConfig = {
+                            "type": "pie",
+
+                            "title":{
+                                "text": "All Programs (Actuals)",
+                                "align": "center",
+                                "fontColor": "#616161"
+                            },
+                            "legend":{
+                                "text":"%t<br>",
+                                "width": 150,
+                                "verticalAlign": "middle",
+                                "borderWidth": 0,
+                                "toggleAction": "remove",
+                                "item":{
+                                    "padding": 3,
+                                    "borderRadius": 3,
+                                    "fontColor": "#fff",
+                                    "align": "left",
+                                    "width": 120
+                                },
+                                "header":{
+                                    "text":"Programs",
+                                    "align": "center",
+                                    "fontSize": 13,
+                                    "bold": true,
+                                    "fontColor": "#616161"
+                                },
+                                "itemOff":{
+                                    "alpha": 0.7,
+                                    "textAlpha": 1,
+                                    "fontColor": "#616161",
+                                    "textDecoration": "line-through",
+                                    "lineWidth": 2
+                                },
+                                "markerOff":{
+                                    "alpha": 0.2
+                                }
+                            },
+                            "plot":{
+                                "refAngle": 270,
+                                "decimals": 2,
+                                "align": "center",
+                                "thousandsSeparator": ",",
+                                "detach": false,
+                                "valueBox":{
+                                    "decimals": 2
+                                },
+                                "animation":{
+                                    "effect": 3,
+                                    "method": 1,
+                                    "sequence": 1,
+                                    "onLegendToggle": false
+                                }
+                            },
+                            "tooltip":{
+                                "text":"%t<br>P %v",
+                                "placement": "node:out",
+                                "offsetR": 2,
+                                "width": 110,
+                                "fontColor": "#fff",
+                                "borderRadius": 3,
+                                "bold": true,
+                                "align": "right"
+                            },
+                            "scale":{
+                                "sizeFactor": 1
+                            },
+                            "series": actualSeries
+                        };
+
+                        $scope.programBudgetConfig = {
+                            "type": "pie",
+                            /*"width": "50%",*/
+
+                            "title":{
+                                "text": "All Programs (Expected)",
+                                "align": "center",
+                                "fontColor": "#616161"
+                            },
+                            "legend":{
+                                "text":"%t<br>",
+                                "width": 150,
+                                "verticalAlign": "middle",
+                                "borderWidth": 0,
+                                "toggleAction": "remove",
+                                "item":{
+                                    "padding": 3,
+                                    "borderRadius": 3,
+                                    "fontColor": "#fff",
+                                    "align": "left",
+                                    "width": 120
+                                },
+                                "header":{
+                                    "text":"Programs",
+                                    "align": "center",
+                                    "fontSize": 13,
+                                    "bold": true,
+                                    "fontColor": "#616161"
+                                },
+                                "itemOff":{
+                                    "alpha": 0.7,
+                                    "textAlpha": 1,
+                                    "fontColor": "#616161",
+                                    "textDecoration": "line-through",
+                                    "lineWidth": 2
+                                },
+                                "markerOff":{
+                                    "alpha": 0.2
+                                }
+                            },
+                            "plot":{
+                                "refAngle": 270,
+                                "decimals": 2,
+                                "align": "center",
+                                "thousandsSeparator": ",",
+                                "detach": false,
+                                "valueBox":{
+                                    "decimals": 2
+                                },
+                                "animation":{
+                                    "effect": 3,
+                                    "method": 1,
+                                    "sequence": 1,
+                                    "onLegendToggle": false
+                                }
+                            },
+                            "tooltip":{
+                                "text":"%t<br>P %v",
+                                "placement": "node:out",
+                                "offsetR": 2,
+                                "width": 110,
+                                "fontColor": "#fff",
+                                "borderRadius": 3,
+                                "bold": true,
+                                "align": "right"
+                            },
+                            "scale":{
+                                "sizeFactor": 1
+                            },
+                            "series": expectedSeries
+                        };
+                    }
+                });
+        };
     })
     .controller("userRoleController", ["$scope", "$filter", "userRoleService", function($scope, $filter, userRoleService){
         $scope.loadInitData = function(){
@@ -801,6 +1232,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                 programStart:programStart,
                 programEnd:programEnd,
                 activities: $scope.addedActivityList,
+                hexColor: $scope.hexColor,
                 userAccessList:userAccessList
             };
         };
@@ -1139,6 +1571,14 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             });
         };
 
+        this.getProgramBudgetOverview = function(year){
+            return $http.get("/budgetfy/overview/getProgramBudgetOverview", {params:{year:year}}).then(function successCallback(response){
+                return response.data;
+            }, function errorCallback(response){
+
+            });
+        };
+
         this.getYears = function(){
             return $http.get("/budgetfy/program/getYears")
                 .then(function(response){
@@ -1261,6 +1701,14 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
 
         this.findActivityExpense = function(programId){
             return $http.get("/budgetfy/activity/getActivityExpense",{params:{programId:programId}}).then(function successCallback(response){
+                return response.data;
+            }, function errorCallback(response){
+
+            });
+        };
+
+        this.getActualExpensePerActivity = function(programId){
+            return $http.get("/budgetfy/overview/getActualActivity",{params:{programId:programId}}).then(function successCallback(response){
                 return response.data;
             }, function errorCallback(response){
 

@@ -45,4 +45,9 @@ public class ProgramServiceImpl extends BaseCrudServiceImpl<Program> implements 
         params.put("programId", programId);
         return (List<Activity>) getDao().findEntityByNamedQuery("jpql.program.get-activities", params, Activity.class);
     }
+
+    @Override
+    public List<Program> getActualBudgetPerProgram(String year) {
+        return programDaoJdbc.getActualBudgetPerProgram(year);
+    }
 }

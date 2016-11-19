@@ -9,14 +9,7 @@
     <link rel="stylesheet" href="css/foundation.min.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/font-awesome.min.css">
-
-    <script src="js/jquery3.min.js"></script>
-    <script src="js/angular.js"></script>
-    <script src="js/selectize.min.js"></script>
-    <script src="js/angular-selectize.js"></script>
-    <script src="angular/budgetfy-angular.js"></script>
-    <script src="angular/dirPagination.js"></script>
-    <script src="angular/ngStorage.min.js"></script>
+    <link rel="stylesheet" href="css/selectize.default.css">
 </head>
 <body ng-app="budgetfyApp" ng-controller="systemController" ng-init="init()">
     <section id="header">
@@ -49,10 +42,7 @@
             <label class="text-right middle"></label>
         </div>
         <div class="small-2 columns text-right">
-            <select>
-                <option value="2016">2016</option>
-                <option value="2015">2015</option>
-                <option value="2014">2014</option>
+            <select ng-model="currentYear" ng-options="year as year for year in years" ng-change="changeYear()">
             </select>
         </div>
     </div>
@@ -62,8 +52,11 @@
         </div>
     </div>
     <div class="row">
-        <div class="small-12 columns">
-            <div id="pie-all-prog-chart" style="white-space: nowrap; position: relative;height: 350px;width: 100%;"></div>
+        <div class="small-6 columns">
+            <zingchart zc-json="programBudgetConfig"></zingchart>
+        </div>
+        <div class="small-6 columns">
+            <zingchart zc-json="programActualBudgetConfig"></zingchart>
         </div>
     </div>
     <div class="row">
@@ -73,572 +66,36 @@
         <div class="small-2 columns">
             <label class="text-right middle">Select A Program</label>
         </div>
-        <div class="small-3 columns text-right">
-            <select>
-                <option value="Admin">Admin</option>
-                <option value="CYP">CYP</option>
-                <option value="TestProg">TestProg</option>
-            </select>
+        <div class="small-3 columns">
+            <selectize config='programConfig' options='programList' ng-model="programModel" ng-change="selectProgram()"></selectize>
         </div>
     </div>
     <div class="row">
-        <div class="small-12 columns">
-            <div id="pie-budget-chart" style="white-space: nowrap; position: relative;height: 350px;width: 100%;"></div>
+        <div class="small-6 columns">
+            <zingchart zc-json="activityBudgetConfig"></zingchart>
+        </div>
+        <div class="small-6 columns">
+            <zingchart zc-json="activityBudgetActualConfig"></zingchart>
         </div>
     </div>
 </section>
 </body>
 <footer>
+    <script src="js/jquery3.min.js"></script>
+    <script src="js/angular.js"></script>
+    <script src="js/selectize.min.js"></script>
+    <script src="js/angular-selectize.js"></script>
+    <script src="angular/budgetfy-angular.js"></script>
+    <script src="angular/dirPagination.js"></script>
+    <script src="angular/ngStorage.min.js"></script>
     <script src="js/vendor/what-input.js"></script>
     <script src="js/vendor/foundation.min.js"></script>
     <script src="js/evey-1.0.js"></script>
-    <!--<script src="js/Chart.min.js"></script>-->
     <script src="js/zingchart.min.js"></script>
+    <script src="js/zingchart-angularjs.js"></script>
+    <script src="js/foundation-colorpicker-module.js"></script>
     <script>
         $(document).foundation();
-
-        $(document).ready(function(){
-            var myConfig1 = {
-
-                "graphset":[
-                    {
-                        "type": "pie",
-                        "x": 0,
-                        "y": 0,
-                        "width": "50%",
-
-                        "title":{
-                            "text": "All Programs (Expected)",
-                            "align": "center",
-                            "fontColor": "#616161"
-                        },
-                        "legend":{
-                            "text":"%t<br>",
-                            "width": 150,
-                            "verticalAlign": "middle",
-                            "borderWidth": 0,
-                            "toggleAction": "remove",
-                            "item":{
-                                "padding": 3,
-                                "borderRadius": 3,
-                                "fontColor": "#fff",
-                                "align": "left",
-                                "width": 120
-                            },
-                            "header":{
-                                "text":"Programs",
-                                "align": "center",
-                                "fontSize": 13,
-                                "bold": true,
-                                "fontColor": "#616161"
-                            },
-                            "itemOff":{
-                                "alpha": 0.7,
-                                "textAlpha": 1,
-                                "fontColor": "#616161",
-                                "textDecoration": "line-through",
-                                "lineWidth": 2
-                            },
-                            "markerOff":{
-                                "alpha": 0.2
-                            }
-                        },
-                        "plot":{
-                            "refAngle": 270,
-                            "decimals": 2,
-                            "align": "center",
-                            "thousandsSeparator": ",",
-                            "detach": false,
-                            "valueBox":{
-                                "decimals": 2
-                            },
-                            "animation":{
-                                "effect": 3,
-                                "method": 1,
-                                "sequence": 1,
-                                "onLegendToggle": false
-                            }
-                        },
-                        "tooltip":{
-                            "text":"%t<br>P %v",
-                            "placement": "node:out",
-                            "offsetR": 2,
-                            "width": 110,
-                            "fontColor": "#fff",
-                            "borderRadius": 3,
-                            "bold": true,
-                            "align": "right"
-                        },
-                        "scale":{
-                            "sizeFactor": 1
-                        },
-                        "series" : [
-                            {
-                                "values" : [119968796],
-                                "target": "graph",
-                                "text":"Admin",
-                                "backgroundColor": "#4527A0",
-                                "legendText": "%t<br><b>P %v</b>",
-                                "legendMarker":{
-                                    "type": "circle",
-                                    "size": 4,
-                                    "borderColor": "#4527A0",
-                                    "borderWidth": 4,
-                                    "backgroundColor":"#fff"
-                                },
-                                "legendItem":{
-                                    "backgroundColor": "#4527A0"
-                                },
-                                "tooltip":{
-                                    "backgroundColor": "#4527A0"
-                                }
-                            },
-                            {
-                                "values" : [97503958],
-                                "target":"graph",
-                                "text":"CYP",
-                                "backgroundColor": "#1565C0",
-                                "legendText": "%t<br><b>P %v</b>",
-                                "legendMarker":{
-                                    "type": "circle",
-                                    "size": 4,
-                                    "borderColor": "#1565C0",
-                                    "borderWidth": 4,
-                                    "backgroundColor":"#fff"
-                                },
-                                "legendItem":{
-                                    "backgroundColor": "#1565C0"
-                                }
-                            },
-                            {
-                                "values" : [85948575],
-                                "target":"graph",
-                                "text":"Program 3",
-                                "backgroundColor": "#AD1457",
-                                "legendText": "%t<br><b>P %v</b>",
-                                "legendMarker":{
-                                    "type": "circle",
-                                    "size": 4,
-                                    "borderColor": "#AD1457",
-                                    "borderWidth": 4,
-                                    "backgroundColor":"#fff"
-                                },
-                                "legendItem":{
-                                    "backgroundColor": "#AD1457"
-                                }
-                            }
-                        ]
-                    },
-                    {
-                        "type": "pie",
-                        "x": "50%",
-                        "y": 0,
-                        "width": "50%",
-
-                        "title":{
-                            "text": "All Programs (Actuals)",
-                            "align": "center",
-                            "fontColor": "#616161"
-                        },
-                        "legend":{
-                            "text":"%t<br>",
-                            "width": 150,
-                            "verticalAlign": "middle",
-                            "borderWidth": 0,
-                            "toggleAction": "remove",
-                            "item":{
-                                "padding": 3,
-                                "borderRadius": 3,
-                                "fontColor": "#fff",
-                                "align": "left",
-                                "width": 120
-                            },
-                            "header":{
-                                "text":"Programs",
-                                "align": "center",
-                                "fontSize": 13,
-                                "bold": true,
-                                "fontColor": "#616161"
-                            },
-                            "itemOff":{
-                                "alpha": 0.7,
-                                "textAlpha": 1,
-                                "fontColor": "#616161",
-                                "textDecoration": "line-through",
-                                "lineWidth": 2
-                            },
-                            "markerOff":{
-                                "alpha": 0.2
-                            }
-                        },
-                        "plot":{
-                            "refAngle": 270,
-                            "decimals": 2,
-                            "align": "center",
-                            "thousandsSeparator": ",",
-                            "detach": false,
-                            "valueBox":{
-                                "decimals": 2
-                            },
-                            "animation":{
-                                "effect": 3,
-                                "method": 1,
-                                "sequence": 1,
-                                "onLegendToggle": false
-                            }
-                        },
-                        "tooltip":{
-                            "text":"%t<br>P %v",
-                            "placement": "node:out",
-                            "offsetR": 2,
-                            "width": 110,
-                            "fontColor": "#fff",
-                            "borderRadius": 3,
-                            "bold": true,
-                            "align": "right"
-                        },
-                        "scale":{
-                            "sizeFactor": 1
-                        },
-                        "series" : [
-                            {
-                                "values" : [1000],
-                                "target": "graph",
-                                "text":"Admin",
-                                "backgroundColor": "#4527A0",
-                                "legendText": "%t<br><b>P %v</b>",
-                                "legendMarker":{
-                                    "type": "circle",
-                                    "size": 4,
-                                    "borderColor": "#4527A0",
-                                    "borderWidth": 4,
-                                    "backgroundColor":"#fff"
-                                },
-                                "legendItem":{
-                                    "backgroundColor": "#4527A0"
-                                },
-                                "tooltip":{
-                                    "backgroundColor": "#4527A0"
-                                }
-                            },
-                            {
-                                "values" : [900],
-                                "target":"graph",
-                                "text":"CYP",
-                                "backgroundColor": "#1565C0",
-                                "legendText": "%t<br><b>P %v</b>",
-                                "legendMarker":{
-                                    "type": "circle",
-                                    "size": 4,
-                                    "borderColor": "#1565C0",
-                                    "borderWidth": 4,
-                                    "backgroundColor":"#fff"
-                                },
-                                "legendItem":{
-                                    "backgroundColor": "#1565C0"
-                                }
-                            },
-                            {
-                                "values" : [889],
-                                "target":"graph",
-                                "text":"Program 3",
-                                "backgroundColor": "#AD1457",
-                                "legendText": "%t<br><b>P %v</b>",
-                                "legendMarker":{
-                                    "type": "circle",
-                                    "size": 4,
-                                    "borderColor": "#AD1457",
-                                    "borderWidth": 4,
-                                    "backgroundColor":"#fff"
-                                },
-                                "legendItem":{
-                                    "backgroundColor": "#AD1457"
-                                }
-                            }
-                        ]
-                    }
-                ]
-            };
-
-            var myConfig2 = {
-
-                "graphset":[
-                    {
-                        "type": "pie",
-                        "x": 0,
-                        "y": 0,
-                        "width": "50%",
-
-                        "title":{
-                            "text": "Activities (Expected)",
-                            "align": "center",
-                            "fontColor": "#616161"
-                        },
-                        "legend":{
-                            "text":"%t<br>",
-                            "width": 150,
-                            "verticalAlign": "middle",
-                            "borderWidth": 0,
-                            "toggleAction": "remove",
-                            "item":{
-                                "padding": 3,
-                                "borderRadius": 3,
-                                "fontColor": "#fff",
-                                "align": "left",
-                                "width": 120
-                            },
-                            "header":{
-                                "text":"Activities",
-                                "align": "center",
-                                "fontSize": 13,
-                                "bold": true,
-                                "fontColor": "#616161"
-                            },
-                            "itemOff":{
-                                "alpha": 0.7,
-                                "textAlpha": 1,
-                                "fontColor": "#616161",
-                                "textDecoration": "line-through",
-                                "lineWidth": 2
-                            },
-                            "markerOff":{
-                                "alpha": 0.2
-                            }
-                        },
-                        "plot":{
-                            "refAngle": 270,
-                            "decimals": 2,
-                            "align": "center",
-                            "thousandsSeparator": ",",
-                            "detach": false,
-                            "valueBox":{
-                                "decimals": 2
-                            },
-                            "animation":{
-                                "effect": 3,
-                                "method": 1,
-                                "sequence": 1,
-                                "onLegendToggle": false
-                            }
-                        },
-                        "tooltip":{
-                            "text":"%t<br>P %v",
-                            "placement": "node:out",
-                            "offsetR": 2,
-                            "width": 110,
-                            "fontColor": "#fff",
-                            "borderRadius": 3,
-                            "bold": true,
-                            "align": "right"
-                        },
-                        "scale":{
-                            "sizeFactor": 1,
-                            "auto-fit" :"true"
-                        },
-                        "series" : [
-                            {
-                                "values" : [119968796],
-                                "target": "graph",
-                                "text":"Activity 1",
-                                "backgroundColor": "#4527A0",
-                                "legendText": "%t<br><b>P %v</b>",
-                                "legendMarker":{
-                                    "type": "circle",
-                                    "size": 4,
-                                    "borderColor": "#4527A0",
-                                    "borderWidth": 4,
-                                    "backgroundColor":"#fff"
-                                },
-                                "legendItem":{
-                                    "backgroundColor": "#4527A0"
-                                },
-                                "tooltip":{
-                                    "backgroundColor": "#4527A0"
-                                }
-                            },
-                            {
-                                "values" : [97503958],
-                                "target":"graph",
-                                "text":"Activity 2",
-                                "backgroundColor": "#1565C0",
-                                "legendText": "%t<br><b>P %v</b>",
-                                "legendMarker":{
-                                    "type": "circle",
-                                    "size": 4,
-                                    "borderColor": "#1565C0",
-                                    "borderWidth": 4,
-                                    "backgroundColor":"#fff"
-                                },
-                                "legendItem":{
-                                    "backgroundColor": "#1565C0"
-                                }
-                            },
-                            {
-                                "values" : [85948575],
-                                "target":"graph",
-                                "text":"Activity 3",
-                                "backgroundColor": "#AD1457",
-                                "legendText": "%t<br><b>P %v</b>",
-                                "legendMarker":{
-                                    "type": "circle",
-                                    "size": 4,
-                                    "borderColor": "#AD1457",
-                                    "borderWidth": 4,
-                                    "backgroundColor":"#fff"
-                                },
-                                "legendItem":{
-                                    "backgroundColor": "#AD1457"
-                                }
-                            }
-                        ]
-                    },
-                    {
-                        "type": "pie",
-                        "x": "50%",
-                        "y": 0,
-                        "width": "50%",
-
-                        "title":{
-                            "text": "Activities (Actuals)",
-                            "align": "center",
-                            "fontColor": "#616161"
-                        },
-                        "legend":{
-                            "text":"%t<br>",
-                            "width": 150,
-                            "verticalAlign": "middle",
-                            "borderWidth": 0,
-                            "toggleAction": "remove",
-                            "item":{
-                                "padding": 3,
-                                "borderRadius": 3,
-                                "fontColor": "#fff",
-                                "align": "left",
-                                "width": 120
-                            },
-                            "header":{
-                                "text":"Activities",
-                                "align": "center",
-                                "fontSize": 13,
-                                "bold": true,
-                                "fontColor": "#616161"
-                            },
-                            "itemOff":{
-                                "alpha": 0.7,
-                                "textAlpha": 1,
-                                "fontColor": "#616161",
-                                "textDecoration": "line-through",
-                                "lineWidth": 2
-                            },
-                            "markerOff":{
-                                "alpha": 0.2
-                            }
-                        },
-                        "plot":{
-                            "refAngle": 270,
-                            "decimals": 2,
-                            "align": "center",
-                            "thousandsSeparator": ",",
-                            "detach": false,
-                            "valueBox":{
-                                "decimals": 2
-                            },
-                            "animation":{
-                                "effect": 3,
-                                "method": 1,
-                                "sequence": 1,
-                                "onLegendToggle": false
-                            }
-                        },
-                        "tooltip":{
-                            "text":"%t<br>P %v",
-                            "placement": "node:out",
-                            "offsetR": 2,
-                            "width": 110,
-                            "fontColor": "#fff",
-                            "borderRadius": 3,
-                            "bold": true,
-                            "align": "right"
-                        },
-                        "scale":{
-                            "sizeFactor": 1,
-                            "auto-fit" :"true"
-                        },
-                        "series" : [
-                            {
-                                "values" : [1000],
-                                "target": "graph",
-                                "text":"Activity 1",
-                                "backgroundColor": "#4527A0",
-                                "legendText": "%t<br><b>P %v</b>",
-                                "legendMarker":{
-                                    "type": "circle",
-                                    "size": 4,
-                                    "borderColor": "#4527A0",
-                                    "borderWidth": 4,
-                                    "backgroundColor":"#fff"
-                                },
-                                "legendItem":{
-                                    "backgroundColor": "#4527A0"
-                                },
-                                "tooltip":{
-                                    "backgroundColor": "#4527A0"
-                                }
-                            },
-                            {
-                                "values" : [900],
-                                "target":"graph",
-                                "text":"Activity 2",
-                                "backgroundColor": "#1565C0",
-                                "legendText": "%t<br><b>P %v</b>",
-                                "legendMarker":{
-                                    "type": "circle",
-                                    "size": 4,
-                                    "borderColor": "#1565C0",
-                                    "borderWidth": 4,
-                                    "backgroundColor":"#fff"
-                                },
-                                "legendItem":{
-                                    "backgroundColor": "#1565C0"
-                                }
-                            },
-                            {
-                                "values" : [889],
-                                "target":"graph",
-                                "text":"Activity 3",
-                                "backgroundColor": "#AD1457",
-                                "legendText": "%t<br><b>P %v</b>",
-                                "legendMarker":{
-                                    "type": "circle",
-                                    "size": 4,
-                                    "borderColor": "#AD1457",
-                                    "borderWidth": 4,
-                                    "backgroundColor":"#fff"
-                                },
-                                "legendItem":{
-                                    "backgroundColor": "#AD1457"
-                                }
-                            }
-                        ]
-                    }
-                ]
-            };
-
-            zingchart.render({
-                id : 'pie-all-prog-chart',
-                data : myConfig1,
-                height: 600,
-                width: "100%"
-            });
-
-            zingchart.render({
-                id : 'pie-budget-chart',
-                data : myConfig2,
-                height: 600,
-                width: "100%"
-            });
-
-        });
     </script>
 </footer>
 </html>

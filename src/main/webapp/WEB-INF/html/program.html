@@ -14,14 +14,6 @@
         <link rel="stylesheet" href="css/jquery-ui.min.css">
         <link rel="stylesheet" href="css/toastr.css"/>
 
-        <script src="js/jquery3.min.js"></script>
-        <script src="js/angular.js"></script>
-        <script src="js/selectize.min.js"></script>
-        <script src="js/angular-selectize.js"></script>
-        <script src="angular/budgetfy-angular.js"></script>
-        <script src="angular/dirPagination.js"></script>
-        <script src="angular/ngStorage.min.js"></script>
-
     </head>
     <body ng-app="budgetfyApp" ng-controller="programController" ng-cloak>
         <section id="header">
@@ -459,48 +451,59 @@
             </div>
         </section>
 
-    <script src="js/vendor/what-input.js"></script>
-    <script src="js/vendor/foundation.min.js"></script>
-    <script src="js/evey-1.0.js"></script>
-    <script src="js/Chart.min.js"></script>
-    <script src="js/motion-ui.min.js"></script>
-    <script src="js/jquery-ui.min.js"></script>
-    <script src="js/toastr.js"></script>
-    <script>
-        $(document).foundation();
+    <footer>
+        <script src="js/jquery3.min.js"></script>
+        <script src="js/angular.js"></script>
+        <script src="js/selectize.min.js"></script>
+        <script src="js/angular-selectize.js"></script>
+        <script src="angular/budgetfy-angular.js"></script>
+        <script src="angular/dirPagination.js"></script>
+        <script src="angular/ngStorage.min.js"></script>
+        <script src="js/vendor/what-input.js"></script>
+        <script src="js/vendor/foundation.min.js"></script>
+        <script src="js/evey-1.0.js"></script>
+        <script src="js/Chart.min.js"></script>
+        <script src="js/motion-ui.min.js"></script>
+        <script src="js/jquery-ui.min.js"></script>
+        <script src="js/toastr.js"></script>
+        <script src="js/zingchart-angularjs.js"></script>
+        <script src="js/foundation-colorpicker-module.js"></script>
+        <script>
+            $(document).foundation();
 
-        $(document).ready(function(){
+            $(document).ready(function(){
 
 
-        }).on("click","tr.row-onclick > td:not(:nth-of-type(4))",function(){
-            $("#home-page").addClass("hide");
-            $("#view-program").removeClass("hide");
-        }).on("click", ".program-expense-row", function(){
-            $("#particulars-table").removeClass("hide");
-            $("#expense-table").addClass("hide");
-        }).on("click","#add-activity-btn",function() {
-            $('input.clear-after').val('');
-        }).on("keyup", ".comma-separator", function(){
-            $(this).val(evey.addThousandsSeparator($(this).val()));
-            $(this).trigger("change");
-        }).on("input", ".numeric", function() {
-            this.value = this.value.replace(/[^\d\.]/g,'');
-        });
+            }).on("click","tr.row-onclick > td:not(:nth-of-type(4))",function(){
+                $("#home-page").addClass("hide");
+                $("#view-program").removeClass("hide");
+            }).on("click", ".program-expense-row", function(){
+                $("#particulars-table").removeClass("hide");
+                $("#expense-table").addClass("hide");
+            }).on("click","#add-activity-btn",function() {
+                $('input.clear-after').val('');
+            }).on("keyup", ".comma-separator", function(){
+                $(this).val(evey.addThousandsSeparator($(this).val()));
+                $(this).trigger("change");
+            }).on("input", ".numeric", function() {
+                this.value = this.value.replace(/[^\d\.]/g,'');
+            });
 
-        $("#return-btn").click(function(){
-            $("#home-page").removeClass("hide");
-            $("#view-program").addClass("hide");
-        });
+            $("#return-btn").click(function(){
+                $("#home-page").removeClass("hide");
+                $("#view-program").addClass("hide");
+            });
 
-        $("#return-expense").click(function(){
-            $("#particulars-table").addClass("hide");
-            $("#expense-table").removeClass("hide");
-        });
+            $("#return-expense").click(function(){
+                $("#particulars-table").addClass("hide");
+                $("#expense-table").removeClass("hide");
+            });
 
-        $("#progressbar").progressbar({
-            value: 37
-        });
+            $("#progressbar").progressbar({
+                value: 37
+            });
 
-    </script>
+        </script>
+    </footer>
   </body>
 </html>

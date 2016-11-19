@@ -2,6 +2,7 @@ package org.ohf.dao.impl;
 
 import org.ohf.bean.DTO.ProgramActivityDTO;
 import org.ohf.bean.DTO.TotalProgramDTO;
+import org.ohf.bean.Program;
 import org.ohf.dao.ProgramDaoJdbc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
@@ -28,6 +29,7 @@ public class ProgramDaoJdbcImpl implements ProgramDaoJdbc {
     private static StringBuilder GET_PROGRAM_ACTIVITY = new StringBuilder();
     private static StringBuilder GET_TOTAL_PROGRAM = new StringBuilder();
     private static StringBuilder GET_TOTAL_PER_PROGRAM = new StringBuilder();
+    private static StringBuilder GET_ACTUAL_BUDGET = new StringBuilder();
 
     static {
         GET_PROGRAM_ACTIVITY.append("SELECT p.ID AS PROGRAM_ID, p.PROGRAM_NAME AS PROGRAM_NAME, a.ID AS ACTIVITY_ID, a.ACTIVITY_NAME AS ACTIVITY_NAME ")
@@ -56,6 +58,14 @@ public class ProgramDaoJdbcImpl implements ProgramDaoJdbc {
                 .append("       AND v.VOUCHER_YEAR = :year ")
                 .append("GROUP  BY a.ID, ")
                 .append("          Month(v.VC_DATE)  ");
+
+        GET_ACTUAL_BUDGET.append("SELECT p.PROGRAM_NAME AS PROGRAM_NAME, p.HEX_COLOR AS HEX_COLOR, ")
+                .append("       Sum(AMOUNT)    AS BUDGET ")
+                .append("FROM   ACTIVITY a ")
+                .append("       LEFT JOIN PROGRAM p ")
+                .append("              ON a.PROGRAM_ID = p.ID ")
+                .append("WHERE  p.YEAR = :year ")
+                .append("GROUP  BY p.ID ");
 
     }
 
@@ -111,6 +121,24 @@ public class ProgramDaoJdbcImpl implements ProgramDaoJdbc {
                 totalProgramDTO.setExpense(resultSet.getBigDecimal("EXPENSE"));
                 totalProgramDTO.setMonth(resultSet.getInt("VC_DATE"));
                 return totalProgramDTO;
+            }
+        });
+        return results;
+    }
+
+    @Override
+    public List<Program> getActualBudgetPerProgram(String year) {
+        final NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
+        final Map<String, Object> params = new HashMap<>();
+        params.put("year", year);
+        List<Program> results = template.query(GET_ACTUAL_BUDGET.toString(), params, new RowMapper<Program>() {
+            @Override
+            public Program mapRow(ResultSet resultSet, int i) throws SQLException {
+                Program program = new Program();
+                program.setProgramName(resultSet.getString("PROGRAM_NAME"));
+                program.setTotalBudget(resultSet.getBigDecimal("BUDGET"));
+                program.setHexColor(resultSet.getString("HEX_COLOR"));
+                return program;
             }
         });
         return results;
