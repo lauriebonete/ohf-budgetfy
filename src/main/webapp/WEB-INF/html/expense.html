@@ -161,6 +161,7 @@
                         </div>
                         <div class="small-3 columns">
                             <input type="text" ng-model="createVoucher.payee">
+                            <span class="form-error">Please provide valid payee.</span>
                         </div>
                         <div class="small-4 columns">
                             <label class="text-right middle"></label>
@@ -170,6 +171,7 @@
                         </div>
                         <div class="small-3 columns end">
                             <input type="text" ng-model="createVoucher.reference">
+                            <span class="form-error">Please provide valid check/ref number.</span>
                         </div>
                     </div>
                     <div class="row">
@@ -178,6 +180,7 @@
                         </div>
                         <div class="small-3 columns">
                             <input type="date" ng-model="createVoucher.date" placeholder="">
+                            <span class="form-error">Please provide valid date.</span>
                         </div>
                         <div class="small-4 columns">
                             <label class="text-right middle"></label>
@@ -187,6 +190,7 @@
                         </div>
                         <div class="small-3 columns end">
                             <input type="text" ng-model="createVoucher.vcNumber">
+                            <span class="form-error">Please provide valid voucher number.</span>
                         </div>
                     </div>
                     <div class="row">
@@ -204,6 +208,7 @@
                         </div>
                         <div class="small-3 columns">
                             <input class="comma-separator numeric" type="text" ng-model="createVoucher.totalAmount">
+                            <span class="form-error">Please provide valid amount.</span>
                         </div>
                     </div>
                     <div class="row">
@@ -759,9 +764,6 @@
             }).on("click","tr.row-onclick > td:not(:nth-of-type(8))",function(){
                 $("#expense-main").addClass("hide");
                 $("#expense-update-container").removeClass("hide");
-            }).on("click",".add-expense-nav-next",function() {
-                $("#expense-add").css("left","-100%");
-                $("#expense-add-summary").css("left", "0");
             }).on("click",".update-expense-nav-next",function() {
                 $("#expense-update").css("left","-100%");
                 $("#expense-update-summary").css("left", "0");

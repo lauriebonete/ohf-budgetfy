@@ -836,7 +836,73 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
         };
 
         $scope.prepareNewVoucher = function(){
-            $scope.createVoucher.particulars = $scope.newParticularList;
+            var isInvalid = false;
+
+            if(evey.isEmpty($scope.createVoucher)){
+                isInvalid = true;
+                $("input[ng-model='createVoucher.payee']").addClass("is-invalid-input");
+                $("input[ng-model='createVoucher.payee']").parent().find("span.form-error").addClass("is-visible");
+                $("input[ng-model='createVoucher.reference']").addClass("is-invalid-input");
+                $("input[ng-model='createVoucher.reference']").parent().find("span.form-error").addClass("is-visible");
+                $("input[ng-model='createVoucher.date']").addClass("is-invalid-input");
+                $("input[ng-model='createVoucher.date']").parent().find("span.form-error").addClass("is-visible");
+                $("input[ng-model='createVoucher.vcNumber']").addClass("is-invalid-input");
+                $("input[ng-model='createVoucher.vcNumber']").parent().find("span.form-error").addClass("is-visible");
+                $("input[ng-model='createVoucher.totalAmount']").addClass("is-invalid-input");
+                $("input[ng-model='createVoucher.totalAmount']").parent().find("span.form-error").addClass("is-visible");
+            } else {
+                if(evey.isEmpty($scope.createVoucher.payee)){
+                    $("input[ng-model='createVoucher.payee']").addClass("is-invalid-input");
+                    $("input[ng-model='createVoucher.payee']").parent().find("span.form-error").addClass("is-visible");
+                    isInvalid = true;
+                } else {
+                    $("input[ng-model='createVoucher.payee']").removeClass("is-invalid-input");
+                    $("input[ng-model='createVoucher.payee']").parent().find("span.form-error").removeClass("is-visible");
+                }
+
+                if(evey.isEmpty($scope.createVoucher.reference)){
+                    $("input[ng-model='createVoucher.reference']").addClass("is-invalid-input");
+                    $("input[ng-model='createVoucher.reference']").parent().find("span.form-error").addClass("is-visible");
+                    isInvalid = true;
+                } else {
+                    $("input[ng-model='createVoucher.reference']").removeClass("is-invalid-input");
+                    $("input[ng-model='createVoucher.reference']").parent().find("span.form-error").removeClass("is-visible");
+                }
+
+                if(evey.isEmpty($scope.createVoucher.date)){
+                    $("input[ng-model='createVoucher.date']").addClass("is-invalid-input");
+                    $("input[ng-model='createVoucher.date']").parent().find("span.form-error").addClass("is-visible");
+                    isInvalid = true;
+                } else {
+                    $("input[ng-model='createVoucher.date']").removeClass("is-invalid-input");
+                    $("input[ng-model='createVoucher.date']").parent().find("span.form-error").removeClass("is-visible");
+                }
+
+                if(evey.isEmpty($scope.createVoucher.vcNumber)){
+                    $("input[ng-model='createVoucher.vcNumber']").addClass("is-invalid-input");
+                    $("input[ng-model='createVoucher.vcNumber']").parent().find("span.form-error").addClass("is-visible");
+                    isInvalid = true;
+                } else {
+                    $("input[ng-model='createVoucher.vcNumber']").removeClass("is-invalid-input");
+                    $("input[ng-model='createVoucher.vcNumber']").parent().find("span.form-error").removeClass("is-visible");
+                }
+
+                if(evey.isEmpty($scope.createVoucher.totalAmount)){
+                    $("input[ng-model='createVoucher.totalAmount']").addClass("is-invalid-input");
+                    $("input[ng-model='createVoucher.totalAmount']").parent().find("span.form-error").addClass("is-visible");
+                    isInvalid = true;
+                } else {
+                    $("input[ng-model='createVoucher.totalAmount']").removeClass("is-invalid-input");
+                    $("input[ng-model='createVoucher.totalAmount']").parent().find("span.form-error").removeClass("is-visible");
+                }
+
+                if(!isInvalid){
+                    $("#expense-add").css("left","-100%");
+                    $("#expense-add-summary").css("left", "0");
+                    $scope.createVoucher.particulars = $scope.newParticularList;
+                }
+            }
+
         };
 
         $scope.createVoucherObj = function(){
@@ -1395,27 +1461,58 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             var activityCodeDisplay = $("#activity-form option:selected").text();
             var activityBudget = $("#activity-budget").val();
 
-            var activityObject = {
-                activityTypeId:activityId,
-                activityType : {id:activityId},
-                activityName:activityType,
-                activityCodeId:activityCodeId,
-                activityCode:{id:activityCodeId},
-                amount:Number(activityBudget.replace(/,/g, '')),
-                activityCodeName:activityCodeDisplay,
-                program: {id:$scope.selectedProgram.id}
-            };
-            activityService.addUpdateActivity(activityObject).then(function (data){
-                console.log(data);
-                if(data.status){
-                    MotionUI.animateOut($('#activity-form'), 'slide-out-up');
-                    $scope.selectedProgram.activities.unshift(data.data.result);
-                    evey.promptSuccess(data.data.message);
-                } else {
-                    evey.promptAlert(data.data.message);
-                }
-            });
-            $scope.activityTypeSelectizeModel = 0; /*JIM NOV1*/
+
+            var isInvalid = false;
+            if(activityBudget == null ||
+                activityBudget == undefined ||
+                activityBudget == "" ||
+                activityBudget <= 0){
+                $("#activity-budget").addClass("is-invalid-input");
+                $("#activity-budget").parent().find("span.form-error").addClass("is-visible");
+                $('label[for="activity-budget"]').addClass("is-invalid-label");
+
+                isInvalid = true;
+            } else {
+                $("#activity-budget").removeClass("is-invalid-input");
+                $("#activity-budget").parent().find("span.form-error").removeClass("is-visible");
+                $('label[for="activity-budget"]').removeClass("is-invalid-label");
+            }
+
+            if(activityId == null ||
+                activityId == undefined ||
+                activityId == "" ||
+                activityId <= 0){
+                $("#activity").parent().find("label").addClass("is-invalid-label");
+                $("#activity").find("span.form-error").addClass("is-visible");
+
+                isInvalid = true;
+            } else {
+                $("#activity").parent().find("label").removeClass("is-invalid-label");
+                $("#activity").find("span.form-error").removeClass("is-visible");
+            }
+
+            if(!isInvalid){
+                var activityObject = {
+                    activityTypeId:activityId,
+                    activityType : {id:activityId},
+                    activityName:activityType,
+                    activityCodeId:activityCodeId,
+                    activityCode:{id:activityCodeId},
+                    amount:Number(activityBudget.replace(/,/g, '')),
+                    activityCodeName:activityCodeDisplay,
+                    program: {id:$scope.selectedProgram.id}
+                };
+                activityService.addUpdateActivity(activityObject).then(function (data){
+                    if(data.data.status){
+                        MotionUI.animateOut($('#activity-form'), 'slide-out-up');
+                        $scope.selectedProgram.activities.unshift(data.data.result);
+                        evey.promptSuccess(data.data.message);
+                    } else {
+                        evey.promptAlert(data.data.message);
+                    }
+                });
+                $scope.activityTypeSelectizeModel = 0; /*JIM NOV1*/
+            }
         };
 
         $scope.addedActivityList = [];
