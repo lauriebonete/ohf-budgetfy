@@ -133,7 +133,6 @@ public class ReportController {
                 List<Activity> activityList = programService.getAllActivityOfProgram(programId);
                 List<TotalProgramDTO> totalProgramDTOList = programService.getTotalPerProgram(year, programId);
                 reportService.createTotalPerProgram(response, activityList, totalProgramDTOList, year, programName);
-                System.out.print("x");
             }
         } catch (Exception e){
             e.printStackTrace();

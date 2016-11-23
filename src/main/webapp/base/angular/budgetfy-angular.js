@@ -7,7 +7,6 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
         paginationTemplateProvider.setPath('css/dirPagination.tpl.html');
 
         yearServiceProvider.$get().getYears();
-        userServiceProvider.$get().getCurrentUser();
 
     })
     .controller("reportController", ["$scope", "voucherService", "$sessionStorage", "programService", function($scope, voucherService, $sessionStorage, programService){
@@ -66,11 +65,15 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             }
         };
     }])
-    .controller("systemController", function($scope, $sessionStorage, programService, activityService){
+    .controller("systemController", function($scope, $sessionStorage, programService, activityService, userService){
         $scope.init = function(){
             $scope.years = $sessionStorage.years;
             $scope.currentYear = new Date().getFullYear().toString();
-            $scope.user = $sessionStorage.user;
+
+            userService.getCurrentUser().then(function(){
+                $scope.user = $sessionStorage.user;
+            });
+
             programService.getAllPrograms().then(function(data){
                 $scope.programList = data.results;
             });
@@ -683,6 +686,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                 console.log(response);
                 if(response.status){
                     $("#user-main").removeClass("hide");
+                    $("#user-create").addClass("hide");
                     $("#user-create").addClass("hide");
                     $("#user-view").addClass("hide");
                     $("#user-update").addClass("hide");
@@ -1422,23 +1426,54 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             var activityCodeDisplay = $("#activity-code option:selected").text();
             var activityBudget = $("#activity-budget").val();
 
-            var activityObject = {
-                activityTypeId:activityId,
-                activityName:activityType,
-                activityCodeId:activityCodeId,
-                amount:Number(activityBudget.replace(/,/g, '')),
-                activityCodeName:activityCodeDisplay
+            var isInvalid = false;
+            if(activityBudget == null ||
+                activityBudget == undefined ||
+                activityBudget == "" ||
+                activityBudget <= 0){
+                $("#activity-budget").addClass("is-invalid-input");
+                $("#activity-budget").parent().find("span.form-error").addClass("is-visible");
+                $('label[for="activity-budget"]').addClass("is-invalid-label");
+
+                isInvalid = true;
+            } else {
+                $("#activity-budget").removeClass("is-invalid-input");
+                $("#activity-budget").parent().find("span.form-error").removeClass("is-visible");
+                $('label[for="activity-budget"]').removeClass("is-invalid-label");
+            }
+
+            if(activityId == null ||
+                activityId == undefined ||
+                activityId == "" ||
+                activityId <= 0){
+                $("#activity").parent().find("label").addClass("is-invalid-label");
+                $("#activity").find("span.form-error").addClass("is-visible");
+
+                isInvalid = true;
+            } else {
+                $("#activity").parent().find("label").removeClass("is-invalid-label");
+                $("#activity").find("span.form-error").removeClass("is-visible");
+            }
+
+            if(!isInvalid){
+                var activityObject = {
+                    activityTypeId:activityId,
+                    activityName:activityType,
+                    activityCodeId:activityCodeId,
+                    amount:Number(activityBudget.replace(/,/g, '')),
+                    activityCodeName:activityCodeDisplay
+                };
+
+                $scope.addedActivityList.unshift(activityObject);
+
+                $scope.remainingBudget = parseInt($("#total-budget").val().replace(/\,/g,''));
+
+                $.each($scope.addedActivityList, function(i, activity){
+                    $scope.remainingBudget -= activity.amount;
+                    /*$scope.remainingBudget = evey.addThousandsSeparator($scope.remainingBudget); /*JIM Nov2*/
+                });
+                $scope.activityTypeSelectizeModel = 0; /*JIM nov1*/
             };
-
-            $scope.addedActivityList.unshift(activityObject);
-
-            $scope.remainingBudget = parseInt($("#total-budget").val().replace(/\,/g,''));
-
-            $.each($scope.addedActivityList, function(i, activity){
-                $scope.remainingBudget -= activity.amount;
-                /*$scope.remainingBudget = evey.addThousandsSeparator($scope.remainingBudget); /*JIM Nov2*/
-            });
-            $scope.activityTypeSelectizeModel = 0; /*JIM nov1*/
 
         };
 
@@ -1458,7 +1493,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
         };
 
         this.getCurrentUser = function(){
-            $http.get("/budgetfy/login/get-logged-user")
+            return $http.get("/budgetfy/login/get-logged-user")
                 .then(function(response){
                     if(response.data.status){
                         $sessionStorage.user =  response.data.user;
