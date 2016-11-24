@@ -821,8 +821,10 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             var foundVoucher = voucherService.findVoucherInList($scope.voucherList,voucherId);
             $scope.selectedVoucher = foundVoucher;
             if ($.type(foundVoucher.date) === "string") {
+                $scope.selectedVoucher.dateDisplay = foundVoucher.date;
                 var date = foundVoucher.date.split("-");
                 $scope.selectedVoucher.date = new Date(date[0], date[1]-1, date[2]);
+
             }
 
             particularService.findParticularsOfVoucher(voucherId).then(function(results){
@@ -1098,17 +1100,24 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             }
         };
 
+
+        $scope.changeDate = function(){
+            $scope.selectedVoucher.dateDisplay = $scope.selectedVoucher.date.getFullYear() +"-"+($scope.selectedVoucher.date.getMonth()+1)+"-"+$scope.selectedVoucher.date.getDate()
+        };
+
         $scope.updateVoucher = function(){
             $.each($scope.selectedVoucher.particulars, function(i, particular){
-                console.log(particular.expense);
                 particular.expense = Number(String(particular.expense).replace(/,/g, ''));
             });
+
+            $scope.selectedVoucher.date = $scope.selectedVoucher.dateDisplay;
             voucherService.saveVoucher($scope.selectedVoucher).then(function(result){
                 if(result.data.status){
-                    $scope.voucherList.unshift(result.data.result);
                     $("#expense-main").removeClass("hide");
                     $("#expense-add-container").addClass("hide");
                     $("#expense-update-container").addClass("hide");
+                    $("#expense-update").css("left","0");
+                    $("#expense-update-summary").css("left", "+100%");
                     evey.promptSuccess(result.data.message);
                 } else{
                     evey.promptAlert(result.data.message);

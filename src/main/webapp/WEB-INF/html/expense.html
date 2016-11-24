@@ -441,7 +441,7 @@
                             <label class="text-right middle">Date</label>
                         </div>
                         <div class="small-3 columns">
-                            <input type="date" ng-model="selectedVoucher.date" placeholder="">
+                            <input type="date" ng-model="selectedVoucher.date" placeholder="" ng-change="changeDate()">
                         </div>
                         <div class="small-4 columns">
                             <label class="text-right middle"></label>
@@ -632,7 +632,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="small-6 columns">Date</div>
-                                        <div class="small-6 columns end"><span id="update-date-summary">{{selectedVoucher.date}}</span></div>
+                                        <div class="small-6 columns end"><span id="update-date-summary">{{selectedVoucher.dateDisplay}}</span></div>
                                     </div>
                                     <div class="row">
                                         <div class="small-6 columns">Total Amount</div>
