@@ -902,9 +902,15 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                     $("#expense-add").css("left","-100%");
                     $("#expense-add-summary").css("left", "0");
                     $scope.createVoucher.particulars = $scope.newParticularList;
+                    $scope.createVoucher.statusDisplay =  $("#create-voucher-status option:selected").text();
                 }
             }
 
+        };
+
+        $scope.changeStatus = function(){
+            console.log("here", $("#update-status option:selected").text());
+            $scope.selectedVoucher.statusDisplay =  $("#update-status option:selected").text();
         };
 
         $scope.createVoucherObj = function(){

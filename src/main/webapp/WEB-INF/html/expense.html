@@ -343,6 +343,10 @@
                                             <div class="small-6 columns end"><span id="payee-summary">{{createVoucher.payee}}</span></div>
                                         </div>
                                         <div class="row">
+                                            <div class="small-6 columns">Status</div>
+                                            <div class="small-6 columns end"><span>{{createVoucher.statusDisplay}}</span></div>
+                                        </div>
+                                        <div class="row">
                                             <div class="small-6 columns">Check/Ref#</div>
                                             <div class="small-6 columns end"><span id="check-ref-summary">{{createVoucher.reference}}</span></div>
                                         </div>
@@ -415,7 +419,7 @@
                             <label class="text-right middle">Status</label>
                         </div>
                         <div class="small-3 columns">
-                            <select ng-model="selectedVoucher.statusId" ng-options="status.id as status.value for status in voucherStatusList">
+                            <select ng-model="selectedVoucher.statusId" ng-options="status.id as status.value for status in voucherStatusList" id="update-status">
                             </select>
                         </div>
                     </div>
@@ -603,7 +607,7 @@
                             <a class="button alert float-right cancel-btn"><i class="fa fa-arrow-left" aria-hidden="true"></i> Cancel</a>
                         </div>
                         <div class="small-7 columns end">
-                            <a class="button success float-right update-expense-nav-next" id="submit-update-form">Next <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                            <a class="button success float-right update-expense-nav-next" id="submit-update-form" ng-click="changeStatus()">Next <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                         </div>
                     </div>
                 </div>
@@ -621,6 +625,10 @@
                                     <div class="row">
                                         <div class="small-6 columns">Payee</div>
                                         <div class="small-6 columns end"><span id="update-payee-summary">{{selectedVoucher.payee}}</span></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="small-6 columns">Status</div>
+                                        <div class="small-6 columns end"><span>{{selectedVoucher.statusDisplay}}</span></div>
                                     </div>
                                     <div class="row">
                                         <div class="small-6 columns">Check/Ref#</div>
