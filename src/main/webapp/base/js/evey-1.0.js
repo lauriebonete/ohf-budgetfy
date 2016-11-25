@@ -265,6 +265,16 @@ var evey = (function(){
             });
         },
 
+        isEmpty: function(data){
+            if(data == null ||
+                data == undefined ||
+                data == "" ||
+                data <= 0){
+                return true;
+            }
+            return false;
+        },
+
         paginatePage: function(data) {
             var numberOfPage = data.size/data.listSize;
             numberOfPage = Math.ceil(numberOfPage);

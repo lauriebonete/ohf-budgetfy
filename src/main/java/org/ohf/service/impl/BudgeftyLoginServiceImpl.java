@@ -32,6 +32,7 @@ public class BudgeftyLoginServiceImpl implements LoginService {
         String userName = authentication.getName();
         String password = authentication.getCredentials().toString();
 
+
         User user = userService.getUserByUsername(userName);
 
         if (user != null) {

@@ -5,6 +5,7 @@ import org.evey.dao.UserDao;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.Query;
+import java.util.List;
 
 /**
  * Created by kenji on 12/4/2015.
@@ -18,7 +19,12 @@ public class UserDaoJpaImpl extends BaseEntityDaoJpaImpl<User,Long> implements U
         Query query = getEntityManager().createQuery(queryString);
         query.setParameter("username", username);
         query.setHint("org.hibernate.cacheable", true);
-        return (User) query.getSingleResult();
+
+        List<Object> list = query.getResultList();
+        if(!list.isEmpty()){
+            return (User) list.get(0);
+        }
+        return null;
     }
 
     @Override

@@ -195,8 +195,9 @@
               <div class="small-3 columns">
                 <label class="text-right middle">Activity Name</label>
               </div>
-              <div class="small-7 columns end">
+              <div class="small-7 columns end" id="activity">
                   <selectize data-list="false" data-attr="id" config='activityTypeSelectConfig' options='activityTypeList' ng-model="activityTypeSelectizeModel"></selectize>
+                  <span class="form-error">Please provide valid Activity.</span>
               </div>
             </div>
             <div class="row">
@@ -204,7 +205,8 @@
                 <label for="activity-budget" class="middle">Budget</label>
               </div>
               <div class="small-3 columns">
-                <input class="clear-after numeric" type="text" id="activity-budget" placeholder="Budget">
+                    <input class="clear-after numeric" type="text" id="activity-budget" placeholder="Budget">
+                    <span class="form-error">Please provide valid budget amount.</span>
               </div>
               <div class="small-2 columns">
                 <label class="text-right middle">Activity Type</label>
@@ -296,7 +298,7 @@
                      </div>
                       <div class="row">
                           <div class="small-6 columns">Color</div>
-                          <div class="small-6 columns end"><span style="background-color:{{programObject.hexColor}}">{{programObject.hexColor}}</span></div>
+                          <div class="small-6 columns end"><spanstyle="background-color:{{programObject.hexColor}}">{{programObject.hexColor}}</span></div>
                       </div>
                      <div class="row">
                         <div class="small-6 columns">Duration</div>

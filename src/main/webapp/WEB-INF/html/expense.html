@@ -161,6 +161,7 @@
                         </div>
                         <div class="small-3 columns">
                             <input type="text" ng-model="createVoucher.payee">
+                            <span class="form-error">Please provide valid payee.</span>
                         </div>
                         <div class="small-4 columns">
                             <label class="text-right middle"></label>
@@ -170,6 +171,7 @@
                         </div>
                         <div class="small-3 columns end">
                             <input type="text" ng-model="createVoucher.reference">
+                            <span class="form-error">Please provide valid check/ref number.</span>
                         </div>
                     </div>
                     <div class="row">
@@ -178,6 +180,7 @@
                         </div>
                         <div class="small-3 columns">
                             <input type="date" ng-model="createVoucher.date" placeholder="">
+                            <span class="form-error">Please provide valid date.</span>
                         </div>
                         <div class="small-4 columns">
                             <label class="text-right middle"></label>
@@ -187,6 +190,7 @@
                         </div>
                         <div class="small-3 columns end">
                             <input type="text" ng-model="createVoucher.vcNumber">
+                            <span class="form-error">Please provide valid voucher number.</span>
                         </div>
                     </div>
                     <div class="row">
@@ -204,6 +208,7 @@
                         </div>
                         <div class="small-3 columns">
                             <input class="comma-separator numeric" type="text" ng-model="createVoucher.totalAmount">
+                            <span class="form-error">Please provide valid amount.</span>
                         </div>
                     </div>
                     <div class="row">
@@ -338,6 +343,10 @@
                                             <div class="small-6 columns end"><span id="payee-summary">{{createVoucher.payee}}</span></div>
                                         </div>
                                         <div class="row">
+                                            <div class="small-6 columns">Status</div>
+                                            <div class="small-6 columns end"><span>{{createVoucher.statusDisplay}}</span></div>
+                                        </div>
+                                        <div class="row">
                                             <div class="small-6 columns">Check/Ref#</div>
                                             <div class="small-6 columns end"><span id="check-ref-summary">{{createVoucher.reference}}</span></div>
                                         </div>
@@ -347,7 +356,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="small-6 columns">Date</div>
-                                            <div class="small-6 columns end"><span id="date-summary">{{createVoucher.date | date:'fullDate'}}</span></div>
+                                            <div class="small-6 columns end"><span id="date-summary">{{createVoucher.date}}</span></div>
                                         </div>
                                         <div class="row">
                                             <div class="small-6 columns">Total Amount</div>
@@ -410,7 +419,7 @@
                             <label class="text-right middle">Status</label>
                         </div>
                         <div class="small-3 columns">
-                            <select ng-model="selectedVoucher.statusId" ng-options="status.id as status.value for status in voucherStatusList">
+                            <select ng-model="selectedVoucher.statusId" ng-options="status.id as status.value for status in voucherStatusList" id="update-status">
                             </select>
                         </div>
                     </div>
@@ -436,7 +445,7 @@
                             <label class="text-right middle">Date</label>
                         </div>
                         <div class="small-3 columns">
-                            <input type="date" ng-model="selectedVoucher.date" placeholder="">
+                            <input type="date" ng-model="selectedVoucher.date" placeholder="" ng-change="changeDate()">
                         </div>
                         <div class="small-4 columns">
                             <label class="text-right middle"></label>
@@ -598,7 +607,7 @@
                             <a class="button alert float-right cancel-btn"><i class="fa fa-arrow-left" aria-hidden="true"></i> Cancel</a>
                         </div>
                         <div class="small-7 columns end">
-                            <a class="button success float-right update-expense-nav-next" id="submit-update-form">Next <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                            <a class="button success float-right update-expense-nav-next" id="submit-update-form" ng-click="changeStatus()">Next <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                         </div>
                     </div>
                 </div>
@@ -618,6 +627,10 @@
                                         <div class="small-6 columns end"><span id="update-payee-summary">{{selectedVoucher.payee}}</span></div>
                                     </div>
                                     <div class="row">
+                                        <div class="small-6 columns">Status</div>
+                                        <div class="small-6 columns end"><span>{{selectedVoucher.statusDisplay}}</span></div>
+                                    </div>
+                                    <div class="row">
                                         <div class="small-6 columns">Check/Ref#</div>
                                         <div class="small-6 columns end"><span id="update-check-ref-summary">{{selectedVoucher.reference}}</span></div>
                                     </div>
@@ -627,7 +640,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="small-6 columns">Date</div>
-                                        <div class="small-6 columns end"><span id="update-date-summary">{{selectedVoucher.date | date:'fullDate'}}</span></div>
+                                        <div class="small-6 columns end"><span id="update-date-summary">{{selectedVoucher.dateDisplay}}</span></div>
                                     </div>
                                     <div class="row">
                                         <div class="small-6 columns">Total Amount</div>
@@ -759,9 +772,6 @@
             }).on("click","tr.row-onclick > td:not(:nth-of-type(8))",function(){
                 $("#expense-main").addClass("hide");
                 $("#expense-update-container").removeClass("hide");
-            }).on("click",".add-expense-nav-next",function() {
-                $("#expense-add").css("left","-100%");
-                $("#expense-add-summary").css("left", "0");
             }).on("click",".update-expense-nav-next",function() {
                 $("#expense-update").css("left","-100%");
                 $("#expense-update-summary").css("left", "0");

@@ -66,4 +66,12 @@ public class UserController extends BaseCrudController<User> {
             command.setPassword(command.getNewPassword());
         }
     }
+
+    @Override
+    protected void postCreate(User command) {
+        if(command.getNewPassword()!=null &&
+                !command.getNewPassword().isEmpty()){
+            command.setNewPassword(null);
+        }
+    }
 }
