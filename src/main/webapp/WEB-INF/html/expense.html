@@ -347,7 +347,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="small-6 columns">Date</div>
-                                            <div class="small-6 columns end"><span id="date-summary">{{createVoucher.date}}</span></div>
+                                            <div class="small-6 columns end"><span id="date-summary">{{createVoucher.date | date:'fullDate'}}</span></div>
                                         </div>
                                         <div class="row">
                                             <div class="small-6 columns">Total Amount</div>
@@ -627,7 +627,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="small-6 columns">Date</div>
-                                        <div class="small-6 columns end"><span id="update-date-summary">{{selectedVoucher.date}}</span></div>
+                                        <div class="small-6 columns end"><span id="update-date-summary">{{selectedVoucher.date | date:'fullDate'}}</span></div>
                                     </div>
                                     <div class="row">
                                         <div class="small-6 columns">Total Amount</div>
