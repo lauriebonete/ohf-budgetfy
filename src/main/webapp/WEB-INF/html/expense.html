@@ -593,7 +593,7 @@
                                     <td data-toggle="update-expense-form">{{particular.activity.activityName}}</td>
                                     <td data-toggle="update-expense-form">{{particular.displayExpense}}</td>
                                     <td><a class="button success" ng-if="particular.receiptId != null" ng-click="downloadAttachment(particular.receiptId)"><i class="fa fa-file-image-o" aria-hidden="true"></i></a></td>
-                                    <td ng-click="removeParticular(particular.id)"><a class="button alert"><i class="fa fa-minus"></i></a></td>
+                                    <td ng-click="removeParticular(particular)"><a class="button alert"><i class="fa fa-minus"></i></a></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -709,6 +709,8 @@
         <script src="js/jquery.form.js"></script>
         <script src="js/jquery.uploadfile.min.js"></script>
         <script src="js/zingchart-angularjs.js"></script>
+        <script src="js/moment.js"></script>
+        <script src="js/uuid.js"></script>
         <script src="js/foundation-colorpicker-module.js"></script>
         <script>
             $(document).foundation();

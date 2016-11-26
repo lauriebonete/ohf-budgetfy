@@ -943,7 +943,8 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                 "description": $scope.addParticular.description,
                 "expense":Number($scope.addParticular.expense.replace(/,/g, '')) ,
                 "activity": activity,
-                "program": program
+                "program": program,
+                "tempId": uuid.v4()
             };
 
             if(fileId!=null){
@@ -979,7 +980,8 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                 "description": $scope.addParticular.description,
                 "expense": Number($scope.addParticular.expense.replace(/,/g, '')),
                 "displayExpense": evey.formatDisplayMoney($scope.addParticular.expense),
-                "activity": activity
+                "activity": activity,
+                "tempId": uuid.v4()
             };
 
             if(fileId!=null){
@@ -1081,19 +1083,26 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
 
 
         $scope.removeParticularOnAdd = function(particular){
-            $scope.newParticularList = $filter('filter')($scope.newParticularList, { description: ('!' + particular.description)/*, activity: {id: ("!"+particular.activity.id)}, program: {id: ("!"+particular.program.id)}  */});
+            $scope.newParticularList = $filter('filter')($scope.newParticularList, { tempId: ('!' + particular.tempId)/*, activity: {id: ("!"+particular.activity.id)}, program: {id: ("!"+particular.program.id)}  */});
             $scope.computeVariance();
         };
 
-        $scope.removeParticular = function(particularId){
-            particularService.deleteParticular(particularId).then(function(results){
-                if(results.status){
-                    $scope.selectedVoucher.particulars = $filter('filter')($scope.selectedVoucher.particulars, { id: ('!' +particularId)});
-                    $scope.computeVarianceUpdate();
-                }
-            },function(error){
+        $scope.removeParticular = function(particular){
+            if(!evey.isEmpty(particular.id)){
+                particularService.deleteParticular(particular.id).then(function(results){
+                    if(results.status){
+                        $scope.selectedVoucher.particulars = $filter('filter')($scope.selectedVoucher.particulars, { id: ('!' +particular.id)});
+                        $scope.computeVarianceUpdate();
+                    } else {
+                        evey.promptAlert(results.message);
+                    }
+                },function(error){
 
-            });
+                });
+            } else {
+                $scope.selectedVoucher.particulars = $filter('filter')($scope.selectedVoucher.particulars, { tempId: ('!' +particular.tempId)});
+                $scope.computeVarianceUpdate();
+            }
         };
 
         $scope.yearFilter = function(voucher){
@@ -1119,6 +1128,9 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             $scope.selectedVoucher.date = $scope.selectedVoucher.dateDisplay;
             voucherService.saveVoucher($scope.selectedVoucher).then(function(result){
                 if(result.data.status){
+                    console.log($scope.selectedVoucher.dateDisplay);
+                    $scope.selectedVoucher.displayDate = moment($scope.selectedVoucher.dateDisplay).format("MMM DD, YYYY");
+
                     $("#expense-main").removeClass("hide");
                     $("#expense-add-container").addClass("hide");
                     $("#expense-update-container").addClass("hide");
