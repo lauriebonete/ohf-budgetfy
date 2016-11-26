@@ -1343,7 +1343,6 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                     $scope.addedActivityList = [];
                     $scope.addedUserList = [];
                     window.location = evey.getHome()+"/budgetfy/program";
-                    evey.promptSuccess(results.message)
                 } else{
                     evey.promptAlert(results.message);
                 }
