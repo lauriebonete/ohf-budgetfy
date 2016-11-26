@@ -157,7 +157,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                             "type": "pie",
 
                             "title":{
-                                "text": "Activities (Expected)",
+                                "text": "Activities (Actuals)",
                                 "align": "center",
                                 "fontColor": "#616161"
                             },
@@ -692,7 +692,6 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                     $("#user-update").addClass("hide");
                     $scope.userList.push(response.result);
                     $scope.createUser.userRole = 0;  /*Jim Nov1*/
-                    $('input.clear-after').val(''); /*Jim Nov1*/
                     evey.promptSuccess(response.message);
                 } else {
                     evey.promptAlert(response.message);
@@ -712,6 +711,8 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             });
 
             $scope.selectedUser.userRole = userRoleList;
+            console.log($scope.selectedUser.newPassword);
+            /*$scope.selectedUser.newPassword = ''; /*Jim Nov21*/
 
             userService.createNewUser($scope.selectedUser).then(function successCallback(response){
                 if(response.status){
