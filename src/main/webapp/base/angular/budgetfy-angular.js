@@ -52,7 +52,45 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
         $scope.generateDisbursementByDate = function(){
             var fromDate = $("#from-date").val();
             var toDate = $("#to-date").val();
-            window.location.href = evey.getHome()+"/budgetfy/reports/create-disbursement?fromDate="+fromDate+"&toDate="+toDate;
+
+            var isInvalid = false;
+            if(evey.isEmpty(fromDate)){
+                $("#from-date").addClass("is-invalid-input");
+                $("#from-date").parent().find("span.form-error").addClass("is-visible");
+                $("label[for='from-date']").addClass("is-invalid-label");
+                isInvalid = true;
+            } else {
+                $("#from-date").removeClass("is-invalid-input");
+                $("#from-date").parent().find("span.form-error").removeClass("is-visible");
+                $("label[for='from-date']").removeClass("is-invalid-label");
+            }
+
+            if(evey.isEmpty(toDate)){
+                $("#to-date").addClass("is-invalid-input");
+                $("#to-date").parent().find("span.form-error").addClass("is-visible");
+                $("label[for='to-date']").addClass("is-invalid-label");
+                isInvalid = true;
+            } else {
+                $("#to-date").removeClass("is-invalid-input");
+                $("#to-date").parent().find("span.form-error").removeClass("is-visible");
+                $("label[for='to-date']").removeClass("is-invalid-label");
+            }
+
+            if(!evey.isEmpty(toDate) &&
+                !evey.isEmpty(fromDate) &&
+                fromDate > toDate){
+                $("#to-date").addClass("is-invalid-input");
+                $("#to-date").parent().find("span.form-error").addClass("is-visible");
+                $("label[for='to-date']").addClass("is-invalid-label");
+
+                $("#from-date").addClass("is-invalid-input");
+                $("#from-date").parent().find("span.form-error").addClass("is-visible");
+                $("label[for='from-date']").addClass("is-invalid-label");
+                isInvalid = true;
+            }
+            if(!isInvalid){
+                window.location.href = evey.getHome()+"/budgetfy/reports/create-disbursement?fromDate="+fromDate+"&toDate="+toDate;
+            }
         };
 
         $scope.yearFilter = function(program){
@@ -1145,8 +1183,9 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             $scope.selectedVoucher.date = $scope.selectedVoucher.dateDisplay;
             voucherService.saveVoucher($scope.selectedVoucher).then(function(result){
                 if(result.data.status){
-                    $scope.selectedVoucher.displayDate = moment($scope.selectedVoucher.dateDisplay).format("MMM DD, YYYY");
-
+                    /*$scope.selectedVoucher.displayDate = moment($scope.selectedVoucher.dateDisplay).format("MMM DD, YYYY");*/
+                    $scope.voucherList = $filter('filter')($scope.voucherList , { id: ('!' + $scope.selectedVoucher.id) });
+                    $scope.voucherList.unshift(result.data.result);
                     $("#expense-main").removeClass("hide");
                     $("#expense-add-container").addClass("hide");
                     $("#expense-update-container").addClass("hide");
