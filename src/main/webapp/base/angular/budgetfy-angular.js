@@ -818,6 +818,22 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             $scope.user = $sessionStorage.user;
         };
 
+        $scope.deleteVoucher = function(voucherId){
+            $scope.voucherIdToBeDeleted = voucherId;
+        };
+
+        $scope.continueDeleteVoucher = function(){
+            voucherService.deleteVoucher($scope.voucherIdToBeDeleted).then(function(data){
+                console.log(data);
+                if(data.data.status){
+                    $scope.voucherList = $filter('filter')($scope.voucherList, { id: ('!' +$scope.voucherIdToBeDeleted)});
+                    evey.promptSuccess(data.data.message);
+                } else {
+                    evey.promptAlert(data.data.message);
+                }
+            });
+        };
+
         $scope.viewVoucher = function(voucherId){
             var foundVoucher = voucherService.findVoucherInList($scope.voucherList,voucherId);
             $scope.selectedVoucher = foundVoucher;
@@ -910,7 +926,6 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
         };
 
         $scope.changeStatus = function(){
-            console.log("here", $("#update-status option:selected").text());
             $scope.selectedVoucher.statusDisplay =  $("#update-status option:selected").text();
         };
 
@@ -1766,6 +1781,15 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                 return foundVoucher[0];
             }
             return null;
+        };
+
+        this.deleteVoucher = function(voucherId){
+            return $http.delete("/budgetfy/expense/"+voucherId)
+                .then(function successCallback(response){
+                    return response
+                }, function errorCallback(error) {
+                    console.log(error);
+                });
         };
 
         this.saveVoucher = function(voucher){
