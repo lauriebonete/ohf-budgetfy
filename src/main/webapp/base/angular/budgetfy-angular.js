@@ -817,6 +817,21 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             $scope.user = $sessionStorage.user;
         };
 
+        $scope.deleteVoucher = function(voucherId){
+            $scope.voucherIdToBeDeleted = voucherId;
+        };
+
+        $scope.continueDeleteVoucher = function(){
+            voucherService.deleteVoucher($scope.voucherIdToBeDeleted).then(function(data){
+                if(data.data.status){
+                    $scope.voucherList = $filter('filter')($scope.voucherList, { id: ('!' +$scope.voucherIdToBeDeleted)});
+                    evey.promptSuccess(data.data.message);
+                } else {
+                    evey.promptAlert(data.data.message);
+                }
+            });
+        };
+
         $scope.viewVoucher = function(voucherId){
             var foundVoucher = voucherService.findVoucherInList($scope.voucherList,voucherId);
             $scope.selectedVoucher = foundVoucher;
@@ -878,6 +893,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                 } else {
                     $("input[ng-model='createVoucher.date']").removeClass("is-invalid-input");
                     $("input[ng-model='createVoucher.date']").parent().find("span.form-error").removeClass("is-visible");
+                    $scope.createVoucher.dateDisplay = $scope.createVoucher.date.getFullYear() +"-"+($scope.createVoucher.date.getMonth()+1)+"-"+$scope.createVoucher.date.getDate()
                 }
 
                 if(evey.isEmpty($scope.createVoucher.vcNumber)){
@@ -909,13 +925,13 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
         };
 
         $scope.changeStatus = function(){
-            console.log("here", $("#update-status option:selected").text());
             $scope.selectedVoucher.statusDisplay =  $("#update-status option:selected").text();
         };
 
         $scope.createVoucherObj = function(){
             $scope.createVoucher.status = {"id": $("#create-voucher-status").val()};
             $scope.createVoucher.totalAmount = Number($scope.createVoucher.totalAmount.replace(/,/g, ''));
+            $scope.createVoucher.date = $scope.createVoucher.dateDisplay;
             voucherService.saveVoucher($scope.createVoucher).then(function (result){
                 if(result.data.status){
                     $scope.voucherList.unshift(result.data.result);
@@ -1121,6 +1137,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
         };
 
         $scope.updateVoucher = function(){
+            $scope.selectedVoucher.date = $scope.selectedVoucher.dateDisplay;
             $.each($scope.selectedVoucher.particulars, function(i, particular){
                 particular.expense = Number(String(particular.expense).replace(/,/g, ''));
             });
@@ -1128,7 +1145,6 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             $scope.selectedVoucher.date = $scope.selectedVoucher.dateDisplay;
             voucherService.saveVoucher($scope.selectedVoucher).then(function(result){
                 if(result.data.status){
-                    console.log($scope.selectedVoucher.dateDisplay);
                     $scope.selectedVoucher.displayDate = moment($scope.selectedVoucher.dateDisplay).format("MMM DD, YYYY");
 
                     $("#expense-main").removeClass("hide");
@@ -1765,6 +1781,15 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                 return foundVoucher[0];
             }
             return null;
+        };
+
+        this.deleteVoucher = function(voucherId){
+            return $http.delete("/budgetfy/expense/"+voucherId)
+                .then(function successCallback(response){
+                    return response
+                }, function errorCallback(error) {
+
+                });
         };
 
         this.saveVoucher = function(voucher){
