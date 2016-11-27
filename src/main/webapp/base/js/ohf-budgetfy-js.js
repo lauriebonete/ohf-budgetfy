@@ -24,11 +24,11 @@ $(document).ready(function() {
 		$("#program-activity").css("left", "+100%");
 		$(".progress-meter").css("width", "50%");
 	});
-	$(".program-activity-nav-next").on("click",function() {
+	/*$(".program-activity-nav-next").on("click",function() {
 		$("#program-activity").css("left","-100%");
 		$("#program-summary").css("left", "0");
 		$(".progress-meter").css("width", "100%");
-	});
+	});*/
 
 	$(".program-summary-nav-prev").on("click",function() {
 		$("#program-activity").css("left","0");

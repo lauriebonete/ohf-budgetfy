@@ -1333,60 +1333,71 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
         };
 
         $scope.showSummary = function(){
-            var programName = $("#program-name").val();
-            var totalBudget = $("#total-budget").val();
-            var percentage = $("#percentage").val();
-            var threshold = $("#threshold").val();
-            var programStart = $("#program-start").val();
-            var programEnd = $("#program-end").val();
 
-            var userAccessList = [];
-            $.each($scope.addedUserList, function(i,user){
-                var programAccessSet = [];
-                if(user.readAccess){
-                    programAccessSet.push({access:"PROGRAM_READ_ACCESS"});
-                    user.accessSummary += "Read";
-                }
-                if(user.writeAccess){
-                    programAccessSet.push({access:"PROGRAM_WRITE_ACCESS"});
-                    if(user.accessSummary!=null && user.accessSummary!="" && user.accessSummary.length>0){
-                        user.accessSummary += ", ";
+            console.log($scope.addedActivityList.length, $scope.addedActivityList.size);
+            if($scope.addedActivityList.size>0){
+                var programName = $("#program-name").val();
+                var totalBudget = $("#total-budget").val();
+                var percentage = $("#percentage").val();
+                var threshold = $("#threshold").val();
+                var programStart = $("#program-start").val();
+                var programEnd = $("#program-end").val();
+
+                var userAccessList = [];
+                $.each($scope.addedUserList, function(i,user){
+                    var programAccessSet = [];
+                    if(user.readAccess){
+                        programAccessSet.push({access:"PROGRAM_READ_ACCESS"});
+                        user.accessSummary += "Read";
                     }
-                    user.accessSummary += "Write";
-                }
-                if(user.updateAccess){
-                    programAccessSet.push({access:"PROGRAM_UPDATE_ACCESS"});
-                    if(user.accessSummary!=null && user.accessSummary!="" && user.accessSummary.length>0){
-                        user.accessSummary += ", ";
+                    if(user.writeAccess){
+                        programAccessSet.push({access:"PROGRAM_WRITE_ACCESS"});
+                        if(user.accessSummary!=null && user.accessSummary!="" && user.accessSummary.length>0){
+                            user.accessSummary += ", ";
+                        }
+                        user.accessSummary += "Write";
                     }
-                    user.accessSummary += "Update";
-                }
-                if(user.deleteAccess){
-                    programAccessSet.push({access:"PROGRAM_DELETE_ACCESS"});
-                    if(user.accessSummary!=null && user.accessSummary!="" && user.accessSummary.length>0){
-                        user.accessSummary += ", ";
+                    if(user.updateAccess){
+                        programAccessSet.push({access:"PROGRAM_UPDATE_ACCESS"});
+                        if(user.accessSummary!=null && user.accessSummary!="" && user.accessSummary.length>0){
+                            user.accessSummary += ", ";
+                        }
+                        user.accessSummary += "Update";
                     }
-                    user.accessSummary += "Delete";
-                }
-                var userAccess = {
-                    userId:user.id,
-                    programAccessSet: programAccessSet
+                    if(user.deleteAccess){
+                        programAccessSet.push({access:"PROGRAM_DELETE_ACCESS"});
+                        if(user.accessSummary!=null && user.accessSummary!="" && user.accessSummary.length>0){
+                            user.accessSummary += ", ";
+                        }
+                        user.accessSummary += "Delete";
+                    }
+                    var userAccess = {
+                        userId:user.id,
+                        programAccessSet: programAccessSet
+                    };
+
+                    userAccessList.push(userAccess);
+                });
+
+                $scope.programObject = {
+                    programName:programName,
+                    totalBudget:Number(totalBudget.replace(/,/g, '')),
+                    percentage:Number(percentage),
+                    threshold:Number(threshold.replace(/,/g, '')),
+                    programStart:programStart,
+                    programEnd:programEnd,
+                    activities: $scope.addedActivityList,
+                    hexColor: $scope.hexColor,
+                    userAccessList:userAccessList
                 };
 
-                userAccessList.push(userAccess);
-            });
-
-            $scope.programObject = {
-                programName:programName,
-                totalBudget:Number(totalBudget.replace(/,/g, '')),
-                percentage:Number(percentage),
-                threshold:Number(threshold.replace(/,/g, '')),
-                programStart:programStart,
-                programEnd:programEnd,
-                activities: $scope.addedActivityList,
-                hexColor: $scope.hexColor,
-                userAccessList:userAccessList
-            };
+                $("#program-activity").css("left","-100%");
+                $("#program-summary").css("left", "0");
+                $(".progress-meter").css("width", "100%");
+                $("#activity-error").removeClass("is-visible");
+            } else {
+                $("#activity-error").addClass("is-visible");
+            }
         };
 
         $scope.createProgram = function(){

@@ -27,7 +27,7 @@
                 <a class="button" data-toggle="user-dropdown"><i class="fa fa-user"></i></a>
                 <div class="dropdown-pane bottom" id="user-dropdown" data-dropdown data-close-on-click="true" data-auto-focus="true">
                     <label class="text-left"><strong>Logged In:</strong></label>
-                    <label class="text-center middle">USER1</label>
+                    <label class="text-center middle">{{user.lastName}}, {{user.firstName}}</label>
                     <a href="/budgetfy/logout" class="button alert text-left">Logout <i class="fa fa-sign-out" aria-hidden="true"></i></a>
                 </div>
             </div>
@@ -254,8 +254,9 @@
                                 <td><a class="button alert" ng-click="removeAddedActivity(activity.activityTypeId)"><i class="fa fa-minus"></i></a></td>
                             </tr>
                         </tbody>
-                </table>
-              </div>
+                    </table>
+                    <span class="form-error" id="activity-error">No activity/ies provided.</span>
+                </div>
             </div>
             <ul class="pagination text-center" role="navigation" aria-label="Pagination">
                 <dir-pagination-controls template-url="../css/dirPagination.tpl.html" pagination-id="added-activity" boundary-links="true"></dir-pagination-controls>
