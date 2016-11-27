@@ -141,7 +141,8 @@
             <div id="added-user-access">
                 <div class="row" ng-repeat="user in addedUserList">
                     <div class="small-2 columns"><label class="text-left middle"></label></div>
-                    <div class="small-3 columns"><label class="added-user-username">{{user.userName}}</label></div>
+                    <div class="small-3 columns"><label class="added-user-username" required>{{user.userName}}</label></div>
+                    <span class="form-error">Please select a User.</span>
                     <div class="small-1 columns text-center"><input class="read-program-access" type="checkbox" ng-model="user.readAccess"><label></label></div>
                     <div class="small-1 columns text-center"><input class="write-program-access" type="checkbox" ng-model="user.writeAccess"><label></label></div>
                     <div class="small-1 columns text-center"><input class="update-program-access" type="checkbox" ng-model="user.updateAccess"><label></label></div>
@@ -298,7 +299,7 @@
                      </div>
                       <div class="row">
                           <div class="small-6 columns">Color</div>
-                          <div class="small-6 columns end"><spanstyle="background-color:{{programObject.hexColor}}">{{programObject.hexColor}}</span></div>
+                          <div class="small-6 columns end"><span style="background-color:{{programObject.hexColor}}">{{programObject.hexColor}}</span></div>
                       </div>
                      <div class="row">
                         <div class="small-6 columns">Duration</div>
