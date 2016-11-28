@@ -853,6 +853,8 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             $scope.years = $sessionStorage.years;
             $scope.currentYear = new Date().getFullYear().toString();
             $scope.user = $sessionStorage.user;
+
+            $scope.addParticular = {};
         };
 
         $scope.deleteVoucher = function(voucherId){
@@ -985,32 +987,74 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
 
         $scope.newParticularList = [];
         $scope.addNewParticular = function(attachmentContainer){
-            var fileId = null;
-            var preview = $("div#"+attachmentContainer).parent(".columns").find("img.ajax-file-upload-preview");
-            if(preview.length>0){
-                fileId = $(preview[0]).attr("data-upload-id");
-            }
-            var program = programService.findProgramInList($scope.programList,$scope.addParticular.addParticularProgramModel);
-            var activity = activityService.findActivityInList($scope.programActivities,$scope.addParticular.addParticularActivityModel);
 
-            var particular = {
-                "description": $scope.addParticular.description,
-                "expense":Number($scope.addParticular.expense.replace(/,/g, '')) ,
-                "activity": activity,
-                "program": program,
-                "tempId": uuid.v4()
-            };
-
-            if(fileId!=null){
-                particular.receipt = {"id":fileId};
+            var isInvalid = false;
+            if(evey.isEmpty($scope.addParticular.addParticularProgramModel)){
+                $("selectize[ng-model='addParticular.addParticularProgramModel']").addClass("is-invalid-input");
+                $("selectize[ng-model='addParticular.addParticularProgramModel']").parent().find("span.form-error").addClass("is-visible");
+                isInvalid = true;
+            } else {
+                $("selectize[ng-model='addParticular.addParticularProgramModel']").removeClass("is-invalid-input");
+                $("selectize[ng-model='addParticular.addParticularProgramModel']").parent().find("span.form-error").removeClass("is-visible");
             }
 
-            MotionUI.animateOut($('#add-expense-form'), 'slide-out-up');
-            $scope.newParticularList.push(particular);
+            if(evey.isEmpty($scope.addParticular.addParticularActivityModel)){
+                $("selectize[ng-model='addParticular.addParticularActivityModel']").addClass("is-invalid-input");
+                $("selectize[ng-model='addParticular.addParticularActivityModel']").parent().find("span.form-error").addClass("is-visible");
+                isInvalid = true;
+            } else {
+                $("selectize[ng-model='addParticular.addParticularActivityModel']").removeClass("is-invalid-input");
+                $("selectize[ng-model='addParticular.addParticularActivityModel']").parent().find("span.form-error").removeClass("is-visible");
+            }
 
-            $scope.computeVariance();
-            $scope.addParticular.addParticularProgramModel = 0;
-            $scope.addParticular.addParticularActivityModel = 0;
+            if(evey.isEmpty($scope.addParticular.description)){
+                $("input[ng-model='addParticular.description']").addClass("is-invalid-input");
+                $("input[ng-model='addParticular.description']").parent().find("span.form-error").addClass("is-visible");
+                isInvalid = true;
+            } else {
+                $("input[ng-model='addParticular.description']").removeClass("is-invalid-input");
+                $("input[ng-model='addParticular.description']").parent().find("span.form-error").removeClass("is-visible");
+            }
+
+            if(evey.isEmpty($scope.addParticular.expense)){
+                $("input[ng-model='addParticular.expense']").addClass("is-invalid-input");
+                $("input[ng-model='addParticular.expense']").parent().find("span.form-error").addClass("is-visible");
+                isInvalid = true;
+            } else {
+                $("input[ng-model='addParticular.expense']").removeClass("is-invalid-input");
+                $("input[ng-model='addParticular.expense']").parent().find("span.form-error").removeClass("is-visible");
+            }
+
+            if(!isInvalid){
+                var fileId = null;
+                var preview = $("div#"+attachmentContainer).parent(".columns").find("img.ajax-file-upload-preview");
+                if(preview.length>0){
+                    fileId = $(preview[0]).attr("data-upload-id");
+                }
+                var program = programService.findProgramInList($scope.programList,$scope.addParticular.addParticularProgramModel);
+                var activity = activityService.findActivityInList($scope.programActivities,$scope.addParticular.addParticularActivityModel);
+
+                var particular = {
+                    "description": $scope.addParticular.description,
+                    "expense":Number($scope.addParticular.expense.replace(/,/g, '')) ,
+                    "activity": activity,
+                    "program": program,
+                    "tempId": uuid.v4()
+                };
+
+                if(fileId!=null){
+                    particular.receipt = {"id":fileId};
+                }
+
+                MotionUI.animateOut($('#add-expense-form'), 'slide-out-up');
+                $scope.newParticularList.push(particular);
+
+                $scope.computeVariance();
+                $scope.addParticular.addParticularProgramModel = 0;
+                $scope.addParticular.addParticularActivityModel = 0;
+                $scope.addParticular.description = null;
+                $scope.addParticular.expense = null;
+            }
         };
 
         $scope.computeVariance = function(){
@@ -1021,33 +1065,75 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
         };
 
         $scope.addNewParticularSelectedVoucher = function(attachmentContainer){
-            var fileId = null;
-            var preview = $("div#"+attachmentContainer).parent(".columns").find("img.ajax-file-upload-preview");
-            if(preview.length>0){
-                fileId = $(preview[0]).attr("data-upload-id");
-            }
-            var program = programService.findProgramInList($scope.programList,$scope.addParticular.addParticularProgramModel);
-            var activity = activityService.findActivityInList($scope.programActivities,$scope.addParticular.addParticularActivityModel);
-            activity.program = program;
 
-            var particular = {
-                "description": $scope.addParticular.description,
-                "expense": Number($scope.addParticular.expense.replace(/,/g, '')),
-                "displayExpense": evey.formatDisplayMoney($scope.addParticular.expense),
-                "activity": activity,
-                "tempId": uuid.v4()
-            };
-
-            if(fileId!=null){
-                particular.receipt = {"id":fileId};
-                particular.receiptId = fileId;
+            var isInvalid = false;
+            if(evey.isEmpty($scope.addParticular.addParticularProgramModel)){
+                $("selectize[ng-model='addParticular.addParticularProgramModel']").addClass("is-invalid-input");
+                $("selectize[ng-model='addParticular.addParticularProgramModel']").parent().find("span.form-error").addClass("is-visible");
+                isInvalid = true;
+            } else {
+                $("selectize[ng-model='addParticular.addParticularProgramModel']").removeClass("is-invalid-input");
+                $("selectize[ng-model='addParticular.addParticularProgramModel']").parent().find("span.form-error").removeClass("is-visible");
             }
 
-            MotionUI.animateOut($('div#add-exist-expense-form'), 'slide-out-up');
-            $scope.selectedVoucher.particulars.unshift(particular);
-            $scope.computeVarianceUpdate();
-            $scope.addParticular.addParticularProgramModel = 0;/*JIM nov 1*/
-            $scope.addParticular.addParticularActivityModel = 0;/*JIM nov 1*/
+            if(evey.isEmpty($scope.addParticular.addParticularActivityModel)){
+                $("selectize[ng-model='addParticular.addParticularActivityModel']").addClass("is-invalid-input");
+                $("selectize[ng-model='addParticular.addParticularActivityModel']").parent().find("span.form-error").addClass("is-visible");
+                isInvalid = true;
+            } else {
+                $("selectize[ng-model='addParticular.addParticularActivityModel']").removeClass("is-invalid-input");
+                $("selectize[ng-model='addParticular.addParticularActivityModel']").parent().find("span.form-error").removeClass("is-visible");
+            }
+
+            if(evey.isEmpty($scope.addParticular.description)){
+                $("input[ng-model='addParticular.description']").addClass("is-invalid-input");
+                $("input[ng-model='addParticular.description']").parent().find("span.form-error").addClass("is-visible");
+                isInvalid = true;
+            } else {
+                $("input[ng-model='addParticular.description']").removeClass("is-invalid-input");
+                $("input[ng-model='addParticular.description']").parent().find("span.form-error").removeClass("is-visible");
+            }
+
+            if(evey.isEmpty($scope.addParticular.expense)){
+                $("input[ng-model='addParticular.expense']").addClass("is-invalid-input");
+                $("input[ng-model='addParticular.expense']").parent().find("span.form-error").addClass("is-visible");
+                isInvalid = true;
+            } else {
+                $("input[ng-model='addParticular.expense']").removeClass("is-invalid-input");
+                $("input[ng-model='addParticular.expense']").parent().find("span.form-error").removeClass("is-visible");
+            }
+
+            if(!isInvalid){
+                var fileId = null;
+                var preview = $("div#"+attachmentContainer).parent(".columns").find("img.ajax-file-upload-preview");
+                if(preview.length>0){
+                    fileId = $(preview[0]).attr("data-upload-id");
+                }
+                var program = programService.findProgramInList($scope.programList,$scope.addParticular.addParticularProgramModel);
+                var activity = activityService.findActivityInList($scope.programActivities,$scope.addParticular.addParticularActivityModel);
+                activity.program = program;
+
+                var particular = {
+                    "description": $scope.addParticular.description,
+                    "expense": Number($scope.addParticular.expense.replace(/,/g, '')),
+                    "displayExpense": evey.formatDisplayMoney($scope.addParticular.expense),
+                    "activity": activity,
+                    "tempId": uuid.v4()
+                };
+
+                if(fileId!=null){
+                    particular.receipt = {"id":fileId};
+                    particular.receiptId = fileId;
+                }
+
+                MotionUI.animateOut($('div#add-exist-expense-form'), 'slide-out-up');
+                $scope.selectedVoucher.particulars.unshift(particular);
+                $scope.computeVarianceUpdate();
+                $scope.addParticular.addParticularProgramModel = 0;/*JIM nov 1*/
+                $scope.addParticular.addParticularActivityModel = 0;/*JIM nov 1*/
+                $scope.addParticular.description = null;
+                $scope.addParticular.expense = null;
+            }
         };
 
         $scope.computeVarianceUpdate = function(){
@@ -1102,7 +1188,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             },
             onChange: function(value) {
                 activityService.getProgramActivities(value).then(function(results){
-                    $scope.addParticularActivityModel = 0;
+                    $scope.addParticular.addParticularActivityModel = 0;
                     $scope.programActivities = results.results;
                 },function(error){
 
@@ -1304,6 +1390,87 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             });
         };
 
+        $scope.validateProgram = function(){
+            var isInvalid = false;
+            if(evey.isEmpty($("#program-name").val())){
+                $("#program-name").addClass("is-invalid-input");
+                $("#program-name").parent().find("span.form-error").addClass("is-visible");
+                $('label[for="program-name"]').addClass("is-invalid-label");
+                isInvalid = true;
+            } else {
+                $("#program-name").removeClass("is-invalid-input");
+                $("#program-name").parent().find("span.form-error").removeClass("is-visible");
+                $('label[for="program-name"]').removeClass("is-invalid-label");
+            }
+
+            if(evey.isEmpty($("#total-budget").val())){
+                $("#total-budget").addClass("is-invalid-input");
+                $("#total-budget").parent().find("span.form-error").addClass("is-visible");
+                $('label[for="total-budget"]').addClass("is-invalid-label");
+                isInvalid = true;
+            } else {
+                $("#total-budget").removeClass("is-invalid-input");
+                $("#total-budget").parent().find("span.form-error").removeClass("is-visible");
+                $('label[for="total-budget"]').removeClass("is-invalid-label");
+            }
+
+            if(evey.isEmpty($("#percentage").val())){
+                $("#percentage").addClass("is-invalid-input");
+                $("#percentage").parent().find("span.form-error").addClass("is-visible");
+                $('label[for="total-budget"]').addClass("is-invalid-label");
+                isInvalid = true;
+            } else {
+                $("#percentage").removeClass("is-invalid-input");
+                $("#percentage").parent().find("span.form-error").removeClass("is-visible");
+                $('label[for="percentage"]').removeClass("is-invalid-label");
+            }
+
+            if(evey.isEmpty($("#hex").val())){
+                $("#hex").addClass("is-invalid-input");
+                $("#hex").parent().find("span.form-error").addClass("is-visible");
+                $('label[for="total-budget"]').addClass("is-invalid-label");
+                isInvalid = true;
+            } else {
+                $("#hex").removeClass("is-invalid-input");
+                $("#hex").parent().find("span.form-error").removeClass("is-visible");
+                $('label[for="hex"]').removeClass("is-invalid-label");
+            }
+
+            if(evey.isEmpty($("#program-start").val())){
+                $("#program-start").addClass("is-invalid-input");
+                $("#program-start").parent().find("span.form-error").addClass("is-visible");
+                $('label[for="total-budget"]').addClass("is-invalid-label");
+                isInvalid = true;
+            } else {
+                $("#program-start").removeClass("is-invalid-input");
+                $("#program-start").parent().find("span.form-error").removeClass("is-visible");
+                $('label[for="program-start"]').removeClass("is-invalid-label");
+            }
+
+            if(evey.isEmpty($("#program-end").val())){
+                $("#program-end").addClass("is-invalid-input");
+                $("#program-end").parent().find("span.form-error").addClass("is-visible");
+                $('label[for="total-budget"]').addClass("is-invalid-label");
+                isInvalid = true;
+            } else {
+                $("#program-end").removeClass("is-invalid-input");
+                $("#program-end").parent().find("span.form-error").removeClass("is-visible");
+                $('label[for="program-end"]').removeClass("is-invalid-label");
+            }
+
+            if(!isInvalid){
+                programService.checkIfProgramDuplicate($("#program-name").val()).then(function(data){
+                    if(data.status){
+                        $("#program-details").css("left","-100%");
+                        $("#program-activity").css("left", "0");
+                        $(".progress-meter").css("width", "75%");
+                    } else {
+                        evey.promptAlert(data.message);
+                    }
+                });
+            }
+        };
+
         $scope.addedUserList = [];
         $scope.addUser = function(){
             var row = $("#add-user-template").parents("div.row");
@@ -1333,9 +1500,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
         };
 
         $scope.showSummary = function(){
-
-            console.log($scope.addedActivityList.length, $scope.addedActivityList.size);
-            if($scope.addedActivityList.size>0){
+            if($scope.addedActivityList.length>0){
                 var programName = $("#program-name").val();
                 var totalBudget = $("#total-budget").val();
                 var percentage = $("#percentage").val();
@@ -1773,6 +1938,15 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                     } else {
                         console.log("error");
                     }
+                }, function(error) {
+                    console.log(error);
+                });
+        };
+
+        this.checkIfProgramDuplicate = function(programName){
+            return $http.get("/budgetfy/program/check-duplicate",{params: {"programName": programName}})
+                .then(function(response){
+                    return response.data;
                 }, function(error) {
                     console.log(error);
                 });

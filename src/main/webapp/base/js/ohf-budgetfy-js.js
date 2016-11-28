@@ -13,16 +13,19 @@ $(document).ready(function() {
 		$("#program-team").css("left", "+100%");
 		$(".progress-meter").css("width", "25%");
 	});
-	$(".program-team-nav-next").on("click",function() {
+	/*$(".program-team-nav-next").on("click",function() {
 		$("#program-team").css("left","-100%");
 		$("#program-activity").css("left", "0");
 		$(".progress-meter").css("width", "75%");
-	});
+	});*/
 
 	$(".program-activity-nav-prev").on("click",function() {
-		$("#program-team").css("left","0");
+		/*$("#program-team").css("left","0");
 		$("#program-activity").css("left", "+100%");
-		$(".progress-meter").css("width", "50%");
+		$(".progress-meter").css("width", "50%");*/
+		$("#program-details").css("left","0");
+		$("#program-activity").css("left", "+100%");
+		$(".progress-meter").css("width", "25%");
 	});
 	/*$(".program-activity-nav-next").on("click",function() {
 		$("#program-activity").css("left","-100%");

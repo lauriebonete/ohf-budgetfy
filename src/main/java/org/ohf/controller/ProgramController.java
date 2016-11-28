@@ -46,6 +46,23 @@ public class ProgramController extends BaseCrudController<Program> {
         return  returnMap;
     }
 
+    @RequestMapping(value = "/check-duplicate", method = RequestMethod.GET, produces = "application/json")
+    public @ResponseBody Map<String, Object> checkIfDuplicate(String programName) throws Exception{
+        Map<String, Object> returnMap = new HashMap<>();
+
+        Program lookFor = new Program();
+        lookFor.setProgramName(programName);
+
+        List<Program> programList = getService().findEntity(lookFor);
+        if(!programList.isEmpty()){
+            returnMap.put("status", false);
+            returnMap.put("message", "A program with program name "+programName+" already exists. Please choose a different name.");
+        } else {
+            returnMap.put("status", true);
+        }
+        return  returnMap;
+    }
+
     @RequestMapping(value = "/create-program/create", method = RequestMethod.POST, produces = "application/json")
     public @ResponseBody
     Map<String,Object> createProgram(@RequestBody Program program){

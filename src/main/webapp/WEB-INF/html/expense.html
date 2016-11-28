@@ -235,12 +235,14 @@
                             </div>
                             <div class="small-5 columns">
                                 <selectize config='programConfig' options='programList' ng-model="addParticular.addParticularProgramModel"></selectize>
+                                <span class="form-error">Please provide a program.</span>
                             </div>
                             <div class="small-2 columns">
                                 <label class="text-right middle">Activity</label>
                             </div>
                             <div class="small-4 columns">
                                 <selectize config='programActivityConfig' options='programActivities' ng-model="addParticular.addParticularActivityModel"></selectize>
+                                <span class="form-error">Please provide an activity.</span>
                             </div>
                         </div>
                         <div class="row">
@@ -249,12 +251,14 @@
                             </div>
                             <div class="small-5 columns">
                                 <input type="text" ng-model="addParticular.description" placeholder="">
+                                <span class="form-error">Please provide a particular description.</span>
                             </div>
                             <div class="small-2 columns">
                                 <label class="text-right middle">Expense Amount</label>
                             </div>
                             <div class="small-4 columns end">
-                                <input type="text" class="clear-after comma-separator numeric" ng-model="addParticular.expense">
+                                <input type="text" class="comma-separator numeric" ng-model="addParticular.expense">
+                                <span class="form-error">Please provide valid amount.</span>
                             </div>
                         </div>
                         <div class="row">
@@ -498,12 +502,14 @@
                             </div>
                             <div class="small-5 columns">
                                 <selectize config='programConfig' options='programList' ng-model="addParticular.addParticularProgramModel"></selectize>
+                                <span class="form-error">Please provide a program.</span>
                             </div>
                             <div class="small-2 columns">
                                 <label class="text-right middle">Activity</label>
                             </div>
                             <div class="small-4 columns">
                                 <selectize config='programActivityConfig' options='programActivities' ng-model="addParticular.addParticularActivityModel"></selectize>
+                                <span class="form-error">Please provide an activity.</span>
                             </div>
                         </div>
                         <div class="row">
@@ -512,12 +518,14 @@
                             </div>
                             <div class="small-5 columns">
                                 <input type="text" ng-model="addParticular.description" placeholder="">
+                                <span class="form-error">Please provide a particular description.</span>
                             </div>
                             <div class="small-2 columns">
                                 <label class="text-right middle">Expense Amount</label>
                             </div>
                             <div class="small-4 columns end">
                                 <input type="text" class="comma-separator numeric" ng-model="addParticular.expense">
+                                <span class="form-error">Please provide a valid amount.</span>
                             </div>
                         </div>
                         <div class="row">
@@ -538,30 +546,34 @@
                         </div>
                         <div class="row">
                             <div class="small-1 columns">
-                                <label class="text-right middle">Particular</label>
-                            </div>
-                            <div class="small-5 columns">
-                                <input type="text" ng-model="selectedParticular.description">
-                            </div>
-                            <div class="small-2 columns">
-                                <label class="text-right middle">Expense Amount</label>
-                            </div>
-                            <div class="small-4 columns end">
-                                <input type="text" class="comma-separator numeric" ng-model="selectedParticular.expense"/>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="small-1 columns">
                                 <label class="text-right middle">Program</label>
                             </div>
                             <div class="small-5 columns">
                                 <selectize config='programConfig' options='programList' ng-model="selectedParticular.activity.programId"></selectize>
+                                <span class="form-error">Please provide a program.</span>
                             </div>
                             <div class="small-2 columns">
                                 <label class="text-right middle">Activity</label>
                             </div>
                             <div class="small-4 columns end">
                                 <selectize config='programActivityConfig' options='programActivities' ng-model="selectedParticular.activityId"></selectize>
+                                <span class="form-error">Please provide an activity.</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="small-1 columns">
+                                <label class="text-right middle">Particular</label>
+                            </div>
+                            <div class="small-5 columns">
+                                <input type="text" ng-model="selectedParticular.description">
+                                <span class="form-error">Please provide a particular description.</span>
+                            </div>
+                            <div class="small-2 columns">
+                                <label class="text-right middle">Expense Amount</label>
+                            </div>
+                            <div class="small-4 columns end">
+                                <input type="text" class="comma-separator numeric" ng-model="selectedParticular.expense"/>
+                                <span class="form-error">Please provide a valid amount.</span>
                             </div>
                         </div>
                         <div class="row">
