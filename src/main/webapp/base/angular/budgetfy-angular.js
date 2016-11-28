@@ -1417,7 +1417,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             if(evey.isEmpty($("#percentage").val())){
                 $("#percentage").addClass("is-invalid-input");
                 $("#percentage").parent().find("span.form-error").addClass("is-visible");
-                $('label[for="total-budget"]').addClass("is-invalid-label");
+                $('label[for="percentage"]').addClass("is-invalid-label");
                 isInvalid = true;
             } else {
                 $("#percentage").removeClass("is-invalid-input");
@@ -1428,7 +1428,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             if(evey.isEmpty($("#hex").val())){
                 $("#hex").addClass("is-invalid-input");
                 $("#hex").parent().find("span.form-error").addClass("is-visible");
-                $('label[for="total-budget"]').addClass("is-invalid-label");
+                $('label[for="hex"]').addClass("is-invalid-label");
                 isInvalid = true;
             } else {
                 $("#hex").removeClass("is-invalid-input");
@@ -1439,7 +1439,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             if(evey.isEmpty($("#program-start").val())){
                 $("#program-start").addClass("is-invalid-input");
                 $("#program-start").parent().find("span.form-error").addClass("is-visible");
-                $('label[for="total-budget"]').addClass("is-invalid-label");
+                $('label[for="program-start"]').addClass("is-invalid-label");
                 isInvalid = true;
             } else {
                 $("#program-start").removeClass("is-invalid-input");
@@ -1450,12 +1450,34 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             if(evey.isEmpty($("#program-end").val())){
                 $("#program-end").addClass("is-invalid-input");
                 $("#program-end").parent().find("span.form-error").addClass("is-visible");
-                $('label[for="total-budget"]').addClass("is-invalid-label");
+                $('label[for="program-end"]').addClass("is-invalid-label");
                 isInvalid = true;
             } else {
                 $("#program-end").removeClass("is-invalid-input");
                 $("#program-end").parent().find("span.form-error").removeClass("is-visible");
                 $('label[for="program-end"]').removeClass("is-invalid-label");
+            }
+
+            if($("#percentage").val()>100 ||
+                $("#percentage").val()<0){
+                $("#percentage").addClass("is-invalid-input");
+                $("#percentage").parent().find("span.form-error").addClass("is-visible");
+                $('label[for="percentage"]').addClass("is-invalid-label");
+                isInvalid = true;
+            } else {
+                $("#percentage").removeClass("is-invalid-input");
+                $("#percentage").parent().find("span.form-error").removeClass("is-visible");
+                $('label[for="percentage"]').removeClass("is-invalid-label");
+            }
+
+            if($("#program-start").val() > $("#program-end").val()){
+                $("#program-start").addClass("is-invalid-input");
+                $("#program-start").parent().find("span.form-error").addClass("is-visible");
+                $('label[for="program-start"]').addClass("is-invalid-label");
+                $("#program-end").addClass("is-invalid-input");
+                $("#program-end").parent().find("span.form-error").addClass("is-visible");
+                $('label[for="program-end"]').addClass("is-invalid-label");
+                isInvalid = true;
             }
 
             if(!isInvalid){
@@ -1468,6 +1490,19 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                         evey.promptAlert(data.message);
                     }
                 });
+            }
+        };
+
+        $scope.validatePercentage = function(){
+           if($("#percentage").val()>100 ||
+                $("#percentage").val()<0){
+                $("#percentage").addClass("is-invalid-input");
+                $("#percentage").parent().find("span.form-error").addClass("is-visible");
+                $('label[for="percentage"]').addClass("is-invalid-label");
+            } else {
+               $("#percentage").removeClass("is-invalid-input");
+               $("#percentage").parent().find("span.form-error").removeClass("is-visible");
+               $('label[for="percentage"]').removeClass("is-invalid-label");
             }
         };
 

@@ -71,7 +71,7 @@
                 <label for="percentage" class="text-right middle">Critical Level %</label>
               </div>
               <div class="small-2 columns">
-                    <input type="number" id="percentage" name="percentage" placeholder="%" min="0" max="100">
+                    <input type="number" id="percentage" name="percentage" placeholder="%" ng-keyup="validatePercentage()">
                     <span class="form-error">Please provide a valid percentage.</span>
               </div>
               <div class="small-2 columns">
