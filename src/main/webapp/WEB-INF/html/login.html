@@ -23,7 +23,7 @@
 </head>
 <body id="body-login" ng-app="budgetfyApp">
 
-<section id="site-content">
+<section id="site-content" ng-controller="loginController">
     <div class="row">
         <div class="small-5 small-centered columns">
             <div id="login-box">
@@ -33,6 +33,13 @@
                             <div class="row">
                                 <label class="text-center" id="center-box-login"><strong>Login to Expense Tracker</strong></label>
                                 <br/>
+                            </div>
+                            <div class="row">
+                                <div class="small-12 columns">
+                                    <div class="alert-box radius" ng-class="status == 'true' ? 'alert':'success'" ng-if="show == true">
+                                        {{response}}
+                                    </div>
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="small-12 columns">

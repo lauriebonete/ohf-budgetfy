@@ -8,7 +8,35 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
 
         yearServiceProvider.$get().getYears();
 
-    })
+    }).controller("loginController", ["$scope","loginService", function($scope,loginService){
+        $scope.show = false;
+        var url = function(){
+            var paramList = loginService.getUrlPattern();
+            var response = "";
+            if(paramList!=undefined && paramList!=null && paramList!=""){
+                switch (paramList["login_response"]){
+                    case "access_denied":
+                        response= "Please check your credentials.";
+                        break;
+                    case "multiple_login":
+                        response= "This account is already logged in.";
+                        break;
+                    case "session_logout":
+                        response="Your session ended. Please log-in again to continue.";
+                        break;
+                    case "success_logout":
+                        response="You have successfully logout.";
+                        break;
+                }
+
+                $scope.status = paramList["error"];
+                $scope.response = response;
+                $scope.show = true;
+            }
+        };
+
+        url();
+    }])
     .controller("reportController", ["$scope", "voucherService", "$sessionStorage", "programService", function($scope, voucherService, $sessionStorage, programService){
         $scope.voucherConfig = {
             valueField : 'id',
@@ -1392,11 +1420,14 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                 });
         };
 
-        $scope.removeActivityProgram = function(activityId){
-            activityService.removeActivityFromProgram(activityId).then(function (results){
-                console.log(activityId);
+        $scope.removeActivityProgramConfirm = function(activityId){
+            $scope.removeActivityProgramId = activityId;
+        };
+
+        $scope.removeActivityProgram = function(){
+            activityService.removeActivityFromProgram($scope.removeActivityProgramId).then(function (results){
                 if(results.status){
-                    $scope.selectedProgram.activities = $filter('filter')($scope.selectedProgram.activities , { id: ('!' + activityId) });
+                    $scope.selectedProgram.activities = $filter('filter')($scope.selectedProgram.activities , { id: ('!' + $scope.removeActivityProgramId) });
                     evey.promptSuccess(results.message); /*JIM nov1*/
                 } else{
                     evey.promptAlert(results.message); /*JIM nov1*/
@@ -2259,6 +2290,10 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                     }
                 });
         };
+    }).service("loginService",function(){
+        this.getUrlPattern = function(){
+            return evey.getUrlParams();
+        }
     }).filter('sumOfValue', function () {
         return function (data, key) {
             if (angular.isUndefined(data) && angular.isUndefined(key)) {
