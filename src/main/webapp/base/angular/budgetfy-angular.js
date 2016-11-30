@@ -1174,6 +1174,8 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
         };
 
         $scope.updateSelectedParticular = function(){
+            $scope.selectedParticular.activity = activityService.findActivityInList($scope.programActivities, $scope.selectedParticular.activityId);
+            $scope.selectedParticular.activity.program = programService.findProgramInList($scope.programList, $scope.selectedParticular.activity.programId);
             $scope.selectedParticular.displayExpense = "P"+evey.addThousandsSeparator($scope.selectedParticular.expense)
         };
 
