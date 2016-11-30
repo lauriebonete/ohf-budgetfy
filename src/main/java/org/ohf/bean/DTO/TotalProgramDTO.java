@@ -11,6 +11,15 @@ public class TotalProgramDTO {
     private Long activityId;
     private Integer month;
     private BigDecimal expense;
+    private String hexColor;
+
+    public String getHexColor() {
+        return hexColor;
+    }
+
+    public void setHexColor(String hexColor) {
+        this.hexColor = hexColor;
+    }
 
     public Long getProgramId() {
         return programId;

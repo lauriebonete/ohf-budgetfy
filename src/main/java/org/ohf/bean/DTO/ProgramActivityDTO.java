@@ -8,6 +8,15 @@ public class ProgramActivityDTO {
     private String programName;
     private Long activityId;
     private String activityName;
+    private String hexColor;
+
+    public String getHexColor() {
+        return hexColor;
+    }
+
+    public void setHexColor(String hexColor) {
+        this.hexColor = hexColor;
+    }
 
     public Long getProgramId() {
         return programId;

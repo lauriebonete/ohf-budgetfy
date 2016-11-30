@@ -103,6 +103,7 @@ public class ReportServiceImpl implements ReportService {
                 programHelper.setProgramId(programActivityDTO.getProgramId());
                 programHelper.setProgramName(programActivityDTO.getProgramName());
                 programHelper.setActivityList(new ArrayList<Activity>());
+                programHelper.setHexColor(programActivityDTO.getHexColor());
 
                 Activity activity = new Activity();
                 activity.setId(programActivityDTO.getActivityId());
@@ -217,7 +218,8 @@ public class ReportServiceImpl implements ReportService {
 
             Random r = new Random();
             XSSFCellStyle style = workbook.createCellStyle();
-            XSSFColor myColor = new XSSFColor(new Color(r.nextInt(128)+128, r.nextInt(128)+128,r.nextInt(128)+128));
+            Color color = Color.decode(program.getHexColor());
+            XSSFColor myColor = new XSSFColor(color);
             style.setFillForegroundColor(myColor);
             style.setFillPattern(CellStyle.SOLID_FOREGROUND);
             style.setFont(boldFont);
@@ -454,7 +456,8 @@ public class ReportServiceImpl implements ReportService {
 
             Random r = new Random();
             XSSFCellStyle style = workbook.createCellStyle();
-            XSSFColor myColor = new XSSFColor(new Color(r.nextInt(128)+128, r.nextInt(128)+128,r.nextInt(128)+128));
+            Color color = Color.decode(programHelper.getHexColor());
+            XSSFColor myColor = new XSSFColor(color);
             style.setFillForegroundColor(myColor);
             style.setFillPattern(CellStyle.SOLID_FOREGROUND);
             style.setFont(boldFont);

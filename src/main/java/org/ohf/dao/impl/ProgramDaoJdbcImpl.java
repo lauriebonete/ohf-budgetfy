@@ -32,13 +32,15 @@ public class ProgramDaoJdbcImpl implements ProgramDaoJdbc {
     private static StringBuilder GET_ACTUAL_BUDGET = new StringBuilder();
 
     static {
-        GET_PROGRAM_ACTIVITY.append("SELECT p.ID AS PROGRAM_ID, p.PROGRAM_NAME AS PROGRAM_NAME, a.ID AS ACTIVITY_ID, a.ACTIVITY_NAME AS ACTIVITY_NAME ")
+        GET_PROGRAM_ACTIVITY.append("SELECT p.ID AS PROGRAM_ID, p.PROGRAM_NAME AS PROGRAM_NAME, a.ID AS ACTIVITY_ID, a.ACTIVITY_NAME AS ACTIVITY_NAME, p.HEX_COLOR AS HEX_COLOR ")
                 .append("FROM PROGRAM p ")
-                .append("LEFT JOIN ACTIVITY a ON p.ID = a.PROGRAM_ID ");
+                .append("LEFT JOIN ACTIVITY a ON p.ID = a.PROGRAM_ID ")
+                .append("WHERE p.PROGRAM_START <= :from_date ");
 
         GET_TOTAL_PROGRAM.append("SELECT Sum(p.EXPENSE) AS EXPENSE, ")
                 .append("       p_.ID           AS PROGRAM_ID, ")
                 .append("       p_.PROGRAM_NAME AS PROGRAM_NAME, ")
+                .append("       p_.HEX_COLOR AS HEX_COLOR, ")
                 .append("       Month(v.VC_DATE) AS VC_DATE ")
                 .append("FROM   VOUCHER v ")
                 .append("       JOIN PARTICULAR p ON v.ID = p.VOUCHER_ID ")
@@ -72,7 +74,8 @@ public class ProgramDaoJdbcImpl implements ProgramDaoJdbc {
     @Override
     public List<ProgramActivityDTO> getProgramActivity(Date fromDate, Date toDate) {
         final NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
-        final Map<String, Object> params = new HashMap<>();
+        Map<String, Object> params = new HashMap<>();
+        params.put("from_date", fromDate);
 
         List<ProgramActivityDTO> results = template.query(GET_PROGRAM_ACTIVITY.toString(), params, new RowMapper<ProgramActivityDTO>() {
             @Override
@@ -82,6 +85,7 @@ public class ProgramDaoJdbcImpl implements ProgramDaoJdbc {
                 programActivityDTO.setProgramName(resultSet.getString("PROGRAM_NAME"));
                 programActivityDTO.setActivityId(resultSet.getLong("ACTIVITY_ID"));
                 programActivityDTO.setActivityName(resultSet.getString("ACTIVITY_NAME"));
+                programActivityDTO.setHexColor(resultSet.getString("HEX_COLOR"));
                 return programActivityDTO;
             }
         });
@@ -101,6 +105,7 @@ public class ProgramDaoJdbcImpl implements ProgramDaoJdbc {
                 totalProgramDTO.setProgramName(resultSet.getString("PROGRAM_NAME"));
                 totalProgramDTO.setExpense(resultSet.getBigDecimal("EXPENSE"));
                 totalProgramDTO.setMonth(resultSet.getInt("VC_DATE"));
+                totalProgramDTO.setHexColor(resultSet.getString("HEX_COLOR"));
                 return totalProgramDTO;
             }
         });

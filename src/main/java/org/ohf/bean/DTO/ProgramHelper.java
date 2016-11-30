@@ -11,6 +11,15 @@ public class ProgramHelper {
     private Long programId;
     private String programName;
     private List<Activity> activityList;
+    private String hexColor;
+
+    public String getHexColor() {
+        return hexColor;
+    }
+
+    public void setHexColor(String hexColor) {
+        this.hexColor = hexColor;
+    }
 
     public List<Activity> getActivityList() {
         return activityList;
