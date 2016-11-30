@@ -293,11 +293,11 @@
                      </div>
                      <div class="row">
                         <div class="small-6 columns">Total Budget</div>
-                        <div class="small-6 columns end"><span id="total-budget-summary">{{programObject.totalBudget}}</span></div>
+                        <div class="small-6 columns end"><span id="total-budget-summary">{{programObject.totalBudget | number}}</span></div>
                      </div>
                      <div class="row">
                         <div class="small-6 columns">Critical Level</div>
-                        <div class="small-6 columns end"><span id="threshold-summary">{{programObject.threshold}}</span></div>
+                        <div class="small-6 columns end"><span id="threshold-summary">{{programObject.threshold | number}}</span></div>
                      </div>
                       <div class="row">
                           <div class="small-6 columns">Color</div>
@@ -338,7 +338,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="small-6 columns">Total Budget</div>
-                                    <div class="small-6 columns end"><span>{{activity.amount}}</span></div>
+                                    <div class="small-6 columns end"><span>{{activity.amount | number}}</span></div>
                                 </div>
                                 <div class="row">
                                     <div class="small-6 columns">Type</div>

@@ -81,8 +81,7 @@
                                     <tr dir-paginate="user in userList | filter : userFilter | itemsPerPage: userMaxSize" pagination-id="user-list">
                                         <td ng-click="viewUser(user.id)">{{user.lastName}}</td>
                                         <td ng-click="viewUser(user.id)">{{user.firstName}}</td>
-                                        <!--<td ng-click="viewUser(user.id)">{{user.middleName}}</td>-->
-                                        <td></td>
+                                        <td ng-click="viewUser(user.id)">{{user.userRoleDisplay}}</td>
                                         <td ng-click="viewUser(user.id)">{{user.username}}</td>
                                         <td>
                                             <a class="button alert"><i class="fa fa-minus"></i></a>
