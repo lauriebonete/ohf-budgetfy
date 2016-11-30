@@ -9,13 +9,13 @@ import org.ohf.bean.ProgramAccess;
 import org.ohf.bean.UserAccess;
 import org.ohf.service.ActivityService;
 import org.ohf.service.ProgramAccessService;
+import org.ohf.service.ProgramService;
 import org.ohf.service.UserAccessService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.TransactionCallbackWithoutResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.HashMap;
@@ -44,6 +44,27 @@ public class ProgramController extends BaseCrudController<Program> {
         returnMap.put("results", getService().findEntityByNamedQuery("jpql.program.get-years", String.class));
         returnMap.put("status", true);
         return  returnMap;
+    }
+
+    @RequestMapping(value = "/check-delete/{id}", method = RequestMethod.DELETE, produces = "application/json")
+    public final @ResponseBody Map<String, Object> deleteProgram(@PathVariable("id") final Long programId) throws Exception {
+        Map<String, Object> returnMap = new HashMap<>();
+
+        if(activityService.validateIfCanDeleteProgram(programId)) {
+            transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+                @Override
+                protected void doInTransactionWithoutResult(TransactionStatus transactionStatus) {
+                    getService().delete(programId);
+                }
+            });
+
+            returnMap.put("status", true);
+            returnMap.put("message", "That thing is now gone for good.");
+        } else {
+            returnMap.put("status", false);
+            returnMap.put("message", "Before deleting this program, remove the Activities found in the Budget section first.");
+        }
+        return returnMap;
     }
 
     @RequestMapping(value = "/check-duplicate", method = RequestMethod.GET, produces = "application/json")

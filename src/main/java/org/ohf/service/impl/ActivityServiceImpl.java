@@ -39,4 +39,17 @@ public class ActivityServiceImpl extends BaseCrudServiceImpl<Activity> implement
     public List<Activity> getActualExpensePerActivity(Long programId) {
         return activityDaoJdbc.getActualExpensePerActivity(programId);
     }
+
+    @Override
+    public Boolean validateIfCanDeleteProgram(Long programId) throws Exception {
+
+        Activity activity = new Activity();
+        activity.setProgramId(programId);
+
+        List<Activity> results = this.findEntity(activity);
+        if(results.isEmpty()) {
+            return true;
+        }
+        return false;
+    }
 }

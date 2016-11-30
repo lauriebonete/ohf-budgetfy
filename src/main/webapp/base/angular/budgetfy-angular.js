@@ -978,6 +978,8 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                     $("#expense-main").removeClass("hide");
                     $("#expense-add-container").addClass("hide");
                     $("#expense-update-container").addClass("hide");
+                    $("#expense-add").css("left","0");
+                    $("#expense-add-summary").css("left", "+100%");
                     evey.promptSuccess(result.data.message);
                 } else{
                     evey.promptAlert(result.data.message);
@@ -1372,6 +1374,22 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             } else {
                 return program;
             }
+        };
+
+        $scope.deleteProgram = function(programId){
+            $scope.programToBeDeleted = programId;
+        };
+
+        $scope.continueProgramDelete = function(){
+            programService.deleteProgram($scope.programToBeDeleted)
+                .then(function(data){
+                   if(data.status){
+                       $scope.programList = $filter('filter')($scope.programList , { id: ('!' + $scope.programToBeDeleted) });
+                       evey.promptSuccess(data.message);
+                   } else {
+                       evey.promptAlert(data.message);
+                   }
+                });
         };
 
         $scope.removeActivityProgram = function(activityId){
@@ -2020,6 +2038,15 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                         return response.data.results;
                     }
                     return {"status": "false"};
+                });
+        };
+
+        this.deleteProgram = function(programId){
+            return $http.delete("/budgetfy/program/check-delete/"+programId)
+                .then(function(data){
+                    return data.data;
+                }, function(data){
+
                 });
         };
     })

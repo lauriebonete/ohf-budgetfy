@@ -24,6 +24,8 @@ public class ProgramServiceImpl extends BaseCrudServiceImpl<Program> implements 
     @Autowired
     private ProgramDaoJdbc programDaoJdbc;
 
+
+
     @Override
     public List<ProgramActivityDTO> getProgramActivityByRange(Date fromDate, Date toDate) {
         return programDaoJdbc.getProgramActivity(fromDate, toDate);
@@ -50,4 +52,5 @@ public class ProgramServiceImpl extends BaseCrudServiceImpl<Program> implements 
     public List<Program> getActualBudgetPerProgram(String year) {
         return programDaoJdbc.getActualBudgetPerProgram(year);
     }
+
 }

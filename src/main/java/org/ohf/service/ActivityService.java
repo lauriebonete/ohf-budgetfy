@@ -14,4 +14,5 @@ public interface ActivityService extends BaseCrudService<Activity> {
     public List<ActivityExpenseDTO> findActivityExpense(Long programId);
     public Long countActivityExpense(Long activityId);
     public List<Activity> getActualExpensePerActivity(Long programId);
+    public Boolean validateIfCanDeleteProgram(Long programId) throws Exception;
 }
