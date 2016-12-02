@@ -261,3 +261,8 @@ a.active-page {
   color: #4f4f4f; }
 .alert-box.alert-close {
   opacity: 0; }
+
+
+[ng\:cloak], [ng-cloak], .ng-cloak {
+  display: none !important;
+}
