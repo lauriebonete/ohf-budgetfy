@@ -1441,6 +1441,15 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             });
         };
 
+        $scope.validateHexColor = function(){
+            if(!evey.isEmpty($("#hex").val())){
+                $("#hex").removeClass("is-invalid-input");
+                $("#hex").parent().find("span.form-error").removeClass("is-visible");
+                $('label[for="hex"]').removeClass("is-invalid-label");
+            }
+
+        };
+
         $scope.validateProgram = function(){
             var isInvalid = false;
             if(evey.isEmpty($("#program-name").val())){
@@ -1659,9 +1668,6 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                     $scope.addedActivityList = [];
                     $scope.addedUserList = [];
                     window.location = evey.getHome()+"/budgetfy/program";
-                    evey.promptSuccess(results.message)
-                } else{
-                    evey.promptAlert(results.message);
                 }
             },function(error){
 
@@ -1896,7 +1902,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                 $("#activity").find("span.form-error").removeClass("is-visible");
             }
 
-            if(!isInvalid){
+             if(!isInvalid){
                 var activityObject = {
                     activityTypeId:activityId,
                     activityName:activityType,
@@ -1908,12 +1914,13 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                 $scope.addedActivityList.unshift(activityObject);
 
                 $scope.remainingBudget = parseInt($("#total-budget").val().replace(/\,/g,''));
-
                 $.each($scope.addedActivityList, function(i, activity){
                     $scope.remainingBudget -= activity.amount;
-                    /*$scope.remainingBudget = evey.addThousandsSeparator($scope.remainingBudget); /*JIM Nov2*/
                 });
+                 $scope.remainingBudget = evey.addThousandsSeparator($scope.remainingBudget); /*JIM Nov2*/
                 $scope.activityTypeSelectizeModel = 0; /*JIM nov1*/
+
+                 $("#activity-error").removeClass("is-visible");
             };
 
         };
@@ -2022,7 +2029,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                     if(response.data.success){
                         return true;
                     } else {
-                        console.log("error");
+                        return response.data;
                     }
                 }, function(error) {
                     console.log(error);

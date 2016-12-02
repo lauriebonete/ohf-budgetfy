@@ -81,7 +81,7 @@
                     <label for="hex" class="text-right middle">Color</label>
                 </div>
                 <div class="small-2 columns end">
-                    <input id="hex" colorpicker="hex" class="span2" type="text" ng-model="hexColor" style="background-color:{{hexColor}}" />
+                    <input id="hex" colorpicker="hex" class="span2" type="text" ng-change="validateHexColor()" ng-model="hexColor" style="background-color:{{hexColor}}" />
                     <span class="form-error">Please provide a color.</span>
                 </div>
             </div>
@@ -227,7 +227,7 @@
                 <label for="remaining-budget" class="middle">Remaining Budget</label>
               </div>
               <div class="small-2 columns text-right end">
-                <input type="text" id="remaining-budget" disabled ng-model="remainingBudget">
+                <input type="text" id="remaining-budget" disabled ng-model="remainingBudget" val="{{remainingBudget|number}}">
               </div>
             </div>
             <div class="row">
@@ -252,7 +252,7 @@
                             <tr dir-paginate="activity in addedActivityList | itemsPerPage: 10" pagination-id="added-activity">
                                 <td>{{activity.activityName}}</td>
                                 <td>{{activity.activityCodeName}}</td>
-                                <td>{{activity.amount}}</td> <!--JIM Nov 12-->
+                                <td>{{activity.amount | number}}</td> <!--JIM Nov 12-->
                                 <td><a class="button alert" ng-click="removeAddedActivity(activity.activityTypeId)"><i class="fa fa-minus"></i></a></td>
                             </tr>
                         </tbody>
