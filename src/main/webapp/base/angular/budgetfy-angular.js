@@ -223,7 +223,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                             "type": "pie",
 
                             "title":{
-                                "text": "Activities (Expected)",
+                                "text": "Activities (Actuals)",
                                 "align": "center",
                                 "fontColor": "#616161"
                             },
@@ -265,7 +265,9 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                                 "thousandsSeparator": ",",
                                 "detach": false,
                                 "valueBox":{
-                                    "decimals": 2
+                                    "decimals": 2,
+                                    "placement":"out",
+                                    "font-size":10
                                 },
                                 "animation":{
                                     "effect": 3,
@@ -273,6 +275,9 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                                     "sequence": 1,
                                     "onLegendToggle": false
                                 }
+                            },
+                            "plotarea":{
+                                "margin-top":"15%"
                             },
                             "tooltip":{
                                 "text":"%t<br>P %v",
@@ -337,7 +342,9 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                             "thousandsSeparator": ",",
                             "detach": false,
                             "valueBox":{
-                                "decimals": 2
+                                "decimals": 2,
+                                "placement":"out",
+                                "font-size":10
                             },
                             "animation":{
                                 "effect": 3,
@@ -345,6 +352,9 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                                 "sequence": 1,
                                 "onLegendToggle": false
                             }
+                        },
+                        "plotarea":{
+                            "margin-top":"15%"
                         },
                         "tooltip":{
                             "text":"%t<br>P %v",
@@ -429,6 +439,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
 
                         $scope.programActualBudgetConfig = {
                             "type": "pie",
+                            "width": "900px",
 
                             "title":{
                                 "text": "All Programs (Actuals)",
@@ -473,7 +484,9 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                                 "thousandsSeparator": ",",
                                 "detach": false,
                                 "valueBox":{
-                                    "decimals": 2
+                                    "decimals": 2,
+                                    "placement":"out",
+                                    "font-size":10
                                 },
                                 "animation":{
                                     "effect": 3,
@@ -481,6 +494,9 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                                     "sequence": 1,
                                     "onLegendToggle": false
                                 }
+                            },
+                            "plotarea":{
+                                "margin-top":"15%"
                             },
                             "tooltip":{
                                 "text":"%t<br>P %v",
@@ -500,12 +516,14 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
 
                         $scope.programBudgetConfig = {
                             "type": "pie",
-                            /*"width": "50%",*/
+                            "width": "100%",
+                            "autoResize": true,
 
                             "title":{
                                 "text": "All Programs (Expected)",
                                 "align": "center",
                                 "fontColor": "#616161"
+
                             },
                             "legend":{
                                 "text":"%t<br>",
@@ -545,7 +563,12 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                                 "thousandsSeparator": ",",
                                 "detach": false,
                                 "valueBox":{
-                                    "decimals": 2
+                                    "decimals": 2,
+                                    "placement":"out",
+                                    "font-size":10
+                                },
+                                "plotarea":{
+                                    "margin-top":"15%"
                                 },
                                 "animation":{
                                     "effect": 3,
