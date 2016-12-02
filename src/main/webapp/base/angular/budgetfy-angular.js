@@ -1775,7 +1775,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
         };
 
         $scope.updateActivity = function(){
-            $scope.selectedActivity.amount = Number($scope.selectedActivity.amount.replace(/,/g, '')); /*JIM Nov1*/
+            $scope.selectedActivity.amount = Number($scope.selectedActivity.amount.toString().replace(/,/g, '')); /*JIM Nov1*/
             var foundType = $scope.activityTypeList.filter(function(type){
                return (type.id == $scope.selectedActivity.activityTypeId);
             });
@@ -1790,17 +1790,13 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             }
 
             $scope.selectedActivity.activityType = {id:$scope.selectedActivity.activityTypeId};
-            $scope.selectedActivity.activityCode = {id:$scope.selectedActivity.activityCodeId};
+            $scope.selectedActivity.activityCode = referenceLookUpService.findReferenceInList($scope.activityCodeList,$scope.selectedActivity.activityCodeId);
             $scope.selectedActivity.program = {id:$scope.selectedActivity.programId};
             activityService.addUpdateActivity($scope.selectedActivity).then(function(data){
-                $scope.selectedProgram.activities.filter(function(activity){
-                    console.log(activity); /*JIM 20161101*/
-                    if(activity.id==data.data.result.id){
-                        activity == data.data.result;
-                        MotionUI.animateOut($('#update-activity-form'), 'slide-out-up'); /*JIM 20161101*/
-                        evey.promptSuccess(data.data.message); /*JIM 20161101*/
-                    }
-                });
+                $scope.selectedProgram.activities = $filter('filter')($scope.selectedProgram.activities , { id: ('!' + $scope.selectedActivity.id) });
+                $scope.selectedProgram.activities.unshift(data.data.result);
+                MotionUI.animateOut($('#update-activity-form'), 'slide-out-up'); /*JIM 20161101*/
+                evey.promptSuccess(data.data.message); /*JIM 20161101*/
             });
         };
 
@@ -1927,6 +1923,12 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
 
         $scope.removeAddedActivity = function(id){
             $scope.addedActivityList = $filter('filter')($scope.addedActivityList , { activityTypeId: ('!' + id) });
+
+            $scope.remainingBudget = parseInt($("#total-budget").val().replace(/\,/g,''));
+            $.each($scope.addedActivityList, function(i, activity){
+                $scope.remainingBudget -= activity.amount;
+            });
+            $scope.remainingBudget = evey.addThousandsSeparator($scope.remainingBudget);
         };
 
 
