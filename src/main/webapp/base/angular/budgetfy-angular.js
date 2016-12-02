@@ -1771,6 +1771,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             var found = $filter('filter')($scope.selectedProgram.activities, {id: activityId}, true);
             if(found.length>0){
                 $scope.selectedActivity = found[0];
+                $scope.selectedActivity.amount = evey.addThousandsSeparator($scope.selectedActivity.amount);
             }
         };
 
