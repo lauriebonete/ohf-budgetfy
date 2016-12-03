@@ -429,36 +429,40 @@
                     </div>
                     <div class="row">
                         <div class="small-1 columns">
-                            <label class="text-right middle">Payee</label>
+                            <label class="text-right middle" id="selected-voucher-payee-label">Payee</label>
                         </div>
                         <div class="small-3 columns">
-                            <input type="text" ng-model="selectedVoucher.payee">
+                            <input type="text" id="selected-voucher-payee" ng-model="selectedVoucher.payee">
+                            <span class="form-error" id="selected-voucher-payee-error">Please provide a valid payee.</span>
                         </div>
                         <div class="small-4 columns">
                             <label class="text-right middle"></label>
                         </div>
                         <div class="small-1 columns">
-                            <label class="text-right middle">Check/Ref#</label>
+                            <label class="text-right middle" id="selected-voucher-reference-label">Check/Ref#</label>
                         </div>
                         <div class="small-3 columns end">
-                            <input type="text" ng-model="selectedVoucher.reference">
+                            <input type="text" id="selected-voucher-reference" ng-model="selectedVoucher.reference">
+                            <span class="form-error" id="selected-voucher-reference-error">Please provide a valid reference number.</span>
                         </div>
                     </div>
                     <div class="row">
                         <div class="small-1 columns">
-                            <label class="text-right middle">Date</label>
+                            <label class="text-right middle" id="selected-voucher-date-label">Date</label>
                         </div>
                         <div class="small-3 columns">
-                            <input type="date" ng-model="selectedVoucher.date" placeholder="" ng-change="changeDate()">
+                            <input type="date" id="selected-voucher-date" ng-model="selectedVoucher.date" placeholder="" ng-change="changeDate()">
+                            <span class="form-error" id="selected-voucher-date-error">Please provide a valid date.</span>
                         </div>
                         <div class="small-4 columns">
                             <label class="text-right middle"></label>
                         </div>
                         <div class="small-1 columns">
-                            <label class="text-right middle">VC#</label>
+                            <label class="text-right middle" id="selected-voucher-vcNumber-label">VC#</label>
                         </div>
                         <div class="small-3 columns end">
-                            <input type="text" ng-model="selectedVoucher.vcNumber">
+                            <input type="text" ng-model="selectedVoucher.vcNumber" id="selected-voucher-vcNumber">
+                            <span class="form-error" id="selected-voucher-vcNumber-error">Please provide a valid VC Number.</span>
                         </div>
                     </div>
                     <div class="row">
@@ -472,10 +476,11 @@
                             <label class="text-right middle"></label>
                         </div>
                         <div class="small-2 columns">
-                            <label class="text-right middle">Total Amount</label>
+                            <label class="text-right middle" id="selected-voucher-totalAmount-label">Total Amount</label>
                         </div>
                         <div class="small-3 columns end">
-                            <input type="text" class="comma-separator numeric" ng-model="selectedVoucher.totalAmount">
+                            <input type="text" class="comma-separator numeric" ng-model="selectedVoucher.totalAmount" id="selected-voucher-totalAmount">
+                            <span class="form-error" id="selected-voucher-totalAmount-error">Please provide a valid amount.</span>
                         </div>
                     </div>
                     <div class="row">
@@ -786,9 +791,6 @@
             }).on("click","tr.row-onclick > td:not(:nth-of-type(8))",function(){
                 $("#expense-main").addClass("hide");
                 $("#expense-update-container").removeClass("hide");
-            }).on("click",".update-expense-nav-next",function() {
-                $("#expense-update").css("left","-100%");
-                $("#expense-update-summary").css("left", "0");
             }).on("click",".add-summary-nav-prev",function() {
                 $("#expense-add").css("left","0");
                 $("#expense-add-summary").css("left", "+100%");

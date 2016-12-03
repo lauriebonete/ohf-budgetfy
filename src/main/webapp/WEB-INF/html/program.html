@@ -266,18 +266,20 @@
                                 </div>
                                 <div class="row">
                                     <div class="small-3 columns">
-                                        <label class="text-right middle">Activity Name</label>
+                                        <label class="text-right middle" id="activity-type-id-label">Activity Name</label>
                                     </div>
                                     <div class="small-7 columns end">
                                         <selectize data-list="false" data-attr="id" config='activityTypeSelectConfig' options='activityTypeList' ng-model="selectedActivity.activityTypeId"></selectize>
+                                        <span class="form-error" id="activity-type-id">Please provide valid Activity.</span>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="small-3 columns text-right">
-                                        <label for="activity-budget" class="middle">Budget</label>
+                                        <label for="activity-budget" class="middle" id="budget-update-label">Budget</label>
                                     </div>
                                     <div class="small-3 columns">
-                                        <input type="text" class="comma-separator numeric" placeholder="Budget" ng-model="selectedActivity.amount">
+                                        <input type="text" id="budget-update-field" class="comma-separator numeric" placeholder="Budget" ng-model="selectedActivity.amount">
+                                        <span class="form-error" id="budget-error">Please provide valid budget amount.</span>
                                     </div>
                                     <div class="small-2 columns">
                                         <label class="text-right middle">Activity Type</label>
