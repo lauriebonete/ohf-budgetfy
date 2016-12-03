@@ -229,19 +229,39 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                             },
                             "legend":{
                                 "text":"%t<br>",
-                                "width": 150,
+                                "width": 200,
                                 "verticalAlign": "middle",
-                                "borderWidth": 0,
+                                "borderWidth": 2,
                                 "toggleAction": "remove",
+                                "adjust-layout": true,
+                                "max-items":11,
+                                "overflow":"scroll",
+                                "scroll":{
+                                    "bar":{
+                                        "background-color":"white",
+                                        "border-left":"1px solid red",
+                                        "border-right":"1px solid red",
+                                        "border-top":"1px solid red",
+                                        "border-bottom":"1px solid red"
+                                    },
+                                    "handle":{
+                                        "background-color":"grey",
+                                        "border-left":"2px solid red",
+                                        "border-right":"2px solid red",
+                                        "border-top":"2px solid red",
+                                        "border-bottom":"2px solid red",
+                                        "border-radius":"15px"
+                                    }
+                                },
                                 "item":{
-                                    "padding": 3,
+                                    "padding": 2,
                                     "borderRadius": 3,
                                     "fontColor": "#fff",
                                     "align": "left",
-                                    "width": 120
+                                    "width": 150
                                 },
                                 "header":{
-                                    "text":"Programs",
+                                    "text":"Activities",
                                     "align": "center",
                                     "fontSize": 13,
                                     "bold": true,
@@ -277,7 +297,8 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                                 }
                             },
                             "plotarea":{
-                                "margin-top":"15%"
+                                "margin-top":"15%",
+                                "margin-bottom":"15%"
                             },
                             "tooltip":{
                                 "text":"%t<br>P %v",
@@ -306,19 +327,39 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                         },
                         "legend":{
                             "text":"%t<br>",
-                            "width": 150,
+                            "width": 200,
                             "verticalAlign": "middle",
-                            "borderWidth": 0,
+                            "borderWidth": 2,
                             "toggleAction": "remove",
+                            "adjust-layout": true,
+                            "max-items":11,
+                            "overflow":"scroll",
+                            "scroll":{
+                                "bar":{
+                                    "background-color":"white",
+                                    "border-left":"1px solid red",
+                                    "border-right":"1px solid red",
+                                    "border-top":"1px solid red",
+                                    "border-bottom":"1px solid red"
+                                },
+                                "handle":{
+                                    "background-color":"grey",
+                                    "border-left":"2px solid red",
+                                    "border-right":"2px solid red",
+                                    "border-top":"2px solid red",
+                                    "border-bottom":"2px solid red",
+                                    "border-radius":"15px"
+                                }
+                            },
                             "item":{
-                                "padding": 3,
+                                "padding": 2,
                                 "borderRadius": 3,
                                 "fontColor": "#fff",
                                 "align": "left",
-                                "width": 120
+                                "width": 150
                             },
                             "header":{
-                                "text":"Programs",
+                                "text":"Activities",
                                 "align": "center",
                                 "fontSize": 13,
                                 "bold": true,
@@ -354,7 +395,8 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                             }
                         },
                         "plotarea":{
-                            "margin-top":"15%"
+                            "margin-top":"10%",
+                            "margin-bottom":"10%"
                         },
                         "tooltip":{
                             "text":"%t<br>P %v",
@@ -487,15 +529,16 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                                     "placement":"out",
                                     "font-size":10
                                 },
-                                "plotarea": {
-                                    "margin":"15%"
-                                },
                                 "animation":{
                                     "effect": 3,
                                     "method": 1,
                                     "sequence": 1,
                                     "onLegendToggle": false
                                 }
+                            },
+                            "plotarea": {
+                                "margin-top":"15%",
+                                "margin-bottom":"15%"
                             },
                             "tooltip":{
                                 "text":"%t<br>P %v",
@@ -564,9 +607,6 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                                     "placement":"out",
                                     "font-size":10
                                 },
-                                "plotarea": {
-                                    "margin":"15%"
-                                },
                                 "animation":{
                                     "effect": 3,
                                     "method": 1,
@@ -574,11 +614,15 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                                     "onLegendToggle": false
                                 }
                             },
+                            "plotarea": {
+                                "margin-top":"15%",
+                                "margin-bottom":"15%"
+                            },
                             "tooltip":{
                                 "text":"%t<br>P %v",
                                 "placement": "node:out",
                                 "offsetR": 2,
-                                "width": 110,
+                                "width": 150,
                                 "fontColor": "#fff",
                                 "borderRadius": 3,
                                 "bold": true,
@@ -593,7 +637,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                             zingchart.render({
                                 id: _id,
                                 width: "100%",
-                                height: 600,
+                                height: 650
                             });
                         }
                         renderZingCharts('prog-actuals-chart');
