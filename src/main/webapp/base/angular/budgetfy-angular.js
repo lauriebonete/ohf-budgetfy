@@ -2051,10 +2051,15 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                 $scope.selectedActivity.activityCode = referenceLookUpService.findReferenceInList($scope.activityCodeList,$scope.selectedActivity.activityCodeId);
                 $scope.selectedActivity.program = {id:$scope.selectedActivity.programId};
                 activityService.addUpdateActivity($scope.selectedActivity).then(function(data){
-                    $scope.selectedProgram.activities = $filter('filter')($scope.selectedProgram.activities , { id: ('!' + $scope.selectedActivity.id) });
-                    $scope.selectedProgram.activities.unshift(data.data.result);
-                    MotionUI.animateOut($('#update-activity-form'), 'slide-out-up'); /*JIM 20161101*/
-                    evey.promptSuccess(data.data.message); /*JIM 20161101*/
+                    if(data.data.status){
+                        $scope.selectedProgram.activities = $filter('filter')($scope.selectedProgram.activities , { id: ('!' + $scope.selectedActivity.id) });
+                        $scope.selectedProgram.activities.unshift(data.data.result);
+                        MotionUI.animateOut($('#update-activity-form'), 'slide-out-up'); /*JIM 20161101*/
+                        evey.promptSuccess(data.data.message); /*JIM 20161101*/
+                    } else {
+                        evey.promptAlert(data.data.message);
+                    }
+
                 });
             }
         };
