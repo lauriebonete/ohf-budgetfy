@@ -1072,8 +1072,8 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                 $("#selected-voucher-totalAmount").removeClass("is-invalid-input");
                 $("#selected-voucher-totalAmount-label").removeClass("is-invalid-label");
             }
-
             if(!isInvalid){
+                $scope.selectedVoucher.status = referenceLookUpService.findReferenceInList($scope.voucherStatusList, $scope.selectedVoucher.statusId);
                 $scope.selectedVoucher.statusDisplay =  $("#update-status option:selected").text();
                 $("#expense-update").css("left","-100%");
                 $("#expense-update-summary").css("left", "0");
@@ -1259,10 +1259,55 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
         };
 
         $scope.updateSelectedParticular = function(){
-            $scope.selectedParticular.activity = activityService.findActivityInList($scope.programActivities, $scope.selectedParticular.activityId);
-            $scope.selectedParticular.activity.program = programService.findProgramInList($scope.programList, $scope.selectedParticular.activity.programId);
-            $scope.selectedParticular.displayExpense = "P"+evey.addThousandsSeparator($scope.selectedParticular.expense);
 
+            var isInvalid = false;
+            if(evey.isEmpty($scope.selectedParticular.activityId)){
+                $("#selected-particular-activity-label").addClass("is-invalid-label");
+                $("#selected-particular-activity-error").addClass("is-visible");
+                isInvalid = true;
+            } else {
+                $("#selected-particular-activity-label").removeClass("is-invalid-label");
+                $("#selected-particular-activity-error").removeClass("is-visible");
+            }
+
+            if(evey.isEmpty($scope.selectedParticular.activity.programId)){
+                $("#selected-particular-program-label").addClass("is-invalid-label");
+                $("#selected-particular-program-error").addClass("is-visible");
+                isInvalid = true;
+            } else {
+                $("#selected-particular-program-label").removeClass("is-invalid-label");
+                $("#selected-particular-program-error").removeClass("is-visible");
+            }
+
+            if(evey.isEmpty($scope.selectedParticular.description)){
+                $("#selected-particular-desc-label").addClass("is-invalid-label");
+                $("#selected-particular-desc").addClass("is-invalid-input");
+                $("#selected-particular-desc-error").addClass("is-visible");
+                isInvalid = true;
+            } else {
+                $("#selected-particular-desc-label").removeClass("is-invalid-label");
+                $("#selected-particular-desc").removeClass("is-invalid-input");
+                $("#selected-particular-desc-error").removeClass("is-visible");
+            }
+
+            if(evey.isEmpty($scope.selectedParticular.expense)){
+                $("#selected-particular-expense-label").addClass("is-invalid-label");
+                $("#selected-particular-expense").addClass("is-invalid-input");
+                $("#selected-particular-expense-error").addClass("is-visible");
+                isInvalid = true;
+            } else {
+                $("#selected-particular-expense-label").removeClass("is-invalid-label");
+                $("#selected-particular-expense").removeClass("is-invalid-input");
+                $("#selected-particular-expense-error").removeClass("is-visible");
+            }
+
+            if(!isInvalid){
+                $scope.selectedParticular.activity = activityService.findActivityInList($scope.programActivities, $scope.selectedParticular.activityId);
+                $scope.selectedParticular.activity.program = programService.findProgramInList($scope.programList, $scope.selectedParticular.activity.programId);
+                $scope.selectedParticular.displayExpense = "P"+evey.addThousandsSeparator($scope.selectedParticular.expense);
+
+                $('#update-expense-form').foundation('toggle');
+            }
         };
 
         $scope.viewSelectedParticular = function(particularId){
@@ -1388,7 +1433,6 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             $scope.selectedVoucher.date = $scope.selectedVoucher.dateDisplay;
             voucherService.saveVoucher($scope.selectedVoucher).then(function(result){
                 if(result.data.status){
-                    /*$scope.selectedVoucher.displayDate = moment($scope.selectedVoucher.dateDisplay).format("MMM DD, YYYY");*/
                     $scope.voucherList = $filter('filter')($scope.voucherList , { id: ('!' + $scope.selectedVoucher.id) });
                     $scope.voucherList.unshift(result.data.result);
                     $("#expense-main").removeClass("hide");

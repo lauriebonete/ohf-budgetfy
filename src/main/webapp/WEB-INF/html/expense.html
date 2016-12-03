@@ -551,34 +551,34 @@
                         </div>
                         <div class="row">
                             <div class="small-1 columns">
-                                <label class="text-right middle">Program</label>
+                                <label class="text-right middle" id="selected-particular-program-label">Program</label>
                             </div>
                             <div class="small-5 columns">
                                 <selectize config='programConfig' options='programList' ng-model="selectedParticular.activity.programId"></selectize>
-                                <span class="form-error">Please provide a program.</span>
+                                <span class="form-error" id="selected-particular-program-error">Please provide a program.</span>
                             </div>
                             <div class="small-2 columns">
-                                <label class="text-right middle">Activity</label>
+                                <label class="text-right middle" id="selected-particular-activity-label">Activity</label>
                             </div>
                             <div class="small-4 columns end">
                                 <selectize config='programActivityConfig' options='programActivities' ng-model="selectedParticular.activityId"></selectize>
-                                <span class="form-error">Please provide an activity.</span>
+                                <span class="form-error" id="selected-particular-activity-error">Please provide an activity.</span>
                             </div>
                         </div>
                         <div class="row">
                             <div class="small-1 columns">
-                                <label class="text-right middle">Particular</label>
+                                <label class="text-right middle" id="selected-particular-desc-label">Particular</label>
                             </div>
                             <div class="small-5 columns">
-                                <input type="text" ng-model="selectedParticular.description">
-                                <span class="form-error">Please provide a particular description.</span>
+                                <input type="text" ng-model="selectedParticular.description" id="selected-particular-desc">
+                                <span class="form-error" id="selected-particular-desc-error">Please provide a particular description.</span>
                             </div>
                             <div class="small-2 columns">
-                                <label class="text-right middle">Expense Amount</label>
+                                <label class="text-right middle" id="selected-particular-expense-label">Expense Amount</label>
                             </div>
                             <div class="small-4 columns end">
-                                <input type="text" class="comma-separator numeric" ng-model="selectedParticular.expense"/>
-                                <span class="form-error">Please provide a valid amount.</span>
+                                <input type="text" id="selected-particular-expense" class="comma-separator numeric" ng-model="selectedParticular.expense"/>
+                                <span class="form-error" id="selected-particular-expense-error">Please provide a valid amount.</span>
                             </div>
                         </div>
                         <div class="row">
@@ -586,7 +586,7 @@
                                 <div id="update-particular-receipt">Upload</div>
                             </div>
                             <div class="small-4 columns end">
-                                <a class="button success expanded" data-toggle="update-expense-form" ng-click="updateSelectedParticular()">Update Particular <i class="fa fa-pencil"></i></a>
+                                <a class="button success expanded" ng-click="updateSelectedParticular()">Update Particular <i class="fa fa-pencil"></i></a>
                             </div>
                         </div>
                     </div>
