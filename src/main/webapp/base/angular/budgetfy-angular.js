@@ -1016,7 +1016,69 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
         };
 
         $scope.changeStatus = function(){
-            $scope.selectedVoucher.statusDisplay =  $("#update-status option:selected").text();
+
+            var isInvalid = false;
+            if(evey.isEmpty($scope.selectedVoucher.payee)){
+                $("#selected-voucher-payee-error").addClass("is-visible");
+                $("#selected-voucher-payee").addClass("is-invalid-input");
+                $("#selected-voucher-payee-label").addClass("is-invalid-label");
+                isInvalid = true;
+            } else {
+                $("#selected-voucher-payee-error").removeClass("is-visible");
+                $("#selected-voucher-payee").removeClass("is-invalid-input");
+                $("#selected-voucher-payee-label").removeClass("is-invalid-label");
+            }
+
+            if(evey.isEmpty($scope.selectedVoucher.reference)){
+                $("#selected-voucher-reference-error").addClass("is-visible");
+                $("#selected-voucher-reference").addClass("is-invalid-input");
+                $("#selected-voucher-reference-label").addClass("is-invalid-label");
+                isInvalid = true;
+            } else {
+                $("#selected-voucher-reference-error").removeClass("is-visible");
+                $("#selected-voucher-reference").removeClass("is-invalid-input");
+                $("#selected-voucher-reference-label").removeClass("is-invalid-label");
+            }
+
+            if(evey.isEmpty($scope.selectedVoucher.date)){
+                $("#selected-voucher-date-error").addClass("is-visible");
+                $("#selected-voucher-date").addClass("is-invalid-input");
+                $("#selected-voucher-date-label").addClass("is-invalid-label");
+                isInvalid = true;
+            } else {
+                $("#selected-voucher-date-error").removeClass("is-visible");
+                $("#selected-voucher-date").removeClass("is-invalid-input");
+                $("#selected-voucher-date-label").removeClass("is-invalid-label");
+            }
+
+            if(evey.isEmpty($scope.selectedVoucher.vcNumber)){
+                $("#selected-voucher-vcNumber-error").addClass("is-visible");
+                $("#selected-voucher-vcNumber").addClass("is-invalid-input");
+                $("#selected-voucher-vcNumber-label").addClass("is-invalid-label");
+                isInvalid = true;
+            } else {
+                $("#selected-voucher-vcNumber-error").removeClass("is-visible");
+                $("#selected-voucher-vcNumber").removeClass("is-invalid-input");
+                $("#selected-voucher-vcNumber-label").removeClass("is-invalid-label");
+            }
+
+            if(evey.isEmpty($scope.selectedVoucher.totalAmount)){
+                $("#selected-voucher-totalAmount-error").addClass("is-visible");
+                $("#selected-voucher-totalAmount").addClass("is-invalid-input");
+                $("#selected-voucher-totalAmount-label").addClass("is-invalid-label");
+                isInvalid = true;
+            } else {
+                $("#selected-voucher-totalAmount-error").removeClass("is-visible");
+                $("#selected-voucher-totalAmount").removeClass("is-invalid-input");
+                $("#selected-voucher-totalAmount-label").removeClass("is-invalid-label");
+            }
+
+            if(!isInvalid){
+                $scope.selectedVoucher.statusDisplay =  $("#update-status option:selected").text();
+                $("#expense-update").css("left","-100%");
+                $("#expense-update-summary").css("left", "0");
+            }
+
         };
 
         $scope.createVoucherObj = function(){
@@ -1199,7 +1261,8 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
         $scope.updateSelectedParticular = function(){
             $scope.selectedParticular.activity = activityService.findActivityInList($scope.programActivities, $scope.selectedParticular.activityId);
             $scope.selectedParticular.activity.program = programService.findProgramInList($scope.programList, $scope.selectedParticular.activity.programId);
-            $scope.selectedParticular.displayExpense = "P"+evey.addThousandsSeparator($scope.selectedParticular.expense)
+            $scope.selectedParticular.displayExpense = "P"+evey.addThousandsSeparator($scope.selectedParticular.expense);
+
         };
 
         $scope.viewSelectedParticular = function(particularId){
@@ -1316,6 +1379,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
         };
 
         $scope.updateVoucher = function(){
+            $scope.selectedVoucher.totalAmount = Number(String($scope.selectedVoucher.totalAmount).replace(/,/g, ''));
             $scope.selectedVoucher.date = $scope.selectedVoucher.dateDisplay;
             $.each($scope.selectedVoucher.particulars, function(i, particular){
                 particular.expense = Number(String(particular.expense).replace(/,/g, ''));
@@ -1799,29 +1863,57 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
         };
 
         $scope.updateActivity = function(){
-            $scope.selectedActivity.amount = Number($scope.selectedActivity.amount.toString().replace(/,/g, '')); /*JIM Nov1*/
-            var foundType = $scope.activityTypeList.filter(function(type){
-               return (type.id == $scope.selectedActivity.activityTypeId);
-            });
-            var foundCode = $scope.activityCodeList.filter(function(code){
-                return (code.id == $scope.selectedActivity.activityCodeId);
-            });
-            if(foundCode.length>0){
-                $scope.selectedActivity.activityCodeName = foundCode[0].value;
-            }
-            if(foundType.length>0){
-                $scope.selectedActivity.activityName = foundType[0].value;
+            var isInvalid = false;
+            if($scope.selectedActivity.activityTypeId == null ||
+                $scope.selectedActivity.activityTypeId == undefined ||
+                $scope.selectedActivity.activityTypeId == "") {
+                $("#activity-type-id-label").addClass("is-invalid-label");
+                $("#activity-type-id").addClass("is-visible");
+                isInvalid = true;
+            } else {
+                $("#activity-type-id-label").removeClass("is-invalid-label");
+                $("#activity-type-id").removeClass("is-visible");
             }
 
-            $scope.selectedActivity.activityType = {id:$scope.selectedActivity.activityTypeId};
-            $scope.selectedActivity.activityCode = referenceLookUpService.findReferenceInList($scope.activityCodeList,$scope.selectedActivity.activityCodeId);
-            $scope.selectedActivity.program = {id:$scope.selectedActivity.programId};
-            activityService.addUpdateActivity($scope.selectedActivity).then(function(data){
-                $scope.selectedProgram.activities = $filter('filter')($scope.selectedProgram.activities , { id: ('!' + $scope.selectedActivity.id) });
-                $scope.selectedProgram.activities.unshift(data.data.result);
-                MotionUI.animateOut($('#update-activity-form'), 'slide-out-up'); /*JIM 20161101*/
-                evey.promptSuccess(data.data.message); /*JIM 20161101*/
-            });
+            if($scope.selectedActivity.amount == null ||
+                $scope.selectedActivity.amount == undefined ||
+                $scope.selectedActivity.amount == 0 ||
+                $scope.selectedActivity.amount == ""){
+                $("#budget-update-label").addClass("is-invalid-label");
+                $("#budget-update-field").addClass("is-invalid-input");
+                $("#budget-error").addClass("is-visible");
+                isInvalid = true;
+            } else {
+                $("#budget-update-label").removeClass("is-invalid-label");
+                $("#budget-update-field").removeClass("is-invalid-input");
+                $("#budget-error").removeClass("is-visible");
+            }
+
+            if(!isInvalid){
+                $scope.selectedActivity.amount = Number($scope.selectedActivity.amount.toString().replace(/,/g, '')); /*JIM Nov1*/
+                var foundType = $scope.activityTypeList.filter(function(type){
+                    return (type.id == $scope.selectedActivity.activityTypeId);
+                });
+                var foundCode = $scope.activityCodeList.filter(function(code){
+                    return (code.id == $scope.selectedActivity.activityCodeId);
+                });
+                if(foundCode.length>0){
+                    $scope.selectedActivity.activityCodeName = foundCode[0].value;
+                }
+                if(foundType.length>0){
+                    $scope.selectedActivity.activityName = foundType[0].value;
+                }
+
+                $scope.selectedActivity.activityType = {id:$scope.selectedActivity.activityTypeId};
+                $scope.selectedActivity.activityCode = referenceLookUpService.findReferenceInList($scope.activityCodeList,$scope.selectedActivity.activityCodeId);
+                $scope.selectedActivity.program = {id:$scope.selectedActivity.programId};
+                activityService.addUpdateActivity($scope.selectedActivity).then(function(data){
+                    $scope.selectedProgram.activities = $filter('filter')($scope.selectedProgram.activities , { id: ('!' + $scope.selectedActivity.id) });
+                    $scope.selectedProgram.activities.unshift(data.data.result);
+                    MotionUI.animateOut($('#update-activity-form'), 'slide-out-up'); /*JIM 20161101*/
+                    evey.promptSuccess(data.data.message); /*JIM 20161101*/
+                });
+            }
         };
 
         $scope.addActivityToProgram = function(){
