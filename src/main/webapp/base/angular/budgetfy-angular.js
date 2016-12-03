@@ -439,7 +439,6 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
 
                         $scope.programActualBudgetConfig = {
                             "type": "pie",
-                            "width": "900px",
 
                             "title":{
                                 "text": "All Programs (Actuals)",
@@ -488,15 +487,15 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                                     "placement":"out",
                                     "font-size":10
                                 },
+                                "plotarea": {
+                                    "margin":"15%"
+                                },
                                 "animation":{
                                     "effect": 3,
                                     "method": 1,
                                     "sequence": 1,
                                     "onLegendToggle": false
                                 }
-                            },
-                            "plotarea":{
-                                "margin-top":"15%"
                             },
                             "tooltip":{
                                 "text":"%t<br>P %v",
@@ -516,8 +515,6 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
 
                         $scope.programBudgetConfig = {
                             "type": "pie",
-                            "width": "100%",
-                            "autoResize": true,
 
                             "title":{
                                 "text": "All Programs (Expected)",
@@ -567,8 +564,8 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                                     "placement":"out",
                                     "font-size":10
                                 },
-                                "plotarea":{
-                                    "margin-top":"15%"
+                                "plotarea": {
+                                    "margin":"15%"
                                 },
                                 "animation":{
                                     "effect": 3,
@@ -592,6 +589,17 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                             },
                             "series": expectedSeries
                         };
+                        function renderZingCharts(_id) {
+                            zingchart.render({
+                                id: _id,
+                                width: "100%",
+                                height: 600,
+                            });
+                        }
+                        renderZingCharts('prog-actuals-chart');
+                        renderZingCharts('prog-expected-chart');
+                        renderZingCharts('act-expected-chart');
+                        renderZingCharts('act-actuals-chart');
                     }
                 });
         };
