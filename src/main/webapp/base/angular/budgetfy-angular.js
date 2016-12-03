@@ -229,7 +229,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                             },
                             "legend":{
                                 "text":"%t<br>",
-                                "width": 200,
+                                "width": 220,
                                 "verticalAlign": "middle",
                                 "borderWidth": 2,
                                 "toggleAction": "remove",
@@ -239,17 +239,17 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                                 "scroll":{
                                     "bar":{
                                         "background-color":"white",
-                                        "border-left":"1px solid red",
-                                        "border-right":"1px solid red",
-                                        "border-top":"1px solid red",
-                                        "border-bottom":"1px solid red"
+                                        /*"border-left":"1px solid white",*/
+                                        /*"border-right":"0px solid white",*/
+                                        "border-top":"1px solid white",
+                                        "border-bottom":"1px solid grey"
                                     },
                                     "handle":{
                                         "background-color":"grey",
-                                        "border-left":"2px solid red",
-                                        "border-right":"2px solid red",
-                                        "border-top":"2px solid red",
-                                        "border-bottom":"2px solid red",
+                                        /*"border-left":"2px solid white",
+                                         "border-right":"2px solid white",
+                                         "border-top":"2px solid white",
+                                         "border-bottom":"2px solid white",*/
                                         "border-radius":"15px"
                                     }
                                 },
@@ -327,7 +327,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                         },
                         "legend":{
                             "text":"%t<br>",
-                            "width": 200,
+                            "width": 220,
                             "verticalAlign": "middle",
                             "borderWidth": 2,
                             "toggleAction": "remove",
@@ -337,17 +337,17 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                             "scroll":{
                                 "bar":{
                                     "background-color":"white",
-                                    "border-left":"1px solid red",
-                                    "border-right":"1px solid red",
-                                    "border-top":"1px solid red",
-                                    "border-bottom":"1px solid red"
+                                    /*"border-left":"1px solid white",*/
+                                    /*"border-right":"0px solid white",*/
+                                    "border-top":"1px solid white",
+                                    "border-bottom":"1px solid grey"
                                 },
                                 "handle":{
                                     "background-color":"grey",
-                                    "border-left":"2px solid red",
-                                    "border-right":"2px solid red",
-                                    "border-top":"2px solid red",
-                                    "border-bottom":"2px solid red",
+                                    /*"border-left":"2px solid white",
+                                    "border-right":"2px solid white",
+                                    "border-top":"2px solid white",
+                                    "border-bottom":"2px solid white",*/
                                     "border-radius":"15px"
                                 }
                             },
@@ -489,16 +489,36 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                             },
                             "legend":{
                                 "text":"%t<br>",
-                                "width": 150,
+                                "width": 220,
                                 "verticalAlign": "middle",
-                                "borderWidth": 0,
+                                "borderWidth": 2,
                                 "toggleAction": "remove",
+                                "adjust-layout": true,
+                                "max-items":11,
+                                "overflow":"scroll",
+                                "scroll":{
+                                    "bar":{
+                                        "background-color":"white",
+                                        /*"border-left":"1px solid white",*/
+                                        /*"border-right":"0px solid white",*/
+                                        "border-top":"1px solid white",
+                                        "border-bottom":"1px solid grey"
+                                    },
+                                    "handle":{
+                                        "background-color":"grey",
+                                        /*"border-left":"2px solid white",
+                                         "border-right":"2px solid white",
+                                         "border-top":"2px solid white",
+                                         "border-bottom":"2px solid white",*/
+                                        "border-radius":"15px"
+                                    }
+                                },
                                 "item":{
-                                    "padding": 3,
+                                    "padding": 2,
                                     "borderRadius": 3,
                                     "fontColor": "#fff",
                                     "align": "left",
-                                    "width": 120
+                                    "width": 150
                                 },
                                 "header":{
                                     "text":"Programs",
@@ -567,16 +587,36 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                             },
                             "legend":{
                                 "text":"%t<br>",
-                                "width": 150,
+                                "width": 220,
                                 "verticalAlign": "middle",
-                                "borderWidth": 0,
+                                "borderWidth": 2,
                                 "toggleAction": "remove",
+                                "adjust-layout": true,
+                                "max-items":11,
+                                "overflow":"scroll",
+                                "scroll":{
+                                    "bar":{
+                                        "background-color":"white",
+                                        /*"border-left":"1px solid white",*/
+                                        /*"border-right":"0px solid white",*/
+                                        "border-top":"1px solid white",
+                                        "border-bottom":"1px solid grey"
+                                    },
+                                    "handle":{
+                                        "background-color":"grey",
+                                        /*"border-left":"2px solid white",
+                                         "border-right":"2px solid white",
+                                         "border-top":"2px solid white",
+                                         "border-bottom":"2px solid white",*/
+                                        "border-radius":"15px"
+                                    }
+                                },
                                 "item":{
-                                    "padding": 3,
+                                    "padding": 2,
                                     "borderRadius": 3,
                                     "fontColor": "#fff",
                                     "align": "left",
-                                    "width": 120
+                                    "width": 150
                                 },
                                 "header":{
                                     "text":"Programs",
@@ -1145,6 +1185,13 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                     $("#expense-update-container").addClass("hide");
                     $("#expense-add").css("left","0");
                     $("#expense-add-summary").css("left", "+100%");
+                    $scope.createVoucher.payee = ''; /*Jim Dec 3*/
+                    $scope.createVoucher.reference = ''; /*Jim Dec 3*/
+                    $scope.createVoucher.date = ''; /*Jim Dec 3*/
+                    $scope.createVoucher.vcNumber = ''; /*Jim Dec 3*/
+                    $scope.createVoucher.variance = ''; /*Jim Dec 3*/
+                    $scope.createVoucher.totalAmount = ''; /*Jim Dec 3*/
+                    $scope.newParticularList = ''; /*Jim Dec 3*/
                     evey.promptSuccess(result.data.message);
                 } else{
                     evey.promptAlert(result.data.message);
