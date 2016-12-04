@@ -1191,7 +1191,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                     $scope.createVoucher.vcNumber = ''; /*Jim Dec 3*/
                     $scope.createVoucher.variance = ''; /*Jim Dec 3*/
                     $scope.createVoucher.totalAmount = ''; /*Jim Dec 3*/
-                    /*$scope.newParticularList = ''; /*Jim Dec 3*/
+                    $scope.newParticularList = []; /*Jim Dec 4*/
                     evey.promptSuccess(result.data.message);
                 } else{
                     evey.promptAlert(result.data.message);
