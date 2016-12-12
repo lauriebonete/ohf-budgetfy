@@ -7,9 +7,12 @@ import org.ohf.service.ParticularService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -44,5 +47,13 @@ public class VoucherController extends BaseCrudController<Voucher> {
             }
             command.setTotalExpense(sum);
         }
+    }
+
+    @RequestMapping(value = "/get-open-activity", produces = "application/json", method = RequestMethod.GET)
+    public @ResponseBody Map<String,Object> getOpenActivity(){
+        Map<String,Object> returnMap = new HashMap<>();
+        returnMap.put("results", getService().findEntityByNamedQuery("jpq.voucher.get-open-activity", Voucher.class));
+        returnMap.put("status", true);
+        return returnMap;
     }
 }

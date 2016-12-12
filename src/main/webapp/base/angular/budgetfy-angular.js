@@ -975,6 +975,21 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             voucherService.getAllVouchers().then(function(results){
                 $scope.voucherMaxSize = results.listSize;
                 $scope.voucherList = results.results;
+
+                voucherService.getOpenActivity().then(function(results){
+                    console.log(results);
+                    if(results.status){
+                        $.each($scope.voucherList, function(i,voucher){
+                            $.each(results.results, function(ii, found){
+                                if(voucher.id == found.id){
+                                    voucher.open = true;
+                                    return false;
+                                }
+                            });
+                        });
+                    }
+                });
+
             },function(error){
 
             });
@@ -2359,6 +2374,14 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
     .service("voucherService",function($http){
         this.getAllVouchers = function(){
             return $http.get("/budgetfy/expense/findAllSort").then(function successCallback(response){
+                return response.data;
+            }, function errorCallback(response){
+
+            });
+        };
+
+        this.getOpenActivity = function(){
+            return $http.get("/budgetfy/expense/get-open-activity").then(function successCallback(response){
                 return response.data;
             }, function errorCallback(response){
 

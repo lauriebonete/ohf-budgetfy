@@ -5,6 +5,8 @@ import org.ohf.bean.Voucher;
 import org.ohf.dao.VoucherDao;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * Created by Laurie on 7/2/2016.
  */
