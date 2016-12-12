@@ -17,7 +17,7 @@
 <section id="header" ng-controller="systemController" ng-init="init()">
     <div class="row">
         <div class="small-6 columns text-left">
-            <a class="button active-page" href="/budgetfy/overview">Overview</a>
+            <a class="button" href="/budgetfy/overview">Overview</a>
             <a class="button" href="/budgetfy/program">Programs</a>
             <a class="button" href="/budgetfy/expense">Expense</a>
             <a class="button" href="/budgetfy/reports">Reports</a>
@@ -27,7 +27,7 @@
         </div>
         <div class="small-3 columns text-right">
             <ul id="nav">
-                <li><a class="button" href="/budgetfy/system-maintenance"><i class="fa fa-cog"></i></a></li>
+                <li><a class="button active-page" href="/budgetfy/system-maintenance"><i class="fa fa-cog"></i></a></li>
                 <li id="notification_li">
                     <span id="notification_count">3</span>
                     <a class="button" id="notificationLink"><i class="fa fa-exclamation"></i></a>
@@ -43,7 +43,7 @@
                                 </li>
                             </ul>
                         </div>
-                        <div id="notificationFooter"><a href="#">See All</a></div>
+                        <div id="notificationFooter"><a href="/budgetfy/notifications">See All</a></div>
                     </div>
                 </li>
                 <li><a class="button" data-toggle="user-dropdown"><i class="fa fa-user"></i></a>

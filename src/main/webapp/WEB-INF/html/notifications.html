@@ -15,7 +15,7 @@
     <section id="header" ng-cloak>
         <div class="row">
             <div class="small-6 columns text-left">
-                <a class="button active-page" href="/budgetfy/overview">Overview</a>
+                <a class="button" href="/budgetfy/overview">Overview</a>
                 <a class="button" href="/budgetfy/program">Programs</a>
                 <a class="button" href="/budgetfy/expense">Expense</a>
                 <a class="button" href="/budgetfy/reports">Reports</a>
@@ -28,7 +28,7 @@
                     <li><a class="button" href="/budgetfy/system-maintenance"><i class="fa fa-cog"></i></a></li>
                     <li id="notification_li">
                         <span id="notification_count">3</span>
-                        <a class="button" id="notificationLink"><i class="fa fa-exclamation"></i></a>
+                        <a class="button active-page" id="notificationLink"><i class="fa fa-exclamation"></i></a>
                         <div id="notificationContainer">
                             <div id="notificationTitle" class="text-left">Notifications</div>
                             <div id="notificationsBody" class="notifications">
@@ -58,15 +58,8 @@
 
 <section id="site-content-overview">
     <div class="row">
-        <div class="small-3 columns">
-            <h2 class="middle">Overview</h2>
-        </div>
-        <div class="small-7 columns">
-            <label class="text-right middle"></label>
-        </div>
-        <div class="small-2 columns text-right">
-            <select ng-model="currentYear" ng-options="year as year for year in years" ng-change="changeYear()">
-            </select>
+        <div class="small-12 columns">
+            <h2 class="middle">Notifications</h2>
         </div>
     </div>
     <div class="row">
@@ -76,35 +69,22 @@
     </div>
     <div class="row">
         <div class="small-12 columns">
-            <zingchart zc-json="programBudgetConfig" id="prog-expected-chart" style="display:block"></zingchart>
+            <h5 class="middle">December 2016</h5>
         </div>
     </div>
-    <div class="row">
+    <div class="notifications row">
         <div class="small-12 columns">
-            <zingchart zc-json="programActualBudgetConfig" id="prog-actuals-chart" style="display:block"></zingchart>
+        <ul>
+            <li class="notif">Voucher# 12345 is still open.<br>
+                <span class="notif-time"><i class="fa fa-clock-o" aria-hidden="true"></i> 1 hour ago</span>
+            </li>
+            <li class="notif">Voucher# 15001 is still open. <br>
+                <span class="notif-time"><i class="fa fa-clock-o" aria-hidden="true"></i> 3 hours ago</span>
+            </li>
+        </ul>
         </div>
     </div>
-    <div class="row">
-        <div class="small-7 columns">
-            <label class="text-right middle"></label>
-        </div>
-        <div class="small-2 columns">
-            <label class="text-right middle">Select A Program</label>
-        </div>
-        <div class="small-3 columns">
-            <selectize config='programConfig' options='programList' ng-model="programModel" ng-change="selectProgram()"></selectize>
-        </div>
-    </div>
-    <div class="row">
-        <div class="small-12 columns">
-            <zingchart zc-json="activityBudgetConfig" id="act-expected-chart" style="display:block"></zingchart>
-        </div>
-    </div>
-    <div class="row">
-        <div class="small-12 columns">
-            <zingchart zc-json="activityBudgetActualConfig" id="act-actuals-chart" style="display:block"></zingchart>
-        </div>
-    </div>
+
 </section>
 </body>
 <footer>
