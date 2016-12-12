@@ -97,7 +97,10 @@
                             </tr>
                             </thead>
                             <tbody>
-                                <tr class="row-onclick" dir-paginate="voucher in result = (voucherList | filter : voucherFilter | filter: yearFilter) | itemsPerPage: voucherMaxSize" pagination-id="voucher-list" ng-click="viewVoucher(voucher.id)">
+                                <tr class="row-onclick" dir-paginate="voucher in result = (voucherList | filter : voucherFilter | filter: yearFilter) | itemsPerPage: voucherMaxSize"
+                                    pagination-id="voucher-list"
+                                    ng-click="viewVoucher(voucher.id)"
+                                    ng-class="voucher.open != null && voucher.open != undefined && voucher.open == true ? 'open-activity ' : ''">
                                     <td>{{voucher.vcNumber}}</td>
                                     <td>{{voucher.reference}}</td>
                                     <td>{{voucher.status.value}}</td>

@@ -366,3 +366,8 @@ a.active-page {
     margin-top: -2px;
     font-size: 11px;
 }
+
+
+.open-activity {
+    background-color: #ffc1c1 !important;
+}
