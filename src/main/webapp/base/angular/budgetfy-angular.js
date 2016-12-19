@@ -131,13 +131,23 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             }
         };
     }])
-    .controller("systemController", function($scope, $sessionStorage, programService, activityService, userService){
+    .controller("systemController", function($scope, $sessionStorage, programService, activityService, userService, notificationService){
         $scope.init = function(){
             $scope.years = $sessionStorage.years;
             $scope.currentYear = new Date().getFullYear().toString();
 
             userService.getCurrentUser().then(function(){
                 $scope.user = $sessionStorage.user;
+
+                notificationService.getNotificationOfUser($sessionStorage.user.id, 5).then(function(result){
+                    console.log(result);
+                    if(result.status){
+                        $scope.notificationTray = result.results;
+                    } else {
+                        evey.promptAlert(result.message)
+                    }
+                });
+
             });
 
             programService.getAllPrograms().then(function(data){
@@ -2543,6 +2553,17 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             });
         };
 
+    })
+    .service("notificationService", function($http){
+
+        this.getNotificationOfUser = function(userId, maxCount){
+            return $http.get("/budgetfy/notification/get-notification", {params: {userId: userId, maxCount: maxCount}}).then(function successCallback(response){
+                console.log(response);
+                return response.data;
+            }, function errorCallback(response){
+
+            });
+        };
     })
     .service("userRoleService", function($http){
         this.getAllUserRole = function(){

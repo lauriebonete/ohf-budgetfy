@@ -25,4 +25,9 @@ public class VoucherServiceImpl extends BaseCrudServiceImpl<Voucher> implements 
     public List<DisbursementDTO> getDisbursementReportDetails(Date fromDate, Date toDate) {
         return voucherDaoJdbc.getDisbursementReportDetails(fromDate, toDate);
     }
+
+    @Override
+    public List<Voucher> sendNotificationForOpenVoucher(Integer days) {
+        return ((VoucherDao) getDao()).sendNotificationForOpenVoucher(days);
+    }
 }

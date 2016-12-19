@@ -57,6 +57,9 @@ public class Voucher extends BaseEntity {
     @Column(name = "STATUS_ID", insertable = false, updatable = false)
     private Long statusId;
 
+    @Column(name = "IS_NOTIFIED")
+    private Boolean isNotified;
+
     private transient String displayDate;
 
     private transient String displaytotalAmount;
@@ -190,6 +193,14 @@ public class Voucher extends BaseEntity {
         this.displayTotalExpensePage = displayTotalExpensePage;
     }
 
+    public Boolean getIsNotified() {
+        return isNotified;
+    }
+
+    public void setIsNotified(Boolean isNotified) {
+        this.isNotified = isNotified;
+    }
+
     public void setDisplayDate(String displayDate) {
         this.displayDate = displayDate;
     }
@@ -205,6 +216,7 @@ public class Voucher extends BaseEntity {
     @PrePersist
     protected void prePersist() {
         super.prePersist();
+        this.isNotified = false;
         if(this.particulars!=null &&
                 this.particulars.size()>0){
             BigDecimal total = new BigDecimal(0);

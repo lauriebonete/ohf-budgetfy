@@ -33,12 +33,16 @@
                             <div id="notificationTitle" class="text-left">Notifications</div>
                             <div id="notificationsBody" class="notifications">
                                 <ul>
-                                    <li class="notif">Voucher# 12345 is still open.<br>
+                                    <li class="notif" ng-repeat="notification in notificationTray">
+                                        {{notification.message}}<br>
+                                        <span class="notif-time"><i class="fa fa-clock-o" aria-hidden="true"></i>{{notification.createDateDisplay}}</span>
+                                    </li>
+                                    <!--<li class="notif">Voucher# 12345 is still open.<br>
                                         <span class="notif-time"><i class="fa fa-clock-o" aria-hidden="true"></i> 1 hour ago</span>
                                     </li>
                                     <li class="notif">Voucher# 15001 is still open. <br>
                                         <span class="notif-time"><i class="fa fa-clock-o" aria-hidden="true"></i> 3 hours ago</span>
-                                    </li>
+                                    </li>-->
                                 </ul>
                             </div>
                             <div id="notificationFooter"><a href="/budgetfy/notifications">See All</a></div>

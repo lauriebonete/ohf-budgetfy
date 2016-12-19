@@ -12,4 +12,5 @@ import java.util.List;
  */
 public interface VoucherService extends BaseCrudService<Voucher> {
     public List<DisbursementDTO> getDisbursementReportDetails(Date fromDate, Date toDate);
+    public List<Voucher> sendNotificationForOpenVoucher(Integer days);
 }

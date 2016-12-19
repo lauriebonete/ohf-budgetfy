@@ -1,6 +1,8 @@
 package org.ohf.controller;
 
+import org.evey.bean.ReferenceLookUp;
 import org.evey.controller.BaseCrudController;
+import org.evey.service.ReferenceLookUpService;
 import org.ohf.bean.Particular;
 import org.ohf.bean.Voucher;
 import org.ohf.service.ParticularService;
@@ -24,6 +26,9 @@ public class VoucherController extends BaseCrudController<Voucher> {
 
     @Autowired
     private ParticularService particularService;
+
+    @Autowired
+    private ReferenceLookUpService referenceLookUpService;
 
     @Override
     public ModelAndView loadHtml() {
@@ -52,7 +57,17 @@ public class VoucherController extends BaseCrudController<Voucher> {
     @RequestMapping(value = "/get-open-activity", produces = "application/json", method = RequestMethod.GET)
     public @ResponseBody Map<String,Object> getOpenActivity(){
         Map<String,Object> returnMap = new HashMap<>();
-        returnMap.put("results", getService().findEntityByNamedQuery("jpq.voucher.get-open-activity", Voucher.class));
+
+        Map<String, Object> parameters = new HashMap<>();
+        ReferenceLookUp openVoucher = referenceLookUpService.getReferenceLookUpByKey("OPEN_VOUCHER");
+
+        if(openVoucher==null){
+            parameters.put("date", 10);
+        } else {
+            parameters.put("date", openVoucher.getNumberValue());
+        }
+
+        returnMap.put("results", getService().findEntityByNamedQuery("jpq.voucher.get-open-activity", parameters));
         returnMap.put("status", true);
         return returnMap;
     }
