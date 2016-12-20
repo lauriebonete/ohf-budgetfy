@@ -37,7 +37,28 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
 
         url();
     }])
-    .controller("reportController", ["$scope", "voucherService", "$sessionStorage", "programService", function($scope, voucherService, $sessionStorage, programService){
+    .controller("notificationController", function($scope, notificationService, $sessionStorage){
+        $scope.loadInitData = function(){
+            $scope.user = $sessionStorage.user;
+            notificationService.getNotificationOfUser($scope.user.id, null).then(function(result){
+                if(result.status){
+                    $scope.notificationTray = result.results;
+                    $scope.newNotificationCount = result.notSeen;
+                    $scope.newNotification = result.notSeenNotification;
+                } else {
+                    evey.promptAlert(result.message)
+                }
+            });
+        };
+
+        $scope.readNotification = function(){
+            $("#notificationContainer").fadeToggle(300);
+            $("#notification_count").fadeOut("slow");
+            notificationService.readNotification($scope.user.id, $scope.newNotification);
+            return false;
+        };
+    })
+    .controller("reportController", ["$scope", "voucherService", "$sessionStorage", "programService", "notificationService", function($scope, voucherService, $sessionStorage, programService, notificationService){
         $scope.voucherConfig = {
             valueField : 'id',
             labelField : 'vcNumber',
@@ -62,6 +83,22 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             $scope.years = $sessionStorage.years;
             $scope.currentYear = new Date().getFullYear().toString();
             $scope.user = $sessionStorage.user;
+            notificationService.getNotificationOfUser($scope.user.id, 5).then(function(result){
+                if(result.status){
+                    $scope.notificationTray = result.results;
+                    $scope.newNotificationCount = result.notSeen;
+                    $scope.newNotification = result.notSeenNotification;
+                } else {
+                    evey.promptAlert(result.message)
+                }
+            });
+        };
+
+        $scope.readNotification = function(){
+            $("#notificationContainer").fadeToggle(300);
+            $("#notification_count").fadeOut("slow");
+            notificationService.readNotification($scope.user.id, $scope.newNotification);
+            return false;
         };
 
         $scope.generateVoucherReport = function(){
@@ -140,9 +177,10 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                 $scope.user = $sessionStorage.user;
 
                 notificationService.getNotificationOfUser($sessionStorage.user.id, 5).then(function(result){
-                    console.log(result);
                     if(result.status){
                         $scope.notificationTray = result.results;
+                        $scope.newNotificationCount = result.notSeen;
+                        $scope.newNotification = result.notSeenNotification;
                     } else {
                         evey.promptAlert(result.message)
                     }
@@ -155,6 +193,13 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             });
             $scope.changeYear($scope.currentYear);
             $scope.selectProgram($scope.programModel);
+        };
+
+        $scope.readNotification = function(){
+            $("#notificationContainer").fadeToggle(300);
+            $("#notification_count").fadeOut("slow");
+            notificationService.readNotification($scope.user.id, $scope.newNotification);
+            return false;
         };
 
         $scope.programConfig = {
@@ -979,7 +1024,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             });
         });
     }])
-    .controller("voucherController", ["$scope","$http", "$filter","voucherService","programService","activityService","particularService","fileDetailService", "referenceLookUpService", "$sessionStorage", function($scope,$http,$filter,voucherService,programService,activityService,particularService,fileDetailService, referenceLookUpService, $sessionStorage){
+    .controller("voucherController", ["$scope","$http", "$filter","voucherService","programService","activityService","particularService","fileDetailService", "referenceLookUpService", "$sessionStorage", "notificationService", function($scope,$http,$filter,voucherService,programService,activityService,particularService,fileDetailService, referenceLookUpService, $sessionStorage, notificationService){
 
         $scope.loadInitData = function(){
             voucherService.getAllVouchers().then(function(results){
@@ -987,7 +1032,6 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                 $scope.voucherList = results.results;
 
                 voucherService.getOpenActivity().then(function(results){
-                    console.log(results);
                     if(results.status){
                         $.each($scope.voucherList, function(i,voucher){
                             $.each(results.results, function(ii, found){
@@ -1022,11 +1066,28 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             $scope.currentYear = new Date().getFullYear().toString();
             $scope.user = $sessionStorage.user;
 
+            notificationService.getNotificationOfUser($scope.user.id, 5).then(function(result){
+                if(result.status){
+                    $scope.notificationTray = result.results;
+                    $scope.newNotificationCount = result.notSeen;
+                    $scope.newNotification = result.notSeenNotification;
+                } else {
+                    evey.promptAlert(result.message)
+                }
+            });
+
             $scope.addParticular = {};
         };
 
         $scope.deleteVoucher = function(voucherId){
             $scope.voucherIdToBeDeleted = voucherId;
+        };
+
+        $scope.readNotification = function(){
+            $("#notificationContainer").fadeToggle(300);
+            $("#notification_count").fadeOut("slow");
+            notificationService.readNotification($scope.user.id, $scope.newNotification);
+            return false;
         };
 
         $scope.continueDeleteVoucher = function(){
@@ -1572,7 +1633,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
         };
 
     }])
-    .controller("programController",["$scope","$http","$filter","userService","referenceLookUpService","programService","activityService", "particularService", "voucherService", "$sessionStorage" ,function($scope, $http,$filter,userService,referenceLookUpService,programService,activityService, particularService, voucherService, $sessionStorage){
+    .controller("programController",["$scope","$http","$filter","userService","referenceLookUpService","programService","activityService", "particularService", "voucherService", "$sessionStorage", "notificationService" ,function($scope, $http,$filter,userService,referenceLookUpService,programService,activityService, particularService, voucherService, $sessionStorage, notificationService){
         $scope.userSelectizeModel = 0;
         $scope.activityTypeSelectizeModel = 0;
         $scope.userSelectConfig =
@@ -1640,6 +1701,22 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             $scope.years = $sessionStorage.years;
             $scope.currentYear = new Date().getFullYear().toString();
             $scope.user = $sessionStorage.user;
+            notificationService.getNotificationOfUser($scope.user.id, 5).then(function(result){
+                if(result.status){
+                    $scope.notificationTray = result.results;
+                    $scope.newNotificationCount = result.notSeen;
+                    $scope.newNotification = result.notSeenNotification;
+                } else {
+                    evey.promptAlert(result.message)
+                }
+            });
+        };
+
+        $scope.readNotification = function(){
+            $("#notificationContainer").fadeToggle(300);
+            $("#notification_count").fadeOut("slow");
+            notificationService.readNotification($scope.user.id, $scope.newNotification);
+            return false;
         };
 
         $scope.loadPrograms = function(){
@@ -2558,7 +2635,14 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
 
         this.getNotificationOfUser = function(userId, maxCount){
             return $http.get("/budgetfy/notification/get-notification", {params: {userId: userId, maxCount: maxCount}}).then(function successCallback(response){
-                console.log(response);
+                return response.data;
+            }, function errorCallback(response){
+
+            });
+        };
+
+        this.readNotification = function(userId, notificationList){
+            return $http.post("/budgetfy/notification/read-notification", {userId: userId, notificationList:notificationList}).then(function successCallback(response){
                 return response.data;
             }, function errorCallback(response){
 

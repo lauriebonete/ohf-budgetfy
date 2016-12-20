@@ -26,8 +26,8 @@
             <div class="small-3 columns text-right">
                 <ul id="nav">
                     <li><a class="button" href="/budgetfy/system-maintenance"><i class="fa fa-cog"></i></a></li>
-                    <li id="notification_li">
-                        <span id="notification_count">3</span>
+                    <li id="notification_li" ng-click="readNotification()">
+                        <span id="notification_count" ng-show="newNotificationCount > 0">{{newNotificationCount}}</span>
                         <a class="button" id="notificationLink"><i class="fa fa-exclamation"></i></a>
                         <div id="notificationContainer">
                             <div id="notificationTitle" class="text-left">Notifications</div>
@@ -35,17 +35,11 @@
                                 <ul>
                                     <li class="notif" ng-repeat="notification in notificationTray">
                                         {{notification.message}}<br>
-                                        <span class="notif-time"><i class="fa fa-clock-o" aria-hidden="true"></i>{{notification.createDateDisplay}}</span>
+                                        <span class="notif-time"><i class="fa fa-clock-o" aria-hidden="true"></i> {{notification.createDateDisplay}}</span>
                                     </li>
-                                    <!--<li class="notif">Voucher# 12345 is still open.<br>
-                                        <span class="notif-time"><i class="fa fa-clock-o" aria-hidden="true"></i> 1 hour ago</span>
-                                    </li>
-                                    <li class="notif">Voucher# 15001 is still open. <br>
-                                        <span class="notif-time"><i class="fa fa-clock-o" aria-hidden="true"></i> 3 hours ago</span>
-                                    </li>-->
                                 </ul>
                             </div>
-                            <div id="notificationFooter"><a href="/budgetfy/notifications">See All</a></div>
+                            <div id="notificationFooter"><a href="/budgetfy/notification">See All</a></div>
                         </div>
                     </li>
                     <li><a class="button" data-toggle="user-dropdown"><i class="fa fa-user"></i></a>
@@ -127,24 +121,19 @@
     <script src="js/foundation-colorpicker-module.js"></script>
     <script>
         $(document).foundation();
-        $(document).ready(function()
-        {
-            $("#notificationLink").click(function()
-            {
+        $(document).ready(function() {
+            $("#notificationLink").click(function() {
                 $("#notificationContainer").fadeToggle(300);
                 $("#notification_count").fadeOut("slow");
-                return false;
             });
 
             //Document Click hiding the popup
-            $(document).click(function()
-            {
+            $(document).click(function() {
                 $("#notificationContainer").hide();
             });
 
             //Popup on click
-            $("#notificationContainer").click(function()
-            {
+            $("#notificationContainer").click(function() {
                 e.stopPropagation();
             });
 
