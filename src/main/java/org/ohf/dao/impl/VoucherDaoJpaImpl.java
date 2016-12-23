@@ -20,4 +20,6 @@ public class VoucherDaoJpaImpl extends BaseEntityDaoJpaImpl<Voucher,Long> implem
         parameter.put("date", days);
         return findEntityByNamedQuery("jpq.voucher.get-open-activity-schedule", parameter);
     }
+
+
 }

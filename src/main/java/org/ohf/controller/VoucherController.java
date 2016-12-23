@@ -1,10 +1,14 @@
 package org.ohf.controller;
 
 import org.evey.bean.ReferenceLookUp;
+import org.evey.bean.User;
 import org.evey.controller.BaseCrudController;
 import org.evey.service.ReferenceLookUpService;
+import org.evey.service.UserService;
+import org.ohf.bean.Notification;
 import org.ohf.bean.Particular;
 import org.ohf.bean.Voucher;
+import org.ohf.service.NotificationService;
 import org.ohf.service.ParticularService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,8 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Laurie on 7/2/2016.
@@ -30,6 +33,12 @@ public class VoucherController extends BaseCrudController<Voucher> {
     @Autowired
     private ReferenceLookUpService referenceLookUpService;
 
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private NotificationService notificationService;
+
     @Override
     public ModelAndView loadHtml() {
         return new ModelAndView("html/expense.html");
@@ -39,6 +48,40 @@ public class VoucherController extends BaseCrudController<Voucher> {
     protected void postCreate(Voucher command) {
         for(Particular particular : command.getParticulars()){
             particularService.save(particular);
+        }
+
+
+        ReferenceLookUp referenceLookUp = referenceLookUpService.getReferenceLookUpByKey("OPEN_VOUCHER");
+
+        final long MSPERDAY = 60 * 60 * 24 * 1000;
+        final Calendar dateStartCal = Calendar.getInstance();
+        dateStartCal.setTime(command.getDate());
+        dateStartCal.set(Calendar.HOUR_OF_DAY, 0); // Crucial.
+        dateStartCal.set(Calendar.MINUTE, 0);
+        dateStartCal.set(Calendar.SECOND, 0);
+        dateStartCal.set(Calendar.MILLISECOND, 0);
+        final Calendar dateEndCal = Calendar.getInstance();
+        dateEndCal.setTime(new Date());
+        dateEndCal.set(Calendar.HOUR_OF_DAY, 0); // Crucial.
+        dateEndCal.set(Calendar.MINUTE, 0);
+        dateEndCal.set(Calendar.SECOND, 0);
+        dateEndCal.set(Calendar.MILLISECOND, 0);
+        final long dateDifferenceInDays = ( dateEndCal.getTimeInMillis()  - dateStartCal.getTimeInMillis()) / MSPERDAY;
+
+        if(dateDifferenceInDays >= referenceLookUp.getNumberValue()){
+            List<User> userList = userService.findAllActive();
+
+            for(User user: userList){
+                Notification notification = new Notification();
+                notification.setMessage("Voucher " +command.getVcNumber()+" is still open.");
+                notification.setClassType(command.getClass().toString());
+                notification.setClassId(command.getId());
+                notification.setNotifyUserId(user.getId());
+                notificationService.save(notification);
+            }
+
+            command.setIsNotified(true);
+            getService().save(command);
         }
     }
 

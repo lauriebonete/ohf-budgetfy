@@ -1265,6 +1265,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             $scope.createVoucher.date = $scope.createVoucher.dateDisplay;
             voucherService.saveVoucher($scope.createVoucher).then(function (result){
                 if(result.data.status){
+                    result.data.result.statusId = result.data.result.status.id;
                     $scope.voucherList.unshift(result.data.result);
                     $("#expense-main").removeClass("hide");
                     $("#expense-add-container").addClass("hide");
@@ -1278,6 +1279,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                     $scope.createVoucher.variance = ''; /*Jim Dec 3*/
                     $scope.createVoucher.totalAmount = ''; /*Jim Dec 3*/
                     $scope.newParticularList = []; /*Jim Dec 4*/
+                    console.log(result.data);
                     evey.promptSuccess(result.data.message);
                 } else{
                     evey.promptAlert(result.data.message);

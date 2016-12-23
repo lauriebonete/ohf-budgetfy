@@ -229,5 +229,7 @@ public class Voucher extends BaseEntity {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy");
         this.voucherYear = dateFormat.format(this.date);
     }
+
+
 }
 
