@@ -127,6 +127,55 @@
                 <entry key="VIEW_VOUCHER_REPORT">
                     <value>04.04.00.00.00@View Voucher Code Report</value>
                 </entry>
+
+                <entry key="ACCESS_ADMIN_TAB">
+                    <value>05.00.00.00.00@Access Administrative Tab</value>
+                </entry>
+                <entry key="ACCESS_USER_PAGE">
+                    <value>05.01.00.00.00@Access User Page</value>
+                </entry>
+                <entry key="VIEW_USER">
+                    <value>05.01.01.00.00@View Users</value>
+                </entry>
+                <entry key="DELETE_USER">
+                    <value>05.01.01.01.00@Delete Existing User</value>
+                </entry>
+                <entry key="UPDATE_USER">
+                    <value>05.01.01.02.00@Update Existing User</value>
+                </entry>
+                <entry key="CREATE_USER">
+                    <value>05.01.02.00.00@Create New Users</value>
+                </entry>
+                <entry key="ACCESS_USER_ROLE_PAGE">
+                    <value>05.02.00.00.00@Access User Role Page</value>
+                </entry>
+                <entry key="VIEW_USER_ROLE">
+                    <value>05.02.01.00.00@View User Roles</value>
+                </entry>
+                <entry key="DELETE_USER_ROLE">
+                    <value>05.02.01.01.00@Delete Existing User Roles</value>
+                </entry>
+                <entry key="UPDATE_USER_ROLE">
+                    <value>05.02.01.02.00@Update Existing User Roles</value>
+                </entry>
+                <entry key="CREATE_USER_ROLE">
+                    <value>05.02.02.00.00@Create New Users Roles</value>
+                </entry>
+                <entry key="ACCESS_REFERENCE_PAGE">
+                    <value>05.03.00.00.00@Access Reference Page</value>
+                </entry>
+                <entry key="VIEW_REFERENCE">
+                    <value>05.03.01.00.00@View Reference Lookup</value>
+                </entry>
+                <entry key="DELETE_REFERENCE">
+                    <value>05.03.01.01.00@Delete Existing Reference Lookup</value>
+                </entry>
+                <entry key="UPDATE_REFERENCE">
+                    <value>05.03.01.02.00@Update Existing Reference Lookup</value>
+                </entry>
+                <entry key="CREATE_REFERENCE">
+                    <value>05.03.02.00.00@Create New Reference Lookup</value>
+                </entry>
             </map>
         </property>
     </bean>

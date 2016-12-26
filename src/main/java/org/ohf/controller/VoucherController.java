@@ -51,7 +51,7 @@ public class VoucherController extends BaseCrudController<Voucher> {
         }
 
 
-        ReferenceLookUp referenceLookUp = referenceLookUpService.getReferenceLookUpByKey("OPEN_VOUCHER");
+        /*ReferenceLookUp referenceLookUp = referenceLookUpService.getReferenceLookUpByKey("OPEN_VOUCHER");
 
         final long MSPERDAY = 60 * 60 * 24 * 1000;
         final Calendar dateStartCal = Calendar.getInstance();
@@ -82,7 +82,7 @@ public class VoucherController extends BaseCrudController<Voucher> {
 
             command.setIsNotified(true);
             getService().save(command);
-        }
+        }*/
     }
 
     @Override
