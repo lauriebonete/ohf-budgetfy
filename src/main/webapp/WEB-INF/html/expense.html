@@ -312,7 +312,7 @@
                                         <td>{{particular.description}}</td>
                                         <td>{{particular.program.programName}}</td>
                                         <td>{{particular.activity.activityName}}</td>
-                                        <td>{{particular.expense}}</td>
+                                        <td>{{particular.displayExpense}}</td>
                                         <td><a class="button success" ng-if="particular.receipt != null" ng-click="downloadAttachment(particular.receipt.id)"><i class="fa fa-file-image-o" aria-hidden="true"></i></a></td>
                                         <td data-open="delete-particular" ng-click="removeParticularOnAdd(particular)"><a class="button alert"><i class="fa fa-minus"></i></a></td>
                                     </tr>

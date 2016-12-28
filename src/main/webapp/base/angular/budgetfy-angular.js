@@ -1339,6 +1339,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                 var particular = {
                     "description": $scope.addParticular.description,
                     "expense":Number($scope.addParticular.expense.replace(/,/g, '')) ,
+                    "displayExpense": evey.formatDisplayMoney($scope.addParticular.expense), /*jim Dec 29*/
                     "activity": activity,
                     "program": program,
                     "tempId": uuid.v4()
@@ -1349,6 +1350,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                 }
 
                 MotionUI.animateOut($('#add-expense-form'), 'slide-out-up');
+
                 $scope.newParticularList.push(particular);
 
                 $scope.computeVariance();
@@ -1427,6 +1429,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                     particular.receipt = {"id":fileId};
                     particular.receiptId = fileId;
                 }
+
 
                 MotionUI.animateOut($('div#add-exist-expense-form'), 'slide-out-up');
                 $scope.selectedVoucher.particulars.unshift(particular);

@@ -106,24 +106,28 @@ body {
 
 table.hover tbody tr:hover {
   cursor: pointer;
-  background-color:#b7cddb
+  background-color:#b7cddb;
 }
 
 table.hover tbody tr:nth-of-type(even):hover{
   cursor: pointer;
-  background-color:#b7cddb
+  background-color:#b7cddb;
 }
 
-tr.total-footer{
-  background-color:#a3d4f5
+table.hover tbody tr.total-footer:nth-of-type(even):hover{
+  background-color:#46aaec;
 }
 
-tr.total-footer:last-child:hover{
-  background-color:#46aaec
+table tbody tr.total-footer{
+  background-color:#a3d4f5;
+}
+
+table tbody tr.total-footer:hover{
+  background-color:#46aaec;
 }
 
 a.active-page {
-  background-color:#1583cc
+  background-color:#1583cc;
 }
 
 #progressbar .ui-progressbar-value {
