@@ -877,7 +877,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             });
         };
     }])
-    .controller("userController", ["$scope","userService", "referenceLookUpService", "userRoleService", "$sessionStorage", function($scope, userService, referenceLookUpService, userRoleService, $sessionStorage){
+    .controller("userController", ["$scope", "$filter","userService", "referenceLookUpService", "userRoleService", "$sessionStorage", function($scope, $filter, userService, referenceLookUpService, userRoleService, $sessionStorage){
         $scope.loadInitData = function(){
             userService.getAllUsers().then(function(results){
                 $scope.userMaxSize = results.listSize;
@@ -951,6 +951,8 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
 
             userService.createNewUser($scope.selectedUser).then(function successCallback(response){
                 if(response.status){
+                    $scope.userList = $filter('filter')($scope.userList , { id: ('!' + $scope.selectedUser.id) });
+                    $scope.userList.push(response.result); /*jim jan 5*/
                     $("#user-main").removeClass("hide");
                     $("#user-create").addClass("hide");
                     $("#user-view").addClass("hide");
