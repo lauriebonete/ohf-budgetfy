@@ -17,17 +17,17 @@
 <section id="header" ng-controller="systemController" ng-init="init()">
     <div class="row">
         <div class="small-6 columns text-left">
-            <a class="button" href="/budgetfy/overview">Overview</a>
-            <a class="button" href="/budgetfy/program">Programs</a>
-            <a class="button" href="/budgetfy/expense">Expense</a>
-            <a class="button" href="/budgetfy/reports">Reports</a>
+            <a class="button active-page" href="/budgetfy/overview" ng-show="checkAccessRights('ACCESS_OVERVIEW_TAB')">Overview</a>
+            <a class="button" href="/budgetfy/program" ng-show="checkAccessRights('ACCESS_PROGRAM_TAB')">Programs</a>
+            <a class="button" href="/budgetfy/expense" ng-show="checkAccessRights('ACCESS_EXPENSE_TAB')">Expense</a>
+            <a class="button" href="/budgetfy/reports" ng-show="checkAccessRights('ACCESS_REPORTS_TAB')">Reports</a>
         </div>
         <div class="small-3 columns">
             <label class="text-right middle"></label>
         </div>
         <div class="small-3 columns text-right">
             <ul id="nav">
-                <li><a class="button active-page" href="/budgetfy/system-maintenance"><i class="fa fa-cog"></i></a></li>
+                <li ng-show="checkAccessRights('ACCESS_ADMIN_TAB')"><a class="button active-page" href="/budgetfy/system-maintenance"><i class="fa fa-cog"></i></a></li>
                 <li id="notification_li" ng-click="readNotification()">
                     <span id="notification_count" ng-show="newNotificationCount > 0">{{newNotificationCount}}</span>
                     <a class="button" id="notificationLink"><i class="fa fa-exclamation"></i></a>
@@ -68,16 +68,16 @@
         <div class="small-10 columns">
             <div class="tabs-content" data-tabs-content="sys-main-tabs">
                 <!-- Users -->
-                <div class="tabs-panel is-active" id="users" ng-controller="userController" ng-init="loadInitData()" ng-cloak>
+                <div class="tabs-panel is-active" id="users" ng-controller="userController" ng-init="loadInitData()" ng-show="checkAccessRights('ACCESS_USER_PAGE')" ng-cloak>
                     <div id="user-main">
                         <div class="row">
-                            <div class="small-5 columns text-left">
+                            <div class="small-5 columns text-left" ng-show="checkAccessRights('CREATE_USER')">
                                 <a class="button success create-user-btn">Create User <i class="fa fa-plus"></i></a>
                             </div>
                             <div class="small-2 columns text-right">
                                 <label class="text-right middle"></label>
                             </div>
-                            <div class="small-5 columns text-right">
+                            <div class="small-5 columns text-right" ng-show="checkAccessRights('VIEW_USER')">
                                 <div class="input-group">
                                     <input class="input-group-field" type="text" ng-model="userFilter">
                                     <div class="input-group-button">
@@ -86,7 +86,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row" ng-show="checkAccessRights('VIEW_USER')">
                             <div class="small-12 columns">
                                 <table class="hover">
                                     <thead>
@@ -95,7 +95,7 @@
                                         <th>First Name</th>
                                         <th>Role</th>
                                         <th>Username</th>
-                                        <th>Actions</th>
+                                        <th ng-show="checkAccessRights('DELETE_USER')">Actions</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -104,7 +104,7 @@
                                         <td ng-click="viewUser(user.id)">{{user.firstName}}</td>
                                         <td ng-click="viewUser(user.id)">{{user.userRoleDisplay}}</td>
                                         <td ng-click="viewUser(user.id)">{{user.username}}</td>
-                                        <td>
+                                        <td ng-show="checkAccessRights('DELETE_USER')">
                                             <a class="button alert"><i class="fa fa-minus"></i></a>
                                         </td>
                                     </tr>
@@ -288,7 +288,7 @@
                                 <div class="small-3 columns">
                                     <a class="button alert expanded cancel-btn">Cancel</a>
                                 </div>
-                                <div class="small-3 columns">
+                                <div class="small-3 columns" ng-show="checkAccessRights('UPDATE_USER')">
                                     <button type="submit" class="button success expanded" ng-click="updateUser()">Save</button>
                                 </div>
                             </div>
@@ -296,13 +296,13 @@
                     </div>
                 </div>
                 <!-- User Roles -->
-                <div class="tabs-panel" id="user-roles" ng-controller="userRoleController" ng-init="loadInitData()">
+                <div class="tabs-panel" id="user-roles" ng-controller="userRoleController" ng-init="loadInitData()" ng-show="checkAccessRights('ACCESS_USER_ROLE_PAGE')">
                     <div id="user-role-main">
                         <div class="row">
-                            <div class="small-5 columns text-left">
+                            <div class="small-5 columns text-left" ng-show="checkAccessRights('CREATE_USER_ROLE')">
                                 <a class="button success" id="create-user-role-btn">Create User Role <i class="fa fa-plus"></i></a>
                             </div>
-                            <div class="small-5 columns text-right">
+                            <div class="small-5 columns text-right" ng-show="checkAccessRights('VIEW_USER_ROLE')">
                                 <div class="input-group">
                                     <input class="input-group-field" type="text" ng-model="userRoleFilter">
                                     <div class="input-group-button">
@@ -311,21 +311,25 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row" ng-show="checkAccessRights('VIEW_USER_ROLE')">
                             <div class="small-12 columns">
                                 <table class="hover">
                                     <thead>
                                     <tr>
                                         <th>User Role</th>
                                         <th>Description</th>
-                                        <th>Actions</th>
+                                        <th ng-show="checkAccessRights('DELETE_USER_ROLE')">Actions</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <tr dir-paginate="userRole in userRoleList | filter : userRoleFilter | itemsPerPage: userRoleMaxSize" pagination-id="user-role-list">
                                         <td ng-click="viewUserRole(userRole.id)">{{userRole.roleName}}</td>
                                         <td ng-click="viewUserRole(userRole.id)">{{userRole.description}}</td>
-                                        <td><a class="button alert"><i class="fa fa-minus"></i></a></td>
+                                        <td ng-show="checkAccessRights('DELETE_USER_ROLE')">
+                                            <a class="button alert">
+                                                <i class="fa fa-minus"></i>
+                                            </a>
+                                        </td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -421,7 +425,7 @@
                                 <div class="small-3 columns">
                                     <a class="button alert expanded cancel-user-role-btn">Cancel</a>
                                 </div>
-                                <div class="small-3 columns">
+                                <div class="small-3 columns" ng-show="checkAccessRights('UPDATE_USER_ROLE')">
                                     <button type="submit" class="button success expanded">Save</button>
                                 </div>
                             </div>
@@ -430,16 +434,16 @@
                 </div>
 
                 <!-- Reference Lookup -->
-                <div class="tabs-panel" id="reference-look-up" ng-controller="referenceLookUpController" ng-init="loadInitData()">
+                <div class="tabs-panel" id="reference-look-up" ng-controller="referenceLookUpController" ng-init="loadInitData()" ng-show="checkAccessRights('ACCESS_REFERENCE_PAGE')">
                     <div id="reference-look-up-main">
                         <div class="row">
-                            <div class="small-5 columns text-left">
+                            <div class="small-5 columns text-left" ng-show="checkAccessRights('CREATE_REFERENCE')">
                                 <a class="button success" id="create-reference-btn">Create Reference <i class="fa fa-plus"></i></a>
                             </div>
                             <div class="small-2 columns text-right">
                                 <label class="text-right middle"></label>
                             </div>
-                            <div class="small-5 columns text-right">
+                            <div class="small-5 columns text-right" ng-show="checkAccessRights('VIEW_REFERENCE')">
                                 <div class="input-group">
                                     <input class="input-group-field" type="text" ng-model="referenceFilter">
                                     <div class="input-group-button">
@@ -448,7 +452,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row" ng-show="checkAccessRights('VIEW_REFERENCE')">
                             <div class="small-12 columns">
                                 <table id="programs-result" class="hover">
                                     <thead>
@@ -457,7 +461,7 @@
                                         <th>Key</th>
                                         <th>Value</th>
                                         <th>Number Value</th>
-                                        <th>Actions</th>
+                                        <th ng-show="checkAccessRights('DELETE_REFERENCE')">Actions</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -466,7 +470,7 @@
                                         <td ng-click="viewReference(reference.id)">{{reference.key}}</td>
                                         <td ng-click="viewReference(reference.id)">{{reference.value}}</td>
                                         <td ng-click="viewReference(reference.id)">{{reference.numberValue}}</td>
-                                        <td ng-click="deleteReference(reference.id)"><a class="button alert"><i class="fa fa-minus"></i></a></td>
+                                        <td ng-show="checkAccessRights('DELETE_REFERENCE')" ng-click="deleteReference(reference.id)"><a class="button alert"><i class="fa fa-minus"></i></a></td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -591,7 +595,7 @@
                                 <div class="small-3 columns">
                                     <a class="button alert expanded cancel-ref-btn">Cancel</a>
                                 </div>
-                                <div class="small-3 columns">
+                                <div class="small-3 columns" ng-show="checkAccessRights('UPDATE_REFERENCE')">
                                     <button type="submit" class="button success expanded">Save</button>
                                 </div>
                             </div>

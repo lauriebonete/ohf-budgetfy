@@ -94,6 +94,22 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             });
         };
 
+        $scope.checkAccessRights = function(access){
+            var found = false;
+            $.each($scope.user.userRole, function(i, role){
+                $.each(role.authorities, function(i, authority){
+                   if(authority.access == access){
+                       found = true;
+                       return false
+                   }
+                });
+                if(found){
+                    return false;
+                }
+            });
+            return found;
+        };
+
         $scope.readNotification = function(){
             $("#notificationContainer").fadeToggle(300);
             $("#notification_count").fadeOut("slow");
@@ -167,6 +183,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                 return program;
             }
         };
+
     }])
     .controller("systemController", function($scope, $sessionStorage, programService, activityService, userService, notificationService){
         $scope.init = function(){
@@ -190,9 +207,22 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
 
             programService.getAllPrograms().then(function(data){
                 $scope.programList = data.results;
+
+                var foundCurrentYear = false
+                $.each($scope.programList, function(i, program){
+                    if(program.year == $scope.currentYear){
+                        foundCurrentYear = true;
+                        return false;
+                    }
+                });
+
+                if(!foundCurrentYear){
+                    $scope.currentYear = (parseInt($scope.currentYear) - 1).toString();
+                }
+
+                $scope.changeYear($scope.currentYear);
+                $scope.selectProgram($scope.programModel);
             });
-            $scope.changeYear($scope.currentYear);
-            $scope.selectProgram($scope.programModel);
         };
 
         $scope.readNotification = function(){
@@ -200,6 +230,22 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             $("#notification_count").fadeOut("slow");
             notificationService.readNotification($scope.user.id, $scope.newNotification);
             return false;
+        };
+
+        $scope.checkAccessRights = function(access){
+            var found = false;
+            $.each($scope.user.userRole, function(i, role){
+                $.each(role.authorities, function(i, authority){
+                    if(authority.access == access){
+                        found = true;
+                        return false
+                    }
+                });
+                if(found){
+                    return false;
+                }
+            });
+            return found;
         };
 
         $scope.programConfig = {
@@ -743,7 +789,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                 });
         };
     })
-    .controller("userRoleController", ["$scope", "$filter", "userRoleService", function($scope, $filter, userRoleService){
+    .controller("userRoleController", ["$scope", "$filter", "userRoleService", "$sessionStorage", function($scope, $filter, userRoleService, $sessionStorage){
         $scope.loadInitData = function(){
             userRoleService.getAllUserRole().then(function(results){
                 $scope.userRoleMaxSize = results.listSize;
@@ -758,6 +804,24 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                 $("#role-tree").bonsai('update');
 
             });
+
+            $scope.user = $sessionStorage.user;
+        };
+
+        $scope.checkAccessRights = function(access){
+            var found = false;
+            $.each($scope.user.userRole, function(i, role){
+                $.each(role.authorities, function(i, authority){
+                    if(authority.access == access){
+                        found = true;
+                        return false
+                    }
+                });
+                if(found){
+                    return false;
+                }
+            });
+            return found;
         };
 
         $scope.viewUserRole = function(id){
@@ -887,6 +951,24 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             userRoleService.getAllUserRole().then(function(results){
                 $scope.userRoleList = results.results;
             });
+
+            $scope.user = $sessionStorage.user;
+        };
+
+        $scope.checkAccessRights = function(access){
+            var found = false;
+            $.each($scope.user.userRole, function(i, role){
+                $.each(role.authorities, function(i, authority){
+                    if(authority.access == access){
+                        found = true;
+                        return false
+                    }
+                });
+                if(found){
+                    return false;
+                }
+            });
+            return found;
         };
 
         $scope.viewUser = function(id){
@@ -913,7 +995,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             $.each($scope.createUser.userRole, function(i, role){
                 var userRole = {
                     "id": role
-                }
+                };
                 userRoleList.push(userRole);
             });
 
@@ -968,7 +1050,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
 
 
     }])
-    .controller("referenceLookUpController", ["$scope", "$filter", "referenceLookUpService", function($scope, $filter, referenceLookUpService){
+    .controller("referenceLookUpController", ["$scope", "$filter", "referenceLookUpService", "$sessionStorage", function($scope, $filter, referenceLookUpService, $sessionStorage){
         $scope.loadInitData = function(){
             referenceLookUpService.getAllReference().then(function(results){
                 $scope.referenceLookUpMaxSize = results.listSize;
@@ -979,6 +1061,22 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                 $scope.categoryList = results
             });
             $scope.user = $sessionStorage.user;
+        };
+
+        $scope.checkAccessRights = function(access){
+            var found = false;
+            $.each($scope.user.userRole, function(i, role){
+                $.each(role.authorities, function(i, authority){
+                    if(authority.access == access){
+                        found = true;
+                        return false
+                    }
+                });
+                if(found){
+                    return false;
+                }
+            });
+            return found;
         };
 
         $scope.viewReference = function(id){
@@ -1029,6 +1127,10 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
     .controller("voucherController", ["$scope","$http", "$filter","voucherService","programService","activityService","particularService","fileDetailService", "referenceLookUpService", "$sessionStorage", "notificationService", function($scope,$http,$filter,voucherService,programService,activityService,particularService,fileDetailService, referenceLookUpService, $sessionStorage, notificationService){
 
         $scope.loadInitData = function(){
+            $scope.years = $sessionStorage.years;
+            $scope.currentYear = new Date().getFullYear().toString();
+            $scope.user = $sessionStorage.user;
+
             voucherService.getAllVouchers().then(function(results){
                 $scope.voucherMaxSize = results.listSize;
                 $scope.voucherList = results.results;
@@ -1045,6 +1147,18 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                         });
                     }
                 });
+
+                var foundCurrentYear = false
+                $.each($scope.voucherList, function(i, program){
+                    if(program.year == $scope.currentYear){
+                        foundCurrentYear = true;
+                        return false;
+                    }
+                });
+
+                if(!foundCurrentYear){
+                    $scope.currentYear = (parseInt($scope.currentYear) - 1).toString();
+                }
 
             },function(error){
 
@@ -1064,10 +1178,6 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                 $scope.voucherStatusList = results;
             });
 
-            $scope.years = $sessionStorage.years;
-            $scope.currentYear = new Date().getFullYear().toString();
-            $scope.user = $sessionStorage.user;
-
             notificationService.getNotificationOfUser($scope.user.id, 5).then(function(result){
                 if(result.status){
                     $scope.notificationTray = result.results;
@@ -1079,6 +1189,22 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             });
 
             $scope.addParticular = {};
+        };
+
+        $scope.checkAccessRights = function(access){
+            var found = false;
+            $.each($scope.user.userRole, function(i, role){
+                $.each(role.authorities, function(i, authority){
+                    if(authority.access == access){
+                        found = true;
+                        return false
+                    }
+                });
+                if(found){
+                    return false;
+                }
+            });
+            return found;
         };
 
         $scope.deleteVoucher = function(voucherId){
@@ -1717,6 +1843,34 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                     evey.promptAlert(result.message)
                 }
             });
+
+            var foundCurrentYear = false
+            $.each($scope.programList, function(i, program){
+               if(program.year == $scope.currentYear){
+                   foundCurrentYear = true;
+                   return false;
+               }
+            });
+
+            if(!foundCurrentYear){
+                $scope.currentYear = (parseInt($scope.currentYear) - 1).toString();
+            }
+        };
+
+        $scope.checkAccessRights = function(access){
+            var found = false;
+            $.each($scope.user.userRole, function(i, role){
+                $.each(role.authorities, function(i, authority){
+                    if(authority.access == access){
+                        found = true;
+                        return false
+                    }
+                });
+                if(found){
+                    return false;
+                }
+            });
+            return found;
         };
 
         $scope.readNotification = function(){
@@ -2089,6 +2243,9 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                 }
 
                 $scope.unallocatedBudget = evey.addThousandsSeparator($scope.selectedProgram.totalBudget - totalActuals)
+
+                $("#home-page").addClass("hide");
+                $("#view-program").removeClass("hide");
 
             });
         };

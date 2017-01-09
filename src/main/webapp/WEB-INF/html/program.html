@@ -19,17 +19,17 @@
         <section id="header">
             <div class="row">
                 <div class="small-6 columns text-left">
-                    <a class="button" href="/budgetfy/overview">Overview</a>
-                    <a class="button active-page" href="/budgetfy/program">Programs</a>
-                    <a class="button" href="/budgetfy/expense">Expense</a>
-                    <a class="button" href="/budgetfy/reports">Reports</a>
+                    <a class="button active-page" href="/budgetfy/overview" ng-show="checkAccessRights('ACCESS_OVERVIEW_TAB')">Overview</a>
+                    <a class="button" href="/budgetfy/program" ng-show="checkAccessRights('ACCESS_PROGRAM_TAB')">Programs</a>
+                    <a class="button" href="/budgetfy/expense" ng-show="checkAccessRights('ACCESS_EXPENSE_TAB')">Expense</a>
+                    <a class="button" href="/budgetfy/reports" ng-show="checkAccessRights('ACCESS_REPORTS_TAB')">Reports</a>
                 </div>
                 <div class="small-3 columns">
                     <label class="text-right middle"></label>
                 </div>
                 <div class="small-3 columns text-right">
                     <ul id="nav">
-                        <li><a class="button" href="/budgetfy/system-maintenance"><i class="fa fa-cog"></i></a></li>
+                        <li ng-show="checkAccessRights('ACCESS_ADMIN_TAB')"><a class="button active-page" href="/budgetfy/system-maintenance"><i class="fa fa-cog"></i></a></li>
                         <li id="notification_li" ng-click="readNotification()">
                             <span id="notification_count" ng-show="newNotificationCount > 0">{{newNotificationCount}}</span>
                             <a class="button" id="notificationLink"><i class="fa fa-exclamation"></i></a>
@@ -61,10 +61,10 @@
         <section id="site-content-program"  ng-init="loadInitData()">
             <div id="home-page">
                 <div class="row">
-                    <div class="small-5 columns text-left">
+                    <div class="small-5 columns text-left" ng-show="checkAccessRights('CREATE_PROGRAM')">
                         <a class="button success" href="/budgetfy/program/create-program">Create Program <i class="fa fa-plus"></i></a>
                     </div>
-                    <div class="small-5 columns text-right">
+                    <div class="small-5 columns text-right" ng-show="checkAccessRights('VIEW_PROGRAM_TABLE')">
                         <div class="input-group">
                             <input class="input-group-field" type="text" ng-model="programFilter">
                             <div class="input-group-button">
@@ -72,7 +72,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="small-2 columns text-right">
+                    <div class="small-2 columns text-right" ng-show="checkAccessRights('VIEW_PROGRAM_TABLE')">
                         <select ng-model="currentYear" ng-options="year as year for year in years">
                             <option></option>
                         </select>
@@ -81,7 +81,7 @@
 
 
               <!-- Program Table List: Start -->
-              <div class="row">
+              <div class="row" ng-show="checkAccessRights('VIEW_PROGRAM_TABLE')">
                   <div class="small-12 columns">
                       <table id="programs-result" class="hover">
                           <thead>
@@ -89,15 +89,15 @@
                                 <th>Program Name</th>
                                 <th>Total Budget</th>
                                 <th>Duration</th>
-                                <th>Actions</th>
+                                <th ng-show="checkAccessRights('DELETE_EXISTING_PROGRAM')">Actions</th>
                             </tr>
                           </thead>
                           <tbody>
-                            <tr class="row-onclick" dir-paginate="program in result = (programList | filter : programFilter | filter: yearFilter) | itemsPerPage: programMaxSize" pagination-id="program-list" data-program="{{program.id}}" ng-click="viewProgram(program.id)">
+                            <tr class="row-onclick" dir-paginate="program in result = (programList | filter : programFilter | filter: yearFilter) | itemsPerPage: programMaxSize" pagination-id="program-list" data-program="{{program.id}}" ng-click="!checkAccessRights('VIEW_SPECIFIC_PROGRAM') || viewProgram(program.id)">
                                 <td>{{program.programName}}</td>
                                 <td>{{program.displayProgramBudget}}</td>
                                 <td>{{program.displayProgramDuration}}</td>
-                                <td>
+                                <td ng-show="checkAccessRights('DELETE_EXISTING_PROGRAM')">
                                     <a class="button alert" data-open="delete-program" ng-click="deleteProgram(program.id)"><i class="fa fa-minus"></i></a>
                                 </td>
                             </tr>
@@ -105,7 +105,7 @@
                                 <td><strong>Total</strong></td>
                                 <td>{{result | sumOfValue: 'totalBudget'}}</td>
                                 <td></td>
-                                <td></td>
+                                <td ng-show="checkAccessRights('DELETE_EXISTING_PROGRAM')"></td>
                             </tr>
                           </tbody>
                       </table>
@@ -144,9 +144,9 @@
                 </div>
                 <div class="small-2 columns">
                     <ul class="tabs vertical" id="program-tabs" data-tabs>
-                        <li class="tabs-title is-active"><a class="button" href="#dashboard" aria-selected="true"><strong><i class="fa fa-bar-chart" aria-hidden="true"></i> Dashboard</strong></a></li>
-                        <li class="tabs-title"><a class="button" href="#budget"><strong><i class="fa fa-calendar" aria-hidden="true"></i> Budget</strong></a></li>
-                        <li class="tabs-title"><a class="button" href="#expense"><strong><i class="fa fa-money" aria-hidden="true"></i> Expense</strong></a></li>
+                        <li ng-show="checkAccessRights('VIEW_PROGRAM_DASHBOARD')" class="tabs-title is-active"><a class="button" href="#dashboard" aria-selected="true"><strong><i class="fa fa-bar-chart" aria-hidden="true"></i> Dashboard</strong></a></li>
+                        <li ng-show="checkAccessRights('VIEW_PROGRAM_ACTIVITY')" class="tabs-title"><a class="button" href="#budget"><strong><i class="fa fa-calendar" aria-hidden="true"></i> Budget</strong></a></li>
+                        <li ng-show="checkAccessRights('VIEW_PROGRAM_EXPENSE')" class="tabs-title"><a class="button" href="#expense"><strong><i class="fa fa-money" aria-hidden="true"></i> Expense</strong></a></li>
                     </ul>
                     <label for="return-btn" class="middle"></label>
                     <a class="button alert return-click middle" id="return-btn"><i class="fa fa-arrow-left" aria-hidden="true"></i> Return</a>
@@ -154,7 +154,7 @@
                 <div class="small-10 columns">
                     <div class="tabs-content vertical" data-tabs-content="program-tabs">
                         <!-- Dashboard -->
-                        <div class="tabs-panel is-active" id="dashboard">
+                        <div class="tabs-panel is-active" id="dashboard" ng-show="checkAccessRights('VIEW_PROGRAM_DASHBOARD')">
                             <form data-abide>
                                 <div class="row">
                                     <div class="small-5 columns">
@@ -189,9 +189,9 @@
                             </form>
                         </div>
                         <!-- Budget Tab -->
-                        <div class="tabs-panel" id="budget">
+                        <div class="tabs-panel" id="budget" ng-show="checkAccessRights('VIEW_PROGRAM_ACTIVITY')">
                             <div class="row">
-                                <div class="small-5 columns">
+                                <div class="small-5 columns" ng-show="checkAccessRights('VIEW_PROGRAM_CREATE_ACTIVITY')">
                                     <a id="add-activity" class="button success" data-toggle="activity-form">Add Activity <i class="fa fa-plus"></i></a>
                                 </div>
                                 <div class="small-2 columns">
@@ -303,7 +303,7 @@
                                         <input type="number" disabled>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="row" ng-show="checkAccessRights('VIEW_PROGRAM_UPDATE_ACTIVITY')">
                                     <div class="small-6 small-centered columns">
                                         <a class="button success expanded" ng-click="updateActivity()">Update Activity <i class="fa fa-pencil"></i></a>
                                     </div>
@@ -317,7 +317,7 @@
                                                 <th>Activity Name</th>
                                                 <th>Type</th>
                                                 <th>Budget</th>
-                                                <th>Actions</th>
+                                                <th ng-show="checkAccessRights('VIEW_PROGRAM_DELETE_ACTIVITY')">Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -325,13 +325,13 @@
                                                 <td data-toggle="update-activity-form" >{{activity.activityName}}</td>
                                                 <td data-toggle="update-activity-form" >{{activity.activityCodeName}}</td>
                                                 <td data-toggle="update-activity-form" >{{activity.displayAmount}}</td>
-                                                <td><a class="button alert" data-open="delete-activity" ng-click="removeActivityProgramConfirm(activity.id)"><i class="fa fa-minus"></i></a></td>
+                                                <td ng-show="checkAccessRights('VIEW_PROGRAM_DELETE_ACTIVITY')"><a class="button alert" data-open="delete-activity" ng-click="removeActivityProgramConfirm(activity.id)"><i class="fa fa-minus"></i></a></td>
                                             </tr>
                                             <tr class="total-footer">
                                                 <td><strong>Total</strong></td>
                                                 <td></td>
                                                 <td>{{result | sumOfValue: 'amount'}}</td>
-                                                <td></td>
+                                                <td ng-show="checkAccessRights('VIEW_PROGRAM_DELETE_ACTIVITY')"></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -363,7 +363,7 @@
                         </div>
 
                         <!-- Expense Tab -->
-                        <div class="tabs-panel" id="expense">
+                        <div class="tabs-panel" id="expense" ng-show="checkAccessRights('VIEW_PROGRAM_EXPENSE')">
                             <div id="expense-table">
                                 <div class="row">
                                     <div class="small-5 columns">
@@ -495,8 +495,8 @@
                 });
 
             }).on("click","tr.row-onclick > td:not(:nth-of-type(4))",function(){
-                $("#home-page").addClass("hide");
-                $("#view-program").removeClass("hide");
+//                $("#home-page").addClass("hide");
+//                $("#view-program").removeClass("hide");
             }).on("click", ".program-expense-row", function(){
                 $("#particulars-table").removeClass("hide");
                 $("#expense-table").addClass("hide");
