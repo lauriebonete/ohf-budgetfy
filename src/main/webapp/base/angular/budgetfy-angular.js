@@ -1857,6 +1857,11 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             }
         };
 
+
+        $scope.createProgramInit = function(){
+            $scope.user = $sessionStorage.user;
+        };
+
         $scope.checkAccessRights = function(access){
             var found = false;
             $.each($scope.user.userRole, function(i, role){
@@ -2157,10 +2162,15 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             $scope.isDisabled = true;
             programService.createNewProgram($scope.programObject).then(function(results){
                 if(results!=null && results){
-                    $scope.programObject = null;
-                    $scope.addedActivityList = [];
-                    $scope.addedUserList = [];
-                    window.location = evey.getHome()+"/budgetfy/program";
+                    if(results.success){
+                        $scope.programObject = null;
+                        $scope.addedActivityList = [];
+                        $scope.addedUserList = [];
+                        if($sessionStorage.years.indexOf(results.program.year) == -1){
+                            $sessionStorage.years.push(results.program.year);
+                        }
+                        window.location = evey.getHome()+"/budgetfy/program";
+                    }
                 }
             },function(error){
 
@@ -2558,11 +2568,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
         this.createNewProgram = function(program){
             return $http.post("/budgetfy/program/create-program/create",program)
                 .then(function(response){
-                    if(response.data.success){
-                        return true;
-                    } else {
-                        return response.data;
-                    }
+                    return response.data;
                 }, function(error) {
                     console.log(error);
                 });
