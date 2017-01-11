@@ -17,7 +17,7 @@
 <section id="header" ng-controller="systemController" ng-init="init()">
     <div class="row">
         <div class="small-6 columns text-left">
-            <a class="button active-page" href="/budgetfy/overview" ng-show="checkAccessRights('ACCESS_OVERVIEW_TAB')">Overview</a>
+            <a class="button" href="/budgetfy/overview" ng-show="checkAccessRights('ACCESS_OVERVIEW_TAB')">Overview</a>
             <a class="button" href="/budgetfy/program" ng-show="checkAccessRights('ACCESS_PROGRAM_TAB')">Programs</a>
             <a class="button" href="/budgetfy/expense" ng-show="checkAccessRights('ACCESS_EXPENSE_TAB')">Expense</a>
             <a class="button" href="/budgetfy/reports" ng-show="checkAccessRights('ACCESS_REPORTS_TAB')">Reports</a>

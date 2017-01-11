@@ -25,7 +25,7 @@
             </div>
             <div class="small-3 columns text-right">
                 <ul id="nav">
-                    <li ng-show="checkAccessRights('ACCESS_ADMIN_TAB')"><a class="button active-page" href="/budgetfy/system-maintenance"><i class="fa fa-cog"></i></a></li>
+                    <li ng-show="checkAccessRights('ACCESS_ADMIN_TAB')"><a class="button" href="/budgetfy/system-maintenance"><i class="fa fa-cog"></i></a></li>
                     <li id="notification_li" ng-click="readNotification()">
                         <span id="notification_count" ng-show="newNotificationCount > 0">{{newNotificationCount}}</span>
                         <a class="button" id="notificationLink"><i class="fa fa-exclamation"></i></a>

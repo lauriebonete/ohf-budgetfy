@@ -110,6 +110,7 @@ public class VoucherController extends BaseCrudController<Voucher> {
             parameters.put("date", openVoucher.getNumberValue());
         }
 
+
         returnMap.put("results", getService().findEntityByNamedQuery("jpq.voucher.get-open-activity", parameters));
         returnMap.put("status", true);
         return returnMap;
