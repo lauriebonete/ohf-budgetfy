@@ -999,25 +999,34 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                 userRoleList.push(userRole);
             });
 
-            $scope.createUser.userRole = userRoleList;
-            userService.createNewUser($scope.createUser).then(function successCallback(response){
-                console.log(response);
-                if(response.status){
-                    $("#user-main").removeClass("hide");
-                    $("#user-create").addClass("hide");
-                    $("#user-create").addClass("hide");
-                    $("#user-view").addClass("hide");
-                    $("#user-update").addClass("hide");
-                    $scope.userList.push(response.result);
-                    $scope.createUser.userRole = 0;  /*Jim Nov1*/
-                    $('input.clear-after').val(''); /*Jim Nov1*/
-                    evey.promptSuccess(response.message);
-                } else {
-                    evey.promptAlert(response.message);
-                }
-            }, function errorCallback(error){
+            var isInvalid = false; //jim jan 14 2017
+            //jim jan 14 2017 start
+            if(evey.isEmpty(userRoleList)){
+                $("#select_role").parent().find("label").addClass("is-invalid-label");
+                $("#select_role").find("span.form-error").addClass("is-visible");
+                isInvalid = true;
+            }
+            else if(!isInvalid){
+                $scope.createUser.userRole = userRoleList;
+                userService.createNewUser($scope.createUser).then(function successCallback(response){
+                    console.log(response);
+                    if(response.status){
+                        $("#user-main").removeClass("hide");
+                        $("#user-create").addClass("hide");
+                        $("#user-create").addClass("hide");
+                        $("#user-view").addClass("hide");
+                        $("#user-update").addClass("hide");
+                        $scope.userList.push(response.result);
+                        $scope.createUser.userRole = 0;  /*Jim Nov1*/
+                        $('input.clear-after').val(''); /*Jim Nov1*/
+                        evey.promptSuccess(response.message);
+                    } else {
+                        evey.promptAlert(response.message);
+                    }
+                }, function errorCallback(error){
 
-            });
+                });
+            } //jim jan 14 2017 end
         });
 
         $('form#update-user-form').on('formvalid.zf.abide', function () {
@@ -2254,8 +2263,12 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
 
                 $scope.unallocatedBudget = evey.addThousandsSeparator($scope.selectedProgram.totalBudget - totalActuals)
 
-                $("#home-page").addClass("hide");
-                $("#view-program").removeClass("hide");
+                $("tr.row-onclick > td:not(:nth-of-type(4))").click(function() {  //jim jan 13 2017
+                    $("#home-page").addClass("hide");
+                    $("#view-program").removeClass("hide");
+                }); //jim jan 13 2017
+
+
 
             });
         };
