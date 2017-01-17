@@ -18,4 +18,6 @@ public interface ProgramService extends BaseCrudService<Program> {
     public List<TotalProgramDTO> getTotalPerProgram(String year, Long programId);
     public List<Activity> getAllActivityOfProgram(Long programId);
     public List<Program> getActualBudgetPerProgram(String year);
+    public List<TotalProgramDTO> getExpectedActualProgram(Long programId);
+    public List<ProgramActivityDTO> getExpectedActualActivity(Long programId);
 }

@@ -127,6 +127,9 @@
                 <entry key="VIEW_VOUCHER_REPORT">
                     <value>04.04.00.00.00@View Voucher Code Report</value>
                 </entry>
+                <entry key="VIEW_EXPECTED_ACTUAL_REPORT">
+                    <value>04.05.00.00.00@View Expected vs. Actual Report</value>
+                </entry>
 
                 <entry key="ACCESS_ADMIN_TAB">
                     <value>05.00.00.00.00@Access Administrative Tab</value>

@@ -130,6 +130,24 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             window.location.href = evey.getHome()+"/budgetfy/reports/program-total?year="+year+"&programId="+programId+"&programName="+programName;
         };
 
+        $scope.generateExpectedActual = function(){
+            var programId = $scope.selectedProgram != undefined ? $scope.selectedProgram : 0;
+            var programName = $("#selected-program option:selected").text() != "" ? $("#selected-program option:selected").text() : "ALL_PROGRAM";
+
+            var isInvalid = false;
+            if(evey.isEmpty(programId)){
+                $("#expected-program").addClass("is-invalid-input");
+                isInvalid = true;
+            } else {
+                $("#expected-program").removeClass("is-invalid-input");
+
+            }
+
+            if(!isInvalid){
+                window.location.href = evey.getHome()+"/budgetfy/reports/expected-actual?programId="+programId+"&programName="+programName;
+            }
+        };
+
         $scope.generateDisbursementByDate = function(){
             var fromDate = $("#from-date").val();
             var toDate = $("#to-date").val();
@@ -833,6 +851,17 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             $("#user-role-update").removeClass("hide");
         };
 
+        $scope.deleteUserRole = function(userRole) {
+            userRoleService.deleteUserRole(userRole).then(function(result){
+                if(result.status){
+                    evey.promptSuccess(result.message);
+                    $scope.userRoleList = $filter('filter')($scope.userRoleList, { id: ('!' +userRole.id)});
+                } else {
+                    evey.promptAlert(result.message);
+                }
+            });
+        };
+
         $('form#create-user-role-form').on('formvalid.zf.abide', function () {
             var authorities = [];
             $("#role-tree input:checkbox:checked").each(function(i,checkbox){
@@ -1048,7 +1077,16 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             });
         });
 
-
+        $scope.deleteUser = function(user) {
+            userService.deleteUser(user).then(function(result){
+                if(result.status){
+                    evey.promptSuccess(result.message);
+                    $scope.userList = $filter('filter')($scope.userList, { id: ('!' +user.id)});
+                } else {
+                    evey.promptAlert(result.message);
+                }
+            });
+        };
     }])
     .controller("referenceLookUpController", ["$scope", "$filter", "referenceLookUpService", "$sessionStorage", function($scope, $filter, referenceLookUpService, $sessionStorage){
         $scope.loadInitData = function(){
@@ -1085,9 +1123,14 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             $("div#reference-look-up-update").removeClass("hide");
         };
 
-        $scope.deleteReference = function(id) {
-            referenceLookUpService.deleteReference(id).then(function(result){
-                console.log(result);
+        $scope.deleteReference = function(reference) {
+            referenceLookUpService.deleteReference(reference).then(function(result){
+                if(result.status){
+                    evey.promptSuccess(result.message);
+                    $scope.referenceLookUpList = $filter('filter')($scope.referenceLookUpList, { id: ('!' +reference.id)});
+                } else {
+                    evey.promptAlert(result.message);
+                }
             });
         };
 
@@ -1149,8 +1192,8 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                 });
 
                 var foundCurrentYear = false
-                $.each($scope.voucherList, function(i, program){
-                    if(program.year == $scope.currentYear){
+                $.each($scope.voucherList, function(i, voucher){
+                    if(voucher.voucherYear == $scope.currentYear){
                         foundCurrentYear = true;
                         return false;
                     }
@@ -1624,6 +1667,17 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                 $scope.selectedParticular.activity.program = programService.findProgramInList($scope.programList, $scope.selectedParticular.activity.programId);
                 $scope.selectedParticular.displayExpense = "P"+evey.addThousandsSeparator($scope.selectedParticular.expense);
 
+                var preview = $("div#update-particular-receipt").parent(".columns").find("img.ajax-file-upload-preview");
+                var fileId = null;
+                if(preview.length>0){
+                    fileId = $(preview[0]).attr("data-upload-id");
+                }
+                console.log("fileID", fileId);
+                if(fileId!=null){
+                    $scope.selectedParticular.receipt = {id: fileId};
+                    $scope.selectedParticular.receiptId = fileId;
+                }
+
                 $('#update-expense-form').foundation('toggle');
             }
         };
@@ -1816,9 +1870,24 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
         });
 
         $scope.loadInitData = function(){
+            $scope.currentYear = new Date().getFullYear().toString();
             programService.getAllPrograms().then(function successCallback(results){
                 $scope.programMaxSize = results.listSize;
                 $scope.programList = results.results;
+
+
+                var foundCurrentYear = false
+                $.each($scope.programList, function(i, program){
+                    console.log(program);
+                    if(program.year == $scope.currentYear){
+                        foundCurrentYear = true;
+                        return false;
+                    }
+                });
+                if(!foundCurrentYear){
+                    $scope.currentYear = (parseInt($scope.currentYear) - 1).toString();
+                }
+
             },function errorCallback(error){
 
             });
@@ -1832,7 +1901,6 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             });
 
             $scope.years = $sessionStorage.years;
-            $scope.currentYear = new Date().getFullYear().toString();
             $scope.user = $sessionStorage.user;
             notificationService.getNotificationOfUser($scope.user.id, 5).then(function(result){
                 if(result.status){
@@ -1843,18 +1911,6 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                     evey.promptAlert(result.message)
                 }
             });
-
-            var foundCurrentYear = false
-            $.each($scope.programList, function(i, program){
-               if(program.year == $scope.currentYear){
-                   foundCurrentYear = true;
-                   return false;
-               }
-            });
-
-            if(!foundCurrentYear){
-                $scope.currentYear = (parseInt($scope.currentYear) - 1).toString();
-            }
         };
 
 
@@ -2509,6 +2565,15 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             }
             return null;
         };
+
+        this.deleteUser = function(user){
+            return $http.delete("/budgetfy/user/"+user.id)
+                .then(function(response){
+                    return response.data;
+                }, function(error) {
+                    console.log(error);
+                });
+        };
     })
     .service("referenceLookUpService",function($http){
         this.getReferenceLookUpByCategory = function(categoryName){
@@ -2544,9 +2609,8 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                 });
         };
 
-        this.deleteReference = function(id){
-            console.log("performing delete ", id);
-            return $http.delete("/budgetfy/reference/"+id)
+        this.deleteReference = function(reference){
+            return $http.delete("/budgetfy/reference/"+reference.id)
                 .then(function(response){
                     return response.data;
                 }, function(error) {
@@ -2843,7 +2907,17 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                 }, function(error) {
                     console.log(error);
                 });
-        }
+        };
+
+
+        this.deleteUserRole = function(userRole){
+            return $http.delete("/budgetfy/userRole/"+userRole.id)
+                .then(function(response){
+                    return response.data;
+                }, function(error) {
+                    console.log(error);
+                });
+        };
 
         this.findUserRoleInList = function(userRoleList,id){
             var foundUserRole = userRoleList.filter(function(userRole){

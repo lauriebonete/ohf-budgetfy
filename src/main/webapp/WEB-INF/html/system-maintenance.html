@@ -105,7 +105,7 @@
                                         <td ng-click="viewUser(user.id)">{{user.userRoleDisplay}}</td>
                                         <td ng-click="viewUser(user.id)">{{user.username}}</td>
                                         <td ng-show="checkAccessRights('DELETE_USER')">
-                                            <a class="button alert"><i class="fa fa-minus"></i></a>
+                                            <a class="button alert" ng-click="deleteUser(user)"><i class="fa fa-minus"></i></a>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -326,7 +326,7 @@
                                         <td ng-click="viewUserRole(userRole.id)">{{userRole.roleName}}</td>
                                         <td ng-click="viewUserRole(userRole.id)">{{userRole.description}}</td>
                                         <td ng-show="checkAccessRights('DELETE_USER_ROLE')">
-                                            <a class="button alert">
+                                            <a class="button alert" ng-click="deleteUserRole(userRole)">
                                                 <i class="fa fa-minus"></i>
                                             </a>
                                         </td>
@@ -470,7 +470,7 @@
                                         <td ng-click="viewReference(reference.id)">{{reference.key}}</td>
                                         <td ng-click="viewReference(reference.id)">{{reference.value}}</td>
                                         <td ng-click="viewReference(reference.id)">{{reference.numberValue}}</td>
-                                        <td ng-show="checkAccessRights('DELETE_REFERENCE')" ng-click="deleteReference(reference.id)"><a class="button alert"><i class="fa fa-minus"></i></a></td>
+                                        <td ng-show="checkAccessRights('DELETE_REFERENCE')" ng-click="deleteReference(reference)"><a class="button alert"><i class="fa fa-minus"></i></a></td>
                                     </tr>
                                     </tbody>
                                 </table>

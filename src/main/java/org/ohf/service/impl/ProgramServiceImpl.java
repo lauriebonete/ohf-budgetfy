@@ -53,4 +53,14 @@ public class ProgramServiceImpl extends BaseCrudServiceImpl<Program> implements 
         return programDaoJdbc.getActualBudgetPerProgram(year);
     }
 
+    @Override
+    public List<TotalProgramDTO> getExpectedActualProgram(Long programId) {
+        return programDaoJdbc.getExpectedActualProgram(programId);
+    }
+
+    @Override
+    public List<ProgramActivityDTO> getExpectedActualActivity(Long programId) {
+        return programDaoJdbc.getExpectedActualActivity(programId);
+    }
+
 }

@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -99,6 +100,34 @@ public class ReportController {
             if(out != null)
                 out.close();
         }
+    }
+
+    @RequestMapping(value = "/expected-actual", method = RequestMethod.GET)
+    public void createExpectedVsActualReport(HttpServletRequest request, HttpServletResponse response) throws Exception{
+        Long programId = !request.getParameter("programId").equals("0")  ? Long.parseLong(request.getParameter("programId")) : null;
+        String programName = request.getParameter("programName");
+
+        StringBuilder fileName = new StringBuilder();
+        List<TotalProgramDTO> programDTOList = new ArrayList<>();
+        List<ProgramActivityDTO> programActivityDTOList = new ArrayList<>();
+        if(programId!=null){
+            fileName.append("Expected_vs_Actual_")
+                    .append(programName)
+                    .append(".xlsx");
+
+            programDTOList = programService.getExpectedActualProgram(programId);
+            programActivityDTOList = programService.getExpectedActualActivity(programId);
+
+        }
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        response.setHeader("Content-Disposition", "attachment; filename="+fileName.toString());
+
+        try {
+            reportService.createExpectedVsActual(response, programDTOList, programActivityDTOList, programName);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
     @RequestMapping(value = "/program-total", method = RequestMethod.GET)

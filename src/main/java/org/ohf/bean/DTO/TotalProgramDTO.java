@@ -11,6 +11,7 @@ public class TotalProgramDTO {
     private Long activityId;
     private Integer month;
     private BigDecimal expense;
+    private BigDecimal totalBudget;
     private String hexColor;
 
     public String getHexColor() {
@@ -59,6 +60,14 @@ public class TotalProgramDTO {
 
     public void setActivityId(Long activityId) {
         this.activityId = activityId;
+    }
+
+    public BigDecimal getTotalBudget() {
+        return totalBudget;
+    }
+
+    public void setTotalBudget(BigDecimal totalBudget) {
+        this.totalBudget = totalBudget;
     }
 
     @Override

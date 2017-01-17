@@ -366,6 +366,117 @@ public class ReportServiceImpl implements ReportService {
         }
     }
 
+    @Override
+    public void createExpectedVsActual(HttpServletResponse response, List<TotalProgramDTO> programDTOList, List<ProgramActivityDTO> programActivityDTOList, String programName) {
+        XSSFWorkbook workbook = new XSSFWorkbook();
+        XSSFSheet sheet = workbook.createSheet(programName);
+
+        XSSFCellStyle thousandSeparator = workbook.createCellStyle();
+        thousandSeparator.setDataFormat(workbook.getCreationHelper().createDataFormat().getFormat("#,##0.00"));
+
+        XSSFCellStyle headerStyle = sheet.getWorkbook().createCellStyle();
+        XSSFFont boldFont = sheet.getWorkbook().createFont();
+        boldFont.setBold(true);
+
+        headerStyle.setFont(boldFont);
+        headerStyle.setAlignment(XSSFCellStyle.ALIGN_CENTER);
+        headerStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+        headerStyle.setWrapText(true);
+
+        XSSFRow row = sheet.createRow(0);
+        XSSFCell cell = row.createCell(0);
+        cell.setCellValue("Program");
+        cell.setCellStyle(headerStyle);
+
+        cell = row.createCell(1);
+        cell.setCellValue("Expected");
+        cell.setCellStyle(headerStyle);
+
+        cell = row.createCell(2);
+        cell.setCellValue("Actual");
+        cell.setCellStyle(headerStyle);
+
+        cell = row.createCell(3);
+        cell.setCellValue("Variance");
+        cell.setCellStyle(headerStyle);
+
+        int i = 1;
+        for(TotalProgramDTO totalProgramDTO: programDTOList){
+            row = sheet.createRow(i);
+            cell = row.createCell(0);
+            cell.setCellValue(programName);
+
+            cell = row.createCell(1);
+            cell.setCellValue(totalProgramDTO.getTotalBudget().doubleValue());
+            cell.setCellStyle(thousandSeparator);
+
+            cell = row.createCell(2);
+            cell.setCellValue(totalProgramDTO.getExpense().doubleValue());
+            cell.setCellStyle(thousandSeparator);
+
+            cell = row.createCell(3);
+            cell.setCellValue(totalProgramDTO.getTotalBudget().doubleValue() - totalProgramDTO.getExpense().doubleValue());
+            cell.setCellStyle(thousandSeparator);
+            i++;
+        }
+
+
+        i++;
+
+        row = sheet.createRow(i);
+        cell = row.createCell(0);
+        cell.setCellValue("Activity");
+        cell.setCellStyle(headerStyle);
+
+        cell = row.createCell(1);
+        cell.setCellValue("Expected");
+        cell.setCellStyle(headerStyle);
+
+        cell = row.createCell(2);
+        cell.setCellValue("Actual");
+        cell.setCellStyle(headerStyle);
+
+        cell = row.createCell(3);
+        cell.setCellValue("Variance");
+        cell.setCellStyle(headerStyle);
+
+
+        for(ProgramActivityDTO programActivityDTO: programActivityDTOList){
+            i++;
+            row = sheet.createRow(i);
+            cell = row.createCell(0);
+            cell.setCellValue(programActivityDTO.getActivityName());
+
+            cell = row.createCell(1);
+            cell.setCellValue(programActivityDTO.getExpectedExpense().doubleValue());
+            cell.setCellStyle(thousandSeparator);
+
+            cell = row.createCell(2);
+            cell.setCellValue(programActivityDTO.getActualExpense().doubleValue());
+            cell.setCellStyle(thousandSeparator);
+
+            cell = row.createCell(3);
+            cell.setCellValue(programActivityDTO.getExpectedExpense().doubleValue() - programActivityDTO.getActualExpense().doubleValue());
+            cell.setCellStyle(thousandSeparator);
+        }
+
+        sheet.autoSizeColumn(0);
+        sheet.autoSizeColumn(1);
+        sheet.autoSizeColumn(2);
+        sheet.autoSizeColumn(3);
+
+        ServletOutputStream out = null;
+        try {
+            out = response.getOutputStream();
+            workbook.write(out);
+            out.close();
+        } catch (IOException exception){
+            _log.error(exception.getMessage());
+        } finally {
+        }
+
+    }
+
     private void createSheetHeader(XSSFSheet sheet, String key){
         XSSFCellStyle headerStyle = sheet.getWorkbook().createCellStyle();
         XSSFFont boldFont = sheet.getWorkbook().createFont();

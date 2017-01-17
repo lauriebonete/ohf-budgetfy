@@ -17,4 +17,5 @@ public interface ReportService {
     public void createDisbursementByDateRange(HttpServletResponse response, Map<String, List<PeriodHelper>> periodHelperMap, List<ProgramHelper> programHelperList) throws Exception;
     public void createTotalAllProgram(HttpServletResponse response, List<Program> programList, List<TotalProgramDTO> totalProgramDTOList, String year) throws Exception;
     public void createTotalPerProgram(HttpServletResponse response, List<Activity> activityList,List<TotalProgramDTO> totalProgramDTOList, String year, String programName);
+    public void createExpectedVsActual(HttpServletResponse response, List<TotalProgramDTO> programDTOList, List<ProgramActivityDTO> programActivityDTOList, String programName);
 }

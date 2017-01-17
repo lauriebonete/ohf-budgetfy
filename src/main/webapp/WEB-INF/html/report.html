@@ -128,6 +128,33 @@
             </div>
         </div>
     </div>
+
+    <div ng-show="checkAccessRights('VIEW_EXPECTED_ACTUAL_REPORT')">
+        <div class="row">
+            <h5>Expected vs. Actual Report</h5>
+        </div>
+        <div class="row">
+            <div class="small-1 columns">
+                <label class="text-right middle">Year</label>
+            </div>
+            <div class="small-3 columns">
+                <select id="expected-year" ng-model="currentYear" ng-options="year as year for year in years" ng-change="changeYear()">
+                    <option></option>
+                </select>
+            </div>
+            <div class="small-1 columns">
+                <label class="text-right middle">Program</label>
+            </div>
+            <div class="small-3 columns">
+                <select id="expected-program" ng-model="selectedProgram" ng-options="program.id as program.programName for program in result = (programList | filter : yearFilter)">
+                    <option></option>
+                </select>
+            </div>
+            <div class="small-4 columns">
+                <a class="button success" ng-click="generateExpectedActual()">Generate <i class="fa fa-file-excel-o" aria-hidden="true"></i></a>
+            </div>
+        </div>
+    </div>
 </section>
 
 

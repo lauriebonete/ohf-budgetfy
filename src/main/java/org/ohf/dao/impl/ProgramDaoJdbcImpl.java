@@ -30,6 +30,8 @@ public class ProgramDaoJdbcImpl implements ProgramDaoJdbc {
     private static StringBuilder GET_TOTAL_PROGRAM = new StringBuilder();
     private static StringBuilder GET_TOTAL_PER_PROGRAM = new StringBuilder();
     private static StringBuilder GET_ACTUAL_BUDGET = new StringBuilder();
+    private static StringBuilder GET_ACTUAL_EXPENSE_PROGRAM = new StringBuilder();
+    private static StringBuilder GET_ACTUAL_EXPENSE_ACTIVITY = new StringBuilder();
 
     static {
         GET_PROGRAM_ACTIVITY.append("SELECT p.ID AS PROGRAM_ID, p.PROGRAM_NAME AS PROGRAM_NAME, a.ID AS ACTIVITY_ID, a.ACTIVITY_NAME AS ACTIVITY_NAME, p.HEX_COLOR AS HEX_COLOR ")
@@ -69,6 +71,26 @@ public class ProgramDaoJdbcImpl implements ProgramDaoJdbc {
                 .append("WHERE  p.YEAR = :year ")
                 .append("GROUP  BY p.ID ");
 
+
+        GET_ACTUAL_EXPENSE_PROGRAM.append("SELECT Sum(p.EXPENSE) AS EXPENSE,  ")
+                .append("p_.total_budget AS TOTAL_BUDGET, ")
+                .append("p_.ID           AS PROGRAM_ID, ")
+                .append("p_.PROGRAM_NAME AS PROGRAM_NAME ")
+                .append("FROM   VOUCHER v ")
+                .append("left JOIN PARTICULAR p ON v.ID = p.VOUCHER_ID ")
+                .append("left JOIN ACTIVITY a ON p.ACTIVITY_ID = a.ID ")
+                .append("left JOIN PROGRAM p_ ON a.PROGRAM_ID = p_.ID  ")
+                .append("WHERE p_.ID = :programId");
+
+        GET_ACTUAL_EXPENSE_ACTIVITY.append("SELECT IFNULL(Sum(p.EXPENSE),0)   AS ACTUAL_EXPENSE, ")
+                .append("       a.ID             AS ACTIVITY_ID,")
+                .append("       a.ACTIVITY_NAME AS ACTIVITY_NAME,")
+                .append("       a.amount AS EXPECTED_AMOUNT ")
+                .append("FROM   ACTIVITY a ")
+                .append("       LEFT JOIN PARTICULAR p ON p.ACTIVITY_ID = a.ID ")
+                .append("       LEFT JOIN PROGRAM p_ ON a.PROGRAM_ID = p_.ID ")
+                .append("WHERE  p_.ID = :programId ")
+                .append("GROUP  BY a.ID ");
     }
 
     @Override
@@ -145,6 +167,46 @@ public class ProgramDaoJdbcImpl implements ProgramDaoJdbc {
                 program.setTotalBudget(resultSet.getBigDecimal("BUDGET"));
                 program.setHexColor(resultSet.getString("HEX_COLOR"));
                 return program;
+            }
+        });
+        return results;
+    }
+
+    @Override
+    public List<TotalProgramDTO> getExpectedActualProgram(Long programId) {
+        final NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
+        final Map<String, Object> params = new HashMap<>();
+        params.put("programId", programId);
+
+        List<TotalProgramDTO> results = template.query(GET_ACTUAL_EXPENSE_PROGRAM.toString(), params, new RowMapper<TotalProgramDTO>() {
+            @Override
+            public TotalProgramDTO mapRow(ResultSet resultSet, int i) throws SQLException {
+                TotalProgramDTO totalProgramDTO = new TotalProgramDTO();
+                totalProgramDTO.setProgramId(resultSet.getLong("PROGRAM_ID"));
+                totalProgramDTO.setProgramName(resultSet.getString("PROGRAM_NAME"));
+                totalProgramDTO.setTotalBudget(resultSet.getBigDecimal("TOTAL_BUDGET"));
+                totalProgramDTO.setExpense(resultSet.getBigDecimal("EXPENSE"));
+                return totalProgramDTO;
+            }
+        });
+        return results;
+    }
+
+    @Override
+    public List<ProgramActivityDTO> getExpectedActualActivity(Long programId) {
+        final NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
+        final Map<String, Object> params = new HashMap<>();
+        params.put("programId", programId);
+
+        List<ProgramActivityDTO> results = template.query(GET_ACTUAL_EXPENSE_ACTIVITY.toString(), params, new RowMapper<ProgramActivityDTO>() {
+            @Override
+            public ProgramActivityDTO mapRow(ResultSet resultSet, int i) throws SQLException {
+                ProgramActivityDTO programActivityDTO = new ProgramActivityDTO();
+                programActivityDTO.setActivityId(resultSet.getLong("ACTIVITY_ID"));
+                programActivityDTO.setActivityName(resultSet.getString("ACTIVITY_NAME"));
+                programActivityDTO.setActualExpense(resultSet.getBigDecimal("ACTUAL_EXPENSE"));
+                programActivityDTO.setExpectedExpense(resultSet.getBigDecimal("EXPECTED_AMOUNT"));
+                return programActivityDTO;
             }
         });
         return results;
