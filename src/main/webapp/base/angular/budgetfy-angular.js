@@ -1887,7 +1887,6 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
 
                 var foundCurrentYear = false
                 $.each($scope.programList, function(i, program){
-                    console.log(program);
                     if(program.year == $scope.currentYear){
                         foundCurrentYear = true;
                         return false;
@@ -2250,6 +2249,13 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
 
             activityService.getProgramActivities(programId).then(function(data){
                 $scope.selectedProgram.activities = data.results;
+
+                var total = 0;
+                $.each(data.results, function(i, activity){
+
+                    total += activity.amount;
+                });
+                $scope.remainingBudget = evey.addThousandsSeparator($scope.selectedProgram.totalBudget - total);
             });
 
             activityService.findActivityExpense(programId).then(function(data){
@@ -2319,14 +2325,14 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
 
                 $scope.unallocatedBudget = evey.addThousandsSeparator($scope.selectedProgram.totalBudget - totalActuals)
 
-                $("tr.row-onclick > td:not(:nth-of-type(4))").click(function() {  //jim jan 13 2017
-                    $("#home-page").addClass("hide");
-                    $("#view-program").removeClass("hide");
-                }); //jim jan 13 2017
-
-
-
+                //$("tr.row-onclick > td:not(:nth-of-type(4))").click(function() {  //jim jan 13 2017
+                //    $("#home-page").addClass("hide");
+                //    $("#view-program").removeClass("hide");
+                //}); //jim jan 13 2017
             });
+            //Laurie Jan 17, 2017
+            $("#home-page").addClass("hide");
+            $("#view-program").removeClass("hide");
         };
 
         $scope.viewActivityExpense = function(activityId){
@@ -2461,6 +2467,13 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                     if(data.data.status){
                         MotionUI.animateOut($('#activity-form'), 'slide-out-up');
                         $scope.selectedProgram.activities.unshift(data.data.result);
+
+                        var total = 0;
+                        $.each($scope.selectedProgram.activities, function(i, activity){
+                            total += activity.amount;
+                        });
+                        $scope.remainingBudget = evey.addThousandsSeparator($scope.selectedProgram.totalBudget - total);
+
                         evey.promptSuccess(data.data.message);
                     } else {
                         evey.promptAlert(data.data.message);
