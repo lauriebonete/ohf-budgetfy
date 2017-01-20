@@ -2976,7 +2976,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             angular.forEach(data,function(value){
                 sum = sum + parseFloat(value[key]);
             });
-            return evey.formatDisplayMoney(sum);
+            return evey.formatDisplayMoney(sum.toFixed(2));
         }
     });
 
