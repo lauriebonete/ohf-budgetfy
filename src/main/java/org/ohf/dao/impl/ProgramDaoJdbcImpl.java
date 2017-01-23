@@ -37,7 +37,7 @@ public class ProgramDaoJdbcImpl implements ProgramDaoJdbc {
         GET_PROGRAM_ACTIVITY.append("SELECT p.ID AS PROGRAM_ID, p.PROGRAM_NAME AS PROGRAM_NAME, a.ID AS ACTIVITY_ID, a.ACTIVITY_NAME AS ACTIVITY_NAME, p.HEX_COLOR AS HEX_COLOR ")
                 .append("FROM PROGRAM p ")
                 .append("LEFT JOIN ACTIVITY a ON p.ID = a.PROGRAM_ID ")
-                .append("WHERE (p.PROGRAM_START <= :from_date and p.PROGRAM_START >= :to_date) OR (p.PROGRAM_END >= :from_date and p.PROGRAM_END <= :to_date)");
+                .append("WHERE p.PROGRAM_START <= :from_date and p.PROGRAM_START <= :to_date");
 
         GET_TOTAL_PROGRAM.append("SELECT Sum(p.EXPENSE) AS EXPENSE, ")
                 .append("       p_.ID           AS PROGRAM_ID, ")
