@@ -138,7 +138,7 @@
                 <label class="text-right middle">Year</label>
             </div>
             <div class="small-3 columns">
-                <select id="expected-year" ng-model="currentYear" ng-options="year as year for year in years" ng-change="changeYear()">
+                <select id="expected-year" ng-model="currentYearExpectedVsActual" ng-options="year as year for year in years" ng-change="changeYear()">
                     <option></option>
                 </select>
             </div>
@@ -146,7 +146,7 @@
                 <label class="text-right middle">Program</label>
             </div>
             <div class="small-3 columns">
-                <select id="expected-program" ng-model="selectedProgram" ng-options="program.id as program.programName for program in result = (programList | filter : yearFilter)">
+                <select id="expected-program" ng-model="selectedProgram" ng-options="program.id as program.programName for program in result = (programList | filter : yearFilterExpectedVsActual)">
                     <option></option>
                 </select>
             </div>

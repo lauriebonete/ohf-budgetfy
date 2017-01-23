@@ -19,6 +19,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.*;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
@@ -37,7 +38,7 @@ public class ReportServiceImpl implements ReportService {
     public Map<String, List<PeriodHelper>> prepareHelpers(List<DisbursementDTO> disbursementDTOs) throws Exception{
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         DateFormat dateMonthFormat = new SimpleDateFormat("MMM-yyyy");
-        Map<String, List<PeriodHelper>> periodHelperMap = new HashMap<>();
+        Map<String, List<PeriodHelper>> periodHelperMap = new LinkedHashMap<>();
         for(DisbursementDTO disbursementDTO: disbursementDTOs){
             Date date = dateFormat.parse(disbursementDTO.getVoucherDate());
             String month = dateMonthFormat.format(date.getTime());
@@ -402,20 +403,24 @@ public class ReportServiceImpl implements ReportService {
 
         int i = 1;
         for(TotalProgramDTO totalProgramDTO: programDTOList){
+
+            BigDecimal totalBudget = totalProgramDTO.getTotalBudget() != null ? totalProgramDTO.getTotalBudget() : new BigDecimal(0);
+            BigDecimal expense = totalProgramDTO.getExpense() != null ? totalProgramDTO.getExpense() : new BigDecimal(0);
+
             row = sheet.createRow(i);
             cell = row.createCell(0);
             cell.setCellValue(programName);
 
             cell = row.createCell(1);
-            cell.setCellValue(totalProgramDTO.getTotalBudget().doubleValue());
+            cell.setCellValue(totalBudget.doubleValue());
             cell.setCellStyle(thousandSeparator);
 
             cell = row.createCell(2);
-            cell.setCellValue(totalProgramDTO.getExpense().doubleValue());
+            cell.setCellValue(expense.doubleValue());
             cell.setCellStyle(thousandSeparator);
 
             cell = row.createCell(3);
-            cell.setCellValue(totalProgramDTO.getTotalBudget().doubleValue() - totalProgramDTO.getExpense().doubleValue());
+            cell.setCellValue(totalBudget.doubleValue() - expense.doubleValue());
             cell.setCellStyle(thousandSeparator);
             i++;
         }

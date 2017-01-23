@@ -82,6 +82,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             });
             $scope.years = $sessionStorage.years;
             $scope.currentYear = new Date().getFullYear().toString();
+            $scope.currentYearExpectedVsActual  = new Date().getFullYear().toString();
             $scope.user = $sessionStorage.user;
             notificationService.getNotificationOfUser($scope.user.id, 5).then(function(result){
                 if(result.status){
@@ -197,6 +198,16 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                 $scope.currentYear != "" &&
                 $scope.currentYear != undefined){
                 return (program.year == $scope.currentYear);
+            } else {
+                return program;
+            }
+        };
+
+        $scope.yearFilterExpectedVsActual = function(program){
+            if($scope.currentYearExpectedVsActual != null &&
+                $scope.currentYearExpectedVsActual != "" &&
+                $scope.currentYearExpectedVsActual != undefined){
+                return (program.year == $scope.currentYearExpectedVsActual);
             } else {
                 return program;
             }
@@ -1176,7 +1187,7 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
             });
         });
     }])
-    .controller("voucherController", ["$scope","$http", "$filter","voucherService","programService","activityService","particularService","fileDetailService", "referenceLookUpService", "$sessionStorage", "notificationService", function($scope,$http,$filter,voucherService,programService,activityService,particularService,fileDetailService, referenceLookUpService, $sessionStorage, notificationService){
+    .controller("voucherController", ["$scope","$http", "$filter","voucherService","programService","activityService","particularService","fileDetailService", "referenceLookUpService", "$sessionStorage", "notificationService", "$timeout", function($scope,$http,$filter,voucherService,programService,activityService,particularService,fileDetailService, referenceLookUpService, $sessionStorage, notificationService, $timeout){
 
         $scope.loadInitData = function(){
             $scope.years = $sessionStorage.years;
@@ -1822,6 +1833,11 @@ angular.module("budgetfyApp", ["selectize", "ngStorage", "angularUtils.directive
                     $("#expense-update").css("left","0");
                     $("#expense-update-summary").css("left", "+100%");
                     evey.promptSuccess(result.data.message);
+
+                    $timeout(function(){
+                        window.location = "/budgetfy/expense"
+                    }, 800);
+                    ;
                 } else{
                     evey.promptAlert(result.data.message);
                 }
