@@ -2,6 +2,7 @@ package org.ohf.service.impl;
 
 import org.apache.log4j.Logger;
 import org.apache.poi.hssf.util.CellReference;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.util.CellRangeAddress;
@@ -661,9 +662,16 @@ public class ReportServiceImpl implements ReportService {
                 if(disbursementHeaderHelper.getDisbursementActivityHelperList().indexOf(lookForActivity)>=0){
                     DisbursementActivityHelper disbursementActivityHelper = disbursementHeaderHelper.getDisbursementActivityHelperList().get(disbursementHeaderHelper.getDisbursementActivityHelperList().indexOf(lookForActivity));
 
-                    cell = row.createCell(disbursementActivityHelper.getIndex());
-                    cell.setCellValue(disbursementDTO.getExpense()!=null ? disbursementDTO.getExpense().doubleValue():0);
-                    cell.setCellStyle(thousandSeparator);
+
+                    cell = row.getCell(disbursementActivityHelper.getIndex());
+                    if(cell == null || cell.getCellType() == Cell.CELL_TYPE_BLANK){
+                        cell = row.createCell(disbursementActivityHelper.getIndex());
+                        cell.setCellValue(disbursementDTO.getExpense()!=null ? disbursementDTO.getExpense().doubleValue():0);
+                        cell.setCellStyle(thousandSeparator);
+                    } else {
+                        Double value = cell.getNumericCellValue();
+                        cell.setCellValue(value.doubleValue() + disbursementDTO.getExpense().doubleValue());
+                    }
                 }
             }
         }
